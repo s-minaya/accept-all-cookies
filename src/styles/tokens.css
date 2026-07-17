@@ -1,0 +1,56 @@
+/**
+ * Design tokens for Accept All Cookies.
+ * Every color used anywhere in the project must come from this file
+ * (see AGENTS.md: "ningún color hardcodeado").
+ * Source: spec/assets/accept-all-cookies-gdd.md (GDD) and
+ * spec/constitution/tech-stack.md §"Estilo visual".
+ */
+
+:root {
+  /* Title bar */
+  --color-title-gradient-start: #2451e0;
+  --color-title-gradient-end: #026de9;
+
+  /* Window / game area */
+  --color-beige: #efe7dc;
+  --color-frame-blue: #153859;
+
+  /* Agree / Disagree buttons */
+  --color-agree-bg: #cdf5ce;
+  --color-agree-border: #7cbf89;
+  --color-disagree-bg: #fdd2d3;
+  --color-disagree-border: #c7858a;
+  --color-button-border: #345779;
+
+  /* Neutral system button (Check / Stop / OK / Next / ???) */
+  --color-neutral-bg-start: #ffffff;
+  --color-neutral-bg-end: #dfe0d8;
+  --color-neutral-border-outer: #3e587f;
+  --color-neutral-border-inner: #96a6d9;
+
+  /* Close (X) button */
+  --color-close-button: #e84443;
+
+  /* Level 4 slider guide */
+  --color-guide-blue: #153859;
+  --color-guide-beige: #b49e85;
+
+  /* System neutrals not pinned to a specific GDD hex ("borde gris") */
+  --color-white: #ffffff;
+  --color-system-gray: #808080;
+  --color-text-dark: #1a1a1a;
+
+  /* Overlay behind XPDialog, derived from frame blue (no new raw color) */
+  --color-overlay: color-mix(in srgb, var(--color-frame-blue) 55%, transparent);
+
+  /* Responsive breakpoints (mirrored in src/styles/breakpoints.ts) */
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 376px;
+  --breakpoint-md: 481px;
+  --breakpoint-lg: 1025px;
+  --breakpoint-xl: 1441px;
+
+  /* Logical canvas every level is designed on, scaled by GameArea */
+  --logical-canvas-width: 640px;
+  --logical-canvas-height: 360px;
+}

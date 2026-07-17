@@ -177,6 +177,8 @@ Todos los niveles usan **exactamente la misma ventana**; solo cambia el contenid
 
 La ventana nunca cambia de tamaño durante la partida, salvo que el área de juego de un nivel lo requiera.
 
+**Marco exterior de la ventana** (añadido tras el checkpoint visual de la feature 001): toda la ventana (barra de título + cuerpo) va envuelta en un borde de 4 px del mismo azul que el inicio del degradado de la barra de título (`#2451E0`), con esquinas muy redondeadas (~20 px), dando la sensación de ventana clásica de Windows. El cuerpo bajo la barra de título es beige (`#EFE7DC`); los botones inferiores se apoyan sobre ese beige, no sobre azul oscuro.
+
 ## 4.1 Barra superior
 
 Siempre contiene:
@@ -207,7 +209,7 @@ Debajo de la barra de título siempre hay un recuadro blanco con borde gris que 
 La mecánica de cada nivel se desarrolla dentro de un **contenedor fijo** formado por:
 
 **Marco exterior**
-- Rectángulo azul oscuro, unido a la barra de título.
+- Rectángulo azul oscuro que envuelve únicamente el área de juego (no la barra de título ni los botones inferiores), separado de la barra de título por el recuadro de consentimiento y del borde de la ventana por el cuerpo beige.
 - Grosor aproximado de 10–12 px.
 - Completamente estático; nunca cambia entre niveles.
 
