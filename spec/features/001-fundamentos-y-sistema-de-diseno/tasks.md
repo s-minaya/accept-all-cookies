@@ -14,11 +14,11 @@
 - [x] Implementar `GameArea` (lienzo lógico 640×360, `ResizeObserver`, `transform: scale`, `touch-action: none`).
 - [x] Montar la playground con una sección por pieza y textos reales del GDD.
 - [x] Crear `.github/workflows/deploy.yml`.
-- [ ] Verificar que la URL de Pages carga sin 404 (pendiente de push a `main` con Pages habilitado en el repo).
+- [x] Verificar que la URL de Pages carga sin 404 (Pages habilitado y deploy verificado por Sofía).
 - [x] QA responsive en 375 / 480 / 768 / 1280 / 1920 px (verificado con Chromium headless); zonas interactivas ≥ 44 px en móvil.
-- [ ] QA táctil en un móvil real desde la URL de Pages (tap, drag, hover no pegado). _Requiere la URL de Pages ya desplegada._
-- [x] Validar contra los criterios de aceptación de `spec.md` (los que no dependen del deploy/dispositivo real).
-- [ ] Mover la feature a "Hecho" en `../../constitution/roadmap.md`. _Se hace tras el checkpoint de fuentes y el QA táctil en dispositivo real._
+- [x] QA táctil en un móvil real desde la URL de Pages (tap, drag, hover no pegado). _Confirmado por Sofía en su móvil._
+- [x] Validar contra los criterios de aceptación de `spec.md`.
+- [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
 
 ## Mantenimiento (checklist recurrente)
 

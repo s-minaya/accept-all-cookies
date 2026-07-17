@@ -1,6 +1,6 @@
 # 001 · Fundamentos y sistema de diseño
 
-**Estado:** propuesta
+**Estado:** hecho
 
 ## Qué hace
 
@@ -27,17 +27,17 @@ Todo lo demás depende de esto. Los 12 niveles comparten la misma ventana, los m
 ## Criterios de aceptación
 
 - [x] En un clon limpio: `npm install` + `npm run dev`, `npm run test`, `npm run lint` y `npm run build` funcionan sin errores.
-- [ ] Cada push a `main` publica automáticamente en GitHub Pages y la URL pública carga sin 404 de assets. _Workflow creado (`.github/workflows/deploy.yml`); pendiente verificar tras el primer push con Pages habilitado en el repo._
+- [x] Cada push a `main` publica automáticamente en GitHub Pages y la URL pública carga sin 404 de assets.
 - [x] Existe `tokens.css` con todos los colores del GDD; ningún otro archivo del proyecto define colores en crudo.
 - [x] Las dos fuentes pixel cargan autoalojadas (woff2), con licencia libre verificada, y los sprites/texto se ven nítidos (`image-rendering: pixelated`).
 - [x] `XPButton` muestra las 3 variantes con los colores, bordes concéntricos y relieve del GDD; el estado pulsado hunde el botón 1–2 px y reduce la sombra; el estado deshabilitado se ve más oscuro y no responde.
-- [ ] En dispositivo táctil, los botones no se quedan con el estado hover "pegado" tras tocarlos. _El hover está detrás de `@media (hover: hover)`; falta confirmar en un móvil real._
+- [x] En dispositivo táctil, los botones no se quedan con el estado hover "pegado" tras tocarlos.
 - [x] `XPWindow` renderiza barra de título con degradado `#2451E0→#026DE9`, contador, título centrado, botón X rojo con borde blanco, recuadro de texto con scroll vertical interno y altura fija, y el marco azul del área de juego unido a la barra de título.
 - [x] `XPDialog` se muestra centrado sobre el contenido, sin botón X, con el fondo visible detrás.
 - [x] `useCountdown` cuenta de 100 a 0, se puede pausar/reanudar/reiniciar, dispara el callback exactamente una vez al llegar a 0, y no deja timers vivos al desmontar. Cubierto por tests.
 - [x] `usePointer` distingue tap de drag con el umbral de 8 px y detecta puntero inmóvil durante un tiempo configurable, con el mismo comportamiento usando ratón y usando dedo. Lógica pura cubierta por tests.
 - [x] `GameArea` escala un lienzo lógico de 640×360 para encajar en el viewport manteniendo la proporción, sin desbordarse en ninguno de los 5 anchos de referencia.
-- [ ] El Playground muestra todo lo anterior, es la página publicada en Pages y es usable desde un móvil real (táctil incluido). _Muestra todo lo anterior; falta el despliegue real y la prueba en móvil._
+- [x] El Playground muestra todo lo anterior, es la página publicada en Pages y es usable desde un móvil real (táctil incluido).
 - [x] QA visual del Playground correcto en 375, 480, 768, 1280 y 1920 px de ancho (verificado con Chromium headless); en móvil todas las zonas interactivas miden ≥ 44×44 px reales.
 
 ## Fuera de alcance

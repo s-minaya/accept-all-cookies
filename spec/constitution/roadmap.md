@@ -4,15 +4,14 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 
 ## Hecho ✅
 
-_(nada todavía — el proyecto arranca)_
+1. **001 · Fundamentos y sistema de diseño** — proyecto Vite + React, tokens de color, fuentes pixel (DotGothic16 + Press Start 2P, aprobadas por Sofía), breakpoints y sistema responsive (resolución lógica + escala), `XPWindow`, `XPButton` (agree / disagree / neutral, 4 estados), `XPDialog`, hook `usePointer`, hook `useCountdown`. Playground desplegada en GitHub Pages y verificada en móvil real por Sofía.
 
 ## Siguiente 🔜
 
-1. **001 · Fundamentos y sistema de diseño** — proyecto Vite + React, tokens de color, fuentes pixel, breakpoints y sistema responsive (resolución lógica + escala), `XPWindow`, `XPButton` (agree / disagree / neutral, 4 estados), `XPDialog`, hook `usePointer`, hook `useCountdown`. Todo lo que los niveles reutilizan. **El responsive nace aquí, no se parchea al final.**
+2. **002 · Shell y estado global** — enrutado de pantallas, store (run / settings / ranking), módulo `storage.ts`, i18n ES/EN, audio (positivo, negativo, música), contrato `LevelComponent` con carga perezosa por nivel.
 
 ## Backlog (ordenado) 💡
 
-2. **002 · Shell y estado global** — enrutado de pantallas, store (run / settings / ranking), módulo `storage.ts`, i18n ES/EN, audio (positivo, negativo, música), contrato `LevelComponent` con carga perezosa por nivel.
 3. **003 · Landing** — selección de personaje (placeholders) + nombre, ranking, información, ajustes (idioma, volumen, música).
 4. **004 · Meta-flujo** — pantalla de selección de niveles, ventanas Game Over y Level Complete con las animaciones AGREE/DISAGREE, reinicio de progreso, actualización del ranking.
 5. **005 · Nivel 1 — Essential Cookies** — retardo del Agree, diálogo de error, reinicio del contador. (Primer nivel real: valida el contrato de nivel de punta a punta.)
