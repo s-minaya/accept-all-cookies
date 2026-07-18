@@ -1,0 +1,35 @@
+{
+  "shell": {
+    "landing": {
+      "title": "Accept All Cookies",
+      "start": "Start",
+      "credits": "Credits"
+    },
+    "select": {
+      "title": "Cookie Preferences",
+      "levelLabel": "Level",
+      "of": "of"
+    },
+    "level": {
+      "close": "Close",
+      "loading": "Loading...",
+      "testTitle": "Test Cookies",
+      "testConsent": "This test banner isn't part of the real game: it only exists to validate the level contract (onWin / onLose / countdown) before the 12 real levels are built."
+    },
+    "credits": {
+      "title": "Credits",
+      "body": "Full credits coming soon.",
+      "backToLanding": "Back to start"
+    }
+  },
+  "game": {
+    "agree": "Agree",
+    "disagree": "Disagree",
+    "check": "Check",
+    "stop": "Stop",
+    "ok": "OK",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No"
+  }
+}

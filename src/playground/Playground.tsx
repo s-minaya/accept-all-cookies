@@ -5,6 +5,7 @@ import { GameArea } from '../components/GameArea'
 import { CountdownDemo } from './CountdownDemo'
 import { PointerDemo } from './PointerDemo'
 import { DialogDemo } from './DialogDemo'
+import { AudioDemo } from './AudioDemo'
 import styles from './Playground.module.css'
 
 const ESSENTIAL_COOKIES_TEXT = `Cookie Consent
@@ -111,6 +112,10 @@ export function Playground() {
 
       <Section title="usePointer">
         <PointerDemo />
+      </Section>
+
+      <Section title="Audio (tap anywhere on the page first — autoplay unlock)">
+        <AudioDemo />
       </Section>
 
       <Section title="GameArea (640×360 logical canvas)">

@@ -973,11 +973,11 @@ localStorage. And those are just your ranking. Promise.
 
 # 12. Persistencia (localStorage)
 
-Dos estructuras independientes:
+Tres estructuras independientes, las tres persistidas:
 
 **Ranking (permanente):** récord histórico por usuario — ver sección 1.2. Nunca se borra con un Game Over.
 
-**Partida actual (volátil dentro de la sesión):** progreso de niveles completados de la partida en curso. Se reinicia por completo con cualquier Game Over. (Decidir en la spec si sobrevive a recargar la página o si cada sesión empieza de cero.)
+**Partida actual (persistente, sobrevive a recargar):** progreso de niveles completados, nivel actual y, si hay un nivel en curso, su contador. Recargar la página **no** hace perder nada de esto: el juego retoma exactamente donde se dejó (decidido en la spec 002 tras feedback de Sofía — la versión inicial la dejaba en memoria y se perdía al recargar, lo cual resultó confuso para el jugador). Se reinicia por completo (incluido el contador) con cualquier Game Over.
 
 **Ajustes:** idioma, volumen y música on/off también se persisten en localStorage.
 

@@ -1,0 +1,35 @@
+{
+  "shell": {
+    "landing": {
+      "title": "Accept All Cookies",
+      "start": "Empezar",
+      "credits": "Créditos"
+    },
+    "select": {
+      "title": "Cookie Preferences",
+      "levelLabel": "Nivel",
+      "of": "de"
+    },
+    "level": {
+      "close": "Cerrar",
+      "loading": "Cargando...",
+      "testTitle": "Test Cookies",
+      "testConsent": "Este banner de prueba no forma parte del juego real: solo existe para validar el contrato de nivel (onWin / onLose / contador) antes de construir los 12 niveles reales."
+    },
+    "credits": {
+      "title": "Créditos",
+      "body": "Créditos completos próximamente.",
+      "backToLanding": "Volver al inicio"
+    }
+  },
+  "game": {
+    "agree": "Agree",
+    "disagree": "Disagree",
+    "check": "Check",
+    "stop": "Stop",
+    "ok": "OK",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No"
+  }
+}

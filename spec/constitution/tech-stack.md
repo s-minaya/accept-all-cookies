@@ -6,7 +6,7 @@
 
 - **Lenguaje:** TypeScript estricto (`strict: true`).
 - **Framework / build:** React 18 + Vite.
-- **Estado global:** Zustand (store pequeño: run, settings, ranking).
+- **Estado global:** Zustand (store pequeño: run, settings, ranking). Instalado en la feature 002 (`^5.0`).
 - **Física (solo niveles 3 y 4):** matter.js, importado dinámicamente dentro del chunk del nivel para no cargar en el resto del juego.
 - **Estilos:** CSS Modules + variables CSS globales (tokens). Sin Tailwind ni styled-components.
 - **i18n:** diccionarios JSON propios (`es.json`, `en.json`) + hook `useT()`. Sin librería.
@@ -42,7 +42,7 @@
 ## Modelo de datos / dominio
 
 - `RankingEntry { username, character (0-3), maxLevel, date }` — récord **histórico** por usuario. Nunca se borra con un Game Over. Se actualiza solo si se supera el récord propio.
-- `RunState { completedLevels: LevelId[], currentLevel: LevelId }` — progreso de la partida en curso. **Solo en memoria**: recargar la página vuelve a la landing y pierde la partida (el ranking y los ajustes no).
+- `RunState { completedLevels: LevelId[], currentLevel: LevelId, activeLevelTimeLeft: number | null }` — progreso de la partida en curso, **persistido en localStorage** igual que ajustes y ranking (`aac.v1.run`): recargar la página no hace perder la partida ni el contador del nivel activo, el juego retoma donde se dejó. Se reinicia por completo (incluido `activeLevelTimeLeft`) con cualquier Game Over.
 - `Settings { language: 'es' | 'en', volume: 0..1, musicOn: boolean }` — persistido en localStorage.
 - `LevelId = 1..12` — la progresión es estrictamente lineal; `currentLevel` siempre es el primer nivel no completado.
 - Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)` y el tiempo restante; **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
