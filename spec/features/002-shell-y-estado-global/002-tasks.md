@@ -2,10 +2,11 @@
 
 - [ ] Implementar `storage.ts` (claves versionadas, tolerancia a corrupción, degradación a memoria) + tests.
 - [ ] Implementar `settingsStore`, `rankingStore` (con hidratación y persistencia) y `runStore` (solo memoria) + tests de sus reglas (récord solo si mejora, reset no toca ranking, perder reinicia run).
-- [ ] Crear `es.json` / `en.json` con los textos del shell (espacios de nombres `shell.*`) y el hook `useT()` con fallback a la clave.
+- [ ] Crear `es.json` / `en.json` con los textos del shell (espacios de nombres `shell.*`) y las claves `game.*` (Agree, Disagree, Check, Stop, OK, Next, Yes, No — mismo valor en ambos idiomas), y el hook `useT()` con fallback a la clave.
+- [ ] Test que verifica que todas las claves `game.*` son idénticas en ES y EN.
 - [ ] Implementar `AudioManager` + `useAudio` con desbloqueo en el primer `pointerdown`.
-- [ ] Conseguir 3 assets de audio placeholder con licencia libre y documentar su origen/licencia.
-- [ ] ✋ **Checkpoint con Sofía**: aprobar (o sustituir) los sonidos y la música escuchándolos en la playground.
+- [ ]  Integrar los tres assets de audio definitivos en `src/assets/audio/`.
+- [ ] ✋ **Checkpoint con Sofía**: escuchar los tres audios en la playground y afinar el `musicVolumeFactor` (arranque: 0.15) y el volumen relativo de los efectos.
 - [ ] Implementar `AppShell` con enrutado por estado y las 4 pantallas placeholder.
 - [ ] Definir `src/levels/types.ts` (contrato `LevelProps`, `LoseReason`) y `registry.ts` con `React.lazy`.
 - [ ] Implementar `LevelHost` (XPWindow + `useCountdown(100)` + X → derrota + Suspense + conexión con `runStore`).

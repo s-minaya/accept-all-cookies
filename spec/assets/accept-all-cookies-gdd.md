@@ -88,7 +88,7 @@ Assets de sonido (lista cerrada):
 
 - **Sonido positivo** (aciertos, capturas de Agree, victoria).
 - **Sonido negativo** (fallos, capturas de Disagree, derrota).
-- **Música de fondo** (loop, controlable desde Ajustes).
+- **Música de fondo** (loop, controlable desde Ajustes). Suena muy baja respecto a los efectos: tiene su propio multiplicador de volumen (~15 % del volumen general) además del control de Ajustes.
 
 ---
 
@@ -966,7 +966,8 @@ localStorage. And those are just your ranking. Promise.
 - Idiomas: **español** e **inglés**, alternables desde Ajustes.
 - Se traduce **todo**: UI, landing, textos de consentimiento de los banners, mensajes de victoria/derrota, diálogos del nivel 11, créditos.
 - Los textos de este documento están escritos en su versión inglesa (canónica); las traducciones al español se producirán como parte del desarrollo.
-- Los textos de los botones (Agree, Disagree, Check, Stop, Yes, No…) se traducen también, salvo decisión posterior en contra.
+- Agree y Disagree nunca se traducen, en ningún contexto: botones, textazos gigantes, título de la ventana de Game Over, rodillos, fichas del plinko, etc. Son piezas del juego, no texto de interfaz. Razón de diseño: "Disagree" contiene visualmente la palabra "Agree", y esa confusión es parte de la dificultad de los niveles 2, 7, 10 y 12; traducirlos a "Aceptar/Rechazar" haría el juego más fácil en español.
+- El resto de botones del sistema (Check, Stop, OK, Next, Yes, No) se mantienen también en inglés por coherencia con el falso sistema operativo.
 
 ---
 
@@ -993,11 +994,13 @@ Dos estructuras independientes:
 - La barra del nivel 12 es teatro intencionado.
 - Los 4 personajes son solo avatar de ranking; el personaje del nivel 11 es un asistente propio tipo Clippy.
 - Inspiración reconocida: **Doki Doki Action Game**.
+- Agree/Disagree no se traducen nunca: la similitud visual entre ambas palabras es mecánica de juego
 
 # 14. Parámetros ajustables (para playtesting)
 
 | Parámetro | Valor inicial |
 |---|---|
+| Multiplicador de volumen de la música (sobre el volumen general) | 0.15 |
 | Duración del contador (todos los niveles) | 100 s |
 | Nivel 1: retardo de aparición del Agree | 7 s |
 | Nivel 4: segmentos del botón | 6 |

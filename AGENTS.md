@@ -31,7 +31,7 @@ Juego web en React + TypeScript, 100% pixel art con estética Windows XP: 12 niv
 - **No añadir dependencias** sin actualizar antes `spec/constitution/tech-stack.md`.
 - **Solo un nivel montado a la vez**: cada nivel se carga con `React.lazy` y se desmonta por completo al salir (limpiando física, timers y listeners). Nunca renderizar pantallas inactivas.
 - Cada nivel es un módulo autocontenido en `src/levels/levelNN/` que respeta el contrato `LevelComponent` (`onWin`/`onLose`); un nivel nunca navega ni toca el progreso directamente.
-- **Ningún texto visible hardcodeado** (todo por i18n ES/EN) y **ningún color hardcodeado** (todo por tokens CSS).
+- **Ningún texto visible hardcodeado** (todo por i18n ES/EN) y **ningún color hardcodeado** (todo por tokens CSS). Excepción de diseño: las claves game.* (Agree, Disagree, Check, Stop, OK, Next, Yes, No) tienen el MISMO valor en ambos diccionarios y un test lo verifica — NUNCA las traduzcas (GDD §11)
 - localStorage solo desde `src/state/storage.ts`.
 - Entrada con Pointer Events vía el hook común `usePointer`; nada de eventos de ratón directos en los niveles. Hover siempre decorativo.
 - Responsive mobile-first con los 5 breakpoints de tech-stack.md; áreas de juego con resolución lógica fija + escala. Un nivel no está terminado si no se supera con dedo y con ratón.
@@ -43,4 +43,4 @@ Juego web en React + TypeScript, 100% pixel art con estética Windows XP: 12 niv
 
 - Despliegue: GitHub Pages → `base: '/<nombre-del-repo>/'` en `vite.config.ts` y enrutado por estado interno o hash (nunca rutas de servidor).
 - El tablero del nivel 6 (`spec/assets/nivel6-tablero.json`) está verificado: solución única `→ ↓ → ↓ ↑ →`. No lo modifiques sin volver a pasar el validador.
-- Sofía diseñará los sprites (personajes, Clippy del nivel 11): usa placeholders claros y fáciles de sustituir.
+- Todos los assets de Sofía son definitivos y están en `src/assets/`: sonidos positivo/negativo, música de fondo (debe sonar muy baja: multiplicador ~0.15 sobre el volumen general), fondo de la landing, 4 personajes y el Clippy del nivel 11. PNG pixel art: no recomprimir ni convertir a JPEG

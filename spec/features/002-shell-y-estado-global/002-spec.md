@@ -37,10 +37,12 @@ Es la frontera entre "componentes bonitos" (001) y "un juego" (003+). Los 12 niv
 ### i18n
 - [ ] Cambiar el idioma actualiza todos los textos del shell al instante, sin recargar.
 - [ ] Una clave inexistente no rompe la app: se muestra la propia clave y se avisa por consola.
+- [ ] Las claves game.* (Agree, Disagree y demás botones) tienen el mismo valor en ES y EN, verificado por un test (GDD §11: nunca se traducen).
 
 ### Audio
 - [ ] El sonido positivo y el negativo suenan bajo demanda; la música entra en loop tras la primera interacción del usuario, sin errores de autoplay en consola.
 - [ ] El volumen de `settings` afecta a los tres assets y el interruptor de música la detiene y la reanuda.
+- [ ] La música suena claramente más baja que los efectos: multiplicador propio (~0.15 del volumen general) además del volumen de Ajustes
 
 ### Contrato de nivel
 - [ ] El nivel de prueba se carga con `React.lazy` y aparece como chunk separado en la salida de `npm run build`.
@@ -54,4 +56,4 @@ Es la frontera entre "componentes bonitos" (001) y "un juego" (003+). Los 12 niv
 - Pantalla de selección real, animaciones AGREE/DISAGREE y ventanas de Game Over / Level Complete → **feature 004** (aquí, ganar o perder simplemente devuelve a la pantalla de selección placeholder).
 - Los 12 niveles reales → features 005–016.
 - Textos de los niveles en los diccionarios → cada feature de nivel añade los suyos.
-- Assets de audio definitivos → ver checkpoint en `tasks.md`; esta feature puede usar placeholders con licencia libre.
+

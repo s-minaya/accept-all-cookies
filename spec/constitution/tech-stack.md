@@ -27,6 +27,9 @@
 - `src/audio/` — reproductor de sonidos y música.
 - `src/data/nivel6-tablero.json` — layout verificado del nivel 6 (copiar desde `spec/assets/`).
 - `spec/tools/validate-level6.mjs` — validador del tablero del nivel 6; ejecutar tras cualquier edición del layout.
+- `src/assets/fonts/` — fuentes pixel (woff2). 
+- `src/assets/audio/` — `positive.*`, `negative.*`, `music.*`. 
+- `src/assets/images/` — `landing-bg.png`, `characters/character-1.png` … `character-4.png`, `clippy.png`. Todo importado desde el código (nunca en `public/`); pixel art siempre en PNG
 
 ## Comandos
 
@@ -49,7 +52,7 @@
 
 - Componentes en `PascalCase`, funciones/variables en `camelCase`, un componente por archivo.
 - Tests junto al código: `logic.ts` + `logic.test.ts`. Prioridad de testing: lógica pura de niveles y del meta-flujo (progresión, reinicio, ranking).
-- **Ningún texto visible hardcodeado**: todo pasa por i18n, incluidos los textos de los botones.
+- **Ningún texto visible hardcodeado**: todo pasa por i18n, incluidos los textos de los botones. Los términos de juego (game.agree, game.disagree y demás textos de botón en inglés) viven igualmente en los diccionarios, con el mismo valor en ES y EN; un test lo verifica para que nadie los "traduzca" por error (GDD §11).
 - **Ningún color hardcodeado**: solo variables CSS de `tokens.css`.
 - Timers: un único hook `useCountdown` compartido; prohibido sembrar `setInterval` sueltos por los niveles (fuente clásica de fugas al desmontar).
 - Todo efecto (física, animaciones, audio, listeners) se limpia en el cleanup del efecto: al desmontar un nivel no debe quedar nada vivo.
