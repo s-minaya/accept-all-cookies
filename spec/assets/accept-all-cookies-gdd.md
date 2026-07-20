@@ -88,7 +88,7 @@ Assets de sonido (lista cerrada):
 
 - **Sonido positivo** (aciertos, capturas de Agree, victoria).
 - **Sonido negativo** (fallos, capturas de Disagree, derrota).
-- **Música de fondo** (loop, controlable desde Ajustes). Suena muy baja respecto a los efectos: tiene su propio multiplicador de volumen (~15 % del volumen general) además del control de Ajustes.
+- **Música de fondo** (loop, controlable desde Ajustes). Suena baja respecto a los efectos: tiene su propio multiplicador de volumen además del control de Ajustes, distinto en escritorio y en móvil (ver §14) porque el mismo número suena más alto en un altavoz de teléfono.
 
 ---
 
@@ -1000,7 +1000,7 @@ Tres estructuras independientes, las tres persistidas:
 
 | Parámetro | Valor inicial |
 |---|---|
-| Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | 0.1 (ajustado por Sofía el 2026-07-20 tras varias pruebas en producción: 0.15 y 0.5 seguían sonando demasiado alto) |
+| Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | **Distinto por dispositivo** (ajustado por Sofía el 2026-07-20 tras varias pruebas en producción): escritorio 0.5, móvil/táctil 0.1. Detectado por tipo de puntero (`pointer: coarse`), no por ancho de pantalla. |
 | Duración del contador (todos los niveles) | 100 s |
 | Nivel 1: retardo de aparición del Agree | 7 s |
 | Nivel 4: segmentos del botón | 6 |

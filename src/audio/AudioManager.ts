@@ -3,14 +3,23 @@ import negativeUrl from '../assets/audio/negative.mp3'
 import positiveUrl from '../assets/audio/positive.mp3'
 
 /**
- * Background music is intentionally quieter than the sound effects:
- * on top of the general volume it gets its own multiplier (GDD §2.3, §14).
- * Caps the music at 10% of its own max volume, independent of the general
- * volume slider. Re-tuned by Sofía after hearing it live on Pages
- * (2026-07-20): 0.15 (dev-time checkpoint) and then 0.5 both still read
- * as too loud.
+ * Background music is intentionally quieter than the sound effects: on top
+ * of the general volume it gets its own multiplier (GDD §2.3, §14), which
+ * differs by device — phone speakers make it read louder than the same
+ * factor does on desktop. Tuned by Sofía after hearing it live on Pages
+ * (2026-07-20).
  */
-const MUSIC_VOLUME_FACTOR = 0.1
+const DESKTOP_MUSIC_VOLUME_FACTOR = 0.5
+const MOBILE_MUSIC_VOLUME_FACTOR = 0.1
+
+/** Touch-primary device (phone/tablet) vs mouse-primary (desktop), not tied to viewport width. */
+function isMobileDevice(): boolean {
+  return window.matchMedia?.('(pointer: coarse)')?.matches === true
+}
+
+function musicVolumeFactor(): number {
+  return isMobileDevice() ? MOBILE_MUSIC_VOLUME_FACTOR : DESKTOP_MUSIC_VOLUME_FACTOR
+}
 
 /**
  * Singleton wrapper over HTMLAudioElement for the game's three sound assets.
@@ -34,7 +43,7 @@ class AudioManager {
   private applyVolume(): void {
     this.positive.volume = this.volume
     this.negative.volume = this.volume
-    this.music.volume = this.volume * MUSIC_VOLUME_FACTOR
+    this.music.volume = this.volume * musicVolumeFactor()
   }
 
   // HTMLMediaElement.play() returns a Promise in real browsers, but jsdom
