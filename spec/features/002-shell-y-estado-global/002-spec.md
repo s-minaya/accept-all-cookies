@@ -43,7 +43,7 @@ Es la frontera entre "componentes bonitos" (001) y "un juego" (003+). Los 12 niv
 - [x] El sonido positivo y el negativo suenan bajo demanda; la música entra en loop tras la primera interacción del usuario, sin errores de autoplay en consola. Verificado manualmente por Sofía en la playground (checkpoint del 2026-07-18).
 - [x] Ganar un nivel dispara el sonido positivo y perderlo (por el motivo que sea: botón, timeout o X) dispara el negativo (GDD §2.3). Se dispara desde `AppShell.handleLevelExit`, no desde el nivel ni desde `LevelHost` — ver decisión en `002-plan.md`. (Corregido el 2026-07-18: en la primera versión no sonaba nada al pulsar Agree/Disagree; verificado con test y con Playwright interceptando `HTMLMediaElement.play()`.)
 - [x] El volumen de `settings` afecta a los tres assets y el interruptor de música la detiene y la reanuda.
-- [x] La música suena claramente más baja que los efectos: multiplicador propio (`MUSIC_VOLUME_FACTOR` en `AudioManager.ts`) sobre su propio máximo, además del volumen de Ajustes. Confirmado en el checkpoint de desarrollo en 0.15; tras probarlo en producción Sofía pidió subirlo a 0.5 (2026-07-20) — ver decisión en `002-plan.md`.
+- [x] La música suena claramente más baja que los efectos: multiplicador propio (`MUSIC_VOLUME_FACTOR` en `AudioManager.ts`) sobre su propio máximo, además del volumen de Ajustes. Confirmado en el checkpoint de desarrollo en 0.15; tras probarlo en producción Sofía lo ajustó dos veces el 2026-07-20 (0.5, luego 0.1) hasta quedar conforme — ver decisión en `002-plan.md`.
 
 ### Contrato de nivel
 - [x] El nivel de prueba se carga con `React.lazy` y aparece como chunk separado en la salida de `npm run build` (`TestLevel-*.js`, ~0.7 kB).

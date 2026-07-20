@@ -5,11 +5,12 @@ import positiveUrl from '../assets/audio/positive.mp3'
 /**
  * Background music is intentionally quieter than the sound effects:
  * on top of the general volume it gets its own multiplier (GDD §2.3, §14).
- * Caps the music at 50% of its own max volume, independent of the general
- * volume slider. Re-tuned by Sofía after the 002 deploy (2026-07-20),
- * replacing the 0.15 set at the dev-time checkpoint.
+ * Caps the music at 10% of its own max volume, independent of the general
+ * volume slider. Re-tuned by Sofía after hearing it live on Pages
+ * (2026-07-20): 0.15 (dev-time checkpoint) and then 0.5 both still read
+ * as too loud.
  */
-const MUSIC_VOLUME_FACTOR = 0.5
+const MUSIC_VOLUME_FACTOR = 0.1
 
 /**
  * Singleton wrapper over HTMLAudioElement for the game's three sound assets.
