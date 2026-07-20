@@ -21,10 +21,12 @@ La landing es el punto de entrada al juego y contiene cuatro secciones:
 
 ## 1.1 Seleccionar personaje
 
-- Hay **4 personajes** disponibles.
-- Los sprites finales los diseñará Sofía; durante el desarrollo se usan **placeholders** (4 cuadrados pixel art de colores distintos con un número, por ejemplo).
-- El jugador introduce un **nombre de usuario** junto a su personaje.
-- El personaje **no aparece en ningún nivel**: su única función es ser el **avatar del jugador en el ranking**.
+## 1.1 Estructura de la landing
+
+- Imagen de fondo a pantalla completa. 
+- Botón Empezar (pixel art cute, con un corazón, distinto de los botones XP) en el centro-abajo: inicia la partida con el jugador actual y lleva a la lista de niveles.
+- En la esquina inferior derecha, cuatro accesos: Personaje, Ranking, Información y Configuración, que abren ventanas XP modales. 
+- La selección de personaje muestra las 4 miniaturas y un campo de nombre editable precargado con el nombre por defecto (en inglés, nunca se traducen): 1. Crumbs (`character-1.png`), 2. Incognito (`character-2.png`), 3. Granny Agree (`character-3.png`), 4. Monster Byte (`character-4.png`). Primera visita: se juega como Crumbs sin pasos obligatorios; después, se recuerda el último jugador
 
 ## 1.2 Ranking
 
@@ -54,6 +56,7 @@ Estructura de datos propuesta:
 
 - Guía para el usuario sobre cómo funciona el juego: objetivo (aceptar todas las cookies), reglas generales (contador, botón X, reinicio de progreso al perder) y controles básicos.
 - Sin spoilers de las mecánicas ocultas de cada nivel.
+- Se abre desde el botón de Información de la esquina de la landing, como ventana modal.
 
 ## 1.4 Ajustes
 
@@ -994,7 +997,10 @@ Tres estructuras independientes, las tres persistidas:
 - La barra del nivel 12 es teatro intencionado.
 - Los 4 personajes son solo avatar de ranking; el personaje del nivel 11 es un asistente propio tipo Clippy.
 - Inspiración reconocida: **Doki Doki Action Game**.
-- Agree/Disagree no se traducen nunca: la similitud visual entre ambas palabras es mecánica de juego
+- Agree/Disagree no se traducen nunca: la similitud visual entre ambas palabras es mecánica de juego.
+- La landing no obliga a elegir personaje: Empezar funciona siempre.
+- Los nombres por defecto de los personajes están en inglés y no se traducen (son datos, no interfaz).
+
 
 # 14. Parámetros ajustables (para playtesting)
 
