@@ -3,11 +3,13 @@ import negativeUrl from '../assets/audio/negative.mp3'
 import positiveUrl from '../assets/audio/positive.mp3'
 
 /**
- * Background music is intentionally much quieter than the sound effects:
+ * Background music is intentionally quieter than the sound effects:
  * on top of the general volume it gets its own multiplier (GDD §2.3, §14).
- * Tuned with Sofía at the audio checkpoint of feature 002.
+ * Caps the music at 50% of its own max volume, independent of the general
+ * volume slider. Re-tuned by Sofía after the 002 deploy (2026-07-20),
+ * replacing the 0.15 set at the dev-time checkpoint.
  */
-const MUSIC_VOLUME_FACTOR = 0.15
+const MUSIC_VOLUME_FACTOR = 0.5
 
 /**
  * Singleton wrapper over HTMLAudioElement for the game's three sound assets.

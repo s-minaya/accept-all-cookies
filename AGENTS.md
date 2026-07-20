@@ -44,4 +44,4 @@ Juego web en React + TypeScript, 100% pixel art con estética Windows XP: 12 niv
 
 - Despliegue: GitHub Pages → `base: '/<nombre-del-repo>/'` en `vite.config.ts` y enrutado por estado interno o hash (nunca rutas de servidor).
 - El tablero del nivel 6 (`spec/assets/nivel6-tablero.json`) está verificado: solución única `→ ↓ → ↓ ↑ →`. No lo modifiques sin volver a pasar el validador.
-- Todos los assets de Sofía son definitivos y están en `src/assets/`: sonidos positivo/negativo, música de fondo (debe sonar muy baja: multiplicador ~0.15 sobre el volumen general), fondo de la landing, 4 personajes y el Clippy del nivel 11. PNG pixel art: no recomprimir ni convertir a JPEG
+- Todos los assets de Sofía son definitivos y están en `src/assets/`: sonidos positivo/negativo, música de fondo (multiplicador propio de volumen, `MUSIC_VOLUME_FACTOR` en `src/audio/AudioManager.ts`, ajustado tras oírlo en producción), fondo de la landing, 4 personajes y el Clippy del nivel 11. PNG pixel art: no recomprimir ni convertir a JPEG

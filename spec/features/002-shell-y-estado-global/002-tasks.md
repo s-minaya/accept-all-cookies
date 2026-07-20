@@ -6,7 +6,7 @@
 - [x] Test que verifica que todas las claves `game.*` son idénticas en ES y EN.
 - [x] Implementar `AudioManager` + `useAudio` con desbloqueo en el primer `pointerdown`.
 - [x] Integrar los tres assets de audio definitivos en `src/assets/audio/`.
-- [x] ✋ **Checkpoint con Sofía**: escuchar los tres audios en la playground y afinar el `musicVolumeFactor` (arranque: 0.15) y el volumen relativo de los efectos. — confirmado bien tal cual (0.15) el 2026-07-18.
+- [x] ✋ **Checkpoint con Sofía**: escuchar los tres audios en la playground y afinar el `musicVolumeFactor` (arranque: 0.15) y el volumen relativo de los efectos. — confirmado bien tal cual (0.15) el 2026-07-18; el 2026-07-20, tras oírlo ya desplegado en producción, Sofía pidió bajarlo (le sonaba demasiado alto) y fijarlo a la mitad de la capacidad total de la música → `MUSIC_VOLUME_FACTOR = 0.5`.
 - [x] Implementar `AppShell` con enrutado por estado y las 4 pantallas placeholder.
 - [x] Definir `src/levels/types.ts` (contrato `LevelProps`, `LoseReason`) y `registry.ts` con `React.lazy`.
 - [x] Implementar `LevelHost` (XPWindow + `useCountdown` con contador reanudable + X → derrota + Suspense + conexión con `runStore`).

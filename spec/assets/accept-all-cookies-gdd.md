@@ -1000,7 +1000,7 @@ Tres estructuras independientes, las tres persistidas:
 
 | Parámetro | Valor inicial |
 |---|---|
-| Multiplicador de volumen de la música (sobre el volumen general) | 0.15 |
+| Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | 0.5 (ajustado por Sofía el 2026-07-20 tras probarlo en producción; el valor original del checkpoint de desarrollo era 0.15) |
 | Duración del contador (todos los niveles) | 100 s |
 | Nivel 1: retardo de aparición del Agree | 7 s |
 | Nivel 4: segmentos del botón | 6 |
