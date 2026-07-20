@@ -1,9 +1,7 @@
 {
   "shell": {
     "landing": {
-      "title": "Accept All Cookies",
-      "start": "Empezar",
-      "credits": "Créditos"
+      "start": "Empezar"
     },
     "select": {
       "title": "Cookie Preferences",
@@ -20,6 +18,37 @@
       "title": "Créditos",
       "body": "Créditos completos próximamente.",
       "backToLanding": "Volver al inicio"
+    }
+  },
+  "landing": {
+    "close": "Cerrar",
+    "corner": {
+      "character": "Personaje",
+      "ranking": "Ranking",
+      "info": "Información",
+      "settings": "Configuración"
+    },
+    "character": {
+      "title": "Personaje",
+      "nameLabel": "Nombre",
+      "select": "Elegir a",
+      "confirm": "Confirmar"
+    },
+    "ranking": {
+      "title": "Ranking",
+      "empty": "Todavía no hay récords. ¡Sé el primero!"
+    },
+    "info": {
+      "title": "Información",
+      "objective": "El objetivo es sencillo: consigue aceptar todas las categorías de cookies en los 12 niveles. El problema es que la interfaz hará lo que sea para impedírtelo.",
+      "rules": "Cada nivel dura 100 segundos y el contador nunca se detiene. La X de la esquina cierra la ventana y cuenta como derrota, en cualquier nivel y en cualquier momento. Si pierdes, tu partida vuelve a empezar desde el Nivel 1 — pero tu récord en el ranking, guardado por tu nombre de usuario, nunca se borra.",
+      "controls": "Todo funciona igual con ratón que con el dedo: toca o haz clic donde quieras interactuar. No hace falta nada más."
+    },
+    "settings": {
+      "title": "Configuración",
+      "language": "Idioma",
+      "volume": "Volumen",
+      "music": "Música"
     }
   },
   "game": {

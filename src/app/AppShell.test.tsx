@@ -17,12 +17,12 @@ describe('AppShell', () => {
     const user = userEvent.setup()
     render(<AppShell />)
 
-    expect(screen.getByText('Accept All Cookies')).toBeInTheDocument()
+    expect(screen.getByText('Empezar')).toBeInTheDocument()
     expect(screen.queryByText('Cookie Preferences')).not.toBeInTheDocument()
 
     await user.click(screen.getByText('Empezar'))
     expect(screen.getByText('Cookie Preferences')).toBeInTheDocument()
-    expect(screen.queryByText('Accept All Cookies')).not.toBeInTheDocument()
+    expect(screen.queryByText('Empezar')).not.toBeInTheDocument()
 
     await user.click(screen.getByText('Check'))
     const agreeButton = await screen.findByText('Agree')
@@ -62,18 +62,6 @@ describe('AppShell', () => {
     expect(useRunStore.getState()).toMatchObject({ completedLevels: [], currentLevel: 1 })
   })
 
-  it('reaches credits from the landing and can come back', async () => {
-    const user = userEvent.setup()
-    render(<AppShell />)
-
-    await user.click(screen.getByText('Créditos'))
-    expect(screen.getByText('Créditos completos próximamente.')).toBeInTheDocument()
-    expect(screen.queryByText('Accept All Cookies')).not.toBeInTheDocument()
-
-    await user.click(screen.getByText('Volver al inicio'))
-    expect(screen.getByText('Accept All Cookies')).toBeInTheDocument()
-  })
-
   describe('resuming after a reload (progress persisted in runStore)', () => {
     it('boots straight into the level, with the countdown resumed, if one was in progress', () => {
       useRunStore.setState({ completedLevels: [], currentLevel: 1, activeLevelTimeLeft: 55 })
@@ -81,7 +69,7 @@ describe('AppShell', () => {
 
       expect(screen.getByText('Agree')).toBeInTheDocument()
       expect(screen.getByText('55')).toBeInTheDocument()
-      expect(screen.queryByText('Accept All Cookies')).not.toBeInTheDocument()
+      expect(screen.queryByText('Empezar')).not.toBeInTheDocument()
       expect(screen.queryByText('Cookie Preferences')).not.toBeInTheDocument()
     })
 
@@ -90,12 +78,12 @@ describe('AppShell', () => {
       render(<AppShell />)
 
       expect(screen.getByText('Cookie Preferences')).toBeInTheDocument()
-      expect(screen.queryByText('Accept All Cookies')).not.toBeInTheDocument()
+      expect(screen.queryByText('Empezar')).not.toBeInTheDocument()
     })
 
     it('boots into landing when there is no progress at all', () => {
       render(<AppShell />)
-      expect(screen.getByText('Accept All Cookies')).toBeInTheDocument()
+      expect(screen.getByText('Empezar')).toBeInTheDocument()
     })
   })
 

@@ -56,7 +56,7 @@
 - **Ningún color hardcodeado**: solo variables CSS de `tokens.css`.
 - Timers: un único hook `useCountdown` compartido; prohibido sembrar `setInterval` sueltos por los niveles (fuente clásica de fugas al desmontar).
 - Todo efecto (física, animaciones, audio, listeners) se limpia en el cleanup del efecto: al desmontar un nivel no debe quedar nada vivo.
-- Idioma del código y los comentarios: inglés. Idioma de la spec: español.
+- Idioma del código y los comentarios: inglés. Idioma de la spec: español. Idioma de los mensajes de commit: inglés, siempre.
 - **Componentes reutilizables primero**: nada de duplicar ventanas, botones, diálogos o contadores dentro de un nivel. Si un nivel necesita una variante, se extiende el componente del sistema de diseño (`src/components/xp/`) con props, no se copia. Regla práctica: si un patrón visual aparece en 2+ sitios, se extrae a `xp/`.
 - Los niveles consumen la entrada a través de un hook común (`usePointer`) que normaliza ratón y táctil; prohibido escuchar eventos de ratón directamente en los niveles.
 

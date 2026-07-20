@@ -6,6 +6,10 @@ import { CountdownDemo } from './CountdownDemo'
 import { PointerDemo } from './PointerDemo'
 import { DialogDemo } from './DialogDemo'
 import { AudioDemo } from './AudioDemo'
+import { CuteButtonDemo } from './CuteButtonDemo'
+import { XPTextInputDemo } from './XPTextInputDemo'
+import { XPSliderDemo } from './XPSliderDemo'
+import { XPToggleDemo } from './XPToggleDemo'
 import styles from './Playground.module.css'
 
 const ESSENTIAL_COOKIES_TEXT = `Cookie Consent
@@ -99,6 +103,26 @@ export function Playground() {
             Level mechanic renders here
           </div>
         </XPWindow>
+      </Section>
+
+      <Section title="CuteButton (Empezar) — checkpoint pendiente de aprobación">
+        <p>
+          Lenguaje visual distinto del sistema XP (GDD §1.1): pixel art cute con un corazón, sobre
+          el fondo real de la landing.
+        </p>
+        <CuteButtonDemo />
+      </Section>
+
+      <Section title="XPTextInput">
+        <XPTextInputDemo />
+      </Section>
+
+      <Section title="XPSlider">
+        <XPSliderDemo />
+      </Section>
+
+      <Section title="XPToggle">
+        <XPToggleDemo />
       </Section>
 
       <Section title="XPDialog">

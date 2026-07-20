@@ -8,10 +8,18 @@ function mockPointer(coarse: boolean) {
   )
 }
 
-// `music` is TS-private, not JS-private (#), so tests can still reach it to
-// assert the resulting volume without expanding AudioManager's public API.
+// `music`/`positive`/`negative` are TS-private, not JS-private (#), so tests
+// can still reach them without expanding AudioManager's public API.
 function musicVolume(): number {
   return (audioManager as unknown as { music: HTMLAudioElement }).music.volume
+}
+
+function effectsVolume(): { positive: number; negative: number } {
+  const manager = audioManager as unknown as {
+    positive: HTMLAudioElement
+    negative: HTMLAudioElement
+  }
+  return { positive: manager.positive.volume, negative: manager.negative.volume }
 }
 
 describe('AudioManager music volume factor', () => {
@@ -35,5 +43,12 @@ describe('AudioManager music volume factor', () => {
     mockPointer(false)
     audioManager.setVolume(0.4)
     expect(musicVolume()).toBeCloseTo(0.2)
+  })
+
+  it('never touches the effects volume — only music (Sofía, 2026-07-20)', () => {
+    mockPointer(false)
+    const before = effectsVolume()
+    audioManager.setVolume(0.1)
+    expect(effectsVolume()).toEqual(before)
   })
 })

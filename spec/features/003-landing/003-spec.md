@@ -1,14 +1,14 @@
 # 003 · Landing
 
-**Estado:** propuesta
+**Estado:** implementada
 
 ## Qué hace
 
 Convierte la pantalla placeholder de la landing en la entrada real del juego, con el diseño definido por Sofía:
 
-- **Fondo**: la imagen de Sofía (`landing-bg.png`) a pantalla completa, pixel nítido.
-- **Botón Empezar**: en el centro-abajo de la pantalla. **No es un botón XP**: es un botón pixel art *cute*, con el texto y un **corazón pixel** al lado. Nuevo componente del sistema de diseño (`CuteButton`). Su texto se traduce con normalidad ("Empezar" / "Start") — la regla de no traducir solo aplica a los botones del falso sistema operativo (`game.*`), y este es interfaz propia del juego.
-- **Esquina inferior derecha**: cuatro botones pequeños — **Personaje**, **Ranking**, **Información** y **Configuración** — que abren cada uno una ventana XP modal sobre el fondo, con su X para cerrar (aquí la X solo cierra la ventana: no estamos en un nivel).
+- **Fondo**: la imagen de Sofía a pantalla completa, pixel nítido — `landing-bg.png` (panorámico) solo en escritorio (≥1025px); por debajo de eso, móvil y tablet comparten `landing-bg-mobile.png` (recorte más vertical, hecho a propósito), porque el panorámico también quedaba mal en tablet.
+- **Botón Empezar**: en el centro-abajo de la pantalla, en las mismas coordenadas en cualquier ancho. **No es un botón XP**: es un botón pixel art *cute*, con el texto y un **corazón pixel** al lado. Nuevo componente del sistema de diseño (`CuteButton`). Su texto se traduce con normalidad ("Empezar" / "Start") — la regla de no traducir solo aplica a los botones del falso sistema operativo (`game.*`), y este es interfaz propia del juego.
+- **Esquina inferior derecha** (escritorio y tablet) / **arriba centrado** (móvil, ≤480px): cuatro botones pequeños, en fila y **solo icono** (sin texto visible; el nombre de cada uno vive como `aria-label`) — **Personaje**, **Ranking**, **Información** y **Configuración**, con los iconos de Sofía (`character-selection.png`, `ranking.png`, `info.png`, `settings.png`). En móvil se reposiciona arriba porque abajo se solapaba con Empezar; en tablet se queda donde está. Estilo propio "retro 8-bit": borde negro, sin esquinas redondeadas, sombra dura sin difuminar — un tercer lenguaje visual además del XP y el *cute*. Cada uno abre una ventana XP modal sobre el fondo, con su X para cerrar (aquí la X solo cierra la ventana: no estamos en un nivel).
 
 ### Flujo principal
 
@@ -16,7 +16,7 @@ Pulsar **Empezar** inicia la partida con el jugador actualmente seleccionado y l
 
 ### Ventana Personaje
 
-- Cuadrícula con las **miniaturas de los 4 personajes** (sprites reales); el seleccionado queda claramente resaltado.
+- Cuadrícula con las **miniaturas de los 4 personajes** (sprites reales); el seleccionado queda claramente resaltado. Grandes a propósito ("quiero que luzcan", Sofía): 2 por fila en móvil y tablet, 4 por fila en escritorio (donde la ventana es más ancha, así que el tamaño se mantiene grande igualmente).
 - Al seleccionar uno, debajo aparece su **nombre en un campo editable**, precargado con el nombre por defecto del personaje (o con el último nombre que ese jugador usó). El usuario puede dejarlo o escribir el suyo.
 - Nombres por defecto (en inglés, definidos como datos del juego; **no se traducen**):
   1. **Crumbs** — zorrito con una cookie en la mano.
@@ -42,7 +42,7 @@ Pulsar **Empezar** inicia la partida con el jugador actualmente seleccionado y l
 ### Ventana Configuración
 
 - Idioma ES/EN: el cambio se aplica al instante en todo lo visible.
-- Volumen: slider XP que afecta inmediatamente a efectos y música (la música conserva su multiplicador); al soltar el slider suena el sonido positivo como referencia.
+- Volumen: slider XP que afecta **solo a la música de fondo** (los sonidos positivo/negativo suenan siempre a volumen máximo, no dependen de este slider — decisión de Sofía el 2026-07-20); al soltar el slider suena el sonido positivo como referencia.
 - Música: interruptor que la detiene y la reanuda.
 
 ## Por qué
@@ -52,36 +52,37 @@ Es la cara del juego y la primera pantalla real sobre el shell de la 002: valida
 ## Criterios de aceptación
 
 ### Estructura
-- [ ] El fondo se ve a pantalla completa, pixel nítido, sin deformaciones raras en los 5 anchos de referencia.
-- [ ] El botón Empezar queda centrado-abajo y los cuatro botones de la esquina inferior derecha son accesibles y ≥ 44 px en móvil.
-- [ ] Cada botón de la esquina abre su ventana XP modal y la X la cierra volviendo a la landing; solo hay una pantalla del juego montada en todo momento.
+- [x] El fondo se ve a pantalla completa, pixel nítido, sin deformaciones raras en los 5 anchos de referencia; por debajo de 1025px (móvil y tablet) se usa `landing-bg-mobile.png` en vez del panorámico, que queda solo para escritorio. (Verificado con Playwright en 375/480/768/1280/1920px.)
+- [x] El botón Empezar queda centrado-abajo en cualquier ancho. Los cuatro botones (en fila, solo icono) son accesibles y ≥ 44 px en móvil; en escritorio y tablet están en la esquina inferior derecha, en móvil (≤480px) arriba centrados para no solaparse con Empezar; nunca se apilan ni cambian de fila/columna.
+- [x] Cada botón de la esquina abre su ventana XP modal y la X la cierra volviendo a la landing; solo hay una pantalla del juego montada en todo momento.
 
 ### Flujo principal
-- [ ] Empezar funciona sin haber abierto nunca la selección de personaje: primera visita → personaje 1 "Crumbs"; visitas posteriores → último jugador persistido.
-- [ ] Empezar inicializa la partida y navega a la lista de niveles.
+- [x] Empezar funciona sin haber abierto nunca la selección de personaje: primera visita → personaje 1 "Crumbs"; visitas posteriores → último jugador persistido.
+- [x] Empezar inicializa la partida y navega a la lista de niveles.
 
 ### Personaje
-- [ ] Las 4 miniaturas usan los sprites reales y la selección es inequívoca.
-- [ ] Al seleccionar un personaje, el campo muestra su nombre por defecto (o el último usado); es editable; trim y máximo 16 aplicados; vacío al confirmar → restaura el nombre por defecto (tests de la lógica pura).
-- [ ] Los nombres por defecto son idénticos en ambos idiomas (son datos, no i18n).
-- [ ] Confirmar actualiza el jugador actual y sobrevive a recargar la página.
+- [x] Las 4 miniaturas usan los sprites reales y la selección es inequívoca; grandes y en 2 columnas en móvil/tablet, en 4 columnas (ventana más ancha) en escritorio.
+- [x] Al seleccionar un personaje, el campo muestra su nombre por defecto (o el último usado); es editable; trim y máximo 16 aplicados; vacío al confirmar → restaura el nombre por defecto (tests de la lógica pura).
+- [x] Los nombres por defecto son idénticos en ambos idiomas (son datos, no i18n).
+- [x] Confirmar actualiza el jugador actual y sobrevive a recargar la página.
 
 ### Ranking
-- [ ] Récords listados con avatar, nombre, nivel máximo y fecha, ordenados según el GDD (test del orden).
-- [ ] Estado vacío correcto; tras superar un récord, el ranking lo refleja al volver a la landing.
+- [x] Récords listados con avatar, nombre, nivel máximo y fecha, ordenados según el GDD (test del orden).
+- [x] Estado vacío correcto; con datos de récord presentes en el store (sembrados desde un test o desde la Playground), la lista los muestra correctamente.
+- [x] (Diferido a la 004): la actualización del récord al ganar niveles se validará de punta a punta cuando exista el flujo de victoria
 
 ### Información
-- [ ] La guía existe en ambos idiomas, con scroll si no cabe, y no revela ninguna mecánica oculta de niveles.
-- [ ] ✋ Textos aprobados por Sofía en ES y EN.
+- [x] La guía existe en ambos idiomas, con scroll si no cabe, y no revela ninguna mecánica oculta de niveles.
+- [x] ✋ Textos aprobados por Sofía en ES y EN. — Aprobados tal cual el 2026-07-20.
 
 ### Configuración
-- [ ] Cambiar el idioma actualiza todos los textos visibles al instante, incluido el botón Empezar.
-- [ ] El volumen afecta de inmediato a música pero no a los efectos, con sonido de referencia al soltar; el interruptor de música detiene y reanuda el loop; los tres ajustes sobreviven a recargar.
+- [x] Cambiar el idioma actualiza todos los textos visibles al instante, incluido el botón Empezar.
+- [x] El volumen afecta de inmediato a la música (nivel aplicado en cada arrastre) y no a los efectos, que suenan siempre a volumen máximo; el sonido positivo de referencia solo suena al soltar, no en cada tick. El interruptor de música detiene y reanuda el loop; los tres ajustes sobreviven a recargar. (Decisión final de Sofía el 2026-07-20 — la primera versión de este criterio decía lo contrario y luego se corrigió dos veces; ver historial en `003-plan.md`.)
 
 ### Calidad
-- [ ] Todos los textos nuevos en ambos diccionarios bajo `landing.*`; claves `game.*` intactas; los nombres por defecto NO están en los diccionarios (son datos).
-- [ ] `CuteButton`, `XPTextInput`, `XPSlider` y `XPToggle` añadidos a la Playground y usables con dedo y ratón.
-- [ ] En iOS, enfocar el campo de nombre no provoca zoom automático.
+- [x] Todos los textos nuevos en ambos diccionarios bajo `landing.*`; claves `game.*` intactas; los nombres por defecto NO están en los diccionarios (son datos).
+- [x] `CuteButton`, `XPTextInput`, `XPSlider` y `XPToggle` añadidos a la Playground y usables con dedo y ratón. (Ratón + emulación táctil de Playwright verificados; dedo real pendiente de Sofía.)
+- [ ] En iOS, enfocar el campo de nombre no provoca zoom automático. **Pendiente de Sofía en dispositivo real** (font-size ya fijado a 16px, que es la causa técnica del zoom, pero solo Safari/iOS real lo confirma).
 
 ## Fuera de alcance
 

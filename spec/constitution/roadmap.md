@@ -6,14 +6,14 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 
 1. **001 · Fundamentos y sistema de diseño** — proyecto Vite + React, tokens de color, fuentes pixel (DotGothic16 + Press Start 2P, aprobadas por Sofía), breakpoints y sistema responsive (resolución lógica + escala), `XPWindow`, `XPButton` (agree / disagree / neutral, 4 estados), `XPDialog`, hook `usePointer`, hook `useCountdown`. Playground desplegada en GitHub Pages y verificada en móvil real por Sofía.
 2. **002 · Shell y estado global** — enrutado de pantallas por estado interno (`AppShell`, 4 pantallas placeholder), store Zustand (`run`, `settings`, `ranking`, los tres persistidos en `storage.ts`: recargar la página retoma la partida donde se dejó), i18n ES/EN + `useT()`, audio (`AudioManager`/`useAudio`, checkpoint de volumen confirmado con Sofía; sonido de victoria/derrota disparado desde `AppShell`), contrato `LevelComponent` + `LevelHost` con carga perezosa por nivel, nivel de prueba end-to-end. `AppShell` sustituye a la Playground como raíz de `App.tsx` (Playground sigue accesible vía `?playground` hasta la 017). Pendiente: QA en móvil real desde Pages (Sofía, tras el despliegue).
+3. **003 · Landing** — landing real: fondo (`landing-bg.png` en escritorio ≥1025px, `landing-bg-mobile.png` en móvil y tablet), `CuteButton` "Empezar" (checkpoint de estilo aprobado por Sofía), 4 accesos solo-icono estilo "retro 8-bit" (Personaje/Ranking/Información/Configuración; esquina inferior derecha en escritorio/tablet, arriba centrado en móvil para no solapar con Empezar). Ventanas modales sobre `XPWindow`/`XPDialog` (ahora con X opcional y `maxWidth` opcional): selección de personaje + nombre (miniaturas grandes, 2 columnas en móvil/tablet y 4 en escritorio; `playerStore`, `aac.v1.lastPlayer`), ranking (orden puro `rankingSort.ts`, actualización real del récord diferida a la 004), información (checkpoint de texto aprobado por Sofía), ajustes (idioma; volumen — solo afecta a la música, no a los efectos; música on/off). Nuevas piezas de diseño: `XPTextInput`, `XPSlider`, `XPToggle`. Pendiente: QA táctil en móvil real desde Pages (Sofía, tras el despliegue).
 
 ## Siguiente 🔜
 
-3. **003 · Landing** — selección de personaje (placeholders) + nombre, ranking, información, ajustes (idioma, volumen, música).
+4. **004 · Meta-flujo** — pantalla de selección de niveles, ventanas Game Over y Level Complete con las animaciones AGREE/DISAGREE, reinicio de progreso, actualización del ranking (incluye cablear `recordIfImproved`, diferido explícitamente desde la 003).
 
 ## Backlog (ordenado) 💡
 
-4. **004 · Meta-flujo** — pantalla de selección de niveles, ventanas Game Over y Level Complete con las animaciones AGREE/DISAGREE, reinicio de progreso, actualización del ranking.
 5. **005 · Nivel 1 — Essential Cookies** — retardo del Agree, diálogo de error, reinicio del contador. (Primer nivel real: valida el contrato de nivel de punta a punta.)
 6. **006 · Nivel 2 — Analytics Cookies** — colores intercambiados.
 7. **007 · Nivel 3 — Personalization** — rotación 360° de la ventana + lluvia de Disagrees con física.

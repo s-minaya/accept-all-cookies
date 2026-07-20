@@ -1,9 +1,7 @@
 {
   "shell": {
     "landing": {
-      "title": "Accept All Cookies",
-      "start": "Start",
-      "credits": "Credits"
+      "start": "Start"
     },
     "select": {
       "title": "Cookie Preferences",
@@ -20,6 +18,37 @@
       "title": "Credits",
       "body": "Full credits coming soon.",
       "backToLanding": "Back to start"
+    }
+  },
+  "landing": {
+    "close": "Close",
+    "corner": {
+      "character": "Character",
+      "ranking": "Ranking",
+      "info": "Information",
+      "settings": "Settings"
+    },
+    "character": {
+      "title": "Character",
+      "nameLabel": "Name",
+      "select": "Choose",
+      "confirm": "Confirm"
+    },
+    "ranking": {
+      "title": "Ranking",
+      "empty": "No records yet. Be the first!"
+    },
+    "info": {
+      "title": "Information",
+      "objective": "The goal is simple: get every cookie category accepted across all 12 levels. The catch is the interface will do everything it can to stop you.",
+      "rules": "Every level lasts 100 seconds and the counter never stops. The X in the corner closes the window and counts as a loss, in any level, at any time. Losing sends your run back to Level 1 — but your ranking record, saved under your username, is never erased.",
+      "controls": "Everything works the same with a mouse or a finger: tap or click wherever you need to interact. Nothing else to learn."
+    },
+    "settings": {
+      "title": "Settings",
+      "language": "Language",
+      "volume": "Volume",
+      "music": "Music"
     }
   },
   "game": {

@@ -28,10 +28,12 @@ function musicVolumeFactor(): number {
  * global pointerdown, wired by `useAudio`).
  */
 class AudioManager {
+  // Effects always play at full volume — the Ajustes slider controls music
+  // only (Sofía, 2026-07-20). Left at HTMLAudioElement's own 1.0 default.
   private readonly positive = new Audio(positiveUrl)
   private readonly negative = new Audio(negativeUrl)
   private readonly music = new Audio(musicUrl)
-  private volume = 1
+  private musicVolume = 1
   private musicOn = true
   private unlocked = false
 
@@ -41,9 +43,7 @@ class AudioManager {
   }
 
   private applyVolume(): void {
-    this.positive.volume = this.volume
-    this.negative.volume = this.volume
-    this.music.volume = this.volume * musicVolumeFactor()
+    this.music.volume = this.musicVolume * musicVolumeFactor()
   }
 
   // HTMLMediaElement.play() returns a Promise in real browsers, but jsdom
@@ -60,7 +60,7 @@ class AudioManager {
   }
 
   setVolume(volume: number): void {
-    this.volume = volume
+    this.musicVolume = volume
     this.applyVolume()
   }
 

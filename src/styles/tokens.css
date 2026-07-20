@@ -43,6 +43,28 @@
   /* Overlay behind XPDialog, derived from frame blue (no new raw color) */
   --color-overlay: color-mix(in srgb, var(--color-frame-blue) 55%, transparent);
 
+  /*
+   * Cute button ("Empezar" on the landing, GDD §1.1) — separate visual
+   * language from the XP system on purpose (003-plan.md "Decisiones").
+   * Approved by Sofía at the 003 checkpoint (2026-07-20).
+   */
+  --color-cute-bg: #ff96ab;
+  --color-cute-border: #7a2942;
+  --color-cute-text: #ffffff;
+
+  /* Form controls (XPTextInput / XPSlider / XPToggle) — reuse the neutral system palette. */
+  --color-input-border: var(--color-neutral-border-outer);
+  --color-input-bg: var(--color-white);
+
+  /*
+   * Landing corner menu (Personaje/Ranking/Información/Configuración,
+   * 003-plan.md): icon-only, deliberately pure-black "retro 8-bit" border
+   * per Sofía — distinct from the softer XP navy borders on purpose.
+   */
+  --color-8bit-border: #000000;
+  --color-8bit-bg: #ffffff;
+  --color-8bit-bg-active: #cfcfcf;
+
   /* Responsive breakpoints (mirrored in src/styles/breakpoints.ts) */
   --breakpoint-xs: 375px;
   --breakpoint-sm: 376px;

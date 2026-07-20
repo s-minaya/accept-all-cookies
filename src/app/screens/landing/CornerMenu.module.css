@@ -1,0 +1,38 @@
+.menu {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.iconButton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-8bit-bg);
+  /* Hard, unblurred offset shadow on purpose: classic pixel-art button chrome. */
+  box-shadow:
+    0 0 0 3px var(--color-8bit-border),
+    3px 3px 0 0 var(--color-8bit-border);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.08s ease-out;
+}
+
+@media (hover: hover) {
+  .iconButton:hover {
+    background: var(--color-8bit-bg-active);
+  }
+}
+
+.iconButton:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 3px var(--color-8bit-border);
+}
+
+.icon {
+  width: 40px;
+}

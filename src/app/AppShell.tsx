@@ -50,9 +50,10 @@ export function AppShell() {
 
   switch (screen) {
     case 'landing':
-      return (
-        <LandingScreen onStart={() => setScreen('select')} onCredits={() => setScreen('credits')} />
-      )
+      // No credits access from here on purpose (GDD §1.1 / 003-spec.md): the real
+      // path in is Level 12's Level Complete screen (feature 016). `credits` stays
+      // a valid Screen/case for that future wiring.
+      return <LandingScreen onStart={() => setScreen('select')} />
 
     case 'select':
       return (

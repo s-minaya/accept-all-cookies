@@ -19,14 +19,12 @@ El juego está inspirado en **Doki Doki Action Game** (se mencionará en los cr�
 
 La landing es el punto de entrada al juego y contiene cuatro secciones:
 
-## 1.1 Seleccionar personaje
-
 ## 1.1 Estructura de la landing
 
-- Imagen de fondo a pantalla completa. 
+- Imagen de fondo a pantalla completa: una versión panorámica solo para escritorio y una más vertical (`landing-bg-mobile.png`) compartida por móvil y tablet, para que el recorte no quede mal en pantallas estrechas o medianas.
 - Botón Empezar (pixel art cute, con un corazón, distinto de los botones XP) en el centro-abajo: inicia la partida con el jugador actual y lleva a la lista de niveles.
-- En la esquina inferior derecha, cuatro accesos: Personaje, Ranking, Información y Configuración, que abren ventanas XP modales. 
-- La selección de personaje muestra las 4 miniaturas y un campo de nombre editable precargado con el nombre por defecto (en inglés, nunca se traducen): 1. Crumbs (`character-1.png`), 2. Incognito (`character-2.png`), 3. Granny Agree (`character-3.png`), 4. Monster Byte (`character-4.png`). Primera visita: se juega como Crumbs sin pasos obligatorios; después, se recuerda el último jugador
+- Cuatro accesos en fila, **solo icono** (sin texto visible): Personaje, Ranking, Información y Configuración, que abren ventanas XP modales. En la esquina inferior derecha en escritorio y tablet; arriba centrados en móvil, para no solaparse con el botón Empezar. Estilo pixel art propio "retro 8-bit" (borde negro, esquinas rectas, sombra dura), distinto tanto del sistema XP como del *cute* del botón Empezar.
+- La selección de personaje muestra las 4 miniaturas, grandes (2 por fila en móvil/tablet, 4 en escritorio), y un campo de nombre editable precargado con el nombre por defecto (en inglés, nunca se traducen): 1. Crumbs (`character-1.png`), 2. Incognito (`character-2.png`), 3. Granny Agree (`character-3.png`), 4. Monster Byte (`character-4.png`). Primera visita: se juega como Crumbs sin pasos obligatorios; después, se recuerda el último jugador
 
 ## 1.2 Ranking
 
@@ -61,7 +59,7 @@ Estructura de datos propuesta:
 ## 1.4 Ajustes
 
 - **Idioma:** alternar entre inglés y español.
-- **Volumen:** control de volumen general (slider).
+- **Volumen:** slider que controla **solo la música de fondo** (los sonidos positivo/negativo suenan siempre a volumen máximo, decisión de Sofía).
 - **Música de fondo:** activar/desactivar.
 
 ---
