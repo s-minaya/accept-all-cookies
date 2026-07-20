@@ -1,4 +1,4 @@
-import styles from './TitleBar.module.css'
+import styles from './TitleBar.module.scss'
 
 export interface TitleBarProps {
   title: string
@@ -9,18 +9,18 @@ export interface TitleBarProps {
 
 export function TitleBar({ title, counter, onClose, closeLabel }: TitleBarProps) {
   return (
-    <div className={styles.titleBar}>
-      <span className={styles.counter}>{counter ?? ''}</span>
-      <span className={styles.title}>{title}</span>
+    <div className={styles['title-bar']}>
+      <span className={styles['title-bar__counter']}>{counter ?? ''}</span>
+      <span className={styles['title-bar__title']}>{title}</span>
       {onClose ? (
         <button
           type="button"
-          className={styles.closeButton}
+          className={styles['title-bar__close-button']}
           onClick={onClose}
           aria-label={closeLabel}
         >
-          <span className={styles.closeChip}>
-            <svg viewBox="0 0 10 10" aria-hidden="true" className={styles.closeIcon}>
+          <span className={styles['title-bar__close-chip']}>
+            <svg viewBox="0 0 10 10" aria-hidden="true" className={styles['title-bar__close-icon']}>
               <line x1="1" y1="1" x2="9" y2="9" />
               <line x1="9" y1="1" x2="1" y2="9" />
             </svg>

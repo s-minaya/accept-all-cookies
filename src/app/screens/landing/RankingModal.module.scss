@@ -1,0 +1,46 @@
+.ranking-modal {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 16rem;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-system-gray);
+    border-radius: 6px;
+  }
+
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    object-fit: cover;
+    image-rendering: pixelated;
+  }
+
+  &__username {
+    flex: 1;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__level {
+    white-space: nowrap;
+  }
+
+  &__date {
+    color: var(--color-system-gray);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+}

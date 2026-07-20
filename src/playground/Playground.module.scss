@@ -1,0 +1,144 @@
+.playground {
+  &__page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem 1rem 4rem;
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+
+  &__intro {
+    text-align: center;
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--color-frame-blue);
+    }
+
+    p {
+      max-width: 34rem;
+    }
+  }
+
+  &__section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-system-gray);
+    border-radius: 10px;
+  }
+
+  &__section-title {
+    font-family: var(--font-ui);
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--color-frame-blue);
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__button-sample {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+
+    span {
+      font-size: 0.75rem;
+      color: var(--color-system-gray);
+    }
+  }
+
+  &__font-sample {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__font-sample-label {
+    font-size: 0.8rem;
+    color: var(--color-system-gray);
+  }
+
+  &__ui-font-text {
+    font-family: var(--font-ui);
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  &__display-font-text {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--color-frame-blue);
+  }
+
+  &__game-area-host {
+    width: 100%;
+    height: 20rem;
+    max-height: 60vh;
+    resize: both;
+    overflow: auto;
+    border: 2px dashed var(--color-system-gray);
+  }
+
+  &__canvas-fill {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background: repeating-conic-gradient(
+        var(--color-agree-bg) 0% 25%,
+        var(--color-disagree-bg) 0% 50%
+      )
+      50% / 40px 40px;
+  }
+
+  &__canvas-fill-label {
+    padding: 0.5rem 1rem;
+    background: var(--color-white);
+    border: 2px solid var(--color-frame-blue);
+    font-family: var(--font-ui);
+  }
+
+  &__pointer-box {
+    width: 100%;
+    max-width: 24rem;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    background: var(--color-beige);
+    border: 2px solid var(--color-frame-blue);
+    touch-action: none;
+    user-select: none;
+  }
+
+  &__countdown-display {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    min-width: 4ch;
+    color: var(--color-frame-blue);
+  }
+
+  // Level mechanic placeholder inside the XPWindow demo (was an inline style).
+  &__window-demo-content {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-family: var(--font-ui);
+  }
+}

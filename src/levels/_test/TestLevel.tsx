@@ -3,7 +3,7 @@ import { XPButton } from '../../components/xp/XPButton'
 import { useCountdown } from '../../hooks/useCountdown'
 import { usePointer } from '../../hooks/usePointer'
 import type { LevelProps } from '../types'
-import styles from './TestLevel.module.css'
+import styles from './TestLevel.module.scss'
 
 /**
  * Trivial level used only to exercise the LevelComponent contract end to
@@ -20,13 +20,13 @@ export default function TestLevel({ onWin, onLose }: LevelProps) {
   const { isPressed } = usePointer(pointerBoxRef)
 
   return (
-    <div className={styles.container}>
-      <div ref={pointerBoxRef} className={styles.pointerBox}>
+    <div className={styles['test-level']}>
+      <div ref={pointerBoxRef} className={styles['test-level__pointer-box']}>
         <span>{isPressed ? 'pressed' : 'hover me'}</span>
-        <span className={styles.tick}>{remaining}</span>
+        <span className={styles['test-level__tick']}>{remaining}</span>
       </div>
 
-      <div className={styles.actions}>
+      <div className={styles['test-level__actions']}>
         <XPButton variant="agree" onClick={onWin}>
           Agree
         </XPButton>

@@ -10,7 +10,7 @@ import { CuteButtonDemo } from './CuteButtonDemo'
 import { XPTextInputDemo } from './XPTextInputDemo'
 import { XPSliderDemo } from './XPSliderDemo'
 import { XPToggleDemo } from './XPToggleDemo'
-import styles from './Playground.module.css'
+import styles from './Playground.module.scss'
 
 const ESSENTIAL_COOKIES_TEXT = `Cookie Consent
 
@@ -23,8 +23,8 @@ Do you agree to the Essential Cookies?`
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className={styles.section}>
-      <h2 className={styles.sectionTitle}>{title}</h2>
+    <section className={styles['playground__section']}>
+      <h2 className={styles['playground__section-title']}>{title}</h2>
       {children}
     </section>
   )
@@ -32,8 +32,8 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 export function Playground() {
   return (
-    <main className={styles.page}>
-      <div className={styles.intro}>
+    <main className={styles['playground__page']}>
+      <div className={styles['playground__intro']}>
         <h1>Accept All Cookies — Design System Playground</h1>
         <p>
           Every reusable piece from feature 001, shown with real text from the GDD. This page is the
@@ -42,34 +42,38 @@ export function Playground() {
       </div>
 
       <Section title="Fonts">
-        <div className={styles.fontSample}>
-          <span className={styles.fontSampleLabel}>UI — DotGothic16 (candidate)</span>
-          <p className={styles.uiFontText}>
+        <div className={styles['playground__font-sample']}>
+          <span className={styles['playground__font-sample-label']}>
+            UI — DotGothic16 (candidate)
+          </span>
+          <p className={styles['playground__ui-font-text']}>
             ¡Está seleccionando la categoría de cookies de análisis! Configuración de privacidad y
             política de cookies — áéíóúñ ¿todo bien?
           </p>
         </div>
-        <div className={styles.fontSample}>
-          <span className={styles.fontSampleLabel}>Display — Press Start 2P (candidate)</span>
-          <p className={styles.displayFontText}>AGREE · DISAGREE</p>
+        <div className={styles['playground__font-sample']}>
+          <span className={styles['playground__font-sample-label']}>
+            Display — Press Start 2P (candidate)
+          </span>
+          <p className={styles['playground__display-font-text']}>AGREE · DISAGREE</p>
         </div>
       </Section>
 
       <Section title="XPButton">
-        <div className={styles.row}>
-          <div className={styles.buttonSample}>
+        <div className={styles['playground__row']}>
+          <div className={styles['playground__button-sample']}>
             <XPButton variant="agree">Agree</XPButton>
             <span>agree — normal / hover / pressed</span>
           </div>
-          <div className={styles.buttonSample}>
+          <div className={styles['playground__button-sample']}>
             <XPButton variant="disagree">Disagree</XPButton>
             <span>disagree</span>
           </div>
-          <div className={styles.buttonSample}>
+          <div className={styles['playground__button-sample']}>
             <XPButton variant="neutral">OK</XPButton>
             <span>neutral</span>
           </div>
-          <div className={styles.buttonSample}>
+          <div className={styles['playground__button-sample']}>
             <XPButton variant="agree" disabled>
               Agree
             </XPButton>
@@ -92,14 +96,7 @@ export function Playground() {
             </>
           }
         >
-          <div
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              height: '100%',
-              fontFamily: 'var(--font-ui)',
-            }}
-          >
+          <div className={styles['playground__window-demo-content']}>
             Level mechanic renders here
           </div>
         </XPWindow>
@@ -144,10 +141,10 @@ export function Playground() {
 
       <Section title="GameArea (640×360 logical canvas)">
         <p>Resize the dashed box below (drag its bottom-right corner) to see the canvas scale.</p>
-        <div className={styles.gameAreaHost}>
+        <div className={styles['playground__game-area-host']}>
           <GameArea>
-            <div className={styles.canvasFill}>
-              <span className={styles.canvasFillLabel}>640 × 360</span>
+            <div className={styles['playground__canvas-fill']}>
+              <span className={styles['playground__canvas-fill-label']}>640 × 360</span>
             </div>
           </GameArea>
         </div>

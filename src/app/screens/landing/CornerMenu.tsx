@@ -2,8 +2,9 @@ import characterIcon from '../../../assets/images/ui/character-selection.png'
 import rankingIcon from '../../../assets/images/ui/ranking.png'
 import infoIcon from '../../../assets/images/ui/info.png'
 import settingsIcon from '../../../assets/images/ui/settings.png'
+import { IconButton } from '../../../components/xp/IconButton'
 import { useT } from '../../../i18n/useT'
-import styles from './CornerMenu.module.css'
+import styles from './CornerMenu.module.scss'
 
 export type LandingModal = 'character' | 'ranking' | 'info' | 'settings'
 
@@ -23,17 +24,9 @@ export function CornerMenu({ onOpen }: CornerMenuProps) {
   const t = useT()
 
   return (
-    <div className={styles.menu}>
+    <div className={styles['corner-menu']}>
       {ITEMS.map(({ modal, icon, labelKey }) => (
-        <button
-          key={modal}
-          type="button"
-          className={styles.iconButton}
-          onClick={() => onOpen(modal)}
-          aria-label={t(labelKey)}
-        >
-          <img src={icon} alt="" className={styles.icon} />
-        </button>
+        <IconButton key={modal} icon={icon} label={t(labelKey)} onClick={() => onOpen(modal)} />
       ))}
     </div>
   )

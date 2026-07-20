@@ -1,7 +1,7 @@
 import { useAudio } from '../audio/useAudio'
 import { useSettingsStore } from '../state/settingsStore'
 import { XPButton } from '../components/xp/XPButton'
-import styles from './Playground.module.css'
+import styles from './Playground.module.scss'
 
 export function AudioDemo() {
   const { playPositive, playNegative } = useAudio()
@@ -11,7 +11,7 @@ export function AudioDemo() {
   const setMusicOn = useSettingsStore((state) => state.setMusicOn)
 
   return (
-    <div className={styles.row}>
+    <div className={styles['playground__row']}>
       <XPButton variant="agree" onClick={playPositive}>
         Positive
       </XPButton>
@@ -21,7 +21,7 @@ export function AudioDemo() {
       <XPButton variant="neutral" onClick={() => setMusicOn(!musicOn)}>
         Music: {musicOn ? 'On' : 'Off'}
       </XPButton>
-      <label className={styles.buttonSample}>
+      <label className={styles['playground__button-sample']}>
         <input
           type="range"
           min={0}

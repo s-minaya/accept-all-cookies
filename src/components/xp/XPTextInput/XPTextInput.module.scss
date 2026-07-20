@@ -1,5 +1,5 @@
-.input {
-  /* Pinned at 16px: focusing a smaller input triggers unwanted auto-zoom on iOS. */
+.xp-text-input {
+  // Pinned at 16px: focusing a smaller input triggers unwanted auto-zoom on iOS.
   width: 100%;
   min-height: 44px;
   padding: 0 0.75rem;
@@ -10,13 +10,13 @@
   font-family: var(--font-ui);
   font-size: 1rem;
   color: var(--color-text-dark);
-}
 
-.input:focus {
-  outline: 2px solid var(--color-title-gradient-start);
-  outline-offset: 1px;
-}
+  &:focus {
+    outline: 2px solid var(--color-title-gradient-start);
+    outline-offset: 1px;
+  }
 
-.input::placeholder {
-  color: var(--color-system-gray);
+  &::placeholder {
+    color: var(--color-system-gray);
+  }
 }

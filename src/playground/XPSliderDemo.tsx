@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { XPSlider } from '../components/xp/XPSlider'
-import styles from './Playground.module.css'
+import styles from './Playground.module.scss'
 
 export function XPSliderDemo() {
   const [value, setValue] = useState(0.8)
   const [commits, setCommits] = useState(0)
 
   return (
-    <div className={styles.row}>
+    <div className={styles['playground__row']}>
       <XPSlider
         min={0}
         max={1}

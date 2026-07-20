@@ -5,7 +5,7 @@ import { XPToggle } from '../../../components/xp/XPToggle'
 import { useT } from '../../../i18n/useT'
 import { useAudio } from '../../../audio/useAudio'
 import { useSettingsStore } from '../../../state/settingsStore'
-import styles from './SettingsModal.module.css'
+import styles from './SettingsModal.module.scss'
 
 export interface SettingsModalProps {
   onClose: () => void
@@ -23,9 +23,9 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
 
   return (
     <XPDialog title={t('landing.settings.title')} onClose={onClose} closeLabel={t('landing.close')}>
-      <div className={styles.section}>
-        <span className={styles.label}>{t('landing.settings.language')}</span>
-        <div className={styles.languageButtons}>
+      <div className={styles['settings-modal__section']}>
+        <span className={styles['settings-modal__label']}>{t('landing.settings.language')}</span>
+        <div className={styles['settings-modal__language-buttons']}>
           <XPButton
             variant="neutral"
             disabled={language === 'es'}
@@ -43,8 +43,8 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
         </div>
       </div>
 
-      <div className={styles.section}>
-        <span className={styles.label}>{t('landing.settings.volume')}</span>
+      <div className={styles['settings-modal__section']}>
+        <span className={styles['settings-modal__label']}>{t('landing.settings.volume')}</span>
         <XPSlider
           min={0}
           max={1}
@@ -56,7 +56,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
         />
       </div>
 
-      <div className={styles.section}>
+      <div className={styles['settings-modal__section']}>
         <XPToggle checked={musicOn} onChange={setMusicOn} label={t('landing.settings.music')} />
       </div>
     </XPDialog>

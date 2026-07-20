@@ -4,6 +4,10 @@
  * (see AGENTS.md: "ningún color hardcodeado").
  * Source: spec/assets/accept-all-cookies-gdd.md (GDD) and
  * spec/constitution/tech-stack.md §"Estilo visual".
+ *
+ * Plain CSS custom properties on purpose, not Sass variables: components
+ * read them at runtime (e.g. LandingScreen's per-device background,
+ * GameArea's scale), which Sass variables (compile-time only) can't do.
  */
 
 :root {

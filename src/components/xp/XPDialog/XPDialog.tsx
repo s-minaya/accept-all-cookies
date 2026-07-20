@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { TitleBar } from '../TitleBar'
-import styles from './XPDialog.module.css'
+import styles from './XPDialog.module.scss'
 
 export interface XPDialogProps {
   title: string
@@ -9,8 +9,8 @@ export interface XPDialogProps {
   /** Landing modals (003) close on X like a normal window; level dialogs (001 demo) omit it on purpose. */
   onClose?: () => void
   closeLabel?: string
-  /** Overrides the default 24rem cap. On mobile/tablet the viewport clamps width anyway, so this only matters on desktop. */
-  maxWidth?: string
+  /** Extra class(es) on the dialog box — e.g. a modifier that widens it (CharacterModal). */
+  className?: string
 }
 
 export function XPDialog({
@@ -19,20 +19,16 @@ export function XPDialog({
   footer,
   onClose,
   closeLabel,
-  maxWidth,
+  className,
 }: XPDialogProps) {
+  const boxClasses = [styles['xp-dialog__box'], className].filter(Boolean).join(' ')
+
   return (
-    <div className={styles.overlay}>
-      <div
-        className={styles.dialog}
-        style={maxWidth ? { maxWidth } : undefined}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-      >
+    <div className={styles['xp-dialog__overlay']}>
+      <div className={boxClasses} role="dialog" aria-modal="true" aria-label={title}>
         <TitleBar title={title} onClose={onClose} closeLabel={closeLabel} />
-        <div className={styles.body}>{children}</div>
-        {footer && <div className={styles.footer}>{footer}</div>}
+        <div className={styles['xp-dialog__body']}>{children}</div>
+        {footer && <div className={styles['xp-dialog__footer']}>{footer}</div>}
       </div>
     </div>
   )

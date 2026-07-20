@@ -63,6 +63,7 @@ export function AppShell() {
             enterLevel()
             setScreen('level')
           }}
+          onBack={() => setScreen('landing')}
         />
       )
 

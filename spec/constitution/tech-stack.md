@@ -8,7 +8,7 @@
 - **Framework / build:** React 18 + Vite.
 - **Estado global:** Zustand (store pequeño: run, settings, ranking). Instalado en la feature 002 (`^5.0`).
 - **Física (solo niveles 3 y 4):** matter.js, importado dinámicamente dentro del chunk del nivel para no cargar en el resto del juego.
-- **Estilos:** CSS Modules + variables CSS globales (tokens). Sin Tailwind ni styled-components.
+- **Estilos:** Sass (`.module.scss`) + CSS Modules + variables CSS globales (tokens). Convención de clases BEM (ver Convenciones). Instalado en la feature 003 (`sass` `^1.101`, sin configuración extra: Vite lo detecta solo). Sin Tailwind ni styled-components.
 - **i18n:** diccionarios JSON propios (`es.json`, `en.json`) + hook `useT()`. Sin librería.
 - **Audio:** wrapper propio sobre `HTMLAudioElement` (3 assets: positivo, negativo, música en loop).
 - **Tests:** Vitest + React Testing Library. La lógica de cada nivel (condiciones de victoria/derrota, máquinas de estados) vive en funciones puras testeables sin DOM.
@@ -59,6 +59,8 @@
 - Idioma del código y los comentarios: inglés. Idioma de la spec: español. Idioma de los mensajes de commit: inglés, siempre.
 - **Componentes reutilizables primero**: nada de duplicar ventanas, botones, diálogos o contadores dentro de un nivel. Si un nivel necesita una variante, se extiende el componente del sistema de diseño (`src/components/xp/`) con props, no se copia. Regla práctica: si un patrón visual aparece en 2+ sitios, se extrae a `xp/`.
 - Los niveles consumen la entrada a través de un hook común (`usePointer`) que normaliza ratón y táctil; prohibido escuchar eventos de ratón directamente en los niveles.
+- **CSS Modules en Sass, con BEM**: cada componente tiene su `NombreComponente.module.scss`. Una clase raíz por bloque (`.block`), elementos como `.block__element`, variantes como `.block--modifier` (o `.block__element--modifier`). Nombres de bloque/elemento/modificador siempre en inglés, descriptivos y en kebab-case (`corner-menu`, no `cm` ni `cornerMenu`) — como casi todos los bloques son de varias palabras, en el `.tsx` se accede **siempre con notación de corchete** (`styles['corner-menu__icon-button--active']`), nunca de punto, para no mezclar los dos estilos según si el nombre tiene guion o no. Aprovechar el anidado de Sass (`&__x`, `&--y`) para no repetir el nombre del bloque. Decisión de Sofía (feature 003, ampliación posterior).
+- **Evitar estilos en línea (`style={{...}}`) salvo que sean genuinamente necesarios**: un valor solo justifica ir en línea si se calcula en tiempo de ejecución y no puede expresarse como una clase (p. ej. un `scale()` de un `ResizeObserver`, o la URL de una imagen importada desde JS que un `.scss` no puede referenciar). En esos casos, el patrón preferido es fijar únicamente una custom property CSS por estilo en línea (`style={{ '--my-var': valor }}`) y consumirla desde la clase Sass (`.block { transform: scale(var(--my-var)); }`), no escribir la propiedad final entera en línea. Cualquier valor conocido en build-time (colores, anchos fijos, breakpoints) va en la clase, nunca en línea.
 
 ## Estilo visual
 

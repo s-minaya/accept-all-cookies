@@ -7,6 +7,7 @@
 Construye el esqueleto invisible del juego: todo lo que las pantallas y los niveles necesitan para existir, sin contenido real todavía.
 
 - **Enrutado de pantallas**: el shell navega entre `landing → selección de niveles → nivel → créditos` montando **exclusivamente** la pantalla activa. En esta feature las pantallas son placeholders con lo mínimo para navegar; su contenido real llega en las features 003, 004 y 016.
+- **Volver de la selección a la landing**: la pantalla de selección placeholder tiene un botón "Volver atrás" (icono `back.png`, mismo estilo retro 8-bit que el `CornerMenu` de la landing — `IconButton` compartido) en la esquina superior izquierda; no toca el progreso de la partida, solo navega. Añadido a petición de Sofía tras cerrar la 003.
 - **Estado global (Zustand)** en tres dominios:
   - `settings` — idioma, volumen, música on/off. **Persiste** entre sesiones.
   - `ranking` — récord histórico por usuario (nombre, personaje, nivel máximo, fecha). **Persiste** entre sesiones y sobrevive a los Game Over.
@@ -27,6 +28,7 @@ Es la frontera entre "componentes bonitos" (001) y "un juego" (003+). Los 12 niv
 - [x] Se puede navegar landing → selección → nivel de prueba → (ganar/perder) → selección, y en todo momento solo la pantalla activa está montada en el DOM. (test de integración `AppShell.test.tsx` + verificado en Chromium real con Playwright.)
 - [x] Al recargar la página, la partida en curso se conserva igual que los ajustes y el ranking: si había un nivel activo, se retoma con el contador en el punto en que se dejó; si no, se retoma en la pantalla de selección con el progreso hecho. Solo se vuelve a la landing si no hay ninguna partida iniciada. (Cambiado tras feedback de Sofía el 2026-07-18 — la versión original dejaba `run` solo en memoria; ver decisión en `002-plan.md`. `runStore` persiste en `storage.ts` igual que `settingsStore`/`rankingStore`.)
 - [x] La URL no permite saltar a pantallas o niveles arbitrarios. (Enrutado por estado interno; el único parámetro de URL, `?playground`, es un escape de QA que no navega pantallas ni niveles — ver decisión en `002-plan.md`.)
+- [x] Desde la selección, "Volver atrás" navega a la landing sin tocar `run` ni el ranking; el texto se traduce (`shell.select.back`) y el botón cumple el mínimo táctil de 44px. (Verificado con Playwright: clic en el botón + comprobación de que ya no está la pantalla de selección.)
 
 ### Estado y persistencia
 - [x] Completar el nivel de prueba marca el progreso en `run`; perderlo reinicia `run` por completo (tests).

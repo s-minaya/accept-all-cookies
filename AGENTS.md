@@ -39,9 +39,10 @@ Juego web en React + TypeScript, 100% pixel art con estética Windows XP: 12 niv
 - Timers solo con el hook `useCountdown`; prohibidos `setInterval` sueltos.
 - Componentes reutilizables: si un patrón visual aparece en 2+ sitios, vive en `src/components/xp/`.
 - Código y comentarios en inglés; documentación de `spec/` en español. Los mensajes de commit también van siempre en inglés.
+- **Estilos en Sass (`.module.scss`) con BEM**: bloque `.block`, elemento `.block__element`, modificador `.block--modifier`, siempre en inglés y descriptivos (kebab-case). Nada de estilos en línea salvo valores calculados en tiempo de ejecución que no puedan ser una clase — y aun así, solo la custom property CSS va en línea, no la propiedad final (ver tech-stack.md).
 
 ## Contexto útil
 
 - Despliegue: GitHub Pages → `base: '/<nombre-del-repo>/'` en `vite.config.ts` y enrutado por estado interno o hash (nunca rutas de servidor).
 - El tablero del nivel 6 (`spec/assets/nivel6-tablero.json`) está verificado: solución única `→ ↓ → ↓ ↑ →`. No lo modifiques sin volver a pasar el validador.
-- Todos los assets de Sofía son definitivos y están en `src/assets/`: sonidos positivo/negativo, música de fondo (multiplicador propio de volumen, distinto en escritorio y móvil — ver `DESKTOP_MUSIC_VOLUME_FACTOR`/`MOBILE_MUSIC_VOLUME_FACTOR` en `src/audio/AudioManager.ts`), fondo de la landing (`landing-bg.png` escritorio / `landing-bg-mobile.png` móvil, por debajo de 480px), 4 personajes, el Clippy del nivel 11, el corazón del `CuteButton` y los 4 iconos de la esquina de la landing (`src/assets/images/ui/`). PNG pixel art: no recomprimir ni convertir a JPEG
+- Todos los assets de Sofía son definitivos y están en `src/assets/`: sonidos positivo/negativo, música de fondo (multiplicador propio de volumen, distinto en escritorio y móvil — ver `DESKTOP_MUSIC_VOLUME_FACTOR`/`MOBILE_MUSIC_VOLUME_FACTOR` en `src/audio/AudioManager.ts`), fondo de la landing (`landing-bg.png` escritorio ≥1025px / `landing-bg-mobile.png` móvil y tablet), 4 personajes, el Clippy del nivel 11, el corazón del `CuteButton`, los 4 iconos de la esquina de la landing y el icono de volver (`src/assets/images/ui/`). PNG pixel art: no recomprimir ni convertir a JPEG

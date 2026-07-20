@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { usePointer } from '../hooks/usePointer'
-import styles from './Playground.module.css'
+import styles from './Playground.module.scss'
 
 export function PointerDemo() {
   const boxRef = useRef<HTMLDivElement>(null)
@@ -17,7 +17,7 @@ export function PointerDemo() {
   return (
     <div
       ref={boxRef}
-      className={styles.pointerBox}
+      className={styles['playground__pointer-box']}
       onPointerDown={() => setIsStill(false)}
       onPointerMove={() => setIsStill(false)}
     >

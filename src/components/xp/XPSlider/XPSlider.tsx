@@ -1,4 +1,4 @@
-import styles from './XPSlider.module.css'
+import styles from './XPSlider.module.scss'
 
 export interface XPSliderProps {
   min: number
@@ -25,7 +25,7 @@ export function XPSlider({
   return (
     <input
       type="range"
-      className={styles.slider}
+      className={styles['xp-slider']}
       min={min}
       max={max}
       step={step}

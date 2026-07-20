@@ -8,7 +8,7 @@ import { CharacterModal } from './landing/CharacterModal'
 import { RankingModal } from './landing/RankingModal'
 import { InfoModal } from './landing/InfoModal'
 import { SettingsModal } from './landing/SettingsModal'
-import styles from './LandingScreen.module.css'
+import styles from './LandingScreen.module.scss'
 
 export interface LandingScreenProps {
   onStart: () => void
@@ -25,12 +25,12 @@ export function LandingScreen({ onStart }: LandingScreenProps) {
   } as CSSProperties
 
   return (
-    <div className={styles.page} style={backgroundVars}>
-      <CuteButton className={styles.start} onClick={onStart}>
+    <div className={styles['landing-screen']} style={backgroundVars}>
+      <CuteButton className={styles['landing-screen__start']} onClick={onStart}>
         {t('shell.landing.start')}
       </CuteButton>
 
-      <div className={styles.corner}>
+      <div className={styles['landing-screen__corner']}>
         <CornerMenu onOpen={setOpenModal} />
       </div>
 

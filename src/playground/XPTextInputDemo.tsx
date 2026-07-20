@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { XPTextInput } from '../components/xp/XPTextInput'
-import styles from './Playground.module.css'
+import styles from './Playground.module.scss'
 
 export function XPTextInputDemo() {
   const [value, setValue] = useState('Crumbs')
 
   return (
-    <div className={styles.row}>
+    <div className={styles['playground__row']}>
       <XPTextInput
         value={value}
         onChange={(event) => setValue(event.target.value)}

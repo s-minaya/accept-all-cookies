@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
-import styles from './GameArea.module.css'
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import styles from './GameArea.module.scss'
 
-/** Logical canvas size every level is designed on (mirrors tokens.css). */
+/** Logical canvas size every level is designed on (mirrors tokens.scss). */
 export const LOGICAL_WIDTH = 640
 export const LOGICAL_HEIGHT = 360
 
@@ -28,14 +28,10 @@ export function GameArea({ children }: GameAreaProps) {
   }, [])
 
   return (
-    <div ref={containerRef} className={styles.container}>
+    <div ref={containerRef} className={styles['game-area__container']}>
       <div
-        className={styles.canvas}
-        style={{
-          width: LOGICAL_WIDTH,
-          height: LOGICAL_HEIGHT,
-          transform: `scale(${scale})`,
-        }}
+        className={styles['game-area__canvas']}
+        style={{ '--game-area-scale': scale } as CSSProperties}
       >
         {children}
       </div>

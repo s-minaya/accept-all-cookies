@@ -7,7 +7,7 @@ import { characters, getCharacter, resolvePlayerName } from '../../characters'
 import { resolveConfirmedName } from '../../playerForm'
 import { usePlayerStore } from '../../../state/playerStore'
 import type { CharacterId } from '../../../state/rankingStore'
-import styles from './CharacterModal.module.css'
+import styles from './CharacterModal.module.scss'
 
 export interface CharacterModalProps {
   onClose: () => void
@@ -40,26 +40,29 @@ export function CharacterModal({ onClose }: CharacterModalProps) {
       title={t('landing.character.title')}
       onClose={onClose}
       closeLabel={t('landing.close')}
-      maxWidth="32rem"
+      className={styles['character-modal__dialog']}
       footer={
         <XPButton variant="agree" onClick={confirm}>
           {t('landing.character.confirm')}
         </XPButton>
       }
     >
-      <div className={styles.grid}>
+      <div className={styles['character-modal__grid']}>
         {characters.map((character) => (
           <button
             key={character.id}
             type="button"
-            className={[styles.thumb, character.id === selected ? styles.thumbSelected : '']
+            className={[
+              styles['character-modal__thumb'],
+              character.id === selected ? styles['character-modal__thumb--selected'] : '',
+            ]
               .filter(Boolean)
               .join(' ')}
             onClick={() => selectCharacter(character.id)}
             aria-pressed={character.id === selected}
             aria-label={`${t('landing.character.select')} ${character.defaultName}`}
           >
-            <img src={character.sprite} alt="" className={styles.thumbImage} />
+            <img src={character.sprite} alt="" className={styles['character-modal__thumb-image']} />
           </button>
         ))}
       </div>
@@ -69,7 +72,7 @@ export function CharacterModal({ onClose }: CharacterModalProps) {
         onChange={(event) => setNameInput(event.target.value)}
         maxLength={16}
         aria-label={t('landing.character.nameLabel')}
-        className={styles.nameInput}
+        className={styles['character-modal__name-input']}
       />
     </XPDialog>
   )

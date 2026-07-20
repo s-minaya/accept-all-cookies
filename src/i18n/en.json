@@ -6,7 +6,8 @@
     "select": {
       "title": "Cookie Preferences",
       "levelLabel": "Level",
-      "of": "of"
+      "of": "of",
+      "back": "Go back"
     },
     "level": {
       "close": "Close",

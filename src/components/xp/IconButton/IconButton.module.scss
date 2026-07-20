@@ -1,0 +1,47 @@
+.icon-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  &__box {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    background: var(--color-8bit-bg);
+    // Hard, unblurred offset shadow on purpose: classic pixel-art button chrome.
+    box-shadow:
+      0 0 0 3px var(--color-8bit-border),
+      3px 3px 0 0 var(--color-8bit-border);
+    transition: transform 0.08s ease-out;
+  }
+
+  @media (hover: hover) {
+    &:hover &__box {
+      background: var(--color-8bit-bg-active);
+    }
+  }
+
+  &:active &__box {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 3px var(--color-8bit-border);
+  }
+
+  &__icon {
+    width: 40px;
+  }
+
+  &__caption {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    color: var(--color-text-dark);
+    text-align: center;
+  }
+}

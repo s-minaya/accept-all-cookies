@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes } from 'react'
-import styles from './XPTextInput.module.css'
+import styles from './XPTextInput.module.scss'
 
 export type XPTextInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>
 
@@ -8,6 +8,6 @@ export type XPTextInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type
  * project's base) so focusing it never triggers iOS Safari's auto-zoom.
  */
 export function XPTextInput({ className, ...rest }: XPTextInputProps) {
-  const classes = [styles.input, className].filter(Boolean).join(' ')
+  const classes = [styles['xp-text-input'], className].filter(Boolean).join(' ')
   return <input type="text" className={classes} {...rest} />
 }

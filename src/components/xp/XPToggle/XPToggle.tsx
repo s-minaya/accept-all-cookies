@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import styles from './XPToggle.module.css'
+import styles from './XPToggle.module.scss'
 
 export interface XPToggleProps {
   checked: boolean
@@ -10,17 +10,17 @@ export interface XPToggleProps {
 /** XP-styled switch over a native checkbox (keyboard/screen-reader support for free). */
 export function XPToggle({ checked, onChange, label }: XPToggleProps) {
   return (
-    <label className={styles.toggle}>
+    <label className={styles['xp-toggle']}>
       <input
         type="checkbox"
-        className={styles.input}
+        className={styles['xp-toggle__input']}
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
       />
-      <span className={styles.track}>
-        <span className={styles.thumb} />
+      <span className={styles['xp-toggle__track']}>
+        <span className={styles['xp-toggle__thumb']} />
       </span>
-      {label && <span className={styles.labelText}>{label}</span>}
+      {label && <span className={styles['xp-toggle__label-text']}>{label}</span>}
     </label>
   )
 }

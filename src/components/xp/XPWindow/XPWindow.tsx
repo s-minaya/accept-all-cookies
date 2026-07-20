@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { TitleBar } from '../TitleBar'
-import styles from './XPWindow.module.css'
+import styles from './XPWindow.module.scss'
 
 export interface XPWindowProps {
   title: string
@@ -22,17 +22,17 @@ export function XPWindow({
   footer,
 }: XPWindowProps) {
   return (
-    <div className={styles.window}>
+    <div className={styles['xp-window']}>
       <TitleBar title={title} counter={counter} onClose={onClose} closeLabel={closeLabel} />
 
-      <div className={styles.body}>
-        <div className={styles.consentBox}>{consentText}</div>
+      <div className={styles['xp-window__body']}>
+        <div className={styles['xp-window__consent-box']}>{consentText}</div>
 
-        <div className={styles.frame}>
-          <div className={styles.interior}>{children}</div>
+        <div className={styles['xp-window__frame']}>
+          <div className={styles['xp-window__interior']}>{children}</div>
         </div>
 
-        {footer && <div className={styles.footer}>{footer}</div>}
+        {footer && <div className={styles['xp-window__footer']}>{footer}</div>}
       </div>
     </div>
   )
