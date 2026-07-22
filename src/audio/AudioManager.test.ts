@@ -8,8 +8,8 @@ function mockPointer(coarse: boolean) {
   )
 }
 
-// `music`/`positive`/`negative` are TS-private, not JS-private (#), so tests
-// can still reach them without expanding AudioManager's public API.
+// `music`/`positive`/`negative` son privados de TS, no de JS (#), así que
+// los tests pueden acceder a ellos sin ampliar la API pública de AudioManager.
 function musicVolume(): number {
   return (audioManager as unknown as { music: HTMLAudioElement }).music.volume
 }
@@ -50,5 +50,27 @@ describe('AudioManager music volume factor', () => {
     const before = effectsVolume()
     audioManager.setVolume(0.1)
     expect(effectsVolume()).toEqual(before)
+  })
+})
+
+describe('AudioManager sound effects toggle', () => {
+  afterEach(() => {
+    audioManager.setSoundEffectsOn(true)
+    vi.restoreAllMocks()
+  })
+
+  it('plays positive/negative when the toggle is on (default)', () => {
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play')
+    audioManager.playPositive()
+    audioManager.playNegative()
+    expect(play).toHaveBeenCalledTimes(2)
+  })
+
+  it('mutes positive/negative when the toggle is off, independently of musicOn', () => {
+    audioManager.setSoundEffectsOn(false)
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play')
+    audioManager.playPositive()
+    audioManager.playNegative()
+    expect(play).not.toHaveBeenCalled()
   })
 })

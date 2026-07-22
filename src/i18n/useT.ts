@@ -17,7 +17,7 @@ function resolve(dictionary: unknown, key: string): string | undefined {
   return typeof value === 'string' ? value : undefined
 }
 
-/** Reads the active language from settingsStore; falls back to the raw key (with a console warning) if it's missing. */
+/** Lee el idioma activo de settingsStore; si falta la clave, devuelve la propia clave (avisando por consola). */
 export function useT(): TranslateFn {
   const language = useSettingsStore((state) => state.language)
 

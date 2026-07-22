@@ -7,7 +7,7 @@ export interface XPToggleProps {
   label?: ReactNode
 }
 
-/** XP-styled switch over a native checkbox (keyboard/screen-reader support for free). */
+/** Interruptor con estética XP sobre un checkbox nativo (soporte de teclado/lector de pantalla gratis). */
 export function XPToggle({ checked, onChange, label }: XPToggleProps) {
   return (
     <label className={styles['xp-toggle']}>

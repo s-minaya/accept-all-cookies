@@ -3,16 +3,15 @@ import negativeUrl from '../assets/audio/negative.mp3'
 import positiveUrl from '../assets/audio/positive.mp3'
 
 /**
- * Background music is intentionally quieter than the sound effects: on top
- * of the general volume it gets its own multiplier (GDD §2.3, §14), which
- * differs by device — phone speakers make it read louder than the same
- * factor does on desktop. Tuned by Sofía after hearing it live on Pages
- * (2026-07-20).
+ * La música de fondo es intencionadamente más baja que los efectos: además
+ * del volumen general, tiene su propio multiplicador (GDD §2.3, §14),
+ * distinto según el dispositivo — los altavoces del móvil hacen que el mismo
+ * factor suene más alto que en escritorio.
  */
 const DESKTOP_MUSIC_VOLUME_FACTOR = 0.5
 const MOBILE_MUSIC_VOLUME_FACTOR = 0.1
 
-/** Touch-primary device (phone/tablet) vs mouse-primary (desktop), not tied to viewport width. */
+/** Dispositivo de entrada táctil (móvil/tablet) frente a ratón (escritorio); no depende del ancho de pantalla. */
 function isMobileDevice(): boolean {
   return window.matchMedia?.('(pointer: coarse)')?.matches === true
 }
@@ -22,19 +21,23 @@ function musicVolumeFactor(): number {
 }
 
 /**
- * Singleton wrapper over HTMLAudioElement for the game's three sound assets.
- * Autoplay policies require a user gesture before `HTMLAudioElement.play()`
- * resolves, so music only actually starts after `unlock()` runs (first
- * global pointerdown, wired by `useAudio`).
+ * Envoltorio singleton sobre HTMLAudioElement para los tres sonidos del
+ * juego. Las políticas de autoplay exigen un gesto del usuario antes de que
+ * `HTMLAudioElement.play()` se resuelva, así que la música no empieza de
+ * verdad hasta que se ejecuta `unlock()` (primer pointerdown global,
+ * conectado desde `useAudio`).
  */
 class AudioManager {
-  // Effects always play at full volume — the Ajustes slider controls music
-  // only (Sofía, 2026-07-20). Left at HTMLAudioElement's own 1.0 default.
+  // Los efectos siempre suenan al volumen máximo — el slider de Ajustes
+  // solo controla la música. Se deja en el valor por defecto de
+  // HTMLAudioElement (1.0). Un interruptor independiente (musicOn no lo
+  // afecta) los silencia por completo.
   private readonly positive = new Audio(positiveUrl)
   private readonly negative = new Audio(negativeUrl)
   private readonly music = new Audio(musicUrl)
   private musicVolume = 1
   private musicOn = true
+  private soundEffectsOn = true
   private unlocked = false
 
   constructor() {
@@ -46,13 +49,14 @@ class AudioManager {
     this.music.volume = this.musicVolume * musicVolumeFactor()
   }
 
-  // HTMLMediaElement.play() returns a Promise in real browsers, but jsdom
-  // (unit tests) returns undefined — guard both so tests don't need real audio.
+  // HTMLMediaElement.play() devuelve una Promise en navegadores reales,
+  // pero en jsdom (tests) devuelve undefined — se protegen ambos casos para
+  // que los tests no necesiten audio real.
   private safePlay(element: HTMLAudioElement): void {
     element.play()?.catch(() => {})
   }
 
-  /** Call from a real user gesture (first pointerdown) to satisfy autoplay policies. */
+  /** Se llama desde un gesto real del usuario (primer pointerdown) para cumplir las políticas de autoplay. */
   unlock(): void {
     if (this.unlocked) return
     this.unlocked = true
@@ -64,12 +68,18 @@ class AudioManager {
     this.applyVolume()
   }
 
+  setSoundEffectsOn(soundEffectsOn: boolean): void {
+    this.soundEffectsOn = soundEffectsOn
+  }
+
   playPositive(): void {
+    if (!this.soundEffectsOn) return
     this.positive.currentTime = 0
     this.safePlay(this.positive)
   }
 
   playNegative(): void {
+    if (!this.soundEffectsOn) return
     this.negative.currentTime = 0
     this.safePlay(this.negative)
   }

@@ -16,7 +16,7 @@ export function distance(a: Point, b: Point): number {
   return Math.hypot(b.x - a.x, b.y - a.y)
 }
 
-/** Classifies a completed pointer gesture by how far it travelled from its start point. */
+/** Clasifica un gesto de puntero terminado según cuánto se alejó de su punto de partida. */
 export function classifyGesture(
   start: Point,
   end: Point,
@@ -26,10 +26,10 @@ export function classifyGesture(
 }
 
 /**
- * Feeds a new pointer sample into the stillness tracker. While the pointer
- * stays within `jitterThreshold` of the current anchor, `since` is kept
- * (the pointer is considered to still be resting); moving further resets
- * the anchor and restarts the clock.
+ * Alimenta el detector de quietud con una nueva muestra del puntero.
+ * Mientras el puntero se mantenga dentro de `jitterThreshold` respecto al
+ * ancla actual, se conserva `since` (se considera que sigue quieto); si se
+ * mueve más, se reinicia el ancla y el reloj.
  */
 export function updateStillness(
   state: StillnessState | null,
@@ -43,7 +43,7 @@ export function updateStillness(
   return { anchor: point, since: now }
 }
 
-/** Whether the pointer has been resting at its current anchor for at least `durationMs`. */
+/** Si el puntero lleva quieto en su ancla actual al menos `durationMs`. */
 export function isStill(state: StillnessState | null, now: number, durationMs: number): boolean {
   if (!state) return false
   return now - state.since >= durationMs

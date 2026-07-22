@@ -1,13 +1,13 @@
 .character-modal {
-  // Wider than XPDialog's 24rem default, so the 4-column grid on desktop
-  // still reads as big thumbnails (Sofía, 2026-07-20). On mobile/tablet the
-  // viewport clamps the actual width anyway.
+  // Más ancho que el 24rem por defecto de XPDialog, para que la cuadrícula
+  // de 4 columnas en escritorio siga luciendo miniaturas grandes. En
+  // móvil/tablet el propio viewport limita el ancho real igualmente.
   &__dialog {
     max-width: 32rem;
   }
 
-  // Mobile-first: 2 big thumbnails per row on phone/tablet, 4 (smaller) on
-  // desktop, where there's room to keep them large anyway (Sofía, 2026-07-20).
+  // Mobile-first: 2 miniaturas grandes por fila en móvil/tablet, 4 (más
+  // pequeñas) en escritorio, donde hay sitio de sobra para mantenerlas grandes.
   &__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

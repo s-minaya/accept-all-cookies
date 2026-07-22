@@ -8,7 +8,7 @@ Convierte la pantalla placeholder de la landing en la entrada real del juego, co
 
 - **Fondo**: la imagen de Sofía a pantalla completa, pixel nítido — `landing-bg.png` (panorámico) solo en escritorio (≥1025px); por debajo de eso, móvil y tablet comparten `landing-bg-mobile.png` (recorte más vertical, hecho a propósito), porque el panorámico también quedaba mal en tablet.
 - **Botón Empezar**: en el centro-abajo de la pantalla, en las mismas coordenadas en cualquier ancho. **No es un botón XP**: es un botón pixel art *cute*, con el texto y un **corazón pixel** al lado. Nuevo componente del sistema de diseño (`CuteButton`). Su texto se traduce con normalidad ("Empezar" / "Start") — la regla de no traducir solo aplica a los botones del falso sistema operativo (`game.*`), y este es interfaz propia del juego.
-- **Esquina inferior derecha** (escritorio y tablet) / **arriba centrado** (móvil, ≤480px): cuatro botones pequeños, en fila y **solo icono** (sin texto visible; el nombre de cada uno vive como `aria-label`) — **Personaje**, **Ranking**, **Información** y **Configuración**, con los iconos de Sofía (`character-selection.png`, `ranking.png`, `info.png`, `settings.png`). En móvil se reposiciona arriba porque abajo se solapaba con Empezar; en tablet se queda donde está. Estilo propio "retro 8-bit": borde negro, sin esquinas redondeadas, sombra dura sin difuminar — un tercer lenguaje visual además del XP y el *cute*. Cada uno abre una ventana XP modal sobre el fondo, con su X para cerrar (aquí la X solo cierra la ventana: no estamos en un nivel).
+- **Esquina inferior derecha** (escritorio y tablet, en fila) / **centro derecha, en columna** (móvil, ≤480px): cuatro botones pequeños, **solo icono** (sin texto visible; el nombre de cada uno vive como `aria-label`) — **Personaje**, **Ranking**, **Información** y **Configuración**, con los iconos de Sofía (`character-selection.png`, `ranking.png`, `info.png`, `settings.png`), construidos sobre el componente reutilizable `IconButton` (también usado por el botón "Volver atrás" de la selección). Estilo propio "retro 8-bit": borde negro, sin esquinas redondeadas, sombra dura sin difuminar — un tercer lenguaje visual además del XP y el *cute*. Cada uno abre una ventana XP modal sobre el fondo, con su X para cerrar (aquí la X solo cierra la ventana: no estamos en un nivel).
 
 ### Flujo principal
 
@@ -35,15 +35,16 @@ Pulsar **Empezar** inicia la partida con el jugador actualmente seleccionado y l
 
 ### Ventana Información
 
-- La guía del juego (GDD §1.3), en ES/EN: objetivo, reglas generales (contador de 100 s, el botón X en los niveles provoca derrota, perder reinicia el progreso, el ranking es por nombre de usuario) y controles básicos.
+- La guía del juego (GDD §1.3), en ES/EN, en tono de reto: el objetivo (aceptar todas las categorías de cookies en los 12 niveles, "the interface disagrees"), las reglas (contador de 100 s que nunca se detiene, perder una vez reinicia al Nivel 1, la mejor puntuación se guarda por nombre de usuario) y un cierre ("Good luck... you'll need it.").
 - **Sin spoilers**: describe *qué hace* el juego, nunca *cómo se gana* un nivel ni sus mecánicas ocultas.
 - Scroll vertical interno si el texto no cabe.
 
 ### Ventana Configuración
 
 - Idioma ES/EN: el cambio se aplica al instante en todo lo visible.
-- Volumen: slider XP que afecta **solo a la música de fondo** (los sonidos positivo/negativo suenan siempre a volumen máximo, no dependen de este slider — decisión de Sofía el 2026-07-20); al soltar el slider suena el sonido positivo como referencia.
+- Volumen: slider XP que afecta **solo a la música de fondo** (los sonidos positivo/negativo suenan siempre a volumen máximo, no dependen de este slider); al soltar el slider suena el sonido positivo como referencia.
 - Música: interruptor que la detiene y la reanuda.
+- Efectos: interruptor independiente del de música, justo debajo, que silencia/reactiva los sonidos positivo y negativo. Ninguno de los dos interruptores afecta al otro. Ambos alineados a la izquierda.
 
 ## Por qué
 
@@ -53,7 +54,7 @@ Es la cara del juego y la primera pantalla real sobre el shell de la 002: valida
 
 ### Estructura
 - [x] El fondo se ve a pantalla completa, pixel nítido, sin deformaciones raras en los 5 anchos de referencia; por debajo de 1025px (móvil y tablet) se usa `landing-bg-mobile.png` en vez del panorámico, que queda solo para escritorio. (Verificado con Playwright en 375/480/768/1280/1920px.)
-- [x] El botón Empezar queda centrado-abajo en cualquier ancho. Los cuatro botones (en fila, solo icono) son accesibles y ≥ 44 px en móvil; en escritorio y tablet están en la esquina inferior derecha, en móvil (≤480px) arriba centrados para no solaparse con Empezar; nunca se apilan ni cambian de fila/columna.
+- [x] El botón Empezar queda centrado-abajo en cualquier ancho. Los cuatro botones (solo icono) son accesibles y ≥ 44 px en móvil; en escritorio y tablet están en fila, esquina inferior derecha; en móvil (≤480px) se apilan en columna, centrados verticalmente en el borde derecho.
 - [x] Cada botón de la esquina abre su ventana XP modal y la X la cierra volviendo a la landing; solo hay una pantalla del juego montada en todo momento.
 
 ### Flujo principal
@@ -73,11 +74,12 @@ Es la cara del juego y la primera pantalla real sobre el shell de la 002: valida
 
 ### Información
 - [x] La guía existe en ambos idiomas, con scroll si no cabe, y no revela ninguna mecánica oculta de niveles.
-- [x] ✋ Textos aprobados por Sofía en ES y EN. — Aprobados tal cual el 2026-07-20.
+- [x] ✋ Textos aprobados por Sofía en ES y EN.
 
 ### Configuración
 - [x] Cambiar el idioma actualiza todos los textos visibles al instante, incluido el botón Empezar.
-- [x] El volumen afecta de inmediato a la música (nivel aplicado en cada arrastre) y no a los efectos, que suenan siempre a volumen máximo; el sonido positivo de referencia solo suena al soltar, no en cada tick. El interruptor de música detiene y reanuda el loop; los tres ajustes sobreviven a recargar. (Decisión final de Sofía el 2026-07-20 — la primera versión de este criterio decía lo contrario y luego se corrigió dos veces; ver historial en `003-plan.md`.)
+- [x] El volumen afecta de inmediato a la música (nivel aplicado en cada arrastre) y no a los efectos, que suenan siempre a volumen máximo; el sonido positivo de referencia solo suena al soltar, no en cada tick. El interruptor de música detiene y reanuda el loop; los cuatro ajustes sobreviven a recargar.
+- [x] El interruptor de Efectos, justo debajo del de Música, silencia/reactiva positivo y negativo independientemente de la música. Ambos interruptores alineados a la izquierda.
 
 ### Calidad
 - [x] Todos los textos nuevos en ambos diccionarios bajo `landing.*`; claves `game.*` intactas; los nombres por defecto NO están en los diccionarios (son datos).

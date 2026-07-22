@@ -19,13 +19,13 @@ function initialScreen(): Screen {
 }
 
 /**
- * Screen router for the whole game, by internal state — never the URL
- * (AGENTS.md: no server routes on GitHub Pages, no level-skipping via URL).
- * Renders exactly one screen at a time.
+ * Enrutador de pantallas de todo el juego, por estado interno — nunca por
+ * la URL (AGENTS.md: sin rutas de servidor en GitHub Pages, sin saltarse
+ * niveles por URL). Monta exactamente una pantalla a la vez.
  *
- * The initial screen is derived from `runStore` (persisted) so a reload
- * resumes the run in place instead of bouncing back to the landing —
- * feedback from Sofía, see 002-plan.md "Decisiones".
+ * La pantalla inicial se deriva de `runStore` (persistido) para que
+ * recargar la página retome la partida donde estaba en vez de volver a la
+ * landing — ver 002-plan.md "Decisiones".
  */
 export function AppShell() {
   const [screen, setScreen] = useState<Screen>(initialScreen)
@@ -50,9 +50,10 @@ export function AppShell() {
 
   switch (screen) {
     case 'landing':
-      // No credits access from here on purpose (GDD §1.1 / 003-spec.md): the real
-      // path in is Level 12's Level Complete screen (feature 016). `credits` stays
-      // a valid Screen/case for that future wiring.
+      // Sin acceso a créditos desde aquí a propósito (GDD §1.1 / 003-spec.md):
+      // el camino real es la pantalla de Level Complete del Nivel 12
+      // (feature 016). `credits` se queda como Screen/case válido para esa
+      // conexión futura.
       return <LandingScreen onStart={() => setScreen('select')} />
 
     case 'select':
@@ -68,8 +69,9 @@ export function AppShell() {
       )
 
     case 'level':
-      // Levels 1-12 come from the real registry once features 005-016 populate it;
-      // the test level fills in until then (see 002-plan.md "Decisiones").
+      // Los niveles 1-12 vienen del registro real en cuanto las features
+      // 005-016 lo completen; hasta entonces, el nivel de prueba ocupa su
+      // lugar (ver 002-plan.md "Decisiones").
       return (
         <LevelHost
           level={levelRegistry[currentLevel] ?? testLevelDefinition}

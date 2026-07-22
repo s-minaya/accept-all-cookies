@@ -8,15 +8,15 @@ export interface RankingEntry {
   username: string
   character: CharacterId
   maxLevel: LevelId
-  /** ISO date string (yyyy-mm-dd), the day the record was set. */
+  /** Fecha en formato ISO (aaaa-mm-dd), el día en que se estableció el récord. */
   date: string
 }
 
 export interface RankingState {
   entries: RankingEntry[]
   /**
-   * Records `maxLevel` for `username` only if it beats their own previous
-   * record (or they have none yet). Never removed by a Game Over.
+   * Guarda `maxLevel` para `username` solo si supera su propio récord
+   * anterior (o todavía no tiene ninguno). Un Game Over nunca lo borra.
    */
   recordIfImproved: (result: {
     username: string

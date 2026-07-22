@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 
-// jsdom doesn't implement media playback; stub it so AudioManager's
-// `.play()`/`.pause()` calls don't spam "Not implemented" errors in tests.
+// jsdom no implementa la reproducción de medios; se simula para que las
+// llamadas a `.play()`/`.pause()` de AudioManager no llenen los tests de
+// errores "Not implemented".
 HTMLMediaElement.prototype.play = () => Promise.resolve()
 HTMLMediaElement.prototype.pause = () => {}

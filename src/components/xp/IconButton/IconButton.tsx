@@ -6,16 +6,16 @@ export interface IconButtonProps extends Omit<
   'type' | 'aria-label'
 > {
   icon: string
-  /** Always used as the accessible name; also shown as a visible caption when `showLabel` is set. */
+  /** Se usa siempre como nombre accesible; también se muestra como texto visible cuando `showLabel` está activo. */
   label: string
   showLabel?: boolean
 }
 
 /**
- * Retro 8-bit icon button (GDD §1.1 / 003-plan.md "Decisiones"): pure-black
- * hard-shadow chrome, a third visual language besides the XP system and the
- * cute button. Reused by the landing's `CornerMenu` and the select screen's
- * back button.
+ * Botón de icono retro 8-bit (GDD §1.1 / 003-plan.md "Decisiones"): borde
+ * negro puro y sombra dura, un tercer lenguaje visual además del sistema XP
+ * y el botón *cute*. Reutilizado por el `CornerMenu` de la landing y el
+ * botón de volver de la pantalla de selección.
  */
 export function IconButton({ icon, label, showLabel, className, ...rest }: IconButtonProps) {
   const classes = [styles['icon-button'], className].filter(Boolean).join(' ')

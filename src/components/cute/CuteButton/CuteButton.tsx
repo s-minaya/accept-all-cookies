@@ -7,9 +7,9 @@ export interface CuteButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 /**
- * The landing's "Empezar" button: cute pixel art, deliberately not part of
- * the XP system (GDD §1.1, 003-spec.md) — a different visual language from
- * `components/xp/`, never reused for in-level UI.
+ * El botón "Empezar" de la landing: pixel art *cute*, deliberadamente fuera
+ * del sistema XP (GDD §1.1, 003-spec.md) — un lenguaje visual distinto de
+ * `components/xp/`, nunca reutilizado dentro de un nivel.
  */
 export function CuteButton({ children, className, ...rest }: CuteButtonProps) {
   const classes = [styles['cute-button'], className].filter(Boolean).join(' ')

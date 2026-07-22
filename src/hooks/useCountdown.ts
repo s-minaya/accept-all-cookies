@@ -15,7 +15,7 @@ export interface UseCountdownResult {
 
 const TICK_MS = 1000
 
-/** The only timer mechanism allowed in the project (see AGENTS.md). */
+/** El único mecanismo de temporizador permitido en el proyecto (ver AGENTS.md). */
 export function useCountdown(
   initialSeconds: number,
   { autoStart = true, onComplete }: UseCountdownOptions = {},

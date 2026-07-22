@@ -1,9 +1,9 @@
 import type { LevelDefinition, LevelId } from './types'
 
 /**
- * The real game's 12 levels, populated one by one in features 005-016.
- * Deliberately empty for now: `AppShell` falls back to the test level
- * (see `src/levels/_test/`) for its placeholder level screen until
- * feature 005 registers level 1 here.
+ * Los 12 niveles reales del juego, que se van añadiendo en las features
+ * 005-016. Deliberadamente vacío por ahora: `AppShell` recurre al nivel de
+ * prueba (ver `src/levels/_test/`) como pantalla de nivel provisional hasta
+ * que la feature 005 registre aquí el nivel 1.
  */
 export const levelRegistry: Partial<Record<LevelId, LevelDefinition>> = {}

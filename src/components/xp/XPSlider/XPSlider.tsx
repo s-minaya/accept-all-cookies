@@ -5,14 +5,14 @@ export interface XPSliderProps {
   max: number
   step?: number
   value: number
-  /** Fires on every drag tick (live), so audio/volume can update immediately. */
+  /** Se dispara en cada tick del arrastre (en vivo), para que el audio/volumen se actualice al instante. */
   onChange: (value: number) => void
-  /** Fires when the user releases the slider (pointer or key), not on every tick. */
+  /** Se dispara cuando el usuario suelta el slider (puntero o tecla), no en cada tick. */
   onCommit?: () => void
   ariaLabel?: string
 }
 
-/** Native `<input type="range">`, re-styled: keeps built-in accessibility and touch handling. */
+/** `<input type="range">` nativo, re-estilizado: conserva la accesibilidad y el manejo táctil de serie. */
 export function XPSlider({
   min,
   max,

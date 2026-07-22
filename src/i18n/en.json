@@ -41,15 +41,16 @@
     },
     "info": {
       "title": "Information",
-      "objective": "The goal is simple: get every cookie category accepted across all 12 levels. The catch is the interface will do everything it can to stop you.",
-      "rules": "Every level lasts 100 seconds and the counter never stops. The X in the corner closes the window and counts as a loss, in any level, at any time. Losing sends your run back to Level 1 — but your ranking record, saved under your username, is never erased.",
-      "controls": "Everything works the same with a mouse or a finger: tap or click wherever you need to interact. Nothing else to learn."
+      "objective": "The goal is simple: accept every cookie category across all 12 levels. The only problem? The interface disagrees.",
+      "rules": "Each level lasts 100 seconds, and the clock never stops. Lose once, and you'll be sent back to Level 1. Don't worry though—your best score is always saved under your username.",
+      "closing": "Good luck... you'll need it."
     },
     "settings": {
       "title": "Settings",
       "language": "Language",
       "volume": "Volume",
-      "music": "Music"
+      "music": "Music",
+      "soundEffects": "Sound effects"
     }
   },
   "game": {

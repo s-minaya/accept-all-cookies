@@ -16,9 +16,11 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
   const language = useSettingsStore((state) => state.language)
   const volume = useSettingsStore((state) => state.volume)
   const musicOn = useSettingsStore((state) => state.musicOn)
+  const soundEffectsOn = useSettingsStore((state) => state.soundEffectsOn)
   const setLanguage = useSettingsStore((state) => state.setLanguage)
   const setVolume = useSettingsStore((state) => state.setVolume)
   const setMusicOn = useSettingsStore((state) => state.setMusicOn)
+  const setSoundEffectsOn = useSettingsStore((state) => state.setSoundEffectsOn)
   const { playPositive } = useAudio()
 
   return (
@@ -56,8 +58,26 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
         />
       </div>
 
-      <div className={styles['settings-modal__section']}>
+      <div
+        className={[
+          styles['settings-modal__section'],
+          styles['settings-modal__section--toggle'],
+        ].join(' ')}
+      >
         <XPToggle checked={musicOn} onChange={setMusicOn} label={t('landing.settings.music')} />
+      </div>
+
+      <div
+        className={[
+          styles['settings-modal__section'],
+          styles['settings-modal__section--toggle'],
+        ].join(' ')}
+      >
+        <XPToggle
+          checked={soundEffectsOn}
+          onChange={setSoundEffectsOn}
+          label={t('landing.settings.soundEffects')}
+        />
       </div>
     </XPDialog>
   )

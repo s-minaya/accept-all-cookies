@@ -41,11 +41,11 @@
 
 ## Modelo de datos / dominio
 
-- `RankingEntry { username, character (0-3), maxLevel, date }` — récord **histórico** por usuario. Nunca se borra con un Game Over. Se actualiza solo si se supera el récord propio.
+- `RankingEntry { username, character (0-3), maxLevel, date, finished? }` — récord **histórico** por usuario. Nunca se borra con un Game Over. Se actualiza solo si se supera el récord propio.
 - `RunState { completedLevels: LevelId[], currentLevel: LevelId, activeLevelTimeLeft: number | null }` — progreso de la partida en curso, **persistido en localStorage** igual que ajustes y ranking (`aac.v1.run`): recargar la página no hace perder la partida ni el contador del nivel activo, el juego retoma donde se dejó. Se reinicia por completo (incluido `activeLevelTimeLeft`) con cualquier Game Over.
 - `Settings { language: 'es' | 'en', volume: 0..1, musicOn: boolean }` — persistido en localStorage.
 - `LevelId = 1..12` — la progresión es estrictamente lineal; `currentLevel` siempre es el primer nivel no completado.
-- Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)` y el tiempo restante; **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
+- Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)` y `paused`(el shell congela el nivel durante veredictos y modales) y el tiempo restante; **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
 - Invariante del nivel 6: el tablero de `nivel6-tablero.json` solo se modifica pasando el validador.
 
 ## Convenciones
@@ -56,10 +56,10 @@
 - **Ningún color hardcodeado**: solo variables CSS de `tokens.css`.
 - Timers: un único hook `useCountdown` compartido; prohibido sembrar `setInterval` sueltos por los niveles (fuente clásica de fugas al desmontar).
 - Todo efecto (física, animaciones, audio, listeners) se limpia en el cleanup del efecto: al desmontar un nivel no debe quedar nada vivo.
-- Idioma del código y los comentarios: inglés. Idioma de la spec: español. Idioma de los mensajes de commit: inglés, siempre.
+- Idioma del código (identificadores, nombres de archivo): inglés. Idioma de los comentarios: **español**. Idioma de la spec: español. Idioma de los mensajes de commit: inglés, siempre.
 - **Componentes reutilizables primero**: nada de duplicar ventanas, botones, diálogos o contadores dentro de un nivel. Si un nivel necesita una variante, se extiende el componente del sistema de diseño (`src/components/xp/`) con props, no se copia. Regla práctica: si un patrón visual aparece en 2+ sitios, se extrae a `xp/`.
 - Los niveles consumen la entrada a través de un hook común (`usePointer`) que normaliza ratón y táctil; prohibido escuchar eventos de ratón directamente en los niveles.
-- **CSS Modules en Sass, con BEM**: cada componente tiene su `NombreComponente.module.scss`. Una clase raíz por bloque (`.block`), elementos como `.block__element`, variantes como `.block--modifier` (o `.block__element--modifier`). Nombres de bloque/elemento/modificador siempre en inglés, descriptivos y en kebab-case (`corner-menu`, no `cm` ni `cornerMenu`) — como casi todos los bloques son de varias palabras, en el `.tsx` se accede **siempre con notación de corchete** (`styles['corner-menu__icon-button--active']`), nunca de punto, para no mezclar los dos estilos según si el nombre tiene guion o no. Aprovechar el anidado de Sass (`&__x`, `&--y`) para no repetir el nombre del bloque. Decisión de Sofía (feature 003, ampliación posterior).
+- **CSS Modules en Sass, con BEM**: cada componente tiene su `NombreComponente.module.scss`. Una clase raíz por bloque (`.block`), elementos como `.block__element`, variantes como `.block--modifier` (o `.block__element--modifier`). Nombres de bloque/elemento/modificador siempre en inglés, descriptivos y en kebab-case (`corner-menu`, no `cm` ni `cornerMenu`) — como casi todos los bloques son de varias palabras, en el `.tsx` se accede **siempre con notación de corchete** (`styles['corner-menu__icon-button--active']`), nunca de punto, para no mezclar los dos estilos según si el nombre tiene guion o no. Aprovechar el anidado de Sass (`&__x`, `&--y`) para no repetir el nombre del bloque.
 - **Evitar estilos en línea (`style={{...}}`) salvo que sean genuinamente necesarios**: un valor solo justifica ir en línea si se calcula en tiempo de ejecución y no puede expresarse como una clase (p. ej. un `scale()` de un `ResizeObserver`, o la URL de una imagen importada desde JS que un `.scss` no puede referenciar). En esos casos, el patrón preferido es fijar únicamente una custom property CSS por estilo en línea (`style={{ '--my-var': valor }}`) y consumirla desde la clase Sass (`.block { transform: scale(var(--my-var)); }`), no escribir la propiedad final entera en línea. Cualquier valor conocido en build-time (colores, anchos fijos, breakpoints) va en la clase, nunca en línea.
 
 ## Estilo visual

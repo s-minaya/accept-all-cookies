@@ -2,10 +2,11 @@ import { AppShell } from './app/AppShell'
 import { Playground } from './playground/Playground'
 
 /**
- * `?playground` is a dev/QA escape hatch, not game routing: it's read once
- * at boot to pick a root component, never used to navigate screens or
- * levels. Keeps the design-system Playground reachable in production for
- * manual checks (audio, mobile QA) until feature 017 retires it.
+ * `?playground` es un escape de desarrollo/QA, no enrutado del juego: se lee
+ * una sola vez al arrancar para elegir el componente raíz, nunca se usa para
+ * navegar entre pantallas o niveles. Mantiene la Playground del sistema de
+ * diseño accesible en producción para comprobaciones manuales (audio, QA en
+ * móvil) hasta que la feature 017 la retire.
  */
 function App() {
   const isPlayground = new URLSearchParams(window.location.search).has('playground')

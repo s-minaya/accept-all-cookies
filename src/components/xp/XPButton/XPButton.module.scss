@@ -34,7 +34,7 @@
     text-align: center;
   }
 
-  // Agree / Disagree: rounded pill with concentric borders (GDD §3.1)
+  // Agree / Disagree: píldora redondeada con bordes concéntricos (GDD §3.1)
   &--agree,
   &--disagree {
     width: calc(var(--xp-button-height) * 2.3);
@@ -76,9 +76,10 @@
     text-shadow: 0 2px 2px rgb(0 0 0 / 35%);
   }
 
-  // Neutral system button (GDD §3.2): "aprox. la mitad del ancho de Agree" is
-  // a baseline, not a hard cap — real usages range from "OK" to "Return to
-  // Level Selection", so it grows with its label instead of wrapping text.
+  // Botón neutro del sistema (GDD §3.2): "aprox. la mitad del ancho de
+  // Agree" es un punto de partida, no un tope fijo — los usos reales van
+  // desde "OK" hasta textos mucho más largos, así que crece con su etiqueta
+  // en vez de partir el texto en varias líneas.
   &--neutral {
     min-width: calc(var(--xp-button-height) * 1.15);
     padding: 0 1rem;

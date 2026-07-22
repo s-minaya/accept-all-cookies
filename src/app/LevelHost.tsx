@@ -8,17 +8,17 @@ export type LevelExitResult = { outcome: 'win' } | { outcome: 'lose'; reason: Lo
 
 export interface LevelHostProps {
   level: LevelDefinition
-  /** Resume value for the countdown (e.g. after a reload); defaults to a fresh 100s. */
+  /** Valor de reanudación del contador (p. ej. tras una recarga); por defecto arranca en 100s. */
   initialSeconds?: number
-  /** Called on every countdown tick, so the shell can persist the time left. */
+  /** Se llama en cada tick del contador, para que el shell persista el tiempo restante. */
   onTick?: (secondsLeft: number) => void
   onExit: (result: LevelExitResult) => void
 }
 
 /**
- * Owns everything the level contract says a level must never touch: the
- * countdown, the X (close) button, and lazy-loading the level's chunk. The
- * level only ever sees `onWin` / `onLose` / `timeLeft`.
+ * Gestiona todo lo que el contrato de nivel dice que un nivel nunca debe
+ * tocar: el contador, el botón X (cerrar) y la carga perezosa del chunk del
+ * nivel. El nivel solo ve `onWin` / `onLose` / `timeLeft`.
  */
 export function LevelHost({
   level,

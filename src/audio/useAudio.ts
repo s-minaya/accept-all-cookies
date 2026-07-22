@@ -8,14 +8,16 @@ export interface UseAudioResult {
 }
 
 /**
- * Keeps AudioManager in sync with settingsStore and unlocks playback on the
- * first pointerdown anywhere in the app (autoplay policies). Mount once near
- * the app root; safe to mount again (e.g. in the Playground) since
- * AudioManager itself is a singleton and `unlock()` is idempotent.
+ * Mantiene AudioManager sincronizado con settingsStore y desbloquea la
+ * reproducción en el primer pointerdown de toda la app (políticas de
+ * autoplay). Se monta una vez cerca de la raíz; montarlo de nuevo (p. ej. en
+ * la Playground) es seguro porque AudioManager es un singleton y
+ * `unlock()` es idempotente.
  */
 export function useAudio(): UseAudioResult {
   const volume = useSettingsStore((state) => state.volume)
   const musicOn = useSettingsStore((state) => state.musicOn)
+  const soundEffectsOn = useSettingsStore((state) => state.soundEffectsOn)
 
   useEffect(() => {
     audioManager.setVolume(volume)
@@ -25,6 +27,10 @@ export function useAudio(): UseAudioResult {
     if (musicOn) audioManager.startMusic()
     else audioManager.stopMusic()
   }, [musicOn])
+
+  useEffect(() => {
+    audioManager.setSoundEffectsOn(soundEffectsOn)
+  }, [soundEffectsOn])
 
   useEffect(() => {
     const unlock = () => {

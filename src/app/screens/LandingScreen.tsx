@@ -14,7 +14,7 @@ export interface LandingScreenProps {
   onStart: () => void
 }
 
-/** The real landing (GDD §1.1 / 003-spec.md): fullscreen background, Empezar, and the 4 corner modals. */
+/** La landing real (GDD §1.1 / 003-spec.md): fondo a pantalla completa, Empezar y las 4 modales de la esquina. */
 export function LandingScreen({ onStart }: LandingScreenProps) {
   const t = useT()
   const [openModal, setOpenModal] = useState<LandingModal | null>(null)

@@ -7,7 +7,7 @@ import type { CharacterId } from '../state/rankingStore'
 export interface Character {
   id: CharacterId
   sprite: string
-  /** Game data, not i18n: default names are proper nouns and never translated (GDD §1.1). */
+  /** Datos del juego, no i18n: los nombres por defecto son nombres propios y nunca se traducen (GDD §1.1). */
   defaultName: string
 }
 
@@ -22,7 +22,7 @@ export function getCharacter(id: CharacterId): Character {
   return characters[id]
 }
 
-/** `username: null` means the player never confirmed one — fall back to the character's default. */
+/** `username: null` significa que el jugador nunca confirmó uno — se usa el nombre por defecto del personaje. */
 export function resolvePlayerName(character: CharacterId, username: string | null): string {
   return username ?? getCharacter(character).defaultName
 }

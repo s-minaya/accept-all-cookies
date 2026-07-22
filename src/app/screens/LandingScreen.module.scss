@@ -7,10 +7,11 @@
   image-rendering: pixelated;
   overflow: hidden;
 
-  // landing-bg-mobile.png is a taller crop of the same scene, made for narrow
-  // screens (Sofía, 2026-07-20). The panoramic desktop one reads badly on
-  // tablet too, so mobile+tablet share it — cutoff mirrors --breakpoint-md's
-  // upper bound (1024px, tokens.scss); only lg/xl (desktop) keep the panorama.
+  // landing-bg-mobile.png es un recorte más vertical de la misma escena,
+  // pensado para pantallas estrechas. El panorámico de escritorio también
+  // queda mal en tablet, así que móvil y tablet comparten el recorte
+  // vertical — el corte coincide con el límite superior de --breakpoint-md
+  // (1024px, tokens.scss); solo lg/xl (escritorio) usan el panorámico.
   @media (max-width: 1024px) {
     background-image: var(--bg-mobile);
   }
@@ -27,14 +28,13 @@
     right: 1rem;
     bottom: 1rem;
 
-    // Mobile only (Sofía, 2026-07-20): the corner menu was overlapping Empezar
-    // down there, so it moves to the top, centered. Tablet/desktop unchanged.
+    // Solo en móvil: centro derecha, apiladas en columna, en vez de la fila
+    // en la esquina inferior derecha que usan tablet/escritorio.
     @media (max-width: 480px) {
-      top: 1rem;
-      right: auto;
+      top: 50%;
+      right: 1rem;
       bottom: auto;
-      left: 50%;
-      transform: translateX(-50%);
+      transform: translateY(-50%);
     }
   }
 }

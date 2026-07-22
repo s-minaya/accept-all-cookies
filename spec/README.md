@@ -36,4 +36,5 @@ spec/
 
 - **La constitución manda**: si una feature choca con `mission.md` o `tech-stack.md`, se replantea la feature.
 - **El GDD es la fuente de verdad del diseño**: cualquier discrepancia entre código y GDD se resuelve a favor del GDD, o se actualiza el GDD explícitamente en el mismo cambio.
+- **Las specs describen el estado actual, no su historia.** Una decisión de diseño es definitiva en cuanto se toma: se documenta directamente, sin rastro de versiones anteriores, fechas de cambio ni "esto sustituye a lo de antes". Si una decisión cambia, se reescribe la spec como si siempre hubiera sido así — el historial ya vive en `git log`.
 - Para OpenCode: el `AGENTS.md` de la raíz del repo debe apuntar aquí y resumir los límites duros de `tech-stack.md`.

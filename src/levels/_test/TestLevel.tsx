@@ -6,13 +6,15 @@ import type { LevelProps } from '../types'
 import styles from './TestLevel.module.scss'
 
 /**
- * Trivial level used only to exercise the LevelComponent contract end to
- * end (win/lose/timeout, lazy chunk, cleanup on unmount). Not one of the
- * 12 real levels: never added to `levels/registry.ts` (AGENTS.md).
+ * Nivel trivial que solo sirve para probar el contrato de LevelComponent de
+ * punta a punta (ganar/perder/timeout, chunk perezoso, limpieza al
+ * desmontar). No es uno de los 12 niveles reales: nunca se añade a
+ * `levels/registry.ts` (AGENTS.md).
  *
- * Runs its own countdown and pointer listener — independent from
- * LevelHost's — so the "no leaked timers/listeners on unmount" test has
- * something real to check beyond LevelHost's own cleanup.
+ * Tiene su propio contador y listener de puntero — independientes de los de
+ * LevelHost — para que el test de "sin timers/listeners filtrados al
+ * desmontar" tenga algo real que comprobar además de la propia limpieza de
+ * LevelHost.
  */
 export default function TestLevel({ onWin, onLose }: LevelProps) {
   const pointerBoxRef = useRef<HTMLDivElement>(null)

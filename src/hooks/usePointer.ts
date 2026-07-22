@@ -8,9 +8,9 @@ import {
 } from './pointerLogic'
 
 export interface UsePointerOptions {
-  /** Distance in px past which a gesture counts as a drag instead of a tap. */
+  /** Distancia en px a partir de la cual un gesto cuenta como arrastre en vez de toque. */
   dragThreshold?: number
-  /** How long the pointer must rest before `onStill` fires. Omit to disable stillness tracking. */
+  /** Cuánto debe permanecer quieto el puntero antes de que se dispare `onStill`. Omitir para desactivar esta detección. */
   stillnessMs?: number
   onTap?: (point: Point) => void
   onDragStart?: (point: Point) => void
@@ -30,8 +30,9 @@ function toLocalPoint(event: PointerEvent, element: HTMLElement): Point {
 }
 
 /**
- * Unified mouse/touch input via Pointer Events. Levels must consume input
- * through this hook instead of listening to mouse events directly (AGENTS.md).
+ * Entrada unificada de ratón/táctil vía Pointer Events. Los niveles deben
+ * consumir la entrada a través de este hook en vez de escuchar eventos de
+ * ratón directamente (AGENTS.md).
  */
 export function usePointer(
   ref: RefObject<HTMLElement | null>,

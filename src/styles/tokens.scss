@@ -1,82 +1,83 @@
 /**
- * Design tokens for Accept All Cookies.
- * Every color used anywhere in the project must come from this file
- * (see AGENTS.md: "ningún color hardcodeado").
- * Source: spec/assets/accept-all-cookies-gdd.md (GDD) and
+ * Tokens de diseño de Accept All Cookies.
+ * Todo color usado en el proyecto debe venir de este archivo
+ * (ver AGENTS.md: "ningún color hardcodeado").
+ * Fuente: spec/assets/accept-all-cookies-gdd.md (GDD) y
  * spec/constitution/tech-stack.md §"Estilo visual".
  *
- * Plain CSS custom properties on purpose, not Sass variables: components
- * read them at runtime (e.g. LandingScreen's per-device background,
- * GameArea's scale), which Sass variables (compile-time only) can't do.
+ * Son custom properties CSS normales a propósito, no variables de Sass:
+ * algunos componentes las leen en tiempo de ejecución (p. ej. el fondo por
+ * dispositivo de LandingScreen, la escala de GameArea), algo que las
+ * variables de Sass (solo en tiempo de compilación) no pueden hacer.
  */
 
 :root {
-  /* Title bar */
+  /* Barra de título */
   --color-title-gradient-start: #2451e0;
   --color-title-gradient-end: #026de9;
 
-  /* Window / game area */
+  /* Ventana / área de juego */
   --color-beige: #efe7dc;
   --color-frame-blue: #153859;
 
-  /* Agree / Disagree buttons */
+  /* Botones Agree / Disagree */
   --color-agree-bg: #cdf5ce;
   --color-agree-border: #7cbf89;
   --color-disagree-bg: #fdd2d3;
   --color-disagree-border: #c7858a;
   --color-button-border: #345779;
 
-  /* Neutral system button (Check / Stop / OK / Next / ???) */
+  /* Botón neutro del sistema (Check / Stop / OK / Next / ???) */
   --color-neutral-bg-start: #ffffff;
   --color-neutral-bg-end: #dfe0d8;
   --color-neutral-border-outer: #3e587f;
   --color-neutral-border-inner: #96a6d9;
 
-  /* Close (X) button */
+  /* Botón de cerrar (X) */
   --color-close-button: #e84443;
 
-  /* Level 4 slider guide */
+  /* Guía del slider del Nivel 4 */
   --color-guide-blue: #153859;
   --color-guide-beige: #b49e85;
 
-  /* System neutrals not pinned to a specific GDD hex ("borde gris") */
+  /* Neutros del sistema sin un hex concreto del GDD ("borde gris") */
   --color-white: #ffffff;
   --color-system-gray: #808080;
   --color-text-dark: #1a1a1a;
 
-  /* Overlay behind XPDialog, derived from frame blue (no new raw color) */
+  /* Superposición detrás de XPDialog, derivada del azul marco (sin color nuevo) */
   --color-overlay: color-mix(in srgb, var(--color-frame-blue) 55%, transparent);
 
   /*
-   * Cute button ("Empezar" on the landing, GDD §1.1) — separate visual
-   * language from the XP system on purpose (003-plan.md "Decisiones").
-   * Approved by Sofía at the 003 checkpoint (2026-07-20).
+   * Botón cute ("Empezar" en la landing, GDD §1.1) — lenguaje visual
+   * distinto del sistema XP a propósito (003-plan.md "Decisiones").
    */
   --color-cute-bg: #ff96ab;
   --color-cute-border: #7a2942;
   --color-cute-text: #ffffff;
 
-  /* Form controls (XPTextInput / XPSlider / XPToggle) — reuse the neutral system palette. */
+  /* Controles de formulario (XPTextInput / XPSlider / XPToggle) — reutilizan la paleta neutra del sistema. */
   --color-input-border: var(--color-neutral-border-outer);
   --color-input-bg: var(--color-white);
 
   /*
-   * Landing corner menu (Personaje/Ranking/Información/Configuración,
-   * 003-plan.md): icon-only, deliberately pure-black "retro 8-bit" border
-   * per Sofía — distinct from the softer XP navy borders on purpose.
+   * Menú de esquina de la landing (Personaje/Ranking/Información/
+   * Configuración, 003-plan.md): solo icono, con borde negro puro
+   * "retro 8-bit" a propósito — distinto de los bordes azul marino más
+   * suaves del sistema XP.
    */
   --color-8bit-border: #000000;
   --color-8bit-bg: #ffffff;
   --color-8bit-bg-active: #cfcfcf;
 
-  /* Responsive breakpoints (mirrored in src/styles/breakpoints.ts) */
+  /* Breakpoints responsive (reflejados en src/styles/breakpoints.ts) */
   --breakpoint-xs: 375px;
   --breakpoint-sm: 376px;
   --breakpoint-md: 481px;
   --breakpoint-lg: 1025px;
   --breakpoint-xl: 1441px;
 
-  /* Logical canvas every level is designed on, scaled by GameArea */
+  /* Lienzo lógico sobre el que se diseña cada nivel, escalado por GameArea */
   --logical-canvas-width: 640px;
   --logical-canvas-height: 360px;
 }

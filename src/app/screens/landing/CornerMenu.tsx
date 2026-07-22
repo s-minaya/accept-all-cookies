@@ -19,7 +19,7 @@ const ITEMS: { modal: LandingModal; icon: string; labelKey: string }[] = [
   { modal: 'settings', icon: settingsIcon, labelKey: 'landing.corner.settings' },
 ]
 
-/** The landing's 4 corner accesses (GDD §1.1): icon-only, side by side, each opens an XP modal. */
+/** Los 4 accesos de la esquina de la landing (GDD §1.1): solo icono, uno junto a otro, cada uno abre una modal XP. */
 export function CornerMenu({ onOpen }: CornerMenuProps) {
   const t = useT()
 

@@ -1,8 +1,8 @@
 /**
- * The only module in the project allowed to touch `localStorage` (AGENTS.md).
- * Falls back to an in-memory map when localStorage throws (disabled, private
- * mode, quota exceeded) so the game always boots with sane defaults instead
- * of crashing.
+ * El único módulo del proyecto autorizado a tocar `localStorage` (AGENTS.md).
+ * Si localStorage lanza un error (deshabilitado, modo privado, cuota
+ * agotada), recurre a un mapa en memoria, para que el juego siempre arranque
+ * con valores por defecto en vez de romperse.
  */
 
 const memoryFallback = new Map<string, string>()
@@ -39,7 +39,8 @@ export function save<T>(key: string, value: T): void {
       memoryFallback.set(key, serialized)
     }
   } catch {
-    // Storage unavailable or write failed (quota, private mode): ignore,
-    // the in-memory fallback (or next successful write) takes over.
+    // Almacenamiento no disponible o escritura fallida (cuota, modo
+    // privado): se ignora, el respaldo en memoria (o la siguiente
+    // escritura que funcione) toma el relevo.
   }
 }

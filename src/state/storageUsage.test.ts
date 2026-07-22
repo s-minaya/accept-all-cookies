@@ -6,8 +6,9 @@ function listSourceFiles(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name)
     if (entry.isDirectory()) return listSourceFiles(path)
-    // Tests are allowed to poke window.localStorage directly for setup/teardown;
-    // the boundary this guards is application source, not test scaffolding.
+    // Los tests pueden tocar window.localStorage directamente para su
+    // preparación/limpieza; este límite protege el código de la app, no el
+    // andamiaje de los tests.
     return /\.(ts|tsx)$/.test(entry.name) && !entry.name.includes('.test.') ? [path] : []
   })
 }

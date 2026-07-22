@@ -21,7 +21,7 @@ Scaffolding oficial de Vite (plantilla `react-ts`) con calidad desde el minuto u
 ## Decisiones
 
 - **Playground desplegada (no solo en dev)** — es la única forma de probar táctil y responsive en dispositivos reales sin construir nada más; será la página pública hasta que exista el shell del juego. Descartado: playground solo local (dejaba el deploy publicando una página vacía y sin pruebas en móvil real).
-- **Candidatas de fuentes**: UI → una pixel estilo Tahoma/MS Sans (p. ej. "Pixelated MS Sans Serif" o "W95FA"); display → "Press Start 2P" (licencia OFL). ⚠️ **Decisión visual pendiente de Sofía en la playground**: el plan solo fija el criterio (licencia libre + legible en 375 px) y que van autoalojadas, sin CDN.
+- **Fuentes**: UI → **DotGothic16** (pixel, evoca Tahoma/MS Sans); display → **Press Start 2P**. Ambas OFL-1.1, autoalojadas (sin CDN), legibles en 375 px.
 - **`transform: scale()` en GameArea** en lugar de media queries dentro de cada nivel — un único sistema de coordenadas para todas las mecánicas (física, plinko, tablero). Descartado: CSS por breakpoint en cada nivel (multiplicaría por 12 el coste y la fragilidad).
 - **Factor de escala libre** (no solo múltiplos enteros) para aprovechar la pantalla; con `image-rendering: pixelated` el desenfoque es asumible. Reversible: si en QA se ve mal, se cambia a factores enteros tocando solo `GameArea`.
 - **Hover solo bajo `@media (hover: hover)`** — evita el estado hover "pegado" tras un toque en pantallas táctiles.

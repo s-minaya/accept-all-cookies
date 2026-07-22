@@ -8,15 +8,15 @@ const LAST_LEVEL: LevelId = 12
 export interface RunState {
   completedLevels: LevelId[]
   currentLevel: LevelId
-  /** Seconds left on the active level's countdown, or null when not inside a level. Kept in sync every tick so a reload resumes exactly where the player left off. */
+  /** Segundos restantes del contador del nivel activo, o null si no hay ningún nivel en curso. Se sincroniza en cada tick para que recargar la página retome exactamente donde se dejó. */
   activeLevelTimeLeft: number | null
-  /** Marks `levelId` as completed; `currentLevel` becomes the first level not yet completed. */
+  /** Marca `levelId` como completado; `currentLevel` pasa a ser el primer nivel sin completar. */
   completeLevel: (levelId: LevelId) => void
-  /** Wipes the current run back to a fresh start at level 1 (does not touch the ranking). */
+  /** Reinicia la partida actual desde cero en el nivel 1 (no toca el ranking). */
   resetRun: () => void
-  /** Call when entering `currentLevel`: starts its countdown fresh at 100. */
+  /** Se llama al entrar en `currentLevel`: arranca su contador de nuevo en 100. */
   enterLevel: () => void
-  /** Call on every countdown tick while a level is active. */
+  /** Se llama en cada tick del contador mientras hay un nivel activo. */
   updateActiveLevelTime: (timeLeft: number) => void
 }
 
@@ -47,9 +47,9 @@ function persist(get: () => RunState): void {
 }
 
 /**
- * Persisted like settings/ranking (AGENTS.md: reloading must not lose the
- * player's progress, current level, or the level's countdown — feedback
- * from Sofía, see 002-plan.md). Only a Game Over wipes it.
+ * Persistido igual que settings/ranking (AGENTS.md: recargar la página no
+ * debe hacer perder el progreso del jugador, el nivel actual ni el contador
+ * — ver 002-plan.md). Solo un Game Over lo reinicia.
  */
 export const useRunStore = create<RunState>()((set, get) => ({
   ...load(RUN_STORAGE_KEY, DEFAULT_RUN),

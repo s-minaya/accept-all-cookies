@@ -14,7 +14,7 @@ export function InfoModal({ onClose }: InfoModalProps) {
       <div className={styles['info-modal__content']}>
         <p>{t('landing.info.objective')}</p>
         <p>{t('landing.info.rules')}</p>
-        <p>{t('landing.info.controls')}</p>
+        <p>{t('landing.info.closing')}</p>
       </div>
     </XPDialog>
   )

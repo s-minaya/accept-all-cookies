@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import styles from './GameArea.module.scss'
 
-/** Logical canvas size every level is designed on (mirrors tokens.scss). */
+/** Tamaño de lienzo lógico sobre el que se diseña cada nivel (coincide con tokens.scss). */
 export const LOGICAL_WIDTH = 640
 export const LOGICAL_HEIGHT = 360
 

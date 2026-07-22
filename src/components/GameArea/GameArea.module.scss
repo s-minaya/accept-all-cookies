@@ -13,7 +13,7 @@
     flex-shrink: 0;
     width: var(--logical-canvas-width);
     height: var(--logical-canvas-height);
-    // Only the runtime scale is set inline (ResizeObserver-driven, see GameArea.tsx).
+    // Solo la escala en tiempo de ejecución va en línea (viene del ResizeObserver, ver GameArea.tsx).
     transform: scale(var(--game-area-scale, 1));
     transform-origin: center center;
     touch-action: none;

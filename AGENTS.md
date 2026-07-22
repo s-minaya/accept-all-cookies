@@ -38,7 +38,7 @@ Juego web en React + TypeScript, 100% pixel art con estética Windows XP: 12 niv
 - Responsive mobile-first con los 5 breakpoints de tech-stack.md; áreas de juego con resolución lógica fija + escala. Un nivel no está terminado si no se supera con dedo y con ratón.
 - Timers solo con el hook `useCountdown`; prohibidos `setInterval` sueltos.
 - Componentes reutilizables: si un patrón visual aparece en 2+ sitios, vive en `src/components/xp/`.
-- Código y comentarios en inglés; documentación de `spec/` en español. Los mensajes de commit también van siempre en inglés.
+- Código (identificadores, nombres de archivo) en inglés; **comentarios en español**. Documentación de `spec/` en español. Los mensajes de commit siempre en inglés.
 - **Estilos en Sass (`.module.scss`) con BEM**: bloque `.block`, elemento `.block__element`, modificador `.block--modifier`, siempre en inglés y descriptivos (kebab-case). Nada de estilos en línea salvo valores calculados en tiempo de ejecución que no puedan ser una clase — y aun así, solo la custom property CSS va en línea, no la propiedad final (ver tech-stack.md).
 
 ## Contexto útil

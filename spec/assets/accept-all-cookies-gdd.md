@@ -23,7 +23,7 @@ La landing es el punto de entrada al juego y contiene cuatro secciones:
 
 - Imagen de fondo a pantalla completa: una versión panorámica solo para escritorio y una más vertical (`landing-bg-mobile.png`) compartida por móvil y tablet, para que el recorte no quede mal en pantallas estrechas o medianas.
 - Botón Empezar (pixel art cute, con un corazón, distinto de los botones XP) en el centro-abajo: inicia la partida con el jugador actual y lleva a la lista de niveles.
-- Cuatro accesos en fila, **solo icono** (sin texto visible): Personaje, Ranking, Información y Configuración, que abren ventanas XP modales. En la esquina inferior derecha en escritorio y tablet; arriba centrados en móvil, para no solaparse con el botón Empezar. Estilo pixel art propio "retro 8-bit" (borde negro, esquinas rectas, sombra dura), distinto tanto del sistema XP como del *cute* del botón Empezar.
+- Cuatro accesos, **solo icono** (sin texto visible): Personaje, Ranking, Información y Configuración, que abren ventanas XP modales. En escritorio y tablet, en fila, esquina inferior derecha; en móvil, apilados en columna, centrados verticalmente en el borde derecho. Estilo pixel art propio "retro 8-bit" (borde negro, esquinas rectas, sombra dura), distinto tanto del sistema XP como del *cute* del botón Empezar.
 - La selección de personaje muestra las 4 miniaturas, grandes (2 por fila en móvil/tablet, 4 en escritorio), y un campo de nombre editable precargado con el nombre por defecto (en inglés, nunca se traducen): 1. Crumbs (`character-1.png`), 2. Incognito (`character-2.png`), 3. Granny Agree (`character-3.png`), 4. Monster Byte (`character-4.png`). Primera visita: se juega como Crumbs sin pasos obligatorios; después, se recuerda el último jugador
 
 ## 1.2 Ranking
@@ -52,7 +52,7 @@ Estructura de datos propuesta:
 
 ## 1.3 Información
 
-- Guía para el usuario sobre cómo funciona el juego: objetivo (aceptar todas las cookies), reglas generales (contador, botón X, reinicio de progreso al perder) y controles básicos.
+- Guía para el usuario sobre cómo funciona el juego: objetivo (aceptar todas las cookies), reglas generales (contador, un error reinicia el progreso, la mejor puntuación se guarda por nombre de usuario).
 - Sin spoilers de las mecánicas ocultas de cada nivel.
 - Se abre desde el botón de Información de la esquina de la landing, como ventana modal.
 
@@ -61,6 +61,7 @@ Estructura de datos propuesta:
 - **Idioma:** alternar entre inglés y español.
 - **Volumen:** slider que controla **solo la música de fondo** (los sonidos positivo/negativo suenan siempre a volumen máximo, decisión de Sofía).
 - **Música de fondo:** activar/desactivar.
+- **Efectos de sonido:** interruptor independiente del de música, justo debajo, que silencia/reactiva los sonidos positivo y negativo.
 
 ---
 
@@ -978,7 +979,7 @@ Tres estructuras independientes, las tres persistidas:
 
 **Ranking (permanente):** récord histórico por usuario — ver sección 1.2. Nunca se borra con un Game Over.
 
-**Partida actual (persistente, sobrevive a recargar):** progreso de niveles completados, nivel actual y, si hay un nivel en curso, su contador. Recargar la página **no** hace perder nada de esto: el juego retoma exactamente donde se dejó (decidido en la spec 002 tras feedback de Sofía — la versión inicial la dejaba en memoria y se perdía al recargar, lo cual resultó confuso para el jugador). Se reinicia por completo (incluido el contador) con cualquier Game Over.
+**Partida actual (persistente, sobrevive a recargar):** progreso de niveles completados, nivel actual y, si hay un nivel en curso, su contador. Recargar la página **no** hace perder nada de esto: el juego retoma exactamente donde se dejó. Se reinicia por completo (incluido el contador) con cualquier Game Over.
 
 **Ajustes:** idioma, volumen y música on/off también se persisten en localStorage.
 
@@ -1004,7 +1005,7 @@ Tres estructuras independientes, las tres persistidas:
 
 | Parámetro | Valor inicial |
 |---|---|
-| Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | **Distinto por dispositivo** (ajustado por Sofía el 2026-07-20 tras varias pruebas en producción): escritorio 0.5, móvil/táctil 0.1. Detectado por tipo de puntero (`pointer: coarse`), no por ancho de pantalla. |
+| Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | **Distinto por dispositivo**: escritorio 0.5, móvil/táctil 0.1. Detectado por tipo de puntero (`pointer: coarse`), no por ancho de pantalla. |
 | Duración del contador (todos los niveles) | 100 s |
 | Nivel 1: retardo de aparición del Agree | 7 s |
 | Nivel 4: segmentos del botón | 6 |

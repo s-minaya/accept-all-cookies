@@ -6,10 +6,10 @@ export interface XPDialogProps {
   title: string
   children: ReactNode
   footer?: ReactNode
-  /** Landing modals (003) close on X like a normal window; level dialogs (001 demo) omit it on purpose. */
+  /** Las modales de la landing (003) cierran con la X como una ventana normal; los diálogos de nivel (demo 001) la omiten a propósito. */
   onClose?: () => void
   closeLabel?: string
-  /** Extra class(es) on the dialog box — e.g. a modifier that widens it (CharacterModal). */
+  /** Clase(s) extra en la caja del diálogo — p. ej. un modificador que la ensancha (CharacterModal). */
   className?: string
 }
 

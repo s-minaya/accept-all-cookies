@@ -4,14 +4,14 @@ import styles from './PlaceholderScreen.module.scss'
 export interface PlaceholderScreenProps {
   title: string
   children: ReactNode
-  /** Optional accessory anchored to the top-left corner (e.g. a back button). */
+  /** Accesorio opcional anclado a la esquina superior izquierda (p. ej. un botón de volver). */
   topLeft?: ReactNode
 }
 
 /**
- * Minimal XP-flavored full-screen card shared by the shell's placeholder
- * screens (landing/select/credits) until each gets real content in
- * features 003/004/016.
+ * Tarjeta a pantalla completa, mínima y con estética XP, compartida por las
+ * pantallas placeholder del shell (landing/selección/créditos) hasta que
+ * cada una tenga contenido real en las features 003/004/016.
  */
 export function PlaceholderScreen({ title, children, topLeft }: PlaceholderScreenProps) {
   return (

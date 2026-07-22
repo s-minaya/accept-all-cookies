@@ -1,6 +1,6 @@
 /**
- * Single source of truth for the 5 responsive breakpoints, mirrored as
- * CSS custom properties in tokens.css. Keep both in sync.
+ * Fuente única de verdad para los 5 breakpoints responsive, reflejados como
+ * custom properties CSS en tokens.css. Mantener ambos sincronizados.
  */
 export const breakpoints = {
   xs: 375,

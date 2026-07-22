@@ -4,7 +4,7 @@ import type { CharacterId } from './rankingStore'
 
 export interface PlayerState {
   character: CharacterId
-  /** null on a first visit: never confirmed one, so the UI falls back to the character's default name. */
+  /** null en la primera visita: nunca se confirmó ninguno, así que la interfaz usa el nombre por defecto del personaje. */
   username: string | null
   setPlayer: (character: CharacterId, username: string) => void
 }
@@ -18,7 +18,7 @@ interface PersistedPlayer {
 
 const DEFAULT_PLAYER: PersistedPlayer = { character: 0, username: null }
 
-/** The "Empezar" flow never forces character selection (GDD §1.1): first visit plays as character 0. */
+/** El flujo de "Empezar" nunca obliga a elegir personaje (GDD §1.1): en la primera visita se juega como personaje 0. */
 export const usePlayerStore = create<PlayerState>()((set) => ({
   ...load(PLAYER_STORAGE_KEY, DEFAULT_PLAYER),
 
