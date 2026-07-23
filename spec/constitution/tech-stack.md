@@ -22,6 +22,7 @@
 - `src/components/xp/` — sistema de diseño: `XPWindow`, `XPButton` (variantes agree / disagree / neutral), `XPDialog`, contador, texto de consentimiento con scroll.
 - `src/levels/level01/ … level12/` — un directorio por nivel, autocontenido: componente + lógica pura (`logic.ts`) + estilos. Se cargan con `React.lazy`.
 - `src/levels/types.ts` — contrato `LevelComponent` (props comunes: `onWin`, `onLose`, control del contador).
+- `src/levels/levelFooter.ts` — hook `useLevelFooter` para publicar los botones inferiores del nivel en el pie de `XPWindow`.
 - `src/state/` — store global (run actual, ajustes, ranking) y módulo `storage.ts` (único punto de acceso a localStorage).
 - `src/i18n/` — diccionarios y hook de traducción.
 - `src/audio/` — reproductor de sonidos y música.
@@ -45,7 +46,9 @@
 - `RunState { completedLevels: LevelId[], currentLevel: LevelId, activeLevelTimeLeft: number | null }` — progreso de la partida en curso, **persistido en localStorage** igual que ajustes y ranking (`aac.v1.run`): recargar la página no hace perder la partida ni el contador del nivel activo, el juego retoma donde se dejó. Se reinicia por completo (incluido `activeLevelTimeLeft`) con cualquier Game Over.
 - `Settings { language: 'es' | 'en', volume: 0..1, musicOn: boolean }` — persistido en localStorage.
 - `LevelId = 1..12` — la progresión es estrictamente lineal; `currentLevel` siempre es el primer nivel no completado.
-- Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)` , `paused` y `onRestart?` (el shell congela el nivel durante veredictos y modales) y el tiempo restante; **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
+- Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)`, el tiempo restante, `paused` (el shell congela el nivel durante veredictos y modales) y `onRestart?` opcional (el nivel pide "vuelve a empezarme"; el shell remonta su componente y reinicia el contador a 100 — solo lo declaran los niveles que lo necesitan, p. ej. el nivel 1); **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
+- Botones inferiores del nivel: se registran con el hook `useLevelFooter(nodo)` (`src/levels/levelFooter.ts`), que los publica en el pie de `XPWindow` — fuera del marco azul del área de juego, incluso si el nivel usa ese marco para su propio contenido (tablero o, como el nivel 1, su texto de consentimiento). El nodo pasado debe ir memoizado (`useMemo`) con dependencias primitivas estables; una referencia nueva en cada render entra en bucle con el estado del `footer` en `LevelHost`.
+- `LevelDefinition.consentKey` es opcional: se omite en los niveles sin tablero propio, que muestran su texto directamente en el marco del área de juego (`XPWindow` con `scrollableContent`, acotado a una altura moderada — 18rem — salvo que la ventana también use `fillHeight`) en vez del recuadro de consentimiento aparte. `scrollableContent` (el interior hace scroll propio) y `fillHeight` (la ventana entera ocupa la altura de su contenedor) son props independientes de `XPWindow`: la pantalla de selección usa las dos; el nivel 1 solo la primera, para no estirar la ventana entera de un nivel a pantalla completa.
 - Invariante del nivel 6: el tablero de `nivel6-tablero.json` solo se modifica pasando el validador.
 
 ## Convenciones

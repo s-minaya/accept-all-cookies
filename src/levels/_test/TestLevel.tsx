@@ -17,7 +17,7 @@ import styles from './TestLevel.module.scss'
  * desmontar" tenga algo real que comprobar además de la propia limpieza de
  * LevelHost, y para que congelarlo con `paused` sea observable.
  */
-export default function TestLevel({ onWin, onLose, paused }: LevelProps) {
+export default function TestLevel({ onWin, onLose, paused, onRestart }: LevelProps) {
   const pointerBoxRef = useRef<HTMLDivElement>(null)
   const disabledPointerRef = useRef<HTMLDivElement | null>(null)
   const { remaining, pause, resume } = useCountdown(30)
@@ -42,6 +42,11 @@ export default function TestLevel({ onWin, onLose, paused }: LevelProps) {
         <XPButton variant="disagree" onClick={() => onLose('failed')} disabled={paused}>
           Disagree
         </XPButton>
+        {onRestart && (
+          <XPButton variant="neutral" onClick={onRestart} disabled={paused}>
+            Restart
+          </XPButton>
+        )}
       </div>
     </div>
   )

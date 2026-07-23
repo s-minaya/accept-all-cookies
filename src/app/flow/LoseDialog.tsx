@@ -16,7 +16,7 @@ export function LoseDialog({ onReturnToSelection }: LoseDialogProps) {
       title={t('game.disagree')}
       footer={
         <XPButton variant="neutral" onClick={onReturnToSelection}>
-          {t('game.returnToLevelSelection')}
+          {t('meta.lose.returnButton')}
         </XPButton>
       }
     >

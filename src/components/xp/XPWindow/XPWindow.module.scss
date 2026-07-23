@@ -73,11 +73,22 @@
     background: var(--color-beige);
     overflow: hidden;
 
+    // Acotado a un tamaño moderado (parecido al recuadro de consentimiento
+    // clásico) para que la ventana no se estire a lo bestia con textos
+    // largos (p. ej. el nivel 1) — ajuste tras QA de Sofía.
     &--scrollable {
-      flex: 1;
       min-height: 0;
+      max-height: 12rem;
       overflow-y: auto;
     }
+  }
+
+  // Cuando la ventana también ocupa toda la altura disponible (fillHeight,
+  // p. ej. la pantalla de selección), el interior debe llenar ese espacio en
+  // vez de quedarse en una caja pequeña.
+  &--fill-height &__interior--scrollable {
+    flex: 1;
+    max-height: none;
   }
 
   &__footer {

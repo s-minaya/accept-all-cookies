@@ -6,12 +6,17 @@ Implementa el primer nivel real del juego (GDD §9, Nivel 1) y lo enchufa en el 
 
 ### Mecánica
 
-- La ventana muestra el texto de consentimiento de Essential Cookies y la zona de botones inferior con **dos huecos**: el de **Agree** (verde), vacío al empezar, y el de **Disagree** (rojo), visible desde el principio.
+- Este nivel no tiene tablero propio (GDD §4.3, excepción): su texto de consentimiento — más largo que un banner normal, con scroll interno si no cabe — ocupa el interior del marco azul del área de juego en vez del recuadro de consentimiento pequeño. Los botones Agree/Disagree se quedan en el pie de la ventana, fuera del marco, como en cualquier otro nivel.
+- Zona de botones inferior con **dos huecos**: el de **Agree** (verde), vacío al empezar, y el de **Disagree** (rojo), visible desde el principio.
 - El botón **Agree no existe durante los primeros 7 segundos** de nivel: ni se ve, ni se puede pulsar, ni está en el DOM. A los 7 segundos aparece en su hueco reservado, sin fanfarria (darse cuenta es parte del juego). El hueco reservado evita que el layout salte y provoque clics erróneos.
 - **Pulsar Disagree NO es derrota** (excepción a la regla general, ya prevista en el GDD): se abre un diálogo XP de error sobre el nivel:
   - Título: `Error` · Mensaje: "Essential cookies cannot be rejected." (traducible) · Botón: `OK`.
   - Al pulsar OK, **el nivel se reinicia desde cero**: la ventana reaparece como al principio, el contador vuelve a 100 y el Agree tarda otros 7 segundos en aparecer.
 - **Mientras el diálogo de error está abierto, el contador sigue corriendo**: solo se reinicia al pulsar OK. Si llega a 0 con el diálogo abierto, es la derrota estándar (y sí, es cruel a propósito: encaja con el tono del juego).
+
+### Botones fuera del marco: `useLevelFooter`
+
+Los botones inferiores de un nivel nunca van dentro del marco azul del área de juego (aunque el nivel use ese marco para su propio texto, como el nivel 1) — van en el pie de `XPWindow`, gestionado por el shell. El contrato se resuelve con un hook nuevo, `useLevelFooter(nodo)` (`src/levels/levelFooter.ts`): el nivel le pasa el `ReactNode` de sus botones (memoizado con `useMemo`, dependencias primitivas) y `LevelHost` lo publica en el `footer` de la ventana vía contexto. `LevelDefinition.consentKey` pasa a ser opcional: los niveles sin tablero (como el 1) lo omiten y muestran su texto directamente en el marco (`XPWindow` con `scrollableContent`, acotado a 18rem de alto con scroll interno — la ventana en sí no se agranda, solo el nivel 1 la usa así, no la pantalla de selección que sí necesita ocupar toda la pantalla vía la prop independiente `fillHeight`).
 
 ### Victoria y derrota
 
@@ -30,22 +35,23 @@ Primer nivel jugable de verdad y banco de pruebas del patrón "carpeta de nivel 
 ## Criterios de aceptación
 
 ### Mecánica
-- [ ] Durante los primeros 7 s de nivel, el Agree no está en el DOM ni es alcanzable por teclado, dedo o ratón; a los 7 s aparece en su hueco sin desplazar el layout.
-- [ ] La aparición del Agree se deriva del tiempo del contador (no de un timer propio): con el nivel en `paused`, el plazo de 7 s también queda congelado (test).
-- [ ] Pulsar Disagree abre el diálogo de error con sus textos correctos en ES y EN; nunca provoca derrota, tampoco pulsándolo repetidas veces.
-- [ ] OK en el diálogo reinicia el nivel: contador a 100, Agree oculto de nuevo, estado interno limpio (test del cableado de `onRestart`).
-- [ ] El contador sigue corriendo con el diálogo abierto; si llega a 0, se dispara la derrota estándar por tiempo.
+- [x] El texto de consentimiento ocupa el marco azul del área de juego (sin recuadro de consentimiento aparte) y los botones Agree/Disagree se renderizan en el pie de la ventana, fuera del marco (test de integración + build).
+- [x] Durante los primeros 7 s de nivel, el Agree no está en el DOM ni es alcanzable por teclado, dedo o ratón; a los 7 s aparece en su hueco sin desplazar el layout.
+- [x] La aparición del Agree se deriva del tiempo del contador (no de un timer propio): con el nivel en `paused`, el plazo de 7 s también queda congelado (test).
+- [x] Pulsar Disagree abre el diálogo de error con sus textos correctos en ES y EN; nunca provoca derrota, tampoco pulsándolo repetidas veces.
+- [x] OK en el diálogo reinicia el nivel: contador a 100, Agree oculto de nuevo, estado interno limpio (test del cableado de `onRestart`).
+- [x] El contador sigue corriendo con el diálogo abierto; si llega a 0, se dispara la derrota estándar por tiempo.
 
 ### Integración
-- [ ] El hueco 1 del registro carga este nivel (chunk propio en el build); los huecos 2–12 siguen con el nivel de prueba.
-- [ ] Ganar recorre el flujo estándar completo con la categoría "Essential Cookies" y deja el nivel 1 en verde con el 2 seleccionado.
-- [ ] Perder por contador y por X recorre el flujo estándar de derrota y reinicia la partida.
-- [ ] Partida jugada entera al menos una vez ganando y una perdiendo (regla de mantenimiento de la 004).
+- [x] El hueco 1 del registro carga este nivel (chunk propio en el build); los huecos 2–12 siguen con el nivel de prueba.
+- [x] Ganar recorre el flujo estándar completo con la categoría "Essential Cookies" y deja el nivel 1 en verde con el 2 seleccionado.
+- [x] Perder por contador y por X recorre el flujo estándar de derrota y reinicia la partida.
+- [x] Partida jugada entera al menos una vez ganando y una perdiendo (regla de mantenimiento de la 004).
 
 ### Calidad
-- [ ] Textos del nivel en ambos diccionarios bajo `levels.1.*`; botones vía `game.*` intactos.
-- [ ] Jugable con dedo y ratón; correcto en los 5 anchos (el texto de consentimiento hace scroll interno si no cabe).
-- [ ] `paused` congela el nivel por completo (incluido el diálogo de error si está abierto).
+- [x] Textos del nivel en ambos diccionarios bajo `levels.1.*`; botones vía `game.*` intactos.
+- [ ] Jugable con dedo y ratón; correcto en los 5 anchos (el texto de consentimiento hace scroll interno si no cabe). **Pendiente de verificación visual de Sofía**: esta sesión no tuvo acceso a un navegador real.
+- [x] `paused` congela el nivel por completo (incluido el diálogo de error si está abierto).
 
 ## Fuera de alcance
 

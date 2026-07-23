@@ -9,7 +9,7 @@ Primero la máquina de estados del flujo (pura, con tests), después las piezas 
 1. **Contrato** — añadir `paused: boolean` a `LevelProps` (`src/levels/types.ts`); actualizar el nivel de prueba para que congele su animación e ignore input con `paused` (+ test). Documentar el cambio en `tech-stack.md` (ver nota manual).
 2. **Máquina de flujo** — `src/app/runFlow.ts` (pura, con tests): estados y transiciones `playing → verdict → modal → select`, quién detiene el contador y cuándo se permite input.
 3. **`GiantVerdict`** — `src/components/xp/GiantVerdict/`(SCSS BEM): texto AGREE/DISAGREE al ~70 % del ancho, sonido correspondiente aumentado de volumen, animación fade + escala + rebotes (~800 ms) con CSS, dispara el sonido correspondiente al entrar, overlay que bloquea todo el input mientras dura. + Playground (con botón para lanzarla en ambos modos).
-4. **Modales de veredicto** — `src/app/flow/WinDialog.tsx` y `LoseDialog.tsx` sobre `XPDialog`: textos del GDD §6–7 vía i18n (`meta.*`), botones vía `game.*` (Next / Return to Level Selection).
+4. **Modales de veredicto** — `src/app/flow/WinDialog.tsx` y `LoseDialog.tsx` sobre `XPDialog`: textos del GDD §6–7 vía i18n (`meta.*`), incluidos los botones Next/Return to Level Selection (`meta.win.nextButton`/`meta.lose.returnButton`, traducidos — no son vocabulario del falso SO).
 5. **`XPWindow` opcional** — prop para ocultar contador y X (la selección no los lleva); verificar en Playground que los niveles siguen igual.
 6. **`LevelSelectScreen`** — `src/app/screens/LevelSelectScreen/`: ventana Cookie Preferences, `LevelList` (fila con estados bloqueado/disponible/completado en BEM: `level-row--locked`, `--available`, `--done`), ✓ verde, ubicado en `assets/ui/check.png`, botón Check conectado al primer nivel pendiente.
 7. **Registro completo** — `src/levels/registry.ts` con los 12 huecos (nivel de prueba como relleno con el nombre real de cada categoría); nombres en `levels.N.name` (ES/EN).
@@ -24,7 +24,7 @@ Primero la máquina de estados del flujo (pura, con tests), después las piezas 
 - **Récord al abrir nivel** (no al completar) — implementa la lectura natural de "nivel máximo al que ha llegado": morir en el 7 registra 7. Completar el 12 añade `finished`. Descartado: récord = niveles completados (dejaría sin récord a quien muere en el 1, y "llegué al 7" es lo que la gente presume).
 - **Relleno de huecos con el nivel de prueba** — permite jugar el bucle completo hoy y garantiza que cada feature de nivel solo sustituye su hueco. Descartado: deshabilitar Check hasta la 005 (dejaría el flujo sin ejercitar de verdad).
 - **Animación del veredicto en CSS** (keyframes) y no con física/JS — 800 ms fijos, determinista, barata; el overlay bloquea input durante la animación.
-- **Botones y títulos del falso SO en inglés vía `game.*`** (Next, Check, Return to Level Selection, Disagree, Cookies Accepted), mensajes de las modales traducidos vía `meta.*` — coherente con la regla del GDD §11.
+- **Botones y títulos del falso SO en inglés vía `game.*`** (Check, Disagree, Cookies Accepted), mensajes de las modales y sus botones de navegación (Next, Return to Level Selection) traducidos vía `meta.*` — coherente con la regla del GDD §11 (Next/Return to Level Selection no son vocabulario del falso SO, son instrucciones de navegación normales).
 
 ## Riesgos
 

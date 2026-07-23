@@ -22,6 +22,13 @@ export interface LevelProps {
   timeLeft: number
   /** El shell congela el nivel (sin animaciones propias ni input) mientras se muestra un veredicto o una modal. El nivel sigue montado y visible. */
   paused: boolean
+  /**
+   * El nivel pide al shell "vuelve a empezarme" (p. ej. el nivel 1 tras el
+   * diálogo de error de Disagree, 005-plan.md); el shell remonta el
+   * componente (estado interno limpio gratis) y reinicia el contador a 100.
+   * Opcional: solo lo declaran los niveles que lo necesitan.
+   */
+  onRestart?: () => void
 }
 
 export type LevelComponent = ComponentType<LevelProps>
@@ -30,7 +37,11 @@ export type LevelComponent = ComponentType<LevelProps>
 export interface LevelDefinition {
   /** Clave i18n para el título de la ventana. */
   titleKey: string
-  /** Clave i18n para el texto de consentimiento. */
-  consentKey: string
+  /**
+   * Clave i18n para el texto de consentimiento del recuadro superior.
+   * Omitir cuando el nivel muestra su propio texto largo dentro del marco
+   * azul en vez de área de juego (p. ej. el nivel 1, sin tablero, GDD §9).
+   */
+  consentKey?: string
   component: LazyExoticComponent<LevelComponent>
 }

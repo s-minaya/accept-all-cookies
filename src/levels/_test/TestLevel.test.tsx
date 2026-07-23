@@ -76,3 +76,26 @@ describe('TestLevel paused (contrato de nivel, 004)', () => {
     expect(onLose).not.toHaveBeenCalled()
   })
 })
+
+describe('TestLevel onRestart (contrato de nivel, 005)', () => {
+  it('does not render a Restart button when onRestart is not provided', () => {
+    render(<TestLevel onWin={() => {}} onLose={() => {}} timeLeft={100} paused={false} />)
+    expect(screen.queryByText('Restart')).not.toBeInTheDocument()
+  })
+
+  it('calls onRestart when the Restart button is pressed', () => {
+    const onRestart = vi.fn()
+    render(
+      <TestLevel
+        onWin={() => {}}
+        onLose={() => {}}
+        timeLeft={100}
+        paused={false}
+        onRestart={onRestart}
+      />,
+    )
+
+    fireEvent.click(screen.getByText('Restart'))
+    expect(onRestart).toHaveBeenCalledTimes(1)
+  })
+})

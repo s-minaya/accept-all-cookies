@@ -13,10 +13,8 @@ describe('game.* keys (GDD §11)', () => {
       'check',
       'cookiesAccepted',
       'disagree',
-      'next',
       'no',
       'ok',
-      'returnToLevelSelection',
       'stop',
       'yes',
     ])

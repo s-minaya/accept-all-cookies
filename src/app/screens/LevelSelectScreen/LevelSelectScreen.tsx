@@ -28,6 +28,7 @@ export function LevelSelectScreen({
         <XPWindow
           title={t('shell.select.title')}
           scrollableContent
+          fillHeight
           cornerAccessory={
             <IconButton icon={backIcon} label={t('shell.select.back')} showLabel onClick={onBack} />
           }

@@ -20,7 +20,7 @@ export function WinDialog({ categoryName, isFinalLevel, onNext }: WinDialogProps
       title={t('game.cookiesAccepted')}
       footer={
         <XPButton variant="neutral" onClick={onNext}>
-          {t('game.next')}
+          {t('meta.win.nextButton')}
         </XPButton>
       }
     >

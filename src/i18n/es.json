@@ -55,7 +55,12 @@
     }
   },
   "levels": {
-    "1": { "name": "Cookies Esenciales" },
+    "1": {
+      "name": "Cookies Esenciales",
+      "consent": "Consentimiento de cookies\n\nEste sitio web utiliza cookies esenciales que son estrictamente necesarias para que la página funcione correctamente. Estas cookies permiten funciones básicas como la seguridad, la gestión de la red y la accesibilidad. No es posible desactivarlas desde nuestra herramienta de gestión de cookies, ya que el sitio no podría funcionar correctamente sin ellas.\n\nLas cookies esenciales no almacenan ningún dato personal identificable y no se pueden usar para rastrear tu actividad de navegación en otros sitios web. Normalmente solo se activan como respuesta a acciones tuyas que equivalen a una solicitud de servicio, como iniciar sesión o rellenar un formulario.\n\nSin estas cookies, no se pueden ofrecer los servicios que has solicitado, como recordar los datos de tu inicio de sesión o los artículos de tu carrito de compra, y algunas funciones del sitio podrían no funcionar correctamente o no funcionar en absoluto.\n\n¿Aceptas las Cookies Esenciales?",
+      "errorTitle": "Error",
+      "errorMessage": "Las cookies esenciales no se pueden rechazar."
+    },
     "2": { "name": "Cookies de Análisis" },
     "3": { "name": "Cookies de Personalización" },
     "4": { "name": "Cookies de Publicidad" },
@@ -72,10 +77,12 @@
     "win": {
       "intro": "Has aceptado correctamente:",
       "outro": "Ya puedes continuar con la siguiente categoría.",
-      "outroFinal": "Has aceptado todas las categorías de cookies."
+      "outroFinal": "Has aceptado todas las categorías de cookies.",
+      "nextButton": "Siguiente"
     },
     "lose": {
-      "message": "Has rechazado las preferencias de cookies.\n\nTu progreso se ha reiniciado.\n\nPulsa abajo para volver a la pantalla de selección de niveles y empezar de nuevo desde el Nivel 1."
+      "message": "Has rechazado las preferencias de cookies.\n\nTu progreso se ha reiniciado.\n\nPulsa abajo para volver a la pantalla de selección de niveles y empezar de nuevo desde el Nivel 1.",
+      "returnButton": "Volver a la selección de niveles"
     }
   },
   "game": {
@@ -84,10 +91,8 @@
     "check": "Check",
     "stop": "Stop",
     "ok": "OK",
-    "next": "Next",
     "yes": "Yes",
     "no": "No",
-    "cookiesAccepted": "Cookies Accepted",
-    "returnToLevelSelection": "Return to Level Selection"
+    "cookiesAccepted": "Cookies Accepted"
   }
 }

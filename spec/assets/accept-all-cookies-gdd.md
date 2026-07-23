@@ -203,11 +203,13 @@ Pulsar la X provoca **derrota inmediata**, en cualquier nivel y en cualquier mom
 
 ## 4.3 Texto de consentimiento
 
-Debajo de la barra de título siempre hay un recuadro blanco con borde gris que contiene el texto de la categoría de cookies del nivel.
+Debajo de la barra de título hay un recuadro blanco con borde gris que contiene el texto de la categoría de cookies del nivel.
 
 - Seleccionable pero no editable.
 - **Scroll vertical interno** si el contenido supera la altura disponible.
 - La altura del recuadro nunca cambia.
+
+**Excepción — niveles sin tablero propio** (p. ej. el nivel 1): si el nivel no tiene mecánica visual propia, no lleva este recuadro separado; su texto (más largo que en los niveles con tablero) ocupa directamente el interior del marco azul del área de juego (§4.4), con scroll interno si no cabe.
 
 ## 4.4 Área de juego
 
@@ -221,6 +223,7 @@ La mecánica de cada nivel se desarrolla dentro de un **contenedor fijo** formad
 **Interior**
 - Área rectangular de color claro `#EFE7DC` donde se renderiza la mecánica del nivel (plinko, tragaperras, tablero de flechas, cuadrícula, etc.).
 - El contenido siempre queda completamente contenido dentro de este rectángulo.
+- Si el nivel no tiene mecánica visual (§4.3, excepción), este interior muestra su texto de consentimiento (fondo blanco) en vez de un tablero.
 
 ## 4.5 Botones inferiores
 
@@ -422,29 +425,33 @@ En el nivel 12 el botón es `Credits` y lleva a la pantalla de créditos.
 
 **Mecánica:** el botón **Agree** no aparece hasta que pasan **7 segundos**. Además, aunque el jugador pulse Disagree, el nivel no puede perderse por ello: las cookies esenciales "no se pueden rechazar".
 
-**Texto:**
+**Diseño:** este nivel no tiene tablero propio, así que es la excepción de §4.3/§4.4: su texto (largo, con scroll interno si no cabe) ocupa el interior del marco azul del área de juego en vez del recuadro de consentimiento pequeño. Los botones Agree/Disagree se quedan donde siempre, en la parte inferior de la ventana, fuera del marco.
+
+**Texto** (más largo que la media, a propósito — es el nivel-tutorial y da tiempo a que se note el retardo del Agree):
 ```
 Cookie Consent
 
-This website uses essential cookies required for the website
-to function properly.
+This website uses essential cookies that are strictly necessary for the
+website to function properly. These cookies enable core functionality such
+as security, network management, and accessibility. You may not opt out of
+these cookies through our cookie management tool, as the website could not
+function properly without them.
 
-Without these cookies, some features may not work correctly.
+Essential cookies do not store any personally identifiable information and
+cannot be used to track your browsing activity on other websites. They are
+typically only set in response to actions made by you which amount to a
+request for services, such as logging in or filling in forms.
+
+Without these cookies, services you have asked for, like remembering your
+login details or shopping cart items, cannot be provided, and some features
+of the website may not work correctly or at all.
 
 Do you agree to the Essential Cookies?
 ```
 
 **Botones:** `[ Agree ]` (verde) — invisible los primeros 7 s — y `[ Disagree ]` (rojo).
 
-**Caso Agree:**
-```
-✔ Essential Cookies accepted.
-
-You may continue.
-
-[ OK ]
-```
-Se completa el nivel y se desbloquea el nivel 2.
+**Caso Agree:** se dispara el flujo estándar de Level Complete (GDD §7). El nivel no muestra ningún diálogo propio de victoria.
 
 **Caso Disagree** (excepción a la regla general — NO es Game Over):
 ```
@@ -972,7 +979,7 @@ localStorage. And those are just your ranking. Promise.
 - Se traduce **todo**: UI, landing, textos de consentimiento de los banners, mensajes de victoria/derrota, diálogos del nivel 11, créditos.
 - Los textos de este documento están escritos en su versión inglesa (canónica); las traducciones al español se producirán como parte del desarrollo.
 - Agree y Disagree nunca se traducen, en ningún contexto: botones, textazos gigantes, título de la ventana de Game Over, rodillos, fichas del plinko, etc. Son piezas del juego, no texto de interfaz. Razón de diseño: "Disagree" contiene visualmente la palabra "Agree", y esa confusión es parte de la dificultad de los niveles 2, 7, 10 y 12; traducirlos a "Aceptar/Rechazar" haría el juego más fácil en español.
-- El resto de botones del sistema (Check, Stop, OK, Next, Yes, No) se mantienen también en inglés por coherencia con el falso sistema operativo.
+- El resto de botones del sistema (Check, Stop, OK, Yes, No) se mantienen también en inglés por coherencia con el falso sistema operativo. **Excepción**: "Next" (Level Complete) y "Return to Level Selection" (Game Over) sí se traducen — son instrucciones de navegación normales, no vocabulario del falso sistema operativo como Agree/Disagree/Check.
 
 ---
 

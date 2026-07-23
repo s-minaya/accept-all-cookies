@@ -55,7 +55,12 @@
     }
   },
   "levels": {
-    "1": { "name": "Essential Cookies" },
+    "1": {
+      "name": "Essential Cookies",
+      "consent": "Cookie Consent\n\nThis website uses essential cookies that are strictly necessary for the website to function properly. These cookies enable core functionality such as security, network management, and accessibility. You may not opt out of these cookies through our cookie management tool, as the website could not function properly without them.\n\nEssential cookies do not store any personally identifiable information and cannot be used to track your browsing activity on other websites. They are typically only set in response to actions made by you which amount to a request for services, such as logging in or filling in forms.\n\nWithout these cookies, services you have asked for, like remembering your login details or shopping cart items, cannot be provided, and some features of the website may not work correctly or at all.\n\nDo you agree to the Essential Cookies?",
+      "errorTitle": "Error",
+      "errorMessage": "Essential cookies cannot be rejected."
+    },
     "2": { "name": "Analytics Cookies" },
     "3": { "name": "Personalization Cookies" },
     "4": { "name": "Advertising Cookies" },
@@ -72,10 +77,12 @@
     "win": {
       "intro": "You have successfully accepted:",
       "outro": "You can now continue to the next category.",
-      "outroFinal": "You have accepted every cookie category."
+      "outroFinal": "You have accepted every cookie category.",
+      "nextButton": "Next"
     },
     "lose": {
-      "message": "You rejected the cookie preferences.\n\nYour progress has been reset.\n\nClick below to return to the Level Selection screen and start again from Level 1."
+      "message": "You rejected the cookie preferences.\n\nYour progress has been reset.\n\nClick below to return to the Level Selection screen and start again from Level 1.",
+      "returnButton": "Return to Level Selection"
     }
   },
   "game": {
@@ -84,10 +91,8 @@
     "check": "Check",
     "stop": "Stop",
     "ok": "OK",
-    "next": "Next",
     "yes": "Yes",
     "no": "No",
-    "cookiesAccepted": "Cookies Accepted",
-    "returnToLevelSelection": "Return to Level Selection"
+    "cookiesAccepted": "Cookies Accepted"
   }
 }

@@ -19,8 +19,14 @@ export interface XPWindowProps {
    * volver de la pantalla de selección, GDD §5.1).
    */
   cornerAccessory?: ReactNode
-  /** El interior crece y hace scroll propio en vez del alto fijo pensado para el área de juego (p. ej. la lista de niveles). */
+  /**
+   * El interior hace scroll propio en vez del alto fijo pensado para el área
+   * de juego (p. ej. el texto largo del nivel 1), acotado a un tamaño
+   * moderado salvo que `fillHeight` también esté activo.
+   */
   scrollableContent?: boolean
+  /** La ventana ocupa la altura que le dé su contenedor en vez de la de su contenido (p. ej. la lista de niveles, que necesita aprovechar casi toda la pantalla). */
+  fillHeight?: boolean
 }
 
 export function XPWindow({
@@ -33,8 +39,9 @@ export function XPWindow({
   footer,
   cornerAccessory,
   scrollableContent,
+  fillHeight,
 }: XPWindowProps) {
-  const windowClasses = [styles['xp-window'], scrollableContent && styles['xp-window--fill-height']]
+  const windowClasses = [styles['xp-window'], fillHeight && styles['xp-window--fill-height']]
     .filter(Boolean)
     .join(' ')
   const interiorClasses = [

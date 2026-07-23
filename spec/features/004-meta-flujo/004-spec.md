@@ -83,7 +83,7 @@ Es el momento en que el proyecto pasa de "pantallas" a "juego": todo el ciclo ju
 ### Contrato y calidad
 - [x] `paused` congela el nivel de prueba (animación e input) mientras hay veredicto o modal, con el nivel visible detrás (test).
 - [x] Los 12 huecos del registro cargan (nivel de prueba donde toque) separados del bundle principal en el build; serán chunks distintos entre sí en cuanto cada feature de nivel (005-016) sustituya su hueco.
-- [x] Nombres de nivel y mensajes de las modales en ambos diccionarios (`levels.*`, `meta.*`); los textos de botón del falso SO (Next, Check, Return to Level Selection, títulos Disagree/Cookies Accepted en tanto contienen palabras del juego) permanecen en inglés vía `game.*` con el test de identidad.
+- [x] Nombres de nivel y mensajes de las modales en ambos diccionarios (`levels.*`, `meta.*`); los títulos Disagree/Cookies Accepted y el botón Check permanecen en inglés vía `game.*` con el test de identidad — Next (`meta.win.nextButton`) y Return to Level Selection (`meta.lose.returnButton`) sí se traducen, no son vocabulario del falso sistema operativo (GDD §11).
 - [x] Todo el flujo es jugable con dedo y ratón y correcto en los 5 anchos de referencia. Confirmado visualmente por Sofía.
 
 ## Fuera de alcance

@@ -1,0 +1,33 @@
+.level-01 {
+  // Rellena el marco azul del área de juego (GDD §4.4): este nivel no tiene
+  // tablero propio, así que el texto de consentimiento ocupa ese espacio en
+  // vez del recuadro pequeño de arriba (que se omite, ver registry.ts).
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  &__agree-slot {
+    // Mismo ancho que calcula XPButton para sus variantes agree/disagree
+    // (altura 3rem × 2.3, ver XPButton.module.scss): reserva el hueco para
+    // que Disagree no salte de sitio cuando el Agree aparece a los 7s.
+    display: flex;
+    justify-content: center;
+    width: 6.9rem;
+  }
+}
