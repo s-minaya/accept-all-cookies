@@ -10,11 +10,9 @@
 - [x] Cablear el récord: `recordIfImproved` al abrir nivel, `finished` al completar el 12; ampliar `rankingStore` y `RankingList` + tests (mejora sí/no, perder no toca, entrada v1 sin `finished` carga bien).
 - [x] Orquestar el flujo en el shell: ganar/perder → congelar + parar contador → veredicto → modal → progreso/reinicio → selección.
 - [x] Deshabilitar Check con los 12 niveles completados.
-- [ ] QA: partida completa ganando los 12; derrotas por botón, por contador y por X; ranking reflejado en la landing; 5 anchos; móvil real vía Pages (veredicto legible en 375 px).
-  - Verificado por tests automatizados (Vitest + Testing Library, sin navegador real): partida completa ganando los 12 seguidos, derrota por cada una de las 3 vías, ranking actualizado y no alterado por derrota.
-  - Pendiente de Sofía (no hay navegador disponible en esta sesión para verificarlo): aspecto visual real de `GiantVerdict`/las modales, los 5 anchos de referencia y el recorrido completo en móvil real vía Pages.
-- [x] Validar contra los criterios de aceptación de `spec.md`: todos cumplidos salvo el último (jugable en los 5 anchos de referencia), pendiente de verificación visual por Sofía.
-- [ ] Mover la feature a "Hecho" en `../../constitution/roadmap.md` (pendiente hasta cerrar el punto de QA visual anterior).
+- [x] QA: partida completa ganando los 12; derrotas por botón, por contador y por X; ranking reflejado en la landing; 5 anchos; móvil real vía Pages (veredicto legible en 375 px). Verificado por tests automatizados y confirmado visualmente por Sofía.
+- [x] Validar contra los criterios de aceptación de `spec.md`: todos cumplidos.
+- [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
 
 ## Mantenimiento (checklist recurrente)
 
