@@ -45,7 +45,7 @@
 - `RunState { completedLevels: LevelId[], currentLevel: LevelId, activeLevelTimeLeft: number | null }` — progreso de la partida en curso, **persistido en localStorage** igual que ajustes y ranking (`aac.v1.run`): recargar la página no hace perder la partida ni el contador del nivel activo, el juego retoma donde se dejó. Se reinicia por completo (incluido `activeLevelTimeLeft`) con cualquier Game Over.
 - `Settings { language: 'es' | 'en', volume: 0..1, musicOn: boolean }` — persistido en localStorage.
 - `LevelId = 1..12` — la progresión es estrictamente lineal; `currentLevel` siempre es el primer nivel no completado.
-- Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)` y `paused`(el shell congela el nivel durante veredictos y modales) y el tiempo restante; **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
+- Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)` , `paused` y `onRestart?` (el shell congela el nivel durante veredictos y modales) y el tiempo restante; **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
 - Invariante del nivel 6: el tablero de `nivel6-tablero.json` solo se modifica pasando el validador.
 
 ## Convenciones
