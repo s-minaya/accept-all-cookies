@@ -37,7 +37,8 @@
     },
     "ranking": {
       "title": "Ranking",
-      "empty": "No records yet. Be the first!"
+      "empty": "No records yet. Be the first!",
+      "finished": "Finished!"
     },
     "info": {
       "title": "Information",
@@ -53,6 +54,30 @@
       "soundEffects": "Sound effects"
     }
   },
+  "levels": {
+    "1": { "name": "Essential Cookies" },
+    "2": { "name": "Analytics Cookies" },
+    "3": { "name": "Personalization Cookies" },
+    "4": { "name": "Advertising Cookies" },
+    "5": { "name": "Social Media Cookies" },
+    "6": { "name": "Cross-Site Tracking" },
+    "7": { "name": "Data Sharing" },
+    "8": { "name": "Third-Party Providers" },
+    "9": { "name": "Fingerprinting" },
+    "10": { "name": "Legitimate Interest" },
+    "11": { "name": "Consent Renewal" },
+    "12": { "name": "Accept All" }
+  },
+  "meta": {
+    "win": {
+      "intro": "You have successfully accepted:",
+      "outro": "You can now continue to the next category.",
+      "outroFinal": "You have accepted every cookie category."
+    },
+    "lose": {
+      "message": "You rejected the cookie preferences.\n\nYour progress has been reset.\n\nClick below to return to the Level Selection screen and start again from Level 1."
+    }
+  },
   "game": {
     "agree": "Agree",
     "disagree": "Disagree",
@@ -61,6 +86,8 @@
     "ok": "OK",
     "next": "Next",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "cookiesAccepted": "Cookies Accepted",
+    "returnToLevelSelection": "Return to Level Selection"
   }
 }

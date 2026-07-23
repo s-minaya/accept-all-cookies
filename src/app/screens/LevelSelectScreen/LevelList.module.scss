@@ -1,0 +1,44 @@
+.level-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--color-white);
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.7rem 0.85rem;
+    color: var(--color-text-dark);
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    // Aire por los 4 lados en vez de fondo verde a sangre (para que se lea
+    // como cada nivel "subrayado" en vez de un bloque verde continuo).
+    &--done {
+      margin: 0.3rem 0.6rem;
+      padding: 0.55rem 0.7rem;
+      border-radius: 10px;
+      background: var(--color-agree-bg);
+    }
+  }
+
+  &__name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__check {
+    width: 1.5rem;
+    height: 1.5rem;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,14 @@
+.level-select-screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: var(--color-beige);
+
+  &__window {
+    width: min(100%, 28rem);
+    // Casi toda la altura de la pantalla (ajuste tras QA de Sofía): que se
+    // vean tantas filas como sea posible antes de que la lista necesite scroll.
+    height: min(94dvh, 48rem);
+  }
+}

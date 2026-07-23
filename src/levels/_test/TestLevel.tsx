@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { XPButton } from '../../components/xp/XPButton'
 import { useCountdown } from '../../hooks/useCountdown'
 import { usePointer } from '../../hooks/usePointer'
@@ -8,18 +8,25 @@ import styles from './TestLevel.module.scss'
 /**
  * Nivel trivial que solo sirve para probar el contrato de LevelComponent de
  * punta a punta (ganar/perder/timeout, chunk perezoso, limpieza al
- * desmontar). No es uno de los 12 niveles reales: nunca se añade a
- * `levels/registry.ts` (AGENTS.md).
+ * desmontar, congelado con `paused`). No es uno de los 12 niveles reales,
+ * pero `levels/registry.ts` lo usa como relleno de los huecos aún no
+ * sustituidos por las features 005-016 (004-plan.md).
  *
  * Tiene su propio contador y listener de puntero — independientes de los de
  * LevelHost — para que el test de "sin timers/listeners filtrados al
  * desmontar" tenga algo real que comprobar además de la propia limpieza de
- * LevelHost.
+ * LevelHost, y para que congelarlo con `paused` sea observable.
  */
-export default function TestLevel({ onWin, onLose }: LevelProps) {
+export default function TestLevel({ onWin, onLose, paused }: LevelProps) {
   const pointerBoxRef = useRef<HTMLDivElement>(null)
-  const { remaining } = useCountdown(30)
-  const { isPressed } = usePointer(pointerBoxRef)
+  const disabledPointerRef = useRef<HTMLDivElement | null>(null)
+  const { remaining, pause, resume } = useCountdown(30)
+  const { isPressed } = usePointer(paused ? disabledPointerRef : pointerBoxRef)
+
+  useEffect(() => {
+    if (paused) pause()
+    else resume()
+  }, [paused, pause, resume])
 
   return (
     <div className={styles['test-level']}>
@@ -29,10 +36,10 @@ export default function TestLevel({ onWin, onLose }: LevelProps) {
       </div>
 
       <div className={styles['test-level__actions']}>
-        <XPButton variant="agree" onClick={onWin}>
+        <XPButton variant="agree" onClick={onWin} disabled={paused}>
           Agree
         </XPButton>
-        <XPButton variant="disagree" onClick={() => onLose('failed')}>
+        <XPButton variant="disagree" onClick={() => onLose('failed')} disabled={paused}>
           Disagree
         </XPButton>
       </div>

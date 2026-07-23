@@ -37,7 +37,8 @@
     },
     "ranking": {
       "title": "Ranking",
-      "empty": "Todavía no hay récords. ¡Sé el primero!"
+      "empty": "Todavía no hay récords. ¡Sé el primero!",
+      "finished": "¡Completado!"
     },
     "info": {
       "title": "Información",
@@ -53,6 +54,30 @@
       "soundEffects": "Efectos de sonido"
     }
   },
+  "levels": {
+    "1": { "name": "Cookies Esenciales" },
+    "2": { "name": "Cookies de Análisis" },
+    "3": { "name": "Cookies de Personalización" },
+    "4": { "name": "Cookies de Publicidad" },
+    "5": { "name": "Cookies de Redes Sociales" },
+    "6": { "name": "Seguimiento entre Sitios" },
+    "7": { "name": "Compartición de Datos" },
+    "8": { "name": "Proveedores de Terceros" },
+    "9": { "name": "Huella Digital" },
+    "10": { "name": "Interés Legítimo" },
+    "11": { "name": "Renovación del Consentimiento" },
+    "12": { "name": "Aceptar Todo" }
+  },
+  "meta": {
+    "win": {
+      "intro": "Has aceptado correctamente:",
+      "outro": "Ya puedes continuar con la siguiente categoría.",
+      "outroFinal": "Has aceptado todas las categorías de cookies."
+    },
+    "lose": {
+      "message": "Has rechazado las preferencias de cookies.\n\nTu progreso se ha reiniciado.\n\nPulsa abajo para volver a la pantalla de selección de niveles y empezar de nuevo desde el Nivel 1."
+    }
+  },
   "game": {
     "agree": "Agree",
     "disagree": "Disagree",
@@ -61,6 +86,8 @@
     "ok": "OK",
     "next": "Next",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "cookiesAccepted": "Cookies Accepted",
+    "returnToLevelSelection": "Return to Level Selection"
   }
 }

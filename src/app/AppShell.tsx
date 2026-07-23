@@ -1,15 +1,19 @@
 import { useState } from 'react'
 import { LevelHost, type LevelExitResult } from './LevelHost'
 import { LandingScreen } from './screens/LandingScreen'
-import { SelectScreen } from './screens/SelectScreen'
+import { LevelSelectScreen } from './screens/LevelSelectScreen/LevelSelectScreen'
 import { CreditsScreen } from './screens/CreditsScreen'
 import { useAudio } from '../audio/useAudio'
 import { useRunStore } from '../state/runStore'
+import { useRankingStore } from '../state/rankingStore'
+import { usePlayerStore } from '../state/playerStore'
+import { resolvePlayerName } from './characters'
 import { levelRegistry } from '../levels/registry'
-import { testLevelDefinition } from '../levels/_test'
-import { LEVEL_DURATION_SECONDS } from '../levels/types'
+import { LEVEL_DURATION_SECONDS, type LevelId } from '../levels/types'
 
 type Screen = 'landing' | 'select' | 'level' | 'credits'
+
+const FINAL_LEVEL: LevelId = 12
 
 function initialScreen(): Screen {
   const { activeLevelTimeLeft, completedLevels } = useRunStore.getState()
@@ -30,19 +34,38 @@ function initialScreen(): Screen {
 export function AppShell() {
   const [screen, setScreen] = useState<Screen>(initialScreen)
   const currentLevel = useRunStore((state) => state.currentLevel)
+  const completedLevels = useRunStore((state) => state.completedLevels)
   const activeLevelTimeLeft = useRunStore((state) => state.activeLevelTimeLeft)
   const completeLevel = useRunStore((state) => state.completeLevel)
   const resetRun = useRunStore((state) => state.resetRun)
   const enterLevel = useRunStore((state) => state.enterLevel)
   const updateActiveLevelTime = useRunStore((state) => state.updateActiveLevelTime)
-  const { playPositive, playNegative } = useAudio()
+  const recordIfImproved = useRankingStore((state) => state.recordIfImproved)
+  const markFinished = useRankingStore((state) => state.markFinished)
+  const character = usePlayerStore((state) => state.character)
+  const username = usePlayerStore((state) => state.username)
+  // Mantiene AudioManager sincronizado con settingsStore y el desbloqueo de
+  // autoplay activos en todas las pantallas, no solo mientras hay un nivel
+  // montado (GiantVerdict dispara los sonidos de victoria/derrota por sí solo).
+  useAudio()
+
+  const handleCheck = () => {
+    recordIfImproved({
+      username: resolvePlayerName(character, username),
+      character,
+      maxLevel: currentLevel,
+    })
+    enterLevel()
+    setScreen('level')
+  }
 
   const handleLevelExit = (result: LevelExitResult) => {
     if (result.outcome === 'win') {
-      playPositive()
       completeLevel(currentLevel)
+      if (currentLevel === FINAL_LEVEL) {
+        markFinished({ username: resolvePlayerName(character, username), character })
+      }
     } else {
-      playNegative()
       resetRun()
     }
     setScreen('select')
@@ -58,23 +81,19 @@ export function AppShell() {
 
     case 'select':
       return (
-        <SelectScreen
+        <LevelSelectScreen
+          completedLevels={completedLevels}
           currentLevel={currentLevel}
-          onCheck={() => {
-            enterLevel()
-            setScreen('level')
-          }}
+          onCheck={handleCheck}
           onBack={() => setScreen('landing')}
         />
       )
 
     case 'level':
-      // Los niveles 1-12 vienen del registro real en cuanto las features
-      // 005-016 lo completen; hasta entonces, el nivel de prueba ocupa su
-      // lugar (ver 002-plan.md "Decisiones").
       return (
         <LevelHost
-          level={levelRegistry[currentLevel] ?? testLevelDefinition}
+          level={levelRegistry[currentLevel]}
+          isFinalLevel={currentLevel === FINAL_LEVEL}
           initialSeconds={activeLevelTimeLeft ?? LEVEL_DURATION_SECONDS}
           onTick={updateActiveLevelTime}
           onExit={handleLevelExit}

@@ -1,0 +1,102 @@
+.giant-verdict {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: all;
+
+  &__stage {
+    container-type: inline-size;
+    position: relative;
+    display: flex;
+    width: 70%;
+    justify-content: center;
+  }
+
+  &__glow {
+    position: absolute;
+    inset: -60% -20%;
+    background: radial-gradient(circle, var(--glow-color) 0%, transparent 68%);
+    opacity: 0;
+    filter: blur(4px);
+    animation: giant-verdict-glow 800ms ease-out both;
+
+    &--win {
+      --glow-color: rgb(214 255 224 / 90%);
+    }
+
+    &--lose {
+      --glow-color: rgb(255 214 216 / 90%);
+    }
+  }
+
+  &__text {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: 17cqw;
+    line-height: 1;
+    color: var(--color-white);
+    text-align: center;
+    white-space: nowrap;
+    paint-order: stroke fill;
+    text-shadow: 0 4px 4px rgb(0 0 0 / 35%);
+    animation: giant-verdict-pop 800ms ease-out both;
+
+    &--win {
+      -webkit-text-stroke: 0.07em var(--color-agree-border);
+      filter: drop-shadow(0 0 0.12em var(--color-agree-border))
+        drop-shadow(0 0 0.4em rgb(255 255 255 / 85%));
+    }
+
+    &--lose {
+      -webkit-text-stroke: 0.07em var(--color-disagree-border);
+      filter: drop-shadow(0 0 0.12em var(--color-disagree-border))
+        drop-shadow(0 0 0.4em rgb(255 255 255 / 65%));
+    }
+  }
+}
+
+@keyframes giant-verdict-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  65% {
+    transform: scale(0.92);
+  }
+
+  82% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes giant-verdict-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+}

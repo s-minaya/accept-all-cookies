@@ -6,6 +6,7 @@ import { useT } from '../../../i18n/useT'
 import { characters, getCharacter, resolvePlayerName } from '../../characters'
 import { resolveConfirmedName } from '../../playerForm'
 import { usePlayerStore } from '../../../state/playerStore'
+import { useRunStore } from '../../../state/runStore'
 import type { CharacterId } from '../../../state/rankingStore'
 import styles from './CharacterModal.module.scss'
 
@@ -18,6 +19,7 @@ export function CharacterModal({ onClose }: CharacterModalProps) {
   const currentCharacter = usePlayerStore((state) => state.character)
   const currentUsername = usePlayerStore((state) => state.username)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
+  const resetRun = useRunStore((state) => state.resetRun)
 
   const [selected, setSelected] = useState<CharacterId>(currentCharacter)
   const [nameInput, setNameInput] = useState(() =>
@@ -31,7 +33,14 @@ export function CharacterModal({ onClose }: CharacterModalProps) {
 
   const confirm = () => {
     const resolvedName = resolveConfirmedName(nameInput, getCharacter(selected).defaultName)
+    const previousResolvedName = resolvePlayerName(currentCharacter, currentUsername)
+    const isNewPlayer = selected !== currentCharacter || resolvedName !== previousResolvedName
+
     setPlayer(selected, resolvedName)
+    // Cambiar de jugador empieza una partida nueva (004-plan.md): el progreso
+    // de la partida en curso es de quien esté jugando ahora mismo, no se
+    // hereda de quien jugara antes con otro personaje o nombre.
+    if (isNewPlayer) resetRun()
     onClose()
   }
 

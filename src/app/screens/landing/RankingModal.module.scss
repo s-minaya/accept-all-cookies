@@ -18,24 +18,68 @@
     border-radius: 6px;
   }
 
+  // Progresivo por breakpoint (tokens.scss): en móvil se queda en 56px; a
+  // partir de tablet crece bastante en cada escalón para que se reconozca
+  // bien al personaje.
   &__avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 6px;
     object-fit: cover;
     image-rendering: pixelated;
+
+    @media (min-width: 481px) {
+      width: 72px;
+      height: 72px;
+    }
+
+    @media (min-width: 1025px) {
+      width: 88px;
+      height: 88px;
+    }
+
+    @media (min-width: 1441px) {
+      width: 136px;
+      height: 136px;
+    }
+  }
+
+  // Nombre en su propia línea y nivel/fecha debajo (en vez de las 4 columnas
+  // en una sola fila): un nombre largo ya no compite por sitio con el nivel
+  // y la fecha, así que no se corta ("Cr...").
+  &__info {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.2rem;
   }
 
   &__username {
-    flex: 1;
     font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   &__level {
     white-space: nowrap;
+  }
+
+  &__row--finished &__level {
+    padding: 0.1rem 0.4rem;
+    color: var(--color-frame-blue);
+    background: var(--color-agree-bg);
+    border: 1px solid var(--color-agree-border);
+    border-radius: 4px;
+    font-weight: bold;
   }
 
   &__date {

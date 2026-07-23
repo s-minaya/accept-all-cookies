@@ -22,15 +22,18 @@ La landing es el punto de entrada al juego y contiene cuatro secciones:
 ## 1.1 Estructura de la landing
 
 - Imagen de fondo a pantalla completa: una versión panorámica solo para escritorio y una más vertical (`landing-bg-mobile.png`) compartida por móvil y tablet, para que el recorte no quede mal en pantallas estrechas o medianas.
-- Botón Empezar (pixel art cute, con un corazón, distinto de los botones XP) en el centro-abajo: inicia la partida con el jugador actual y lleva a la lista de niveles.
+- Botón Empezar (pixel art cute, con un corazón, distinto de los botones XP) en el centro-abajo: inicia la partida con el jugador actual y lleva a la lista de niveles. Todo el botón es una única zona pulsable (el texto incluido); al pulsarlo no hay animación de pulsación propia, solo suena el sonido positivo antes de pasar a la selección de niveles.
 - Cuatro accesos, **solo icono** (sin texto visible): Personaje, Ranking, Información y Configuración, que abren ventanas XP modales. En escritorio y tablet, en fila, esquina inferior derecha; en móvil, apilados en columna, centrados verticalmente en el borde derecho. Estilo pixel art propio "retro 8-bit" (borde negro, esquinas rectas, sombra dura), distinto tanto del sistema XP como del *cute* del botón Empezar.
-- La selección de personaje muestra las 4 miniaturas, grandes (2 por fila en móvil/tablet, 4 en escritorio), y un campo de nombre editable precargado con el nombre por defecto (en inglés, nunca se traducen): 1. Crumbs (`character-1.png`), 2. Incognito (`character-2.png`), 3. Granny Agree (`character-3.png`), 4. Monster Byte (`character-4.png`). Primera visita: se juega como Crumbs sin pasos obligatorios; después, se recuerda el último jugador
+- La selección de personaje muestra las 4 miniaturas, grandes (2 por fila en móvil/tablet, 4 en escritorio), y un campo de nombre editable precargado con el nombre por defecto (en inglés, nunca se traducen): 1. Crumbs (`character-1.png`), 2. Incognito (`character-2.png`), 3. Granny Agree (`character-3.png`), 4. Monster Byte (`character-4.png`). Primera visita: se juega como Crumbs sin pasos obligatorios; después, se recuerda el último jugador.
+- Confirmar un personaje y/o nombre **distinto** del jugador activo es cambiar de jugador: la partida en curso se reinicia por completo (como un Game Over, pero sin volver a la pantalla de selección), para que el nuevo jugador pueda empezar desde el Nivel 1. Confirmar sin cambiar nada no reinicia nada. El récord histórico de ranking nunca se ve afectado por esto.
 
 ## 1.2 Ranking
 
 - Guarda el **récord histórico** por nombre de usuario: el nivel máximo alcanzado jamás por ese usuario, junto a su personaje (avatar).
 - El récord es **independiente de la partida actual**: aunque el progreso de la partida se reinicie con un Game Over, el récord histórico no se pierde.
 - Se almacena en **localStorage**.
+- El avatar crece de forma progresiva con el ancho de pantalla (móvil pequeño → tablet → escritorio → escritorio grande, este último con el salto más grande) para que se reconozca bien al personaje en cualquier dispositivo.
+- El nombre de usuario va en su propia línea; el nivel alcanzado y la fecha van juntos en una segunda línea debajo, para que un nombre largo nunca se corte por competir con esos datos en la misma línea.
 
 Estructura de datos propuesta:
 
@@ -177,7 +180,7 @@ Este estilo neutro se reutiliza en: **Check** (selección de nivel), **Stop** (n
 
 Todos los niveles usan **exactamente la misma ventana**; solo cambia el contenido interactivo del área de juego.
 
-La ventana nunca cambia de tamaño durante la partida, salvo que el área de juego de un nivel lo requiera.
+La ventana nunca cambia de tamaño durante la partida, salvo que el área de juego de un nivel lo requiera. Se ajusta a su propio contenido (no a la altura de la pantalla) y queda centrada en ella — es la pantalla de selección de niveles (§5), no las ventanas de nivel, la que ocupa casi toda la altura disponible.
 
 **Marco exterior de la ventana** (añadido tras el checkpoint visual de la feature 001): toda la ventana (barra de título + cuerpo) va envuelta en un borde de 4 px del mismo azul que el inicio del degradado de la barra de título (`#2451E0`), con esquinas muy redondeadas (~20 px), dando la sensación de ventana clásica de Windows. El cuerpo bajo la barra de título es beige (`#EFE7DC`); los botones inferiores se apoyan sobre ese beige, no sobre azul oscuro.
 
@@ -232,53 +235,52 @@ Actúa como menú principal y punto de retorno tras superar o perder un nivel. *
 ## 5.1 Diseño
 
 - Barra de título azul; el título es **Cookie Preferences**.
-- Fondo beige `#EFE7DC`, más estrecho a los lados y abajo para dejar ver los bordes azules del contenedor.
-- Lista de los 12 niveles con fondo `#FFFFFF` y borde de 1 px gris.
-- Botón **Check** a la derecha de la lista.
+- Fondo beige `#EFE7DC`. La ventana ocupa casi toda la altura de la pantalla, para que se vean tantas filas como sea posible sin necesidad de scroll.
 - **No hay** contador ni botón de cerrar.
+- Botón para volver a la landing, anclado dentro del propio cuerpo beige (no flotando sobre toda la pantalla): arriba a la izquierda en tablet/escritorio, abajo a la izquierda en móvil.
+- Lista de los 12 niveles con fondo `#FFFFFF` continuo, **sin separación ni borde entre filas** — el único borde azul oscuro de la pantalla es el que envuelve la lista entera (el mismo marco que usan los niveles para el área de juego). Si las 12 filas no caben en la pantalla, la lista hace scroll interno.
 
 ## 5.2 Lista de niveles
 
 ```
 🍪 Cookie Preferences
 
-□ Essential Cookies        (Nivel 1)
-□ Analytics Cookies        (Nivel 2)
-□ Personalization Cookies  (Nivel 3)
-□ Advertising Cookies      (Nivel 4)
-□ Social Media Cookies     (Nivel 5)
-□ Cross-Site Tracking      (Nivel 6)
-□ Data Sharing             (Nivel 7)
-□ Third-Party Providers    (Nivel 8)
-□ Fingerprinting           (Nivel 9)
-□ Consent Renewal          (Nivel 10... ver nota)
-□ Legitimate Interest      (Nivel 11... ver nota)
-□ Accept All               (Final Boss)
+1: Essential Cookies
+2: Analytics Cookies
+3: Personalization Cookies
+4: Advertising Cookies
+5: Social Media Cookies
+6: Cross-Site Tracking
+7: Data Sharing
+8: Third-Party Providers
+9: Fingerprinting
+10: Legitimate Interest      (ver nota)
+11: Consent Renewal          (ver nota)
+12: Accept All                (Final Boss)
 ```
 
 > Nota de coherencia: en el diseño de niveles, el nivel 10 es **Legitimate Interest** (ventanas duplicadas) y el nivel 11 es **Consent Renewal** (personaje con preguntas). La lista de la pantalla de selección debe respetar el orden real de los niveles: 10 = Legitimate Interest, 11 = Consent Renewal.
 
-Cada fila tiene tres estados posibles:
+Cada fila lleva el número del nivel delante del nombre ("1: Essential Cookies"). El texto va en negrita. Tiene tres estados posibles:
 
 **Nivel bloqueado**
-- Fondo blanco, texto negro, sin iconos.
-- No puede seleccionarse.
+- Fondo blanco (el de la lista, sin fondo propio), texto negro.
+- Sin icono ni botón. No puede seleccionarse.
 
 **Nivel disponible** (el siguiente que toca completar)
-- Fondo blanco, texto negro, sin marca de verificación.
-- Aparece **seleccionado automáticamente**.
-- Se inicia con el botón Check.
+- Igual que el bloqueado, pero con el botón **Check** al final de la fila — es la única marca que lo distingue de uno bloqueado, no hay un resaltado de fondo aparte.
+- Aparece **seleccionado automáticamente**: no hace falta elegirlo.
 
 **Nivel completado**
-- Fila con fondo verde.
-- Icono **✓** a la derecha: blanco con bordes verdes ligeramente más oscuros.
+- Fondo verde con aire por los 4 lados (arriba, abajo y a los lados) y esquinas redondeadas — se lee como el nivel "subrayado" en verde, no como un bloque continuo pegado a sus vecinos.
+- Icono **✓** al final de la fila: blanco con bordes verdes ligeramente más oscuros, en el mismo sitio donde el nivel disponible muestra el botón Check.
 - Permanece marcada durante toda la partida.
 
 ## 5.3 Botón Check
 
-- Único botón de la pantalla, estilo neutro.
-- Al pulsarlo se abre el **primer nivel no completado**.
-- No es posible elegir libremente otro nivel: el juego siempre continúa exactamente donde corresponde.
+- No es un botón único de la pantalla: vive **al final de la fila del nivel disponible**, dentro de la propia lista.
+- Al pulsarlo se abre el **primer nivel no completado** (siempre esa misma fila, por definición).
+- No es posible elegir libremente otro nivel: el juego siempre continúa exactamente donde corresponde. Con los 12 niveles completados no hay ninguna fila "disponible", así que el botón Check no aparece en ningún sitio.
 
 ## 5.4 Flujo al completar un nivel
 
@@ -322,8 +324,9 @@ En el instante de la derrota, un texto gigante aparece en el centro de la pantal
 DISAGREE
 ```
 
-- Ocupa aproximadamente el 70% del ancho de la ventana.
-- Letras blancas, contorno azul oscuro grueso, fuente pixel display, ligera sombra.
+- Ocupa aproximadamente el 70% del ancho de la ventana, con la letra lo más grande posible dentro de ese espacio.
+- Letras blancas, contorno grueso del mismo tono que el borde del botón Disagree (`--color-disagree-border`), fuente pixel display, ligera sombra.
+- Destello/resplandor detrás del texto (tono claro a juego, blanco en el centro) que estalla y se desvanece junto con la animación del texto.
 - Aparece con fade, entra con un pequeño efecto de escala y rebota ligeramente 2–3 veces antes de detenerse.
 - Suena el **sonido negativo**.
 - El resto de la interfaz queda congelada durante la animación.
@@ -354,7 +357,7 @@ Aparece inmediatamente después de completar correctamente un nivel.
 
 ## 7.1 Fase 1 — Texto AGREE
 
-Idéntico comportamiento al texto DISAGREE del Game Over (70% del ancho, blanco con contorno azul, fade + escala + rebotes, interfaz congelada, ~800 ms), pero con el texto:
+Mismo comportamiento que el texto DISAGREE del Game Over (70% del ancho, fade + escala + rebotes, interfaz congelada, ~800 ms), pero con el texto, el contorno del tono del botón Agree (`--color-agree-border`) y el sonido positivo:
 
 ```
 AGREE
@@ -399,7 +402,7 @@ En el nivel 12 el botón es `Credits` y lleva a la pantalla de créditos.
 
 - La ventana no puede cerrarse de otra forma.
 - La animación AGREE siempre se reproduce antes de mostrar la ventana.
-- Level Complete y Game Over comparten exactamente la misma estética; solo cambian título, mensaje y botón.
+- Level Complete y Game Over comparten exactamente la misma estética; solo cambian título, mensaje, botón y el color del contorno del texto gigante (tono Agree / tono Disagree).
 
 ---
 

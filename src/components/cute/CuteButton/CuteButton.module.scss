@@ -14,9 +14,7 @@
     0 4px 0 var(--color-cute-border);
   cursor: pointer;
   touch-action: manipulation;
-  transition:
-    transform 0.08s ease-out,
-    filter 0.08s ease-out;
+  transition: filter 0.08s ease-out;
 
   &:disabled {
     cursor: default;
@@ -27,14 +25,6 @@
     &:not(:disabled):hover {
       filter: brightness(1.06);
     }
-  }
-
-  &:not(:disabled):active {
-    transform: translateY(2px);
-    box-shadow:
-      0 0 0 4px var(--color-cute-border),
-      inset 0 -2px 0 0 rgb(0 0 0 / 20%),
-      0 2px 0 var(--color-cute-border);
   }
 
   &__label {

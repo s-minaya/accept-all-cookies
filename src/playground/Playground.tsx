@@ -10,6 +10,7 @@ import { CuteButtonDemo } from './CuteButtonDemo'
 import { XPTextInputDemo } from './XPTextInputDemo'
 import { XPSliderDemo } from './XPSliderDemo'
 import { XPToggleDemo } from './XPToggleDemo'
+import { GiantVerdictDemo } from './GiantVerdictDemo'
 import styles from './Playground.module.scss'
 
 const ESSENTIAL_COOKIES_TEXT = `Cookie Consent
@@ -100,6 +101,15 @@ export function Playground() {
             Level mechanic renders here
           </div>
         </XPWindow>
+
+        <p>Without counter/X (level select screen, GDD §5.1):</p>
+        <XPWindow
+          title="Cookie Preferences"
+          consentText={ESSENTIAL_COOKIES_TEXT}
+          footer={<XPButton variant="neutral">Check</XPButton>}
+        >
+          <div className={styles['playground__window-demo-content']}>Level list renders here</div>
+        </XPWindow>
       </Section>
 
       <Section title="CuteButton (Empezar) — checkpoint pendiente de aprobación">
@@ -125,6 +135,10 @@ export function Playground() {
       <Section title="XPDialog">
         <p>No close button by design — shown on top of the whole page, background still visible.</p>
         <DialogDemo />
+      </Section>
+
+      <Section title="GiantVerdict">
+        <GiantVerdictDemo />
       </Section>
 
       <Section title="useCountdown">

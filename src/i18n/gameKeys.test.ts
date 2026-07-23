@@ -11,10 +11,12 @@ describe('game.* keys (GDD §11)', () => {
     expect(Object.keys(es.game).sort()).toEqual([
       'agree',
       'check',
+      'cookiesAccepted',
       'disagree',
       'next',
       'no',
       'ok',
+      'returnToLevelSelection',
       'stop',
       'yes',
     ])

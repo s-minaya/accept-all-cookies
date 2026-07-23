@@ -21,17 +21,31 @@ export function RankingModal({ onClose }: RankingModalProps) {
       ) : (
         <ul className={styles['ranking-modal__list']}>
           {ranked.map((entry) => (
-            <li key={entry.username} className={styles['ranking-modal__row']}>
+            <li
+              key={entry.username}
+              className={[
+                styles['ranking-modal__row'],
+                entry.finished && styles['ranking-modal__row--finished'],
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
               <img
                 src={getCharacter(entry.character).sprite}
                 alt=""
                 className={styles['ranking-modal__avatar']}
               />
-              <span className={styles['ranking-modal__username']}>{entry.username}</span>
-              <span className={styles['ranking-modal__level']}>
-                {t('shell.select.levelLabel')} {entry.maxLevel}
-              </span>
-              <span className={styles['ranking-modal__date']}>{entry.date}</span>
+              <div className={styles['ranking-modal__info']}>
+                <span className={styles['ranking-modal__username']}>{entry.username}</span>
+                <div className={styles['ranking-modal__meta']}>
+                  <span className={styles['ranking-modal__level']}>
+                    {entry.finished
+                      ? t('landing.ranking.finished')
+                      : `${t('shell.select.levelLabel')} ${entry.maxLevel}`}
+                  </span>
+                  <span className={styles['ranking-modal__date']}>{entry.date}</span>
+                </div>
+              </div>
             </li>
           ))}
         </ul>

@@ -9,11 +9,35 @@
   box-shadow: 0 6px 18px rgb(0 0 0 / 35%);
   font-family: var(--font-ui);
 
+  // Solo cuando el contenido puede ser largo y necesita scroll propio (p. ej.
+  // la lista de niveles) la ventana ocupa la altura que le dé su contenedor
+  // en vez de la de su contenido — si no, se estira contra el html/body/#root
+  // a 100% de altura de styles/reset.scss y aparece gigante (004-plan.md,
+  // ajuste tras QA de Sofía).
+  &--fill-height {
+    height: 100%;
+  }
+
   &__body {
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-height: 0;
     background: var(--color-beige);
+  }
+
+  // En flujo normal, no superpuesto: reserva su propio espacio en vez de
+  // tapar el contenido de debajo (004-plan.md, ajuste tras QA de Sofía).
+  // Arriba a la izquierda en tablet/escritorio; abajo a la izquierda en
+  // móvil, vía `order` para no competir con el título.
+  &__corner-accessory {
+    align-self: flex-start;
+    padding: 0.75rem 0.75rem 0;
+
+    @media (max-width: 480px) {
+      order: 10;
+      padding: 0 0.75rem 0.75rem;
+    }
   }
 
   &__consent-box {
@@ -33,6 +57,10 @@
   }
 
   &__frame {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
     margin: 0.75rem;
     padding: 5px;
     border-radius: 6px;
@@ -44,6 +72,12 @@
     min-height: calc(var(--logical-canvas-height) * 0.5);
     background: var(--color-beige);
     overflow: hidden;
+
+    &--scrollable {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
   }
 
   &__footer {
