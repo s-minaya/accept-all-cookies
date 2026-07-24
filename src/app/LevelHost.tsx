@@ -13,7 +13,14 @@ import { useCountdown } from '../hooks/useCountdown'
 import { useT } from '../i18n/useT'
 import { LEVEL_DURATION_SECONDS, type LevelDefinition, type LoseReason } from '../levels/types'
 import { LevelFooterContext } from '../levels/levelFooter'
-import { INITIAL_RUN_FLOW_STATE, isCounterRunning, isLevelPaused, runFlowReducer } from './runFlow'
+import {
+  INITIAL_RUN_FLOW_STATE,
+  isCounterRunning,
+  isLevelPaused,
+  runFlowReducer,
+  type RunFlowResult,
+  type RunFlowState,
+} from './runFlow'
 import { WinDialog } from './flow/WinDialog'
 import { LoseDialog } from './flow/LoseDialog'
 import styles from './LevelHost.module.scss'
@@ -26,8 +33,17 @@ export interface LevelHostProps {
   isFinalLevel: boolean
   /** Valor de reanudación del contador (p. ej. tras una recarga); por defecto arranca en 100s. */
   initialSeconds?: number
+  /**
+   * Desenlace ya decidido antes de montar (p. ej. tras recargar durante el
+   * veredicto o la modal): el flujo arranca directamente en la fase "modal"
+   * con este resultado, sin pasar por "playing" ni repetir la animación de
+   * `GiantVerdict`. Si no se pasa, el flujo arranca normalmente en "playing".
+   */
+  initialOutcome?: RunFlowResult
   /** Se llama en cada tick del contador, para que el shell persista el tiempo restante. */
   onTick?: (secondsLeft: number) => void
+  /** Se llama una sola vez, en cuanto el nivel gana o pierde (antes del veredicto), para que el shell persista el desenlace pendiente. */
+  onOutcome?: (result: RunFlowResult) => void
   /** Se llama una sola vez, cuando el flujo llega a la fase "select" (tras cerrar el veredicto). */
   onExit: (result: LevelExitResult) => void
 }
@@ -43,15 +59,20 @@ export function LevelHost({
   level,
   isFinalLevel,
   initialSeconds = LEVEL_DURATION_SECONDS,
+  initialOutcome,
   onTick,
+  onOutcome,
   onExit,
 }: LevelHostProps) {
   const t = useT()
-  const [flow, dispatch] = useReducer(runFlowReducer, INITIAL_RUN_FLOW_STATE)
+  const [flow, dispatch] = useReducer(runFlowReducer, initialOutcome, (outcome): RunFlowState =>
+    outcome ? { phase: 'modal', result: outcome } : INITIAL_RUN_FLOW_STATE,
+  )
   const [loseReason, setLoseReason] = useState<LoseReason>('failed')
   const [restartKey, setRestartKey] = useState(0)
   const [levelFooter, setLevelFooter] = useState<ReactNode>(null)
   const hasExitedRef = useRef(false)
+  const hasNotifiedOutcomeRef = useRef(false)
 
   const {
     remaining,
@@ -71,6 +92,12 @@ export function LevelHost({
   useEffect(() => {
     if (!isCounterRunning(flow)) pauseCountdown()
   }, [flow, pauseCountdown])
+
+  useEffect(() => {
+    if (flow.phase !== 'verdict' || !flow.result || hasNotifiedOutcomeRef.current) return
+    hasNotifiedOutcomeRef.current = true
+    onOutcome?.(flow.result)
+  }, [flow, onOutcome])
 
   useEffect(() => {
     if (flow.phase !== 'select' || hasExitedRef.current) return

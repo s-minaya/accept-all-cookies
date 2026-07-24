@@ -994,6 +994,8 @@ Tres estructuras independientes, las tres persistidas:
 
 **Partida actual (persistente, sobrevive a recargar):** progreso de niveles completados, nivel actual y, si hay un nivel en curso, su contador. Recargar la página **no** hace perder nada de esto: el juego retoma exactamente donde se dejó. Se reinicia por completo (incluido el contador) con cualquier Game Over.
 
+Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de nivel (el desenlace ya decidido pero aún sin confirmar con Next / Return to Level Selection), el juego no reanuda el nivel como jugable: muestra la modal correspondiente directamente, con el nivel congelado detrás y sin repetir la animación. Next / Return to Level Selection funcionan desde ahí con normalidad.
+
 **Ajustes:** idioma, volumen (solo música), música on/off y efectos on/off también se persisten en localStorage.
 
 ---

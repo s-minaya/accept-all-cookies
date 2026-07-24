@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { RUN_STORAGE_KEY, useRunStore } from './runStore'
 import { useRankingStore } from './rankingStore'
 import { load } from './storage'
@@ -6,7 +6,12 @@ import { load } from './storage'
 describe('runStore', () => {
   beforeEach(() => {
     window.localStorage.clear()
-    useRunStore.setState({ completedLevels: [], currentLevel: 1, activeLevelTimeLeft: null })
+    useRunStore.setState({
+      completedLevels: [],
+      currentLevel: 1,
+      activeLevelTimeLeft: null,
+      pendingOutcome: null,
+    })
     useRankingStore.setState({ entries: [] })
   })
 
@@ -15,6 +20,7 @@ describe('runStore', () => {
       completedLevels: [],
       currentLevel: 1,
       activeLevelTimeLeft: null,
+      pendingOutcome: null,
     })
   })
 
@@ -98,6 +104,36 @@ describe('runStore', () => {
       useRunStore.getState().enterLevel()
       useRunStore.getState().updateActiveLevelTime(77)
       expect(load(RUN_STORAGE_KEY, null)).toMatchObject({ activeLevelTimeLeft: 77 })
+    })
+  })
+
+  describe('pendingOutcome (recargar durante el veredicto/modal muestra la modal, no el nivel jugable)', () => {
+    it('setPendingOutcome persists the outcome', () => {
+      useRunStore.getState().setPendingOutcome('win')
+      expect(useRunStore.getState().pendingOutcome).toBe('win')
+      expect(load(RUN_STORAGE_KEY, null)).toMatchObject({ pendingOutcome: 'win' })
+    })
+
+    it('completeLevel (confirming the win modal) clears the pending outcome', () => {
+      useRunStore.getState().setPendingOutcome('win')
+      useRunStore.getState().completeLevel(1)
+      expect(useRunStore.getState().pendingOutcome).toBeNull()
+    })
+
+    it('resetRun (confirming the lose modal) clears the pending outcome', () => {
+      useRunStore.getState().setPendingOutcome('lose')
+      useRunStore.getState().resetRun()
+      expect(useRunStore.getState().pendingOutcome).toBeNull()
+    })
+
+    it('a run persisted before pendingOutcome existed falls back to null instead of undefined', async () => {
+      window.localStorage.setItem(
+        RUN_STORAGE_KEY,
+        JSON.stringify({ completedLevels: [1], currentLevel: 2, activeLevelTimeLeft: null }),
+      )
+      vi.resetModules()
+      const { useRunStore: freshRunStore } = await import('./runStore')
+      expect(freshRunStore.getState().pendingOutcome).toBeNull()
     })
   })
 })

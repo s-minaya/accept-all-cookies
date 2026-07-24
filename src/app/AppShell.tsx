@@ -16,8 +16,8 @@ type Screen = 'landing' | 'select' | 'level' | 'credits'
 const FINAL_LEVEL: LevelId = 12
 
 function initialScreen(): Screen {
-  const { activeLevelTimeLeft, completedLevels } = useRunStore.getState()
-  if (activeLevelTimeLeft !== null) return 'level'
+  const { activeLevelTimeLeft, pendingOutcome, completedLevels } = useRunStore.getState()
+  if (activeLevelTimeLeft !== null || pendingOutcome !== null) return 'level'
   if (completedLevels.length > 0) return 'select'
   return 'landing'
 }
@@ -36,10 +36,12 @@ export function AppShell() {
   const currentLevel = useRunStore((state) => state.currentLevel)
   const completedLevels = useRunStore((state) => state.completedLevels)
   const activeLevelTimeLeft = useRunStore((state) => state.activeLevelTimeLeft)
+  const pendingOutcome = useRunStore((state) => state.pendingOutcome)
   const completeLevel = useRunStore((state) => state.completeLevel)
   const resetRun = useRunStore((state) => state.resetRun)
   const enterLevel = useRunStore((state) => state.enterLevel)
   const updateActiveLevelTime = useRunStore((state) => state.updateActiveLevelTime)
+  const setPendingOutcome = useRunStore((state) => state.setPendingOutcome)
   const recordIfImproved = useRankingStore((state) => state.recordIfImproved)
   const markFinished = useRankingStore((state) => state.markFinished)
   const character = usePlayerStore((state) => state.character)
@@ -95,7 +97,9 @@ export function AppShell() {
           level={levelRegistry[currentLevel]}
           isFinalLevel={currentLevel === FINAL_LEVEL}
           initialSeconds={activeLevelTimeLeft ?? LEVEL_DURATION_SECONDS}
+          initialOutcome={pendingOutcome ?? undefined}
           onTick={updateActiveLevelTime}
+          onOutcome={setPendingOutcome}
           onExit={handleLevelExit}
         />
       )

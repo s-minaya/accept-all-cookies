@@ -50,6 +50,10 @@ Confirmar en la modal de Personaje un personaje y/o nombre **distinto** del juga
 
 `LevelProps` gana `paused: boolean`: mientras se muestra el veredicto o la modal, el nivel sigue montado y visible detrás pero congelado (sin animaciones propias ni input). El nivel de prueba se actualiza para demostrarlo.
 
+### Recarga durante el veredicto o la modal
+
+`completeLevel`/`resetRun` (los que limpian `activeLevelTimeLeft` y actualizan progreso/ranking) solo se ejecutan al confirmar la modal (Next / Return to Level Selection) — hasta entonces, `activeLevelTimeLeft` sigue siendo el del instante en que se ganó o perdió. `runStore` guarda además `pendingOutcome: 'win' | 'lose' | null`, fijado en cuanto el nivel gana o pierde (antes del texto gigante) y limpiado por `completeLevel`/`resetRun`. Si al arrancar el shell hay un `pendingOutcome`, el nivel se monta directamente en la fase de la modal correspondiente — congelado detrás, sin repetir la animación de `GiantVerdict` ni su sonido — en vez de reanudarse como jugable con el contador restaurado. Sin este campo, recargar durante el veredicto o la modal reanudaba el nivel como si aún se estuviera jugando, con el contador en el valor congelado; en el Nivel 1 eso podía dejar el Agree visible y pulsable desde el primer fotograma si el tiempo restaurado ya superaba los 7 s del retardo.
+
 ### Registro de niveles
 
 El registro tiene los 12 huecos; los niveles aún no implementados apuntan al nivel de prueba con el nombre real de su categoría. Las features 005–016 los van sustituyendo. Con los 12 completados, la modal del 12 usa el botón **Next** (Credits llega en la 016) y en la selección no queda ninguna fila disponible, así que el botón Check no aparece.
@@ -83,6 +87,7 @@ Es el momento en que el proyecto pasa de "pantallas" a "juego": todo el ciclo ju
 
 ### Contrato y calidad
 - [x] `paused` congela el nivel de prueba (animación e input) mientras hay veredicto o modal, con el nivel visible detrás (test).
+- [x] Recargar la página mientras se muestra el veredicto o la modal (ganando o perdiendo) muestra la modal directamente al arrancar, sin repetir la animación de `GiantVerdict`; Next/Return to Level Selection funcionan con normalidad desde ahí. Recargar a mitad de nivel sin desenlace pendiente sigue reanudando el nivel como jugable, con su contador (test; caso específico: Nivel 1 ganado + recarga no deja el Agree visible ni pulsable).
 - [x] Los 12 huecos del registro cargan (nivel de prueba donde toque) separados del bundle principal en el build; serán chunks distintos entre sí en cuanto cada feature de nivel (005-016) sustituya su hueco.
 - [x] Nombres de nivel y mensajes de las modales en ambos diccionarios (`levels.*`, `meta.*`); los títulos Disagree/Cookies Accepted y el botón Check permanecen en inglés vía `game.*` con el test de identidad — Next (`meta.win.nextButton`) y Return to Level Selection (`meta.lose.returnButton`) sí se traducen, no son vocabulario del falso sistema operativo (GDD §11).
 - [x] Todo el flujo es jugable con dedo y ratón y correcto en los 5 anchos de referencia. Confirmado visualmente por Sofía.

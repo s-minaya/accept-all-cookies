@@ -16,7 +16,12 @@ function resolveGiantVerdict(container: HTMLElement) {
 describe('AppShell', () => {
   beforeEach(() => {
     window.localStorage.clear()
-    useRunStore.setState({ completedLevels: [], currentLevel: 1, activeLevelTimeLeft: null })
+    useRunStore.setState({
+      completedLevels: [],
+      currentLevel: 1,
+      activeLevelTimeLeft: null,
+      pendingOutcome: null,
+    })
     useRankingStore.setState({ entries: [] })
   })
 
@@ -106,6 +111,67 @@ describe('AppShell', () => {
     it('boots into landing when there is no progress at all', () => {
       render(<AppShell />)
       expect(screen.getByText('Empezar')).toBeInTheDocument()
+    })
+
+    it('reloading with a pending win outcome shows the Level Complete modal directly, not the playable level', async () => {
+      useRunStore.setState({
+        completedLevels: [],
+        currentLevel: 2,
+        activeLevelTimeLeft: 40,
+        pendingOutcome: 'win',
+      })
+      const user = userEvent.setup()
+      render(<AppShell />)
+
+      expect(await screen.findByText('Cookies Accepted')).toBeInTheDocument()
+      expect(screen.queryByText('Cookie Preferences')).not.toBeInTheDocument()
+      expect(screen.queryByText('Empezar')).not.toBeInTheDocument()
+
+      await user.click(screen.getByText('Siguiente'))
+
+      expect(await screen.findByText('Cookie Preferences')).toBeInTheDocument()
+      expect(useRunStore.getState()).toMatchObject({ completedLevels: [2], pendingOutcome: null })
+    })
+
+    it('reloading with a pending lose outcome shows the Game Over modal directly, and its button resets the run', async () => {
+      useRunStore.setState({
+        completedLevels: [1],
+        currentLevel: 2,
+        activeLevelTimeLeft: 40,
+        pendingOutcome: 'lose',
+      })
+      const user = userEvent.setup()
+      render(<AppShell />)
+
+      expect(await screen.findByText('Volver a la selección de niveles')).toBeInTheDocument()
+      expect(screen.queryByText('Cookie Preferences')).not.toBeInTheDocument()
+
+      await user.click(screen.getByText('Volver a la selección de niveles'))
+
+      expect(await screen.findByText('Cookie Preferences')).toBeInTheDocument()
+      expect(useRunStore.getState()).toMatchObject({
+        completedLevels: [],
+        currentLevel: 1,
+        pendingOutcome: null,
+      })
+    })
+
+    it('the level 1 win-then-reload case that exposed the bug: no playable Agree, the modal shows instead', async () => {
+      // 40s restantes de 100 = 60s transcurridos, muy por encima del retardo
+      // de 7s del Agree del nivel 1 real: antes de este fix, esto hacía que
+      // el Agree apareciera visible y pulsable desde el primer frame en vez
+      // de mostrarse la modal de victoria.
+      useRunStore.setState({
+        completedLevels: [],
+        currentLevel: 1,
+        activeLevelTimeLeft: 40,
+        pendingOutcome: 'win',
+      })
+      render(<AppShell />)
+
+      expect(await screen.findByText('Cookies Accepted')).toBeInTheDocument()
+      expect(screen.queryByText('Cookie Preferences')).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Agree' })).toBeDisabled()
     })
   })
 

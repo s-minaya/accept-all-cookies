@@ -42,6 +42,65 @@ describe('LevelHost — contador a 0 (GDD §4.2/§8)', () => {
   })
 })
 
+describe('LevelHost — initialOutcome/onOutcome (recarga durante el veredicto/modal, GDD §12)', () => {
+  it('with an initialOutcome, boots straight into the modal — no GiantVerdict animation, level frozen behind it', async () => {
+    const onExit = vi.fn()
+    const { container } = render(
+      <LevelHost
+        level={testLevelDefinition}
+        isFinalLevel={false}
+        initialOutcome="win"
+        onExit={onExit}
+      />,
+    )
+
+    expect(container.querySelector('[class*="giant-verdict__text"]')).not.toBeInTheDocument()
+    expect(screen.getByText('Cookies Accepted')).toBeInTheDocument()
+    await vi.waitFor(() => expect(screen.getByRole('button', { name: 'Agree' })).toBeDisabled())
+    expect(onExit).not.toHaveBeenCalled()
+  })
+
+  it('confirming a modal booted from initialOutcome still calls onExit exactly once, with that outcome', () => {
+    const onExit = vi.fn()
+    render(
+      <LevelHost
+        level={testLevelDefinition}
+        isFinalLevel={false}
+        initialOutcome="lose"
+        onExit={onExit}
+      />,
+    )
+
+    fireEvent.click(screen.getByText('Volver a la selección de niveles'))
+
+    expect(onExit).toHaveBeenCalledTimes(1)
+    expect(onExit).toHaveBeenCalledWith({ outcome: 'lose', reason: 'failed' })
+  })
+
+  it('without an initialOutcome, calls onOutcome exactly once as soon as the level is won, before the verdict animation finishes', async () => {
+    const onOutcome = vi.fn()
+    const { container } = render(
+      <LevelHost
+        level={testLevelDefinition}
+        isFinalLevel={false}
+        onOutcome={onOutcome}
+        onExit={() => {}}
+      />,
+    )
+
+    await vi.waitFor(() => expect(screen.getByText('Agree')).toBeInTheDocument())
+    fireEvent.click(screen.getByText('Agree'))
+
+    expect(onOutcome).toHaveBeenCalledTimes(1)
+    expect(onOutcome).toHaveBeenCalledWith('win')
+
+    resolveGiantVerdict(container)
+    fireEvent.click(screen.getByText('Siguiente'))
+
+    expect(onOutcome).toHaveBeenCalledTimes(1) // no se repite al confirmar la modal
+  })
+})
+
 describe('LevelHost — onRestart (005-plan.md)', () => {
   beforeEach(() => {
     vi.useFakeTimers()
