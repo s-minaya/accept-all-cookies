@@ -61,7 +61,7 @@
 
 - Componentes en `PascalCase`, funciones/variables en `camelCase`, un componente por archivo.
 - Tests junto al código: `logic.ts` + `logic.test.ts`. Prioridad de testing: lógica pura de niveles y del meta-flujo (progresión, reinicio, ranking).
-- **Ningún texto visible hardcodeado**: todo pasa por i18n, incluidos los textos de los botones. Los términos de juego (game.agree, game.disagree y demás textos de botón en inglés) viven igualmente en los diccionarios, con el mismo valor en ES y EN; un test lo verifica para que nadie los "traduzca" por error (GDD §11).
+- **Ningún texto visible hardcodeado**: todo pasa por i18n, incluidos los textos de los botones. Los términos de juego (game.agree, game.disagree y demás textos de botón en inglés) viven igualmente en los diccionarios, con el mismo valor en ES y EN; un test lo verifica para que nadie los "traduzca" por error (GDD §11). `index.html` lleva `<html translate="no">` + `<meta name="google" content="notranslate">`: sin esto, la traducción automática del navegador/SO (Safari en iOS, Chrome) puede traducir esos términos igualmente por encima de nuestro propio i18n — bug real reportado por Sofía en un iPhone 16.
 - **Ningún color hardcodeado**: solo variables CSS de `tokens.css`.
 - Timers: un único hook `useCountdown` compartido; prohibido sembrar `setInterval` sueltos por los niveles (fuente clásica de fugas al desmontar). **Excepción (feature 007):** los bucles de física/animación (`requestAnimationFrame`, `Runner` de matter.js) sí están permitidos dentro de un nivel, con limpieza obligatoria en el cleanup del efecto (Runner parado, rAF cancelado, listeners desconectados) — `setInterval` sigue prohibido sin excepción.
 - Todo efecto (física, animaciones, audio, listeners) se limpia en el cleanup del efecto: al desmontar un nivel no debe quedar nada vivo.
@@ -86,7 +86,7 @@
   - `lg` — 1025–1440 px (desktop)
   - `xl` — > 1440 px (large desktop)
 - **Resolución lógica + escala** para las áreas de juego: cada nivel se diseña sobre un lienzo lógico fijo (p. ej. 640×360) y el shell lo escala con `transform: scale()` para encajar en el viewport. Así la física, el plinko o el tablero del nivel 6 no necesitan lógica por breakpoint: solo cambia la escala. La UI que rodea al área (texto, botones, barra de título) sí fluye con CSS normal.
-- La ventana XP ocupa prácticamente todo el viewport en `xs`/`sm` y un tamaño fijo centrado en `lg`/`xl`.
+- La ventana XP ocupa prácticamente todo el viewport en `xs`/`sm` y un tamaño fijo centrado en `lg`/`xl`. Ancho con `width: min(95vw, 40rem)` (`XPWindow.module.scss`), no `width: 100%` + `max-width`: el 100% se resuelve contra la celda del grid de `.level-host` (`place-items: center`, sin stretch), que en algunos móviles (iPhone 16, no en el iPhone SE 2022 — reportado por Sofía) podía acabar más ancha que el viewport y causar scroll horizontal; `vw` es siempre relativo al viewport, sin ese problema. `overflow-x: hidden` en `html`/`body` (`reset.scss`) es la red de seguridad general — necesaria además para el nivel 3, cuya ventana rotada puede tener un cuadro delimitador más ancho que su ancho sin rotar.
 - Objetivo de tamaño táctil: zonas interactivas ≥ 44×44 px reales en móvil.
 - QA obligatorio por feature en: 375 px, 480 px, 768 px, 1280 px y 1920 px.
 
