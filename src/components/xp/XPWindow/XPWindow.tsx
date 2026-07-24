@@ -80,9 +80,7 @@ export function XPWindow({
           <div className={interiorClasses}>{children}</div>
         </div>
 
-        {boardBelowFrame && (
-          <div className={styles['xp-window__board']}>{boardBelowFrame}</div>
-        )}
+        {boardBelowFrame && <div className={styles['xp-window__board']}>{boardBelowFrame}</div>}
 
         {footer && <div className={styles['xp-window__footer']}>{footer}</div>}
       </div>

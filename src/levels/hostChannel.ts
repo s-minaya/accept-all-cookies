@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useLayoutEffect, type ReactNode, type RefObject } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  type ReactNode,
+  type RefObject,
+} from 'react'
 
 export type SetFooter = (footer: ReactNode) => void
 export type SetWindowTransform = (transform: string | null) => void
