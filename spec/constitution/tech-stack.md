@@ -11,8 +11,8 @@
 - **Estilos:** Sass (`.module.scss`) + CSS Modules + variables CSS globales (tokens). Convención de clases BEM (ver Convenciones). Instalado en la feature 003 (`sass` `^1.101`, sin configuración extra: Vite lo detecta solo). Sin Tailwind ni styled-components.
 - **i18n:** diccionarios JSON propios (`es.json`, `en.json`) + hook `useT()`. Sin librería.
 - **Audio:** wrapper propio sobre `HTMLAudioElement` (3 assets: positivo, negativo, música en loop).
-- **Tests:** Vitest + React Testing Library. La lógica de cada nivel (condiciones de victoria/derrota, máquinas de estados) vive en funciones puras testeables sin DOM.
-- **Despliegue:** GitHub Pages, build estática publicada con GitHub Actions en cada push a `main`. Implicaciones: configurar `base: '/<nombre-del-repo>/'` en `vite.config.ts` (si no, los assets 404ean en Pages) y usar enrutado por estado interno o hash, nunca rutas de servidor (Pages no reescribe URLs).
+- **Tests:** Vitest + React Testing Library. La lógica de cada nivel (condiciones de victoria/derrota, máquinas de estados) vive en funciones puras testeables sin DOM. **Playwright** (instalado durante la feature 002, usado en las features 002-005) para QA visual/responsive/de interacción real contra el servidor de desarrollo — no sustituye a Vitest, lo complementa donde el DOM simulado no basta (animaciones, layout en distintos anchos, entrada táctil).
+- **Despliegue:** GitHub Pages, build estática publicada con GitHub Actions en cada push a `main`. Implicaciones: configurar `base: '/<nombre-del-repo>/'` en `vite.config.ts` (si no, los assets 404ean en Pages) y usar enrutado por estado interno, sin URL — el único parámetro válido es el escape `?playground` (Pages no reescribe URLs).
 - **Herramienta de desarrollo:** OpenCode. El archivo `AGENTS.md` de la raíz debe apuntar a `spec/` como fuente de verdad y resumir los límites duros de este documento.
 
 ## Archivos / módulos clave
@@ -30,7 +30,7 @@
 - `spec/tools/validate-level6.mjs` — validador del tablero del nivel 6; ejecutar tras cualquier edición del layout.
 - `src/assets/fonts/` — fuentes pixel (woff2). 
 - `src/assets/audio/` — `positive.*`, `negative.*`, `music.*`. 
-- `src/assets/images/` — `landing-bg.png`, `characters/character-1.png` … `character-4.png`, `clippy.png`. Todo importado desde el código (nunca en `public/`); pixel art siempre en PNG
+- `src/assets/images/` — sprites e iconos del juego; ver `src/assets/images/`. Todo importado desde el código (nunca en `public/`); pixel art siempre en PNG
 
 ## Comandos
 
@@ -44,7 +44,7 @@
 
 - `RankingEntry { username, character (0-3), maxLevel, date, finished? }` — récord **histórico** por usuario. Nunca se borra con un Game Over. Se actualiza solo si se supera el récord propio.
 - `RunState { completedLevels: LevelId[], currentLevel: LevelId, activeLevelTimeLeft: number | null }` — progreso de la partida en curso, **persistido en localStorage** igual que ajustes y ranking (`aac.v1.run`): recargar la página no hace perder la partida ni el contador del nivel activo, el juego retoma donde se dejó. Se reinicia por completo (incluido `activeLevelTimeLeft`) con cualquier Game Over.
-- `Settings { language: 'es' | 'en', volume: 0..1, musicOn: boolean }` — persistido en localStorage.
+- `Settings { language, volume (solo música), musicOn, soundEffectsOn }` — persistido en localStorage.
 - `LevelId = 1..12` — la progresión es estrictamente lineal; `currentLevel` siempre es el primer nivel no completado.
 - Contrato de nivel: cada nivel recibe `onWin()` / `onLose(reason)`, el tiempo restante, `paused` (el shell congela el nivel durante veredictos y modales) y `onRestart?` opcional (el nivel pide "vuelve a empezarme"; el shell remonta su componente y reinicia el contador a 100 — solo lo declaran los niveles que lo necesitan, p. ej. el nivel 1); **no** navega por sí mismo ni toca el store del run. El contador (100 s, gestionado por el shell) y el botón X son responsabilidad de la ventana común, no del nivel.
 - Botones inferiores del nivel: se registran con el hook `useLevelFooter(nodo)` (`src/levels/levelFooter.ts`), que los publica en el pie de `XPWindow` — fuera del marco azul del área de juego, incluso si el nivel usa ese marco para su propio contenido (tablero o, como el nivel 1, su texto de consentimiento). El nodo pasado debe ir memoizado (`useMemo`) con dependencias primitivas estables; una referencia nueva en cada render entra en bucle con el estado del `footer` en `LevelHost`.
@@ -68,7 +68,7 @@
 ## Estilo visual
 
 - Tokens de color (de `tokens.css`, valores del GDD): título `#2451E0→#026DE9`, beige `#EFE7DC`, azul marco `#153859`, agree `#CDF5CE`/`#7CBF89`, disagree `#FDD2D3`/`#C7858A`, neutro `blanco→#DFE0D8` con bordes `#3E587F`/`#96A6D9`, cerrar `#E84443`, borde botón `#345779`, guía beige `#B49E85`.
-- Fuentes: **Pixelated MS Sans Serif** (UI) + una fuente pixel display para botones y textazos AGREE/DISAGREE.
+- Fuentes: **DotGothic16** (UI) y **Press Start 2P** (display), ambas OFL-1.1.
 - `image-rendering: pixelated` en todos los sprites; escalado en múltiplos enteros siempre que sea posible.
 
 ### Responsive

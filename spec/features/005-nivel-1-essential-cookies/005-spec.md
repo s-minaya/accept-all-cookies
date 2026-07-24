@@ -1,5 +1,7 @@
 # 005 · Nivel 1 — Essential Cookies
 
+**Estado:** en curso
+
 ## Qué hace
 
 Implementa el primer nivel real del juego (GDD §9, Nivel 1) y lo enchufa en el hueco 1 del registro, sustituyendo al nivel de prueba. Es el nivel-tutorial: mecánica mínima, pero estrena el patrón de construcción que seguirán los otros once.

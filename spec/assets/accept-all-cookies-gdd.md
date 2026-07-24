@@ -34,6 +34,8 @@ La landing es el punto de entrada al juego y contiene cuatro secciones:
 - Se almacena en **localStorage**.
 - El avatar crece de forma progresiva con el ancho de pantalla (móvil pequeño → tablet → escritorio → escritorio grande, este último con el salto más grande) para que se reconozca bien al personaje en cualquier dispositivo.
 - El nombre de usuario va en su propia línea; el nivel alcanzado y la fecha van juntos en una segunda línea debajo, para que un nombre largo nunca se corte por competir con esos datos en la misma línea.
+- El récord se registra **al abrir un nivel**, no al completarlo: morir en el nivel 7 deja registrado el récord 7.
+- Completar el nivel 12 marca la entrada como **terminada** (`finished`); el ranking muestra esa partida con una insignia distinta de simplemente "llegó al nivel 12".
 
 Estructura de datos propuesta:
 
@@ -44,7 +46,8 @@ Estructura de datos propuesta:
       "username": "sofia",
       "character": 2,
       "maxLevel": 9,
-      "date": "2026-07-16"
+      "date": "2026-07-16",
+      "finished": false
     }
   ]
 }
@@ -84,8 +87,8 @@ Todo el juego es **100% pixel art** con estética **Windows XP**:
 
 Dos fuentes pixel, con jerarquías distintas:
 
-- **UI general:** fuente pixel que evoque Tahoma — **"Pixelated MS Sans Serif"** (o equivalente). Se usa en textos de consentimiento, títulos de ventana, listas, menús.
-- **Display:** fuente pixel gruesa para los textos de botones (Agree / Disagree / Check…) y para los textazos gigantes **AGREE** / **DISAGREE** de las pantallas de victoria y derrota.
+- **UI general:** **DotGothic16** (OFL-1.1). Se usa en textos de consentimiento, títulos de ventana, listas, menús.
+- **Display:** **Press Start 2P** (OFL-1.1), fuente pixel gruesa para los textos de botones (Agree / Disagree / Check…) y para los textazos gigantes **AGREE** / **DISAGREE** de las pantallas de victoria y derrota.
 
 ## 2.3 Audio
 
@@ -991,7 +994,7 @@ Tres estructuras independientes, las tres persistidas:
 
 **Partida actual (persistente, sobrevive a recargar):** progreso de niveles completados, nivel actual y, si hay un nivel en curso, su contador. Recargar la página **no** hace perder nada de esto: el juego retoma exactamente donde se dejó. Se reinicia por completo (incluido el contador) con cualquier Game Over.
 
-**Ajustes:** idioma, volumen y música on/off también se persisten en localStorage.
+**Ajustes:** idioma, volumen (solo música), música on/off y efectos on/off también se persisten en localStorage.
 
 ---
 

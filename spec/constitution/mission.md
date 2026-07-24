@@ -6,7 +6,7 @@
 
 Piezas principales:
 
-1. **Landing** — selección de personaje + nombre, ranking (localStorage), guía de información y ajustes (idioma ES/EN, volumen, música).
+1. **Landing** — selección de personaje + nombre, ranking (localStorage), guía de información y ajustes (idioma ES/EN, volumen, música y efectos).
 2. **Meta-flujo** — pantalla de selección de niveles (progreso lineal), ventanas Game Over / Level Complete con sus animaciones, pantalla de créditos.
 3. **Los 12 niveles** — cada uno una mecánica autocontenida dentro de la misma ventana XP común (ver GDD, la fuente de verdad del diseño: `spec/assets/accept-all-cookies-gdd.md`).
 
@@ -30,4 +30,4 @@ Piezas principales:
 - **No tiene backend ni cuentas**: el ranking es local del navegador, no global.
 - **No es multijugador** ni tiene tabla de puntuaciones online.
 - **No permite elegir nivel libremente**: la progresión lineal y el reinicio total al perder son decisiones de diseño, no limitaciones.
-- **No usa cookies reales** más allá del chiste: solo localStorage para ranking y ajustes.
+- **No usa cookies reales** más allá del chiste: solo localStorage para ranking, ajustes y la partida en curso.

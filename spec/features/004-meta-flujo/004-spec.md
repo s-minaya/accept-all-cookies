@@ -1,5 +1,6 @@
 # 004 · Meta-flujo
 
+**Estado:** implementada
 
 ## Qué hace
 

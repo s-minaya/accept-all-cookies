@@ -1,6 +1,6 @@
 # 001 · Fundamentos y sistema de diseño
 
-**Estado:** hecho
+**Estado:** implementada
 
 ## Qué hace
 

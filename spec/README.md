@@ -18,17 +18,17 @@ spec/
 │   └── validate-level6.mjs         ← validador del tablero del nivel 6
 └── features/                      ← una carpeta por feature
     └── NNN-nombre-feature/
-        ├── spec.md
-        ├── plan.md
-        └── tasks.md
+        ├── NNN-spec.md
+        ├── NNN-plan.md
+        └── NNN-tasks.md
 ```
 
 ## Flujo para una feature nueva
 
 1. Crear `features/NNN-nombre-feature/` con el siguiente número del roadmap.
-2. Escribir `spec.md`: qué hace + criterios de aceptación medibles (siempre incluyen: jugable con ratón Y con dedo, y correcto en los 5 anchos de referencia).
-3. Escribir `plan.md` respetando `constitution/tech-stack.md`.
-4. Desglosar en `tasks.md` y marcar el progreso.
+2. Escribir `NNN-spec.md`: qué hace + criterios de aceptación medibles (siempre incluyen: jugable con ratón Y con dedo, y correcto en los 5 anchos de referencia).
+3. Escribir `NNN-plan.md` respetando `constitution/tech-stack.md`.
+4. Desglosar en `NNN-tasks.md` y marcar el progreso.
 5. Implementar y validar (`npm run test`, `npm run lint`, `npm run build`).
 6. Mover la feature a "Hecho" en `constitution/roadmap.md`.
 
