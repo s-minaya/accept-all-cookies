@@ -248,7 +248,10 @@ describe('AppShell', () => {
 
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Check'))
-        await vi.waitFor(() => expect(screen.getByText('Disagree')).toBeInTheDocument())
+        // `getAllByText` (no `getByText`): el nivel 3 tiene muchos Disagree
+        // a la vez (el fijo del pie + los de la lluvia, 007-plan.md) — esto
+        // solo espera a que el nivel haya montado, no importa cuántos haya.
+        await vi.waitFor(() => expect(screen.getAllByText('Disagree').length).toBeGreaterThan(0))
 
         // Inofensivo para los niveles 2-12 (nivel de prueba, Agree inmediato);
         // necesario para el nivel 1 real.

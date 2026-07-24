@@ -502,7 +502,9 @@ Do you agree to the use of Analytics Cookies?
 
 ## Nivel 3 — Personalization Cookies
 
-**Mecánica:** la ventana puede **rotar 360° libremente sobre su eje central** arrastrando con el ratón. El botón **Agree** está **fuera del viewport visible**: solo entra en pantalla al rotar la ventana. Mientras tanto, en un recuadro extra (más estrecho que el del texto) **caen y rebotan decenas de botones Disagree**.
+**Mecánica:** la ventana puede **rotar 360° libremente sobre su eje central** arrastrando con el ratón. Dentro del recuadro de lluvia (más estrecho que el del texto, donde **caen y rebotan decenas de botones Disagree** con física real) hay una **cámara oculta** a la derecha del recuadro visible, recortada por su propio marco: ahí reposa, quieto, el botón **Agree**, un cuerpo físico más de la simulación que no empieza a moverse hasta que el jugador gira la ventana por primera vez. La gravedad de la lluvia sigue siempre "hacia abajo de la pantalla" (nunca del recuadro): girar la ventana en sentido **antihorario (hacia la izquierda)** inclina esa gravedad lo suficiente para que el Agree ruede fuera de su cámara oculta y caiga dentro del recuadro visible, donde se puede pulsar. Girar en sentido horario (hacia la derecha) no lo revela — lo empuja más adentro de su escondite. Una vez el Agree ha entrado en el recuadro visible, no puede volver a esconderse aunque el jugador gire hacia el otro lado después.
+
+**Diseño:** excepción del GDD §4.3 (como los niveles 1 y 2): sin tablero propio, así que el texto de consentimiento ocupa el interior del marco azul del área de juego en vez del recuadro de consentimiento pequeño — pero **el marco azul se ajusta solo al texto**, no se estira. El recuadro de lluvia se renderiza **justo debajo de ese marco, fuera de él**, aprovechando el espacio sobrante del cuerpo de la ventana (corregido tras revisión de Sofía: al principio texto y recuadro de lluvia compartían un mismo marco azul estirado sobre ambos).
 
 **Texto:**
 ```
@@ -518,19 +520,18 @@ Do you agree to the use of Personalization Cookies?
 ```
 
 **Al cargar el nivel:**
-- El botón Agree no está visible (está fuera del viewport, en un lateral).
-- Solo se ve un botón **Disagree**.
-- En el recuadro extra empiezan a caer decenas de botones Disagree que rebotan con física.
-- El jugador intenta buscar el Agree sin éxito… hasta que descubre que la ventana rota.
+- El botón Agree no está visible ni en movimiento: reposa quieto en su cámara oculta a la derecha del recuadro de lluvia, recortada por el propio marco del recuadro (no por el borde del viewport) — nada de caída animada al cargar.
+- Solo se ve un botón **Disagree** fijo en el pie; dentro del recuadro empiezan a caer decenas de botones Disagree que rebotan con física (menos en dispositivos táctiles: menos sitio en pantalla, menos Disagree simultáneos).
+- El jugador intenta buscar el Agree sin éxito… hasta que descubre que la ventana rota y que solo girar hacia la izquierda lo hace caer a la vista.
 
 **Rotación:**
 - Click y arrastre sobre la ventana la hace girar sobre su centro.
 - Rotación libre, 360°, en ambos sentidos.
-- Al rotar, el botón Agree (situado en un lateral, fuera del área visible inicial) entra en pantalla y se puede pulsar.
+- El Agree permanece quieto hasta el primer giro (en cualquier sentido); a partir de ahí responde a la gravedad como cualquier Disagree. Solo el giro **antihorario (izquierda)** la inclina lo suficiente para que ruede desde su cámara oculta hasta el recuadro visible, donde cae y rebota hasta que se pulsa — y ya no puede volver a la cámara oculta.
 
 **Los Disagree que caen SON clicables:** pulsar cualquiera de ellos (o el Disagree fijo) es **Game Over**.
 
-**Victoria:** pulsar el Agree oculto → `Personalization Cookies accepted.`
+**Victoria:** pulsar el Agree, una vez ha caído dentro del recuadro visible → `Personalization Cookies accepted.`
 
 **Derrota:** pulsar cualquier Disagree (fijo o de los que caen), agotar el contador o pulsar la X.
 
@@ -1023,6 +1024,10 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | **Distinto por dispositivo**: escritorio 0.5, móvil/táctil 0.1. Detectado por tipo de puntero (`pointer: coarse`), no por ancho de pantalla. |
 | Duración del contador (todos los niveles) | 100 s |
 | Nivel 1: retardo de aparición del Agree | 7 s |
+| Nivel 3: población máxima de la lluvia de Disagree | 25 simultáneos en escritorio, 12 en dispositivos táctiles (detectado por tipo de puntero, no por ancho de pantalla — igual que el multiplicador de volumen de la música) |
+| Nivel 3: tasa de spawn de la lluvia | uno cada 350 ms, hasta el máximo |
+| Nivel 3: tiempo de reposo antes de reciclar un Disagree de la lluvia | 4 s |
+| Nivel 3: ancho de la cámara oculta del Agree (a la derecha del recuadro de lluvia) | 140 px |
 | Nivel 4: segmentos del botón | 6 |
 | Nivel 4: pegs del Plinko | 30 |
 | Nivel 4: ratio de spawn Agree/Disagree | 50/50 |

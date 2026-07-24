@@ -12,6 +12,15 @@ export interface XPWindowProps {
   /** Omitir para ocultar el recuadro de consentimiento (p. ej. la pantalla de selección, que no tiene texto de categoría). */
   consentText?: ReactNode
   children: ReactNode
+  /**
+   * Tablero de juego que se renderiza DEBAJO del marco azul, fuera de él, en
+   * el espacio sobrante del cuerpo de la ventana (p. ej. el recuadro de
+   * lluvia del nivel 3): a diferencia de `children`, el marco azul no lo
+   * envuelve — se ajusta solo a `children` en vez de estirarse (corregido
+   * tras revisión de Sofía: "el borde azul oscuro SOLO cubre los términos y
+   * condiciones de las cookies").
+   */
+  boardBelowFrame?: ReactNode
   footer?: ReactNode
   /**
    * Accesorio anclado dentro del cuerpo beige: arriba a la izquierda en
@@ -36,12 +45,17 @@ export function XPWindow({
   onClose,
   consentText,
   children,
+  boardBelowFrame,
   footer,
   cornerAccessory,
   scrollableContent,
   fillHeight,
 }: XPWindowProps) {
-  const windowClasses = [styles['xp-window'], fillHeight && styles['xp-window--fill-height']]
+  const windowClasses = [
+    styles['xp-window'],
+    fillHeight && styles['xp-window--fill-height'],
+    boardBelowFrame && styles['xp-window--has-board'],
+  ]
     .filter(Boolean)
     .join(' ')
   const interiorClasses = [
@@ -65,6 +79,10 @@ export function XPWindow({
         <div className={styles['xp-window__frame']}>
           <div className={interiorClasses}>{children}</div>
         </div>
+
+        {boardBelowFrame && (
+          <div className={styles['xp-window__board']}>{boardBelowFrame}</div>
+        )}
 
         {footer && <div className={styles['xp-window__footer']}>{footer}</div>}
       </div>

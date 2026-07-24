@@ -43,5 +43,14 @@ export interface LevelDefinition {
    * azul en vez de área de juego (p. ej. el nivel 1, sin tablero, GDD §9).
    */
   consentKey?: string
+  /**
+   * El nivel necesita más alto que el que le daría su propio contenido
+   * (p. ej. el nivel 3: su tablero, publicado vía `useLevelBoard`, necesita
+   * espacio "sobrante" real debajo del marco azul, no solo el que ocupe el
+   * texto) — la ventana ocupa la altura de su contenedor en vez de la de su
+   * contenido, igual que la pantalla de selección. Omitir en el resto de
+   * niveles: cambiaría su tamaño ya validado por Sofía.
+   */
+  fillHeight?: boolean
   component: LazyExoticComponent<LevelComponent>
 }

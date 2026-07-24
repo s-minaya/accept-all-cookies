@@ -65,7 +65,10 @@
       "name": "Analytics Cookies",
       "consent": "Analytics Cookies\n\nWe use analytics cookies to understand how visitors interact with our website.\n\nThese cookies collect information such as pages visited, time spent on the site, click patterns and device information. The data helps us improve performance, identify issues and provide a better user experience.\n\nAll information is processed in accordance with our Privacy Policy.\n\nDo you agree to the use of Analytics Cookies?"
     },
-    "3": { "name": "Personalization Cookies" },
+    "3": {
+      "name": "Personalization Cookies",
+      "consent": "Personalization Cookies\n\nPersonalization cookies allow us to remember your preferences, such as language, region and display settings.\n\nThey help us provide a more personalized experience based on your previous interactions with our website.\n\nDo you agree to the use of Personalization Cookies?"
+    },
     "4": { "name": "Advertising Cookies" },
     "5": { "name": "Social Media Cookies" },
     "6": { "name": "Cross-Site Tracking" },

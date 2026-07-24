@@ -47,6 +47,7 @@ export function usePointer(
   const draggingRef = useRef(false)
   const stillnessRef = useRef<StillnessState | null>(null)
   const rafRef = useRef<number | null>(null)
+  const pointerIdRef = useRef<number | null>(null)
 
   useEffect(() => {
     const element = ref.current
@@ -78,12 +79,19 @@ export function usePointer(
     }
 
     const handlePointerDown = (event: PointerEvent) => {
-      element.setPointerCapture(event.pointerId)
-      const point = toLocalPoint(event, element)
-      startPointRef.current = point
+      // Captura DIFERIDA (no aquí, en pointerdown): capturar de inmediato
+      // retargeta también el `click` nativo del navegador al elemento
+      // capturador, así que un simple tap sobre un botón anidado (p. ej. el
+      // Agree/Disagree de un nivel que engancha `usePointer` sobre toda la
+      // ventana para detectar arrastres, nivel 3) nunca dispararía su
+      // `onClick` — bug real, detectado con Playwright en la 007. Por eso la
+      // captura se adquiere solo al confirmarse un arrastre de verdad (más
+      // abajo, junto a `onDragStart`), nunca en un tap.
+      startPointRef.current = toLocalPoint(event, element)
       draggingRef.current = false
+      pointerIdRef.current = event.pointerId
       setIsPressed(true)
-      setPosition(point)
+      setPosition(startPointRef.current)
       runStillnessLoop()
     }
 
@@ -97,6 +105,7 @@ export function usePointer(
       if (gesture === 'drag') {
         if (!draggingRef.current) {
           draggingRef.current = true
+          if (pointerIdRef.current !== null) element.setPointerCapture(pointerIdRef.current)
           optionsRef.current.onDragStart?.(startPointRef.current)
         }
         optionsRef.current.onDragMove?.(point)
@@ -117,8 +126,16 @@ export function usePointer(
         }
       }
 
+      if (
+        draggingRef.current &&
+        pointerIdRef.current !== null &&
+        element.hasPointerCapture(pointerIdRef.current)
+      ) {
+        element.releasePointerCapture(pointerIdRef.current)
+      }
       startPointRef.current = null
       draggingRef.current = false
+      pointerIdRef.current = null
       setIsPressed(false)
       stopStillnessLoop()
     }

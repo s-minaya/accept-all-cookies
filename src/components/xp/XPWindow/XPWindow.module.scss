@@ -67,6 +67,15 @@
     background: var(--color-frame-blue);
   }
 
+  // Cuando hay tablero aparte debajo del marco (`boardBelowFrame`), el marco
+  // azul deja de estirarse y se ajusta a `children` (normalmente solo texto)
+  // — es el tablero quien aprovecha el espacio sobrante (corregido tras
+  // revisión de Sofía: "el borde azul oscuro SOLO cubre los términos y
+  // condiciones de las cookies").
+  &--has-board &__frame {
+    flex: 0 0 auto;
+  }
+
   &__interior {
     position: relative;
     min-height: calc(var(--logical-canvas-height) * 0.5);
@@ -89,6 +98,25 @@
   &--fill-height &__interior--scrollable {
     flex: 1;
     max-height: none;
+  }
+
+  // Con tablero aparte, el interior (ahora solo texto) vuelve a acotarse al
+  // tamaño moderado en vez de estirarse con `fillHeight`: es el tablero
+  // (`&__board`) quien debe quedarse con el espacio sobrante, no el texto.
+  &--has-board &__interior--scrollable {
+    flex: 0 0 auto;
+    max-height: 12rem;
+  }
+
+  // Tablero de juego debajo del marco azul, fuera de él (`boardBelowFrame`):
+  // ocupa el espacio sobrante del cuerpo de la ventana. Sin fondo ni borde
+  // propios aquí — es el nivel quien decide el aspecto de su tablero.
+  &__board {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    margin: 0 0.75rem 0.75rem;
   }
 
   &__footer {

@@ -2,9 +2,11 @@ import {
   Suspense,
   useCallback,
   useEffect,
+  useMemo,
   useReducer,
   useRef,
   useState,
+  type CSSProperties,
   type ReactNode,
 } from 'react'
 import { XPWindow } from '../components/xp/XPWindow'
@@ -12,7 +14,7 @@ import { GiantVerdict } from '../components/xp/GiantVerdict'
 import { useCountdown } from '../hooks/useCountdown'
 import { useT } from '../i18n/useT'
 import { LEVEL_DURATION_SECONDS, type LevelDefinition, type LoseReason } from '../levels/types'
-import { LevelFooterContext } from '../levels/levelFooter'
+import { HostChannelContext, type HostChannelValue } from '../levels/hostChannel'
 import {
   INITIAL_RUN_FLOW_STATE,
   isCounterRunning,
@@ -71,8 +73,27 @@ export function LevelHost({
   const [loseReason, setLoseReason] = useState<LoseReason>('failed')
   const [restartKey, setRestartKey] = useState(0)
   const [levelFooter, setLevelFooter] = useState<ReactNode>(null)
+  const [levelBoard, setLevelBoard] = useState<ReactNode>(null)
+  const [windowTransform, setWindowTransform] = useState<string | null>(null)
+  const windowRef = useRef<HTMLDivElement>(null)
   const hasExitedRef = useRef(false)
   const hasNotifiedOutcomeRef = useRef(false)
+
+  // Canal nivel→host consolidado (007-plan.md): un único contexto con
+  // ranuras con nombre en vez de un hook/contexto suelto por necesidad.
+  // Memoizado con dependencias que nunca cambian (los setters de useState y
+  // el ref son estables de por vida) para que su identidad sea estable entre
+  // renders — igual que el propio `footer`, una referencia nueva rompería la
+  // memoización de los hooks que lo consumen (`useLevelFooter` y compañía).
+  const hostChannel: HostChannelValue = useMemo(
+    () => ({
+      setFooter: setLevelFooter,
+      setWindowTransform,
+      windowRef,
+      setBoard: setLevelBoard,
+    }),
+    [],
+  )
 
   const {
     remaining,
@@ -128,32 +149,48 @@ export function LevelHost({
   return (
     <>
       <div className={styles['level-host']}>
-        <XPWindow
-          title={categoryName}
-          counter={remaining}
-          closeLabel={t('shell.level.close')}
-          onClose={flow.phase === 'playing' ? () => handleLose('closed') : undefined}
-          consentText={level.consentKey ? t(level.consentKey) : undefined}
-          scrollableContent={!level.consentKey}
-          footer={levelFooter}
+        <div
+          ref={windowRef}
+          className={styles['level-host__rotator']}
+          data-draggable={windowTransform !== null ? '' : undefined}
+          style={
+            windowTransform
+              ? ({ '--window-rotation': windowTransform } as CSSProperties)
+              : undefined
+          }
         >
-          <Suspense fallback={<span>{t('shell.level.loading')}</span>}>
-            <LevelFooterContext.Provider value={setLevelFooter}>
-              <LevelComponent
-                key={restartKey}
-                timeLeft={remaining}
-                onWin={handleWin}
-                onLose={handleLose}
-                onRestart={handleRestart}
-                paused={isLevelPaused(flow)}
-              />
-            </LevelFooterContext.Provider>
-          </Suspense>
+          <XPWindow
+            title={categoryName}
+            counter={remaining}
+            closeLabel={t('shell.level.close')}
+            onClose={flow.phase === 'playing' ? () => handleLose('closed') : undefined}
+            consentText={level.consentKey ? t(level.consentKey) : undefined}
+            scrollableContent={!level.consentKey}
+            fillHeight={level.fillHeight}
+            boardBelowFrame={levelBoard}
+            footer={levelFooter}
+          >
+            <Suspense fallback={<span>{t('shell.level.loading')}</span>}>
+              <HostChannelContext.Provider value={hostChannel}>
+                <LevelComponent
+                  key={restartKey}
+                  timeLeft={remaining}
+                  onWin={handleWin}
+                  onLose={handleLose}
+                  onRestart={handleRestart}
+                  paused={isLevelPaused(flow)}
+                />
+              </HostChannelContext.Provider>
+            </Suspense>
 
-          {flow.phase === 'verdict' && flow.result && (
-            <GiantVerdict result={flow.result} onDone={() => dispatch({ type: 'VERDICT_DONE' })} />
-          )}
-        </XPWindow>
+            {flow.phase === 'verdict' && flow.result && (
+              <GiantVerdict
+                result={flow.result}
+                onDone={() => dispatch({ type: 'VERDICT_DONE' })}
+              />
+            )}
+          </XPWindow>
+        </div>
       </div>
 
       {flow.phase === 'modal' && flow.result === 'win' && (

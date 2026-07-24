@@ -1,6 +1,7 @@
 import musicUrl from '../assets/audio/music.mp3'
 import negativeUrl from '../assets/audio/negative.mp3'
 import positiveUrl from '../assets/audio/positive.mp3'
+import { isCoarsePointerDevice } from '../hooks/device'
 
 /**
  * La música de fondo es intencionadamente más baja que los efectos: además
@@ -11,13 +12,8 @@ import positiveUrl from '../assets/audio/positive.mp3'
 const DESKTOP_MUSIC_VOLUME_FACTOR = 0.5
 const MOBILE_MUSIC_VOLUME_FACTOR = 0.1
 
-/** Dispositivo de entrada táctil (móvil/tablet) frente a ratón (escritorio); no depende del ancho de pantalla. */
-function isMobileDevice(): boolean {
-  return window.matchMedia?.('(pointer: coarse)')?.matches === true
-}
-
 function musicVolumeFactor(): number {
-  return isMobileDevice() ? MOBILE_MUSIC_VOLUME_FACTOR : DESKTOP_MUSIC_VOLUME_FACTOR
+  return isCoarsePointerDevice() ? MOBILE_MUSIC_VOLUME_FACTOR : DESKTOP_MUSIC_VOLUME_FACTOR
 }
 
 /**

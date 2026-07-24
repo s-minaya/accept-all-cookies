@@ -1,8 +1,8 @@
-import { useState, type ReactNode } from 'react'
+import { useMemo, useRef, useState, type ReactNode } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Level01 from './Level01'
-import { LevelFooterContext } from '../levelFooter'
+import { HostChannelContext, type HostChannelValue } from '../hostChannel'
 import { useSettingsStore } from '../../state/settingsStore'
 import type { LevelProps } from '../types'
 
@@ -13,18 +13,24 @@ const baseProps = {
 }
 
 /**
- * Reproduce lo mínimo que `LevelHost` hace de verdad: provee el setter de
- * `useLevelFooter` y pinta lo que el nivel registre junto al resto del
- * árbol, para que los tests puedan interactuar con los botones tal como
- * aparecerían en la ventana real (fuera del marco azul, GDD §4.5).
+ * Reproduce lo mínimo que `LevelHost` hace de verdad: provee el canal
+ * nivel→host (007-plan.md) y pinta el pie que el nivel registre junto al
+ * resto del árbol, para que los tests puedan interactuar con los botones tal
+ * como aparecerían en la ventana real (fuera del marco azul, GDD §4.5). El
+ * nivel 1 no usa rotación ni overlay: esas ranuras son no-op aquí.
  */
 function Level01Harness(props: LevelProps) {
   const [footer, setFooter] = useState<ReactNode>(null)
+  const windowRef = useRef<HTMLElement>(null)
+  const channel: HostChannelValue = useMemo(
+    () => ({ setFooter, setWindowTransform: () => {}, setBoard: () => {}, windowRef }),
+    [setFooter],
+  )
   return (
-    <LevelFooterContext.Provider value={setFooter}>
+    <HostChannelContext.Provider value={channel}>
       <Level01 {...props} />
       {footer}
-    </LevelFooterContext.Provider>
+    </HostChannelContext.Provider>
   )
 }
 

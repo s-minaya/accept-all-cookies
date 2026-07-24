@@ -1,0 +1,75 @@
+.level-03 {
+  // Rellena el marco azul del área de juego (GDD §4.4): este nivel no tiene
+  // tablero propio en el sentido del GDD §4.3, así que el texto de
+  // consentimiento ocupa ese espacio, ajustado a su propio contenido —
+  // igual que los niveles 1-2. El recuadro de lluvia ya NO comparte este
+  // marco: se publica aparte (`useLevelBoard`) y `XPWindow` lo renderiza
+  // debajo de él, fuera del marco azul, en el espacio sobrante (corregido
+  // tras revisión de Sofía: "el borde azul oscuro SOLO cubre los términos y
+  // condiciones de las cookies").
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+
+  // Recuadro de lluvia (GDD Nivel 3): "más estrecho que el del texto",
+  // acotado y con su propio fondo para distinguirlo del resto de la ventana.
+  // `overflow: hidden` recorta visualmente tanto los Disagree que `rain.ts`
+  // posiciona un poco por encima del recuadro antes de caer, como la cámara
+  // oculta del Agree — un espacio físico continuo a la derecha del
+  // recuadro, sin pared separadora, solo recortado aquí (007-plan.md).
+  // Ancho progresivo por breakpoint (tokens.scss, igual criterio que
+  // RankingModal__avatar): en móvil se queda en 22rem; a partir de tablet
+  // crece en cada escalón para aprovechar mejor el ancho de la ventana
+  // (corrección de Sofía — antes se quedaba estrecho también en pantallas
+  // grandes). A partir de `lg` la ventana ya no crece (tamaño fijo, GDD
+  // "Responsive"): el 85% de su interior se queda pegado a ~523px, así que
+  // ahí también sube el porcentaje, no solo el tope, para que el recuadro
+  // siga ganando ancho real en vez de topar en silencio con un `max-width`
+  // inalcanzable.
+  &__rain-box {
+    position: relative;
+    align-self: center;
+    width: 85%;
+    max-width: 22rem;
+    flex: 1;
+    min-height: 10rem;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--color-beige);
+    box-shadow: inset 0 0 0 2px var(--color-frame-blue);
+
+    @media (min-width: 481px) {
+      max-width: 26rem;
+    }
+
+    @media (min-width: 1025px) {
+      width: 87%;
+      max-width: 30rem;
+    }
+
+    @media (min-width: 1441px) {
+      width: 90%;
+      max-width: 34rem;
+    }
+  }
+
+  // Posicionado por `rain.ts` vía `transform` en cada paso de física, nunca
+  // por el ciclo de render de React — de ahí `position: absolute` fijo en
+  // `top`/`left` y todo el movimiento resuelto con `translate()`. Comparten
+  // clase el Agree y los Disagree: ambos son cuerpos de la misma simulación.
+  &__rain-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+  }
+}

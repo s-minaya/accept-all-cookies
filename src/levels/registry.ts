@@ -35,4 +35,17 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // propio (006-plan.md).
     component: lazy(() => import('./level02/Level02')),
   },
+  3: {
+    titleKey: 'levels.3.name',
+    // Sin consentKey (corregido tras revisión de Sofía sobre la 007: el
+    // texto va dentro del marco azul del área de juego, igual que los
+    // niveles 1-2, ajustado a su contenido — no en el recuadro de
+    // consentimiento pequeño). El recuadro de lluvia se publica aparte
+    // (`useLevelBoard`) y se renderiza debajo de ese marco, fuera de él.
+    // fillHeight: true para que la ventana ocupe la altura de su
+    // contenedor en vez de la de su contenido — sin espacio real ahí abajo
+    // no habría "sobrante" que darle al recuadro de lluvia.
+    fillHeight: true,
+    component: lazy(() => import('./level03/Level03')),
+  },
 }

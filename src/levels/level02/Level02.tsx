@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { XPButton } from '../../components/xp/XPButton'
 import { useT } from '../../i18n/useT'
-import { useLevelFooter } from '../levelFooter'
+import { useLevelFooter } from '../hostChannel'
 import type { LevelProps } from '../types'
 import styles from './Level02.module.scss'
 

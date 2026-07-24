@@ -4,4 +4,25 @@
   place-items: center;
   padding: 1rem;
   background: var(--color-beige);
+
+  // Envuelve justo la ventana (grid + place-items:center la ajusta a su
+  // contenido, no al contenedor de pantalla completa) para poder rotarla
+  // sobre su propio centro sin arrastrar consigo el hueco de 100dvh
+  // (007-plan.md).
+  &__rotator {
+    position: relative;
+    transform: rotate(var(--window-rotation, 0deg));
+
+    // Pista visual de que la ventana se puede arrastrar (nivel 3): solo
+    // cuando el nivel publica una rotación (`data-draggable`), nunca en los
+    // niveles que no rotan. `:active` cubre el estado "arrastrando" gratis,
+    // sin necesitar estado de React para ello.
+    &[data-draggable] {
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+  }
 }
