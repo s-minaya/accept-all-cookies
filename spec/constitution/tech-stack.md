@@ -95,6 +95,7 @@
 - Usar **Pointer Events** (`pointerdown/move/up`), nunca `mousedown`/`touchstart` por separado: un solo código para ratón y dedo.
 - Los estados `hover` son decorativos: ninguna mecánica puede depender de hover.
 - Toda mecánica de ratón tiene su equivalente táctil **definido en el GDD** (sección "Responsive y controles táctiles"). Si una feature de nivel no lo tiene definido, se define antes de tocar código.
+- **Cualquier elemento que capture un arrastre táctil propio necesita `touch-action: none`** (nivel 3, corregido tras revisión de Sofía en producción): sin él, el navegador móvil interpreta el mismo gesto como suyo (scroll, "pull to refresh") y lo compite/interrumpe con `usePointer` — en el peor caso, la página se recarga sola a mitad de arrastre. `overscroll-behavior-y: none` en `html`/`body` (`reset.scss`) es la red de seguridad general para "pull to refresh" en toda la app.
 
 ## Límites duros
 

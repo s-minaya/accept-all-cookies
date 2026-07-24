@@ -12,6 +12,16 @@ body,
   height: 100%;
 }
 
+html,
+body {
+  // Sin esto, arrastrar hacia abajo en móvil (p. ej. para rotar la ventana
+  // del nivel 3) puede disparar el gesto nativo "pull to refresh" del
+  // navegador y recargar la página a mitad de partida (bug real reportado
+  // por Sofía). El juego nunca necesita ese gesto, así que se desactiva
+  // para toda la app, no solo para el nivel que rota.
+  overscroll-behavior-y: none;
+}
+
 body {
   margin: 0;
   min-height: 100dvh;

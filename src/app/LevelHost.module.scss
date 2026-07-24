@@ -20,6 +20,15 @@
     &[data-draggable] {
       cursor: grab;
 
+      // Sin esto, un arrastre táctil que empieza aquí compite con los
+      // gestos nativos del navegador (deslizar hacia abajo = "pull to
+      // refresh" en Chrome/Safari móvil, o scroll de la página) — el
+      // arrastre de rotación se interrumpe a mitad de gesto y la página se
+      // recarga sola (bug real reportado por Sofía en móvil). `touch-action:
+      // none` le dice al navegador que ceda el gesto entero a `usePointer`
+      // en vez de intentar interpretarlo él también.
+      touch-action: none;
+
       &:active {
         cursor: grabbing;
       }

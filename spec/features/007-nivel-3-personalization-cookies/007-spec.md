@@ -60,6 +60,7 @@ Es el primer nivel "wow" del juego y el que más vende la premisa en un clip de 
 - [x] Un drag que empieza sobre un botón (incluido un Disagree de la lluvia) rota y no dispara su acción; un tap sí la dispara (umbral 8 px, test de la lógica + verificado con Playwright).
 - [x] La X y el contador funcionan en cualquier ángulo de rotación (verificado con Playwright).
 - [x] El cursor sobre la ventana cambia a `grab`/`grabbing` para insinuar que se puede arrastrar.
+- [x] El arrastre táctil en móvil no dispara el gesto nativo del navegador ("pull to refresh") ni recarga la página a mitad de partida (`touch-action: none` en la ventana rotable + `overscroll-behavior-y: none` general — corregido tras reporte de Sofía en producción, verificado con Playwright emulando un dispositivo táctil).
 
 ### Agree oculto
 - [x] A 0°, el Agree no es visible ni en movimiento: reposa quieto en su cámara oculta a la derecha del recuadro de lluvia, recortada por el propio marco del recuadro (no por el viewport), sin caída animada al cargar (verificado con Playwright: transform idéntico durante los primeros ~500 ms).
