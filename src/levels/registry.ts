@@ -29,4 +29,10 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // recuadro de consentimiento pequeño (005-plan.md, ajuste visual).
     component: lazy(() => import('./level01/Level01')),
   },
+  2: {
+    titleKey: 'levels.2.name',
+    // Sin consentKey, mismo patrón que el nivel 1: tampoco tiene tablero
+    // propio (006-plan.md).
+    component: lazy(() => import('./level02/Level02')),
+  },
 }

@@ -61,7 +61,10 @@
       "errorTitle": "Error",
       "errorMessage": "Las cookies esenciales no se pueden rechazar."
     },
-    "2": { "name": "Cookies de Análisis" },
+    "2": {
+      "name": "Cookies de Análisis",
+      "consent": "Cookies de Análisis\n\nUtilizamos cookies de análisis para entender cómo interactúan las personas visitantes con nuestro sitio web.\n\nEstas cookies recopilan información como las páginas visitadas, el tiempo de permanencia en el sitio, los patrones de clics y la información del dispositivo. Estos datos nos ayudan a mejorar el rendimiento, identificar problemas y ofrecer una mejor experiencia de usuario.\n\nToda la información se procesa de acuerdo con nuestra Política de Privacidad.\n\n¿Aceptas el uso de las Cookies de Análisis?"
+    },
     "3": { "name": "Cookies de Personalización" },
     "4": { "name": "Cookies de Publicidad" },
     "5": { "name": "Cookies de Redes Sociales" },

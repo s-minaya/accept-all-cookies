@@ -1,0 +1,23 @@
+.level-02 {
+  // Rellena el marco azul del área de juego (GDD §4.4), igual que el nivel 1:
+  // este nivel tampoco tiene tablero propio (registry.ts, sin consentKey).
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+}

@@ -61,7 +61,10 @@
       "errorTitle": "Error",
       "errorMessage": "Essential cookies cannot be rejected."
     },
-    "2": { "name": "Analytics Cookies" },
+    "2": {
+      "name": "Analytics Cookies",
+      "consent": "Analytics Cookies\n\nWe use analytics cookies to understand how visitors interact with our website.\n\nThese cookies collect information such as pages visited, time spent on the site, click patterns and device information. The data helps us improve performance, identify issues and provide a better user experience.\n\nAll information is processed in accordance with our Privacy Policy.\n\nDo you agree to the use of Analytics Cookies?"
+    },
     "3": { "name": "Personalization Cookies" },
     "4": { "name": "Advertising Cookies" },
     "5": { "name": "Social Media Cookies" },

@@ -1,5 +1,7 @@
 # 006 · Nivel 2 — Analytics Cookies
 
+**Estado:** implementada
+
 ## Qué hace
 
 Implementa el Nivel 2 (GDD §9, Nivel 2) y sustituye su hueco del registro. La mecánica es el engaño más simple del juego: **los colores de los botones están intercambiados**.
@@ -23,13 +25,13 @@ Es el nivel-tutorial del principio rector del juego ("no te fíes de la interfaz
 
 ## Criterios de aceptación
 
-- [ ] El hueco 2 del registro carga este nivel (chunk propio en el build); los huecos 3–12 siguen con el nivel de prueba.
-- [ ] El botón Agree se renderiza con la variante visual *disagree* completa (rojo, bordes, relieve y sus 4 estados) y el Disagree con la variante *agree* completa — sin estilos nuevos ni componentes nuevos.
-- [ ] Los textos de los botones siguen saliendo de `game.agree` / `game.disagree` (nunca de claves nuevas).
-- [ ] Pulsar el Agree rojo gana con el flujo estándar y la categoría correcta; pulsar el Disagree verde pierde con el flujo estándar; contador a 0 y X pierden como siempre.
-- [ ] Texto de consentimiento en ambos diccionarios bajo `levels.2.*`, con scroll interno si no cabe.
-- [ ] `paused` congela el nivel; recargar a mitad de nivel lo retoma jugable y recargar con desenlace pendiente muestra la modal correspondiente (comportamiento del fix de la 004, verificado también aquí).
-- [ ] Partida jugada entera al menos una vez ganando y una perdiendo; jugable con dedo y ratón; correcto en los 5 anchos.
+- [x] El hueco 2 del registro carga este nivel (chunk propio en el build); los huecos 3–12 siguen con el nivel de prueba.
+- [x] El botón Agree se renderiza con la variante visual *disagree* completa (rojo, bordes, relieve y sus 4 estados) y el Disagree con la variante *agree* completa — sin estilos nuevos ni componentes nuevos.
+- [x] Los textos de los botones siguen saliendo de `game.agree` / `game.disagree` (nunca de claves nuevas).
+- [x] Pulsar el Agree rojo gana con el flujo estándar y la categoría correcta; pulsar el Disagree verde pierde con el flujo estándar; contador a 0 y X pierden como siempre.
+- [x] Texto de consentimiento en ambos diccionarios bajo `levels.2.*`, con scroll interno si no cabe.
+- [x] `paused` congela el nivel; recargar a mitad de nivel lo retoma jugable y recargar con desenlace pendiente muestra la modal correspondiente (comportamiento del fix de la 004, verificado también aquí).
+- [x] Partida jugada entera ganando (verificado con Playwright) y perdiendo (test automatizado); jugable con dedo y ratón; correcto en los 5 anchos y en móvil real vía Pages. Confirmado por Sofía.
 
 ## Fuera de alcance
 

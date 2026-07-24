@@ -8,15 +8,15 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 2. **002 · Shell y estado global** — enrutado de pantallas por estado interno (`AppShell`, 4 pantallas placeholder), store Zustand (`run`, `settings`, `ranking`, los tres persistidos en `storage.ts`: recargar la página retoma la partida donde se dejó), i18n ES/EN + `useT()`, audio (`AudioManager`/`useAudio`, sonido de victoria/derrota disparado desde `AppShell`), contrato `LevelComponent` + `LevelHost` con carga perezosa por nivel, nivel de prueba end-to-end. `AppShell` sustituye a la Playground como raíz de `App.tsx` (Playground sigue accesible vía `?playground` hasta la 017).
 3. **003 · Landing** — landing real: fondo (`landing-bg.png` en escritorio ≥1025px, `landing-bg-mobile.png` en móvil y tablet), `CuteButton` "Empezar", 4 accesos solo-icono estilo "retro 8-bit" (Personaje/Ranking/Información/Configuración; esquina inferior derecha en fila en escritorio/tablet, centro derecha en columna en móvil). Ventanas modales sobre `XPWindow`/`XPDialog` (con X y `className` opcionales): selección de personaje + nombre (`playerStore`, `aac.v1.lastPlayer`), ranking (orden puro `rankingSort.ts`, actualización real del récord diferida a la 004), información, ajustes (idioma; volumen — solo afecta a la música, no a los efectos; música y efectos on/off por separado). Nuevas piezas de diseño: `XPTextInput`, `XPSlider`, `XPToggle`.
 4. **004 · Meta-flujo** — pantalla de selección de niveles real (lista numerada sin bordes internos, Check en línea en la fila disponible, botón de volver anclado en el cuerpo beige, ventana a casi toda la altura con scroll interno), máquina de estados `runFlow` (playing → verdict → modal → select), `GiantVerdict` (texto AGREE/DISAGREE con destello), modales de victoria/derrota (`WinDialog`/`LoseDialog`), registro de niveles completo (12 huecos con el nivel de prueba como relleno), récord del ranking cableado (`recordIfImproved` al abrir nivel, `finished` al completar el 12), reinicio del run al cambiar de jugador. `LevelProps` gana `paused`.
+5. **005 · Nivel 1 — Essential Cookies** — retardo del Agree, diálogo de error, reinicio del contador. (Primer nivel real: valida el contrato de nivel de punta a punta.)
+6. **006 · Nivel 2 — Analytics Cookies** — colores intercambiados (Agree en rojo con la variante visual disagree, Disagree en verde con la variante agree).
 
 ## Siguiente 🔜
 
-5. **005 · Nivel 1 — Essential Cookies** — retardo del Agree, diálogo de error, reinicio del contador. (Primer nivel real: valida el contrato de nivel de punta a punta.)
+7. **007 · Nivel 3 — Personalization** — rotación 360° de la ventana + lluvia de Disagrees con física.
 
 ## Backlog (ordenado) 💡
 
-6. **006 · Nivel 2 — Analytics Cookies** — colores intercambiados.
-7. **007 · Nivel 3 — Personalization** — rotación 360° de la ventana + lluvia de Disagrees con física.
 8. **008 · Nivel 4 — Advertising (Plinko)** — física, botón de 6 segmentos, guía-slider.
 9. **009 · Nivel 5 — Social Media (tragaperras)** — rodillos, stops, rehabilitación.
 10. **010 · Nivel 6 — Cross-Site Tracking** — tablero verificado (`../assets/nivel6-tablero.json`), cámara que sigue a la llave.
