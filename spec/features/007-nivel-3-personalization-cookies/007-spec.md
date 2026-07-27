@@ -1,6 +1,6 @@
 # 007 · Nivel 3 — Personalization Cookies
 
-**Estado:** en curso
+**Estado:** implementada
 
 ## Qué hace
 
