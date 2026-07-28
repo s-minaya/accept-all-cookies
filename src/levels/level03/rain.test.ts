@@ -139,6 +139,13 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
 
       expect(activatedCount()).toBeLessThan(buttons.length)
       expect(activatedCount()).toBeGreaterThan(0) // nunca a 0: siempre cae alguno
+
+      // Los botones que se quedan fuera del límite no deben quedar visibles
+      // clavados en su posición CSS por defecto (bug real: "se queda un
+      // disagree pegado en la parte superior izquierda de la pantalla").
+      const unusedButtons = buttons.filter((button) => button.style.transform === '')
+      expect(unusedButtons.length).toBeGreaterThan(0)
+      unusedButtons.forEach((button) => expect(button.style.display).toBe('none'))
     })
 
     it('allows the full requested population when the box is comfortably larger than the buttons', () => {

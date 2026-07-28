@@ -172,6 +172,18 @@ export function createRainSimulation({
   const population = Math.min(maxPopulation, buttons.length, areaBasedPopulationCap)
   const rainBodies: RainBody[] = []
 
+  // El pool de botones es fijo (siempre `maxPopulation` elementos montados,
+  // ver `Level03.tsx`) pero el límite por área puede dejar algunos SIN
+  // cuerpo físico nunca — sin esto, esos botones sobrantes se quedan
+  // clavados en su posición CSS por defecto (`top: 0; left: 0`, la esquina
+  // superior izquierda del recuadro, `Level03.module.scss`), visibles y
+  // clicables, porque `syncButtonPosition` nunca llega a tocarlos (bug real,
+  // reportado por Sofía tras el límite de población: "se queda un disagree
+  // pegado en la parte superior izquierda de la pantalla").
+  for (const unusedButton of buttons.slice(population)) {
+    unusedButton.style.display = 'none'
+  }
+
   for (let i = 0; i < population; i++) {
     const el = buttons[i]
     const { halfWidth, halfHeight } = elementHalfSize(el)
