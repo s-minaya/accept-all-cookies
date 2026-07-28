@@ -25,6 +25,7 @@
 - `src/levels/types.ts` — contrato `LevelComponent` (props comunes: `onWin`, `onLose`, control del contador).
 - `src/levels/hostChannel.ts` — canal único nivel→host con ranuras con nombre (`footer`, `windowTransform`, `windowRef`, `board`); `useLevelFooter`/`useLevelBoard` son envoltorios finos sobre las ranuras `footer`/`board`. `board` (nivel 3, `useLevelBoard`) publica un tablero de juego que `XPWindow` renderiza DEBAJO del marco azul (`boardBelowFrame`), fuera de él, en vez de dentro de `children` — para cuando el marco azul solo debe envolver el texto de consentimiento, no el tablero.
 - `src/hooks/device.ts` — `isCoarsePointerDevice()`, detección de dispositivo táctil por tipo de puntero (no por ancho de pantalla); compartida por `AudioManager` (multiplicador de volumen de la música), el nivel 3 (población de la lluvia) y el nivel 4 (población de botones cayendo).
+- `src/utils/prng.ts` — `createRng(seed)`, PRNG con semilla (xorshift32) determinista; extraído del nivel 4 cuando el nivel 5 lo reutilizó (`reels.ts`, 009-plan.md) — regla de "2+ sitios → se extrae" también para utilidades, no solo componentes.
 - `src/state/` — store global (run actual, ajustes, ranking) y módulo `storage.ts` (único punto de acceso a localStorage).
 - `src/i18n/` — diccionarios y hook de traducción.
 - `src/audio/` — reproductor de sonidos y música.
