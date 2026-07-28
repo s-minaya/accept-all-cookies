@@ -205,11 +205,8 @@ export function LevelHost({
             consentText={level.consentKey ? t(level.consentKey) : undefined}
             scrollableContent={!level.consentKey}
             fillHeight={level.fillHeight}
-            // Frameless (GDD §4.4 excepción, ver `LevelDefinition.frameless`):
-            // el propio contenido del nivel ocupa la ranura `boardBelowFrame`
-            // (sin marco azul) en vez de `children` (que sí lo lleva).
-            children={level.frameless ? undefined : levelContent}
-            boardBelowFrame={level.frameless ? levelContent : levelBoard}
+            children={levelContent}
+            boardBelowFrame={levelBoard}
             footer={levelFooter}
           />
         </div>

@@ -59,10 +59,9 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // Sin consentKey (corregido tras revisión de Sofía: "los terminos y
     // condiciones de las cookies no estan en su recuadro azul, como en
     // todos los niveles") — el texto va dentro del marco azul, mismo patrón
-    // que los niveles 1-3, ya no en el recuadro de consentimiento pequeño.
-    // Sin `frameless` (a diferencia de antes): ese marco azul ahora sí se
-    // renderiza, ajustado solo al texto; el tablero (el Plinko) se sigue
-    // publicando aparte vía `useLevelBoard` y sigue sin marco propio (GDD
+    // que los niveles 1-3, ya no en el recuadro de consentimiento pequeño; el
+    // marco se renderiza ajustado solo al texto. El tablero (el Plinko) se
+    // publica aparte vía `useLevelBoard` y sigue sin marco propio (GDD
     // §4.4, excepción: tiene sus propias paredes físicas) — mismo patrón
     // exacto que el recuadro de lluvia del nivel 3. SIN `fillHeight` (a
     // diferencia de antes): ya no hace falta — `GameArea` mide su propio

@@ -27,15 +27,14 @@
 
 ## Integración
 
-- [x] Hueco 4 del registro (sin `consentKey`, sin `frameless` — texto en el marco azul, tablero vía `useLevelBoard`); chunk propio (`Level04-*.js`) y matter.js factorizado en su propio chunk compartido con la 007 (`matter-*.js`, ~85 kB), no duplicado.
+- [x] Hueco 4 del registro (sin `consentKey` — texto en el marco azul, tablero vía `useLevelBoard`); chunk propio (`Level04-*.js`) y matter.js factorizado en su propio chunk compartido con la 007 (`matter-*.js`, ~85 kB), no duplicado.
 - [x] `levels.4.*` en ambos diccionarios.
 - [x] Botón dev de saltar nivel en `LevelHost` (gated `?dev`, completa sin veredicto ni modal, mismo camino de datos que una victoria real) — funciona en cualquier nivel. Anotado en AGENTS.md y en la línea de la 017 del roadmap para su retirada futura.
 
 ## Extensiones a mecanismos compartidos
 
 - [x] `usePointer` gana `onDragStart`/`onDragMove` como vía de control (ya existían para el nivel 3); el arrastre puede empezar en cualquier punto del área de juego, no hace falta pulsar sobre el botón.
-- [x] `GameArea` reenvía su `ref` (`forwardRef`) al lienzo lógico — primer nivel real que usa `GameArea` fuera de la Playground; añadido un polyfill de `ResizeObserver` en `src/test/setup.ts` (jsdom no lo implementa).
-- [x] `XPWindow`/`LevelDefinition` ganan `frameless`: `children` pasa a ser opcional y el marco azul deja de renderizarse cuando no hay `children`.
+- [x] `GameArea` reenvía su `ref` (`forwardRef`) al lienzo lógico — primer nivel real que usa `GameArea` fuera de la Playground; añadido un polyfill de `ResizeObserver` en `src/test/setup.ts` (jsdom no lo implementa). Mide su propio tamaño con `aspect-ratio` en vez de depender de un ancestro con `fillHeight` (corregido tras revisión de Sofía: "reduce el aire de arriba y abajo").
 - [x] `useAudio()` memoiza `playPositive`/`playNegative` con `useCallback` — hook compartido, beneficia a cualquier consumidor que use su valor de retorno dentro de sus propios `useCallback`/`useEffect` (documentado en `tech-stack.md`).
 - [x] Cuerpos físicos a tamaño lógico fijo (constantes en `board.ts`), nunca medidos con `getBoundingClientRect()`: el lienzo de `GameArea` se escala con `transform: scale()`, así que medir el tamaño en pantalla desalinearía cuerpo físico y sprite.
 
@@ -46,8 +45,8 @@
 
 ## Pendiente
 
-- [ ] ✋ **Checkpoint con Sofía**: dificultad jugando en escritorio y en su móvil (tasa de spawn, velocidad, anchura del sensor de captura, sensación de las trayectorias y del rebote) + aprobación del aspecto final de la paleta y de las fichas que caen. Los 5 anchos de referencia y el recorrido completo en móvil real vía Pages.
-- [ ] Mover la feature a "Hecho" en `../../constitution/roadmap.md` (pendiente del checkpoint).
+- [x] ✋ **Checkpoint con Sofía**: dificultad jugando en escritorio y en su móvil (tasa de spawn, velocidad, anchura del sensor de captura, sensación de las trayectorias y del rebote) + aprobación del aspecto final de la paleta y de las fichas que caen. Los 5 anchos de referencia y el recorrido completo en móvil real vía Pages.
+- [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
 
 ## Mantenimiento (checklist recurrente)
 

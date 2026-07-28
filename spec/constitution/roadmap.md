@@ -11,14 +11,14 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 5. **005 · Nivel 1 — Essential Cookies** — retardo del Agree, diálogo de error, reinicio del contador. (Primer nivel real: valida el contrato de nivel de punta a punta.)
 6. **006 · Nivel 2 — Analytics Cookies** — colores intercambiados (Agree en rojo con la variante visual disagree, Disagree en verde con la variante agree).
 7. **007 · Nivel 3 — Personalization** — rotación 360° de la ventana + lluvia de Disagrees con física (matter.js), Agree oculto como cuerpo físico en una cámara recortada, canal nivel→host consolidado (`footer`/`windowTransform`/`windowRef`/`board`). Verificada en móvil (iPhone SE 2022, iPhone 16), tablet y escritorio reales por Sofía.
+8. **008 · Nivel 4 — Advertising (Plinko)** — tablero Plinko con física (matter.js, chunk compartido con la 007), 30 pegs, botón grande de 6 segmentos con relleno progresivo y guía-slider; con los 6 segmentos de un color se bloquea y hay que pulsarlo para confirmar el desenlace, igual que cualquier Agree/Disagree real. Texto de consentimiento en el marco azul (como los niveles 1-3); el tablero se publica aparte, sin marco propio. Verificada en móvil y escritorio reales por Sofía.
 
 ## Siguiente 🔜
 
-8. **008 · Nivel 4 — Advertising (Plinko)** — física, botón de 6 segmentos, guía-slider.
+9. **009 · Nivel 5 — Social Media (tragaperras)** — rodillos, stops, rehabilitación.
 
 ## Backlog (ordenado) 💡
 
-9. **009 · Nivel 5 — Social Media (tragaperras)** — rodillos, stops, rehabilitación.
 10. **010 · Nivel 6 — Cross-Site Tracking** — tablero verificado (`../assets/nivel6-tablero.json`), cámara que sigue a la llave.
 11. **011 · Nivel 7 — Data Sharing** — cubierta arrastrable, tap-vs-drag.
 12. **012 · Nivel 8 — Third-Party Providers (trilero)** — giro, barajados, bloqueo de input.

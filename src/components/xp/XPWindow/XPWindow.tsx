@@ -11,11 +11,7 @@ export interface XPWindowProps {
   onClose?: () => void
   /** Omitir para ocultar el recuadro de consentimiento (p. ej. la pantalla de selección, que no tiene texto de categoría). */
   consentText?: ReactNode
-  /**
-   * Omitir (junto con `boardBelowFrame` presente) cuando el nivel es
-   * "frameless" (`LevelDefinition.frameless`, GDD §4.4 excepción): todo su
-   * contenido es `boardBelowFrame`, así que el marco ni se renderiza.
-   */
+  /** Contenido del marco azul (texto de consentimiento propio del nivel, GDD §4.3 excepción). Omitir para que el marco ni se renderice. */
   children?: ReactNode
   /**
    * Tablero de juego que se renderiza DEBAJO del marco azul, fuera de él, en

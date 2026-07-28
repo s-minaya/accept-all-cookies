@@ -1,5 +1,7 @@
 # 008 · Nivel 4 — Advertising (Plinko) — Plan
 
+> Plan pre-implementación: describe el enfoque tal como se planeó antes de escribir código, no se ha mantenido sincronizado con ajustes posteriores (QA con Sofía, correcciones de layout). Para el estado final as-built, ver `008-spec.md` y `008-tasks.md`.
+
 ## Enfoque
 
 Primero el botón dev (desbloquea el testeo de todo lo demás y es minúsculo), después la **máquina de segmentos pura** (el corazón de las reglas, testeable sin física), y por último el tablero físico reutilizando los patrones de la 007 (import dinámico, Runner propio, sync cuerpo→DOM por rAF, cleanup). El botón grande es un cuerpo **cinemático** de matter.js que se teletransporta a la posición del control en cada frame; las capturas son eventos de colisión contra él.

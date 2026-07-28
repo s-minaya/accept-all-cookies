@@ -52,18 +52,5 @@ export interface LevelDefinition {
    * niveles: cambiaría su tamaño ya validado por Sofía.
    */
   fillHeight?: boolean
-  /**
-   * El tablero de este nivel no lleva marco azul (GDD §4.4, excepción: solo
-   * para tableros de físicas donde el marco no aportaría nada, con sus
-   * propias paredes). `LevelHost` monta el propio componente del nivel como
-   * `boardBelowFrame` de `XPWindow` en vez de como `children`: el marco azul
-   * no llega a renderizarse. Requiere `consentKey` (el texto va en el
-   * recuadro blanco estándar, no dentro de un marco que ya no existe).
-   * Ningún nivel real lo usa por ahora (los niveles 3 y 4 sí llevan su texto
-   * en el marco azul — `children` — y publican el tablero aparte vía
-   * `useLevelBoard`, sin necesitar esta excepción): queda disponible para un
-   * futuro nivel de tablero puro sin texto propio en el marco.
-   */
-  frameless?: boolean
   component: LazyExoticComponent<LevelComponent>
 }

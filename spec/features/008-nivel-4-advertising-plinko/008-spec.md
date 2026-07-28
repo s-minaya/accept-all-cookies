@@ -1,5 +1,7 @@
 # 008 · Nivel 4 — Advertising (Plinko)
 
+**Estado:** implementada
+
 ## Qué hace
 
 Implementa el Nivel 4 (GDD Nivel 4): un tablero **Plinko** de 30 pegs por el que llueven fichas Agree y Disagree con física, y un **gran botón Agree de 6 segmentos** en la parte inferior que el jugador arrastra horizontalmente para capturar las buenas y esquivar las malas. Incluye además una herramienta transversal temporal: el **botón dev de saltar nivel**.
