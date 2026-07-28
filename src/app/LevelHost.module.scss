@@ -1,7 +1,19 @@
 .level-host {
   min-height: 100dvh;
   display: grid;
-  place-items: center;
+  // Horizontal por el grid (`justify-items`); vertical por el propio
+  // `&__rotator` (ver abajo) — no `place-items: center` los dos ejes: con
+  // `align-items: center` la CELDA del grid se ajusta al contenido en vez
+  // de ocupar toda la altura de `.level-host`, así que el `height: 100%`
+  // de un nivel con `fillHeight` (nivel 3, nivel 4) no tenía ninguna altura
+  // definida contra la que resolverse y no hacía nada — la ventana se
+  // quedaba del tamaño de su contenido por mucho viewport libre que
+  // hubiera debajo (bug real, corregido tras revisión de Sofía: "sigo
+  // viendo... mucho espacio en el game area"). `align-items: stretch`
+  // (el valor por defecto, aquí explícito) le da a la celda toda la altura
+  // disponible, para que ese `height: 100%` sí llegue a significar algo.
+  justify-items: center;
+  align-items: stretch;
   // Custom property (no solo la propiedad final): `XPWindow` la lee para
   // calcular su propio ancho sin salirse de este padding — corregido tras
   // revisión de Sofía ("area de juego más grande" + "no me dejaba girar del
@@ -21,12 +33,20 @@
     --level-host-padding: 0.5rem;
   }
 
-  // Envuelve justo la ventana (grid + place-items:center la ajusta a su
-  // contenido, no al contenedor de pantalla completa) para poder rotarla
-  // sobre su propio centro sin arrastrar consigo el hueco de 100dvh
-  // (007-plan.md).
+  // Envuelve justo la ventana (grid + `justify-items` la ajusta a su
+  // contenido en horizontal, no al contenedor de pantalla completa) para
+  // poder rotarla sobre su propio centro sin arrastrar consigo el hueco de
+  // 100dvh (007-plan.md). Con `align-items: stretch` en `.level-host` (ver
+  // arriba), este rotator SÍ ocupa toda la altura de la celda — de ahí
+  // `display: flex` + `justify-content: center` aquí: centra verticalmente
+  // a la ventana cuando esta no llena esa altura (niveles sin
+  // `fillHeight`); una ventana con `fillHeight` simplemente la llena entera
+  // y no queda nada que centrar.
   &__rotator {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     transform: rotate(var(--window-rotation, 0deg));
 
     // Pista visual de que la ventana se puede arrastrar (nivel 3): solo

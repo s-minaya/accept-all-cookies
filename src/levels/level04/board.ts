@@ -13,8 +13,11 @@ const PEG_TOP_MARGIN = 50
 // altura de un botón, uno puede quedar tocando DOS filas de pegs a la vez y
 // encajarse de verdad, sin energía para seguir cayendo (bug real: al subir
 // FALLING_HEIGHT de 20 a 40 sin subir esto a la vez, varios botones
-// quedaban permanentemente atascados en el campo de pegs).
-const PEG_ROW_SPACING = 46
+// quedaban permanentemente atascados en el campo de pegs). Subido de 46 a
+// 52 junto con `LOGICAL_HEIGHT` (360→420, `GameArea.tsx`): mismos 30 pegs
+// (GDD §14, sin tocar), repartidos en más alto real en vez de dejar el
+// espacio nuevo vacío entre el campo de pegs y la paleta.
+const PEG_ROW_SPACING = 52
 const PEG_SIDE_MARGIN = 60
 
 /** Población máxima simultánea de botones cayendo (GDD §14, ajustable). */
@@ -298,7 +301,7 @@ export function createBoardSimulation({
   // Tamaño FIJO (constantes, no `getBoundingClientRect()`): el lienzo de
   // `GameArea` se escala con `transform: scale()`, así que medir el tamaño
   // real en pantalla de un botón daría un valor ya escalado (más pequeño en
-  // móvil, por ejemplo) — mezclado con las coordenadas lógicas (640×360)
+  // móvil, por ejemplo) — mezclado con las coordenadas lógicas (640×420)
   // del resto de la física, eso desalinearía cuerpo y sprite. La paleta ya
   // usa sus propias constantes por el mismo motivo.
   const halfWidth = FALLING_WIDTH / 2

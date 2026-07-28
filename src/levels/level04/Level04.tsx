@@ -36,7 +36,7 @@ import styles from './Level04.module.scss'
  * el botón grande de 6 segmentos ES el botón del nivel, dentro del propio
  * tablero.
  *
- * Reutiliza el `GameArea` de resolución lógica (640×360, feature 001,
+ * Reutiliza el `GameArea` de resolución lógica (640×420, feature 001,
  * primer nivel real que lo usa) para que la física del Plinko no dependa
  * del tamaño real de pantalla: `board.ts` trabaja siempre en coordenadas
  * lógicas, `GameArea` se encarga de escalarlas visualmente.

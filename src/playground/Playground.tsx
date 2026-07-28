@@ -153,7 +153,7 @@ export function Playground() {
         <AudioDemo />
       </Section>
 
-      <Section title="GameArea (640×360 logical canvas)">
+      <Section title="GameArea (640×420 logical canvas)">
         <p>Resize the dashed box below (drag its bottom-right corner) to see the canvas scale.</p>
         <div className={styles['playground__game-area-host']}>
           <GameArea>

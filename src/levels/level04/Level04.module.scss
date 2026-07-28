@@ -1,5 +1,5 @@
 // Coordenadas en px lógicos: este módulo vive dentro del lienzo de
-// `GameArea` (640×360 fijo, ver tokens.scss), que es quien lo escala visual
+// `GameArea` (640×420 fijo, ver tokens.scss), que es quien lo escala visual
 // al tamaño real de pantalla — nada aquí necesita saber el tamaño real.
 .level-04 {
   position: relative;
@@ -83,7 +83,7 @@
   &__guide {
     position: absolute;
     left: 0;
-    top: 322px; // PADDLE_Y (330) − mitad de este alto (16/2)
+    top: 382px; // PADDLE_Y (390) − mitad de este alto (16/2)
     width: 640px; // = LOGICAL_WIDTH
     height: 16px;
     border-radius: 8px;

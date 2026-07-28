@@ -1040,7 +1040,7 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 4: tasa de spawn de los botones que caen | uno cada 300 ms, hasta el máximo |
 | Nivel 4: escala de gravedad del Plinko | 0,0016 |
 | Nivel 4: rebote (restitution) de los pegs y de los botones que caen | 0,35 |
-| Nivel 4: separación entre filas de pegs | 46 px lógicos — debe superar la altura de una ficha que cae (22 px) para que no pueda tocar dos filas a la vez y quedar encajada de verdad |
+| Nivel 4: separación entre filas de pegs | 52 px lógicos (subido de 46 junto con la resolución lógica del tablero, 360→420) — debe superar la altura de una ficha que cae (22 px) para que no pueda tocar dos filas a la vez y quedar encajada de verdad |
 | Nivel 4: tamaño de una ficha que cae | 72×22 px lógicos, sin borde alrededor del cuerpo; relleno del tono oscuro del anillo interior de un botón real (`--color-agree-border`/`--color-disagree-border`), no del tono claro de fondo |
 | Nivel 4: tamaño del botón grande (paleta) | 110,4×48 px lógicos — el tamaño exacto de un botón Agree/Disagree habitual (`--xp-button-height: 3rem` = 48px, ancho = alto × 2,3) |
 | Nivel 4: tiempo de reposo antes de reciclar un botón por estar encajado | 2 s por debajo del campo de pegs (velocidad casi nula, solo paleta y aire). Dentro del campo de pegs se mide el progreso neto en Y en vez de la velocidad instantánea: a los 0,7 s sin bajar al menos 5 px, recibe un empujón para liberarse rebotando contra el peg más cercano, hasta 3 veces antes de reciclarlo de verdad como red de seguridad final |
@@ -1095,5 +1095,5 @@ Toda la entrada se gestiona con **Pointer Events** (un solo código para ratón,
 | Parámetro | Valor inicial |
 |---|---|
 | Umbral tap vs drag | 8 px |
-| Resolución lógica de las áreas de juego | 640×360 (por confirmar en la feature 001) |
+| Resolución lógica de las áreas de juego | 640×420 (subido de 360 tras revisión de Sofía sobre la 008: "usar este espacio para que el tablero sea más grande" — en móvil el ancho de la ventana es casi siempre el límite real de la escala, así que dar más alto usa espacio que quedaba vacío) |
 | Tamaño mínimo táctil | 44×44 px |
