@@ -8,16 +8,21 @@ export const PEG_ROWS = 6
 export const PEGS_PER_ROW = 5
 export const PEG_COUNT = PEG_ROWS * PEGS_PER_ROW
 export const PEG_RADIUS = 5
-const PEG_TOP_MARGIN = 50
+// Bajado de 50 a 30 tras revisión de Sofía ("hay mucho aire en el game
+// area... reduce el aire de arriba y abajo"): menos margen vacío antes de
+// la primera fila de pegs.
+const PEG_TOP_MARGIN = 30
 // > FALLING_HEIGHT (más abajo): si las filas quedan más juntas que la
 // altura de un botón, uno puede quedar tocando DOS filas de pegs a la vez y
 // encajarse de verdad, sin energía para seguir cayendo (bug real: al subir
 // FALLING_HEIGHT de 20 a 40 sin subir esto a la vez, varios botones
 // quedaban permanentemente atascados en el campo de pegs). Subido de 46 a
-// 52 junto con `LOGICAL_HEIGHT` (360→420, `GameArea.tsx`): mismos 30 pegs
-// (GDD §14, sin tocar), repartidos en más alto real en vez de dejar el
-// espacio nuevo vacío entre el campo de pegs y la paleta.
-const PEG_ROW_SPACING = 52
+// 63 (con una parada intermedia en 52) junto con `LOGICAL_HEIGHT`
+// (360→420, `GameArea.tsx`): mismos 30 pegs (GDD §14, sin tocar),
+// repartidos en más alto real en vez de dejar aire de sobra arriba del
+// campo de pegs y entre el campo de pegs y la paleta (corregido tras
+// revisión de Sofía, ver arriba).
+const PEG_ROW_SPACING = 63
 const PEG_SIDE_MARGIN = 60
 
 /** Población máxima simultánea de botones cayendo (GDD §14, ajustable). */

@@ -97,11 +97,19 @@ export function createRainSimulation({
   const engine = Matter.Engine.create({ gravity: { x: 0, y: 1, scale: 0.001 } })
   const runner = Matter.Runner.create()
 
-  // Suelo, izquierda y derecha — sin techo (los cuerpos activados nacen por
-  // encima y deben poder caer libremente) y sin pared entre el recuadro
-  // visible y la cámara oculta del Agree (a la derecha, `totalWidth` incluye
+  // Suelo, izquierda, derecha y techo — sin pared entre el recuadro visible
+  // y la cámara oculta del Agree (a la derecha, `totalWidth` incluye
   // ambas): es el mismo espacio físico continuo, solo recortado
-  // visualmente por el `overflow: hidden` del recuadro (007-plan.md).
+  // visualmente por el `overflow: hidden` del recuadro (007-plan.md). El
+  // techo va muy por encima del recuadro visible (mismo margen que ya
+  // usaban la pared izquierda/derecha para su propio extremo superior,
+  // `boxHeight / 2`), para no estorbar la caída normal desde fuera de la
+  // vista — pero sin él, un Agree ya revelado (visible, respondiendo a la
+  // gravedad como cualquier Disagree) podía salir volando por arriba y
+  // perderse fuera del recuadro si el jugador seguía girando la ventana
+  // después de encontrarlo, sin nada que lo frenara en esa dirección (bug
+  // real, corregido tras revisión de Sofía: "una vez aparezca el agree no
+  // puede salirse de la pantalla").
   const walls = [
     Matter.Bodies.rectangle(
       totalWidth / 2,
@@ -120,6 +128,15 @@ export function createRainSimulation({
       boxHeight / 2,
       WALL_THICKNESS,
       boxHeight * 2,
+      {
+        isStatic: true,
+      },
+    ),
+    Matter.Bodies.rectangle(
+      totalWidth / 2,
+      -boxHeight / 2 - WALL_THICKNESS / 2,
+      totalWidth * 2,
+      WALL_THICKNESS,
       {
         isStatic: true,
       },

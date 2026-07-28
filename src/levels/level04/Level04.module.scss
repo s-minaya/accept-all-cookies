@@ -152,6 +152,17 @@
 
     &--locked {
       cursor: pointer;
+      transition: filter 0.08s ease-out;
+
+      // Mismo `filter: brightness()` que `XPButton` al pasar el ratón por
+      // encima — corregido tras revisión de Sofía: "pon hover a todos los
+      // botones que sean clickables" (la paleta se vuelve un botón real de
+      // verdad en cuanto se bloquea, así que necesita el mismo hover).
+      @media (hover: hover) {
+        &:hover {
+          filter: brightness(1.06);
+        }
+      }
 
       &:active {
         cursor: pointer;
@@ -184,6 +195,20 @@
   // 6px en cuanto hay relleno (por poco que sea) — nunca a medio camino,
   // igual que el anillo de un botón real no cambia de grosor, solo su
   // extensión.
+  //
+  // El lado que da al OTRO relleno (derecha para agree, izquierda para
+  // disagree) es una frontera interna casi siempre, así que normalmente no
+  // lleva anillo — PERO si ese lado llega al 100% (los 6 segmentos de su
+  // color), esa frontera pasa a ser el borde exterior de verdad del botón y
+  // sí debe llevarlo, igual que cualquier botón real completo (bug real,
+  // corregido tras revisión de Sofía: "el boton del drag sigue sin tener el
+  // borde verde oscuro en la parte derecha" — con 6 Agree capturados, el
+  // lado derecho de la paleta ya no tiene ninguna frontera con la que
+  // compartir, así que necesita su propio anillo). Compara contra 0,999 en
+  // vez de contra 0 directamente: un relleno a medias (p. ej. 3 de 6) no
+  // debe llevar anillo en su borde libre, solo cuando llega EXACTAMENTE al
+  // 100% (aquí, `1`, ya que 5/6 ≈ 0,833 es el valor posible más cercano por
+  // debajo).
   &__fill {
     position: absolute;
     top: 0;
@@ -201,10 +226,11 @@
       background: var(--color-agree-bg);
       border-color: var(--color-agree-border);
       --ring-width: calc(6px * clamp(0, var(--agree-fill, 0) * 999999, 1));
+      --seam-ring-width: calc(6px * clamp(0, (var(--agree-fill, 0) - 0.999) * 999999, 1));
       border-top-width: var(--ring-width);
       border-bottom-width: var(--ring-width);
       border-left-width: var(--ring-width);
-      border-right-width: 0;
+      border-right-width: var(--seam-ring-width);
     }
 
     &--disagree {
@@ -213,10 +239,11 @@
       background: var(--color-disagree-bg);
       border-color: var(--color-disagree-border);
       --ring-width: calc(6px * clamp(0, var(--disagree-fill, 0) * 999999, 1));
+      --seam-ring-width: calc(6px * clamp(0, (var(--disagree-fill, 0) - 0.999) * 999999, 1));
       border-top-width: var(--ring-width);
       border-bottom-width: var(--ring-width);
       border-right-width: var(--ring-width);
-      border-left-width: 0;
+      border-left-width: var(--seam-ring-width);
     }
   }
 

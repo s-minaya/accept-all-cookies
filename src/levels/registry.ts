@@ -42,10 +42,16 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // niveles 1-2, ajustado a su contenido — no en el recuadro de
     // consentimiento pequeño). El recuadro de lluvia se publica aparte
     // (`useLevelBoard`) y se renderiza debajo de ese marco, fuera de él.
-    // fillHeight: true para que la ventana ocupe la altura de su
-    // contenedor en vez de la de su contenido — sin espacio real ahí abajo
-    // no habría "sobrante" que darle al recuadro de lluvia.
-    fillHeight: true,
+    // SIN `fillHeight` a propósito (corregido tras revisión de Sofía: "el
+    // game area del nivel de cookies de personalización es demasiado
+    // grande, antes lo teniamos a su tamaño correcto"): su tamaño "correcto"
+    // ya salía de aquí, del propio `min-height` del recuadro de lluvia
+    // (`Level03.module.scss`), no de `fillHeight` — que hasta ahora estaba
+    // roto (`.level-host` no daba una altura real que estirar, ver
+    // `LevelHost.module.scss`) y por eso nunca se notó. Al arreglar ESE bug
+    // para el nivel 4, el nivel 3 heredó de golpe una ventana mucho más
+    // alta que antes; quitarle `fillHeight` restaura su tamaño de siempre
+    // sin tocar el arreglo del nivel 4.
     component: lazy(() => import('./level03/Level03')),
   },
   4: {

@@ -48,6 +48,16 @@
     border: 2px solid var(--color-white);
     border-radius: 6px;
     background: var(--color-close-button);
+    transition: filter 0.08s ease-out;
+  }
+
+  // Corregido tras revisión de Sofía: "pon hover a todos los botones que
+  // sean clickables" — mismo `filter: brightness()` que `XPButton`, gated
+  // igual tras `(hover: hover)` para no dejar un hover fantasma en táctil.
+  @media (hover: hover) {
+    &__close-button:hover &__close-chip {
+      filter: brightness(1.15);
+    }
   }
 
   &__close-icon {
