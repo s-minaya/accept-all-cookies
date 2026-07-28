@@ -72,4 +72,13 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // aire de arriba y abajo").
     component: lazy(() => import('./level04/Level04')),
   },
+  5: {
+    titleKey: 'levels.5.name',
+    // Sin consentKey, mismo patrón que los niveles 3 y 4: texto dentro del
+    // marco azul, tablero (los 3 rodillos + Stops) publicado aparte vía
+    // `useLevelBoard`. Sin `fillHeight`: cada rodillo mide una altura fija
+    // propia (`Reel.module.scss`), no necesita que un ancestro le dé el
+    // 100% del alto disponible.
+    component: lazy(() => import('./level05/Level05')),
+  },
 }

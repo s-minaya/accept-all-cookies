@@ -246,17 +246,20 @@ describe('AppShell', () => {
 
       fireEvent.click(screen.getByText('Empezar'))
 
-      // Nivel 4 (Plinko, 008-plan.md): se gana por colisión física, no por
-      // clic — inalcanzable con `fireEvent.click(getByText('Agree'))` como el
-      // resto. Se salta con el botón dev en vez de simular la física real
-      // (esa la cubren `board.test.ts`/`segments.test.ts`); `?dev` no afecta
-      // a ningún otro nivel de este recorrido.
+      // Niveles 4 (Plinko, 008-plan.md) y 5 (tragaperras, 009-plan.md): se
+      // ganan por colisión física / azar con RNG real, no por un clic
+      // determinista — inalcanzables con `fireEvent.click(getByText('Agree'))`
+      // como el resto. Se saltan con el botón dev en vez de simular física o
+      // forzar una semilla (esa cobertura vive en `board.test.ts`/
+      // `segments.test.ts` y en `slotMachine.test.ts`/`Level05.outcome.test.tsx`
+      // respectivamente); `?dev` no afecta a ningún otro nivel de este
+      // recorrido.
       window.history.pushState({}, '', '?dev')
 
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Check'))
 
-        if (level === 4) {
+        if (level === 4 || level === 5) {
           fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
           await vi.waitFor(() => expect(screen.getByText('Cookie Preferences')).toBeInTheDocument())
           continue

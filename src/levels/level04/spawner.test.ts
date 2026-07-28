@@ -1,36 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { createRng, nextSpawnPoint, SPAWN_AGREE_RATIO } from './spawner'
 
+// Las propiedades del propio PRNG (determinismo, semillas distintas, rango
+// [0,1)) se cubren en `src/utils/prng.test.ts` desde que se extrajo ahí
+// (009-plan.md) — aquí solo lo que es específico de este módulo: `createRng`
+// se reexporta desde `./spawner` para no romper a quien ya lo importaba de
+// aquí (`board.ts`).
 describe('spawner (GDD Nivel 4 — generador de botones que caen, 008-plan.md)', () => {
-  it('createRng is deterministic for the same seed', () => {
-    const a = createRng(42)
-    const b = createRng(42)
-
-    const sequenceA = Array.from({ length: 20 }, () => a())
-    const sequenceB = Array.from({ length: 20 }, () => b())
-
-    expect(sequenceA).toEqual(sequenceB)
-  })
-
-  it('createRng produces a different sequence for a different seed', () => {
-    const a = createRng(1)
-    const b = createRng(2)
-
-    const sequenceA = Array.from({ length: 10 }, () => a())
-    const sequenceB = Array.from({ length: 10 }, () => b())
-
-    expect(sequenceA).not.toEqual(sequenceB)
-  })
-
-  it('every value from createRng stays within [0, 1)', () => {
-    const rng = createRng(7)
-    for (let i = 0; i < 500; i++) {
-      const value = rng()
-      expect(value).toBeGreaterThanOrEqual(0)
-      expect(value).toBeLessThan(1)
-    }
-  })
-
   it('splits Agree/Disagree ~50/50 (SPAWN_AGREE_RATIO) over a large sample', () => {
     expect(SPAWN_AGREE_RATIO).toBe(0.5)
     const rng = createRng(1234)

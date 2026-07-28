@@ -1,18 +1,18 @@
 # 009 · Nivel 5 — Social Media (tragaperras) — Tareas
 
-- [ ] Extraer el PRNG a `src/utils/prng.ts` y reimportarlo desde `spawner.ts` (tests del nivel 4 en verde antes de seguir).
-- [ ] Implementar `reels.ts` (tira cíclica ~40 % Agree, semilla, garantía de al menos un Agree y un Disagree) + tests.
-- [ ] Implementar `slotMachine.ts` (estados por rodillo y fase global, encaje offset→índice con test de bordes, evaluación de triple Agree, fase `respinPause` con sus tests: pausar durante la pausa, contador muriendo durante la pausa) + tests.
-- [ ] Implementar `Reel.tsx` (tira duplicada, rAF con velocidad base + desfase, marcador de fila central, transform por custom property).
-- [ ] Implementar `Level05.tsx`: texto en el marco; tablero (3 rodillos + 3 Stops neutros, deshabilitado=oscurecido) vía `useLevelBoard` + `fillHeight`; sonidos al parar según resultado; `onWin()` con triple Agree; rehabilitación tras la pausa.
-- [ ] Cleanup total al desmontar (rAF y pausa) + test de no-fugas; `paused` congela rodillos, pausa, Stops y sonidos.
-- [ ] Sustituir el hueco 5 del registro (sin `consentKey`); verificar chunk propio y que matter.js NO está en este chunk.
-- [ ] Añadir `levels.5.*` a ambos diccionarios.
-- [ ] GDD: sustituir los mensajes de derrota propios del nivel 5 por la nota de flujo estándar (patrón del nivel 1) y añadir a §14: velocidad base, desfase entre rodillos, casillas por tira, pausa de rehabilitación.
+- [x] Extraer el PRNG a `src/utils/prng.ts` y reimportarlo desde `spawner.ts` (tests del nivel 4 en verde antes de seguir).
+- [x] Implementar `reels.ts` (tira cíclica ~40 % Agree, semilla, garantía de al menos un Agree y un Disagree) + tests.
+- [x] Implementar `slotMachine.ts` (estados por rodillo y fase global, encaje offset→índice con test de bordes, evaluación de triple Agree, fase `respinPause` con sus tests: pausar durante la pausa, contador muriendo durante la pausa) + tests.
+- [x] Implementar `Reel.tsx` (tira duplicada, rAF con velocidad base + desfase, marcador de fila central, transform por custom property).
+- [x] Implementar `Level05.tsx`: texto en el marco; tablero (3 rodillos + 3 Stops neutros, deshabilitado=oscurecido) vía `useLevelBoard`; sonidos al parar según resultado; `onWin()` con triple Agree, `onLose()` inmediato con triple Disagree (excepción explícita a la rehabilitación, confirmada por Sofía); rehabilitación tras la pausa. Sin `fillHeight`: cada rodillo tiene su propia altura fija, no lo necesita (mismo razonamiento que llevó a quitárselo al nivel 4).
+- [x] Cleanup total al desmontar (rAF y pausa) + test de no-fugas; `paused` congela rodillos, pausa, Stops y sonidos.
+- [x] Sustituir el hueco 5 del registro (sin `consentKey`); verificar chunk propio y que matter.js NO está en este chunk.
+- [x] Añadir `levels.5.*` a ambos diccionarios.
+- [x] GDD: sustituir los mensajes de derrota propios del nivel 5 por la nota de flujo estándar (patrón del nivel 1), añadir a §14 (velocidad base, desfase entre rodillos, casillas por tira, pausa de rehabilitación) y documentar la excepción de triple Disagree como derrota inmediata (decisión de Sofía, contradecía el borrador de `009-spec.md` frente al GDD original — corregido en ambos para que coincidan).
 - [ ] ✋ **Checkpoint con Sofía**: tacto de la tragaperras (velocidad, legibilidad en movimiento, encaje al parar, duración de la pausa de rehabilitación) y dificultad jugando en escritorio y su móvil.
-- [ ] QA: partida entera ganando y perdiendo (contador con rodillos girando, contador muriendo en plena pausa de rehabilitación, X); Stops deshabilitados no repulsables; recarga a mitad y con desenlace pendiente; 5 anchos (3 rodillos en 375 px sin scroll horizontal); móvil real vía Pages.
-- [ ] Validar contra los criterios de aceptación de `spec.md`.
-- [ ] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
+- [ ] QA: cubierto por Playwright (partida entera ganando y perdiendo, contador muriendo en plena pausa de rehabilitación, X durante la pausa, Stops deshabilitados no repulsables, recarga a mitad, 5 anchos sin scroll horizontal, toque en emulación iPhone SE) — falta el móvil real vía Pages, que solo puede hacer Sofía.
+- [ ] Validar contra los criterios de aceptación de `spec.md` (pendiente del checkpoint — los criterios técnicos ya están cubiertos, ver QA arriba).
+- [ ] Mover la feature a "Hecho" en `../../constitution/roadmap.md` (pendiente del checkpoint).
 
 ## Mantenimiento (checklist recurrente)
 

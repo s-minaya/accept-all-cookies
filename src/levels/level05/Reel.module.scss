@@ -1,0 +1,78 @@
+// Rodillo de la tragaperras (GDD Nivel 5): tira vertical con 3 filas
+// visibles (VISIBLE_ROWS, Reel.tsx) — la del centro es el resultado.
+.reel {
+  position: relative;
+  overflow: hidden;
+  width: 84px;
+  height: 144px; // VISIBLE_ROWS (3) × SYMBOL_HEIGHT_PX (48), Reel.tsx
+  border-radius: 8px;
+  background: var(--color-beige);
+  box-shadow: inset 0 0 0 2px var(--color-frame-blue);
+
+  &__track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    // `--reel-offset` (casillas, escrito por rAF en Reel.tsx, nunca por
+    // React): en reposo, la casilla de índice 0 ocupa la fila 0 (arriba del
+    // todo); para que quede en el centro (fila 1 de 0/1/2) hay que
+    // desplazar la tira una fila hacia ABAJO (+48px), no hacia arriba — con
+    // el signo equivocado aquí, el marcador mostraba una casilla distinta a
+    // la que `offsetToIndex` (`slotMachine.ts`) evaluaba de verdad como
+    // resultado (bug real, detectado con Playwright: el veredicto decía
+    // "Agree" pero el centro mostraba "Disagree"). Por cada casilla que
+    // avanza el offset, la tira sigue bajando una fila menos (resta), así
+    // que la fórmula general es `(1 − offset) × 48px`.
+    transform: translateY(calc((1 - var(--reel-offset, 0)) * 48px));
+    will-change: transform;
+
+    // Solo al pararse: un pequeño "encaje" con algo de suavizado en vez de
+    // un salto duro — mientras gira, esta transición competiría con la
+    // escritura de `--reel-offset` en cada fotograma y se vería a tirones,
+    // así que solo se activa una vez parado (spec.md: "el encaje es
+    // subpíxel-a-casilla, no una animación larga").
+    &--stopped {
+      transition: transform 0.08s ease-out;
+    }
+  }
+
+  &__symbol {
+    flex: 0 0 48px; // SYMBOL_HEIGHT_PX, Reel.tsx
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    color: var(--color-white);
+    -webkit-text-stroke: 1.5px var(--color-button-border);
+    paint-order: stroke fill;
+    text-shadow: 0 1px 1px rgb(0 0 0 / 35%);
+
+    &--agree {
+      background: var(--color-agree-bg);
+      box-shadow: inset 0 0 0 4px var(--color-agree-border);
+    }
+
+    &--disagree {
+      background: var(--color-disagree-bg);
+      box-shadow: inset 0 0 0 4px var(--color-disagree-border);
+    }
+  }
+
+  // Marca visual de la fila central (GDD: "un marcador visual señala la
+  // fila central de cada rodillo") — franja fija superpuesta, nunca se
+  // mueve (es la tira la que se desplaza por debajo).
+  &__marker {
+    position: absolute;
+    top: 48px; // SYMBOL_HEIGHT_PX, misma fila que el track centra en reposo
+    left: 0;
+    right: 0;
+    height: 48px;
+    box-shadow: inset 0 0 0 3px var(--color-title-gradient-start);
+    pointer-events: none;
+  }
+}

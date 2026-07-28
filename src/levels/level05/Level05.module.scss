@@ -1,0 +1,38 @@
+// Texto de consentimiento del nivel: vive en el marco azul del área de
+// juego, mismo patrón exacto que `.level-03`/`.level-03__text`
+// (`Level03.module.scss`) y `.level-04-consent`/`.level-04-consent__text`
+// (`Level04.module.scss`) — tercera aparición de este patrón (candidato a
+// extraer a un componente compartido, AGENTS.md "2+ sitios").
+.level-05-consent {
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+}
+
+// Tablero (los 3 rodillos + sus Stops), publicado vía `useLevelBoard`,
+// fuera del marco azul. Sin `fillHeight`: cada `.reel` mide una altura fija
+// propia (`Reel.module.scss`), así que este tablero no necesita que un
+// ancestro le dé el 100% del alto disponible para tener contenido real que
+// mostrar (mismo razonamiento que el nivel 4 tras quitarle `fillHeight`).
+.level-05 {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem 0.5rem;
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}

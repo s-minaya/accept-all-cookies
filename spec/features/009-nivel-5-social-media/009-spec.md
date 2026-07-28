@@ -7,7 +7,7 @@ Implementa el Nivel 5 (GDD §9, Nivel 5): una **máquina tragaperras de tres rod
 ### Layout (patrón as-built de la 007/008)
 
 - Texto de consentimiento de Social Media Cookies **dentro del marco azul**, ajustado a su contenido.
-- El **tablero de la tragaperras** se publica aparte vía `useLevelBoard` y se renderiza debajo del marco, sin marco propio, aprovechando el espacio sobrante (`fillHeight` activo, como el nivel 3: los rodillos necesitan altura real).
+- El **tablero de la tragaperras** se publica aparte vía `useLevelBoard` y se renderiza debajo del marco, sin marco propio. Sin `fillHeight`: cada rodillo tiene su propia altura fija (no depende de que un ancestro le dé el 100% del alto disponible — mismo razonamiento que llevó a quitárselo al nivel 4 tras revisión de Sofía).
 - Dentro del tablero: **tres rodillos verticales** centrados y, bajo cada uno, su botón **Stop** (estilo neutro). **Sin pie de ventana**: toda la interacción es con los Stops.
 
 ### Los rodillos
@@ -24,7 +24,7 @@ Implementa el Nivel 5 (GDD §9, Nivel 5): una **máquina tragaperras de tres rod
 
 ### Rehabilitación
 
-- Con los **tres rodillos detenidos** y resultado distinto de triple Agree: tras una **pausa breve** (parámetro, ~1 s, para que el jugador vea y digiera el resultado), los tres rodillos vuelven a girar y los tres Stops se rehabilitan. Sin sonido adicional.
+- Con los **tres rodillos detenidos** y resultado distinto de triple Agree y de triple Disagree (este último es derrota inmediata, ver más abajo): tras una **pausa breve** (parámetro, ~1 s, para que el jugador vea y digiera el resultado), los tres rodillos vuelven a girar y los tres Stops se rehabilitan. Sin sonido adicional.
 - No hay límite de intentos: el límite es el contador.
 
 ### Victoria y derrota
@@ -45,22 +45,23 @@ Es el nivel de azar-con-timing del juego: puro tira y afloja contra el reloj, si
 ## Criterios de aceptación
 
 ### Rodillos y Stops
-- [ ] Los tres rodillos giran desde el inicio; cada tira respeta ~40 % de Agree con al menos un Agree y un Disagree (test del generador con semilla).
-- [ ] Cada Stop detiene su rodillo al instante con encaje a la casilla más cercana; el resultado es el de la fila central marcada (test de la función de encaje: desplazamiento → índice resultante).
-- [ ] El Stop usado queda deshabilitado y oscurecido; los demás rodillos siguen girando; suena positivo/negativo según el resultado.
-- [ ] Tres detenidos sin triple Agree → tras la pausa configurada, los tres giran de nuevo y los tres Stops se rehabilitan (test de la máquina de estados del nivel), tantas veces como haga falta.
+- [x] Los tres rodillos giran desde el inicio; cada tira respeta ~40 % de Agree con al menos un Agree y un Disagree (test del generador con semilla).
+- [x] Cada Stop detiene su rodillo al instante con encaje a la casilla más cercana; el resultado es el de la fila central marcada (test de la función de encaje: desplazamiento → índice resultante).
+- [x] El Stop usado queda deshabilitado y oscurecido; los demás rodillos siguen girando; suena positivo/negativo según el resultado.
+- [x] Tres detenidos sin triple Agree ni triple Disagree → tras la pausa configurada, los tres giran de nuevo y los tres Stops se rehabilitan (test de la máquina de estados del nivel), tantas veces como haga falta.
 
 ### Victoria y derrota
-- [ ] Triple Agree al detener el tercero → `onWin()` inmediato con el flujo estándar y la categoría correcta.
-- [ ] La única derrota es contador a 0 o X o 3 disagree; verificado también con los tres rodillos parados esperando la rehabilitación cuando el contador muere.
+- [x] Triple Agree al detener el tercero → `onWin()` inmediato con el flujo estándar y la categoría correcta.
+- [x] La derrota es contador a 0, X o triple Disagree (excepción a la rehabilitación, decisión de Sofía — corregido también en el GDD); verificado también con los tres rodillos parados esperando la rehabilitación cuando el contador muere (`paused` congela la pausa de rehabilitación sin romperla).
 
 ### Integración y calidad
-- [ ] Texto en el marco azul; tablero vía `useLevelBoard` debajo, con `fillHeight`; sin pie; hueco 5 sustituido con chunk propio; **sin matter.js en este chunk** (verificado en build).
-- [ ] PRNG extraído a módulo común y reutilizado por los niveles 4 y 5 sin duplicación (tests de ambos en verde).
-- [ ] Cleanup total al desmontar (rAF, timeouts de la pausa) + test de no-fugas; `paused` congela todo, incluida la pausa de rehabilitación.
-- [ ] Recarga a mitad (contador restaurado, tragaperras de cero) y con desenlace pendiente (modal).
-- [ ] `levels.5.*` en ambos diccionarios; GDD retocado (mensajes de derrota → flujo estándar; §14 con velocidad, desfase, pausa de rehabilitación).
-- [ ] Partida entera ganando y perdiendo; dedo y ratón (los Stops cumplen el mínimo táctil); 5 anchos (los tres rodillos caben en 375 px sin scroll horizontal).
+- [x] Texto en el marco azul; tablero vía `useLevelBoard` debajo, sin marco propio; sin pie; hueco 5 sustituido con chunk propio; **sin matter.js en este chunk** (verificado en build). Sin `fillHeight`: cada rodillo mide una altura fija propia, no lo necesita (mismo razonamiento que el nivel 4 tras quitárselo).
+- [x] PRNG extraído a módulo común y reutilizado por los niveles 4 y 5 sin duplicación (tests de ambos en verde).
+- [x] Cleanup total al desmontar (rAF, timeouts de la pausa) + test de no-fugas; `paused` congela todo, incluida la pausa de rehabilitación.
+- [x] Recarga a mitad (contador restaurado, tragaperras de cero) y con desenlace pendiente (modal).
+- [x] `levels.5.*` en ambos diccionarios; GDD retocado (mensajes de derrota → flujo estándar; §14 con velocidad, desfase, pausa de rehabilitación).
+- [x] Partida entera ganando y perdiendo; dedo y ratón (los Stops cumplen el mínimo táctil, verificado con toque emulado); 5 anchos (los tres rodillos caben en 375 px sin scroll horizontal).
+- [ ] ✋ Móvil real vía Pages y checkpoint de tacto (velocidad, legibilidad en movimiento, encaje al parar, duración de la pausa) aprobados por Sofía.
 
 ## Fuera de alcance
 

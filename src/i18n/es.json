@@ -74,7 +74,10 @@
       "name": "Cookies de Publicidad",
       "consent": "Cookies de Publicidad\n\nLas cookies de publicidad nos ayudan a mostrarte anuncios más relevantes según tu actividad de navegación e intereses.\n\nEstas cookies pueden ser utilizadas por nosotros y por nuestros socios publicitarios de confianza para elaborar un perfil de tus preferencias en distintos sitios web y servicios. Esta información puede combinarse con datos recogidos de otras fuentes para personalizar anuncios, medir la efectividad de las campañas y mejorar nuestros servicios de marketing.\n\nSi no permites estas cookies, seguirás viendo anuncios, pero es posible que sean menos relevantes para tus intereses.\n\n¿Aceptas el uso de las Cookies de Publicidad?"
     },
-    "5": { "name": "Cookies de Redes Sociales" },
+    "5": {
+      "name": "Cookies de Redes Sociales",
+      "consent": "Cookies de Redes Sociales\n\nLas cookies de redes sociales te permiten conectar con plataformas sociales, compartir contenido y personalizar tu experiencia en distintos servicios.\n\nEstas cookies pueden ser utilizadas por nosotros y por terceros seleccionados para medir la interacción, personalizar contenido y mostrar anuncios según tu actividad en sitios web y redes sociales.\n\n¿Aceptas el uso de las Cookies de Redes Sociales?"
+    },
     "6": { "name": "Seguimiento entre Sitios" },
     "7": { "name": "Compartición de Datos" },
     "8": { "name": "Proveedores de Terceros" },

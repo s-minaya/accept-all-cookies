@@ -630,11 +630,11 @@ Do you agree to the use of Social Media Cookies?
 - Sonido de confirmación tipo tragaperras (sonido positivo si es Agree, negativo si es Disagree).
 - El Stop usado se deshabilita y se oscurece.
 
-**Rehabilitación (regla clave):** si el jugador detiene los tres rodillos y el resultado **no** es triple Agree, tras una breve pausa los rodillos **vuelven a girar** y los tres botones Stop **se rehabilitan**. El jugador puede intentarlo tantas veces como el contador le permita.
+**Rehabilitación (regla clave):** si el jugador detiene los tres rodillos y el resultado **no** es triple Agree ni triple Disagree (excepción, ver Derrota), tras una breve pausa los rodillos **vuelven a girar** y los tres botones Stop **se rehabilitan**. El jugador puede intentarlo tantas veces como el contador le permita.
 
 **Victoria:** tres rodillos parados mostrando `Agree | Agree | Agree` → `Social Media Cookies accepted.`
 
-**Derrota (única):** el contador llega a 0 sin haber conseguido triple Agree → `Time expired.` También pulsar la X (→ `Cookie preferences discarded.`).
+**Derrota:** tres rodillos parados mostrando `Disagree | Disagree | Disagree` (derrota inmediata, sin rehabilitación), contador a 0 o pulsar la X.
 
 ---
 
@@ -1048,7 +1048,9 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 4: velocidad del botón grande por teclado | 300 px lógicos/s |
 | Nivel 4: ancho de la zona de captura del botón grande sobre su ancho visual | 100% (parámetro para afinar en el checkpoint si hay capturas "injustas") |
 | Nivel 5: proporción Agree por rodillo | ~40% |
-| Nivel 5: velocidad de giro de rodillos | por definir en playtesting |
+| Nivel 5: casillas por tira | 12, con garantía de al menos un Agree y un Disagree (reparación determinista si sale una tira de un solo símbolo) |
+| Nivel 5: velocidad de giro de rodillos | 7 filas/s de base, ±1 fila/s de desfase decorativo entre rodillos (6/7/8 filas/s) — valores iniciales, ajustables en el checkpoint |
+| Nivel 5: pausa de rehabilitación | 1 s |
 | Nivel 8: duración de barajados | 2 s / 1,5 s / 1 s |
 | Nivel 9: tiempo de cursor inmóvil para congelar casilla | ~1 s |
 | Nivel 10: máximo de ventanas | 7 |

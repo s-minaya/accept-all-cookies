@@ -74,7 +74,10 @@
       "name": "Advertising Cookies",
       "consent": "Advertising Cookies\n\nAdvertising cookies help us deliver more relevant advertisements based on your browsing activity and interests.\n\nThese cookies may be used by us and our trusted advertising partners to build a profile of your preferences across different websites and services. This information may be combined with data collected from other sources to personalize advertisements, measure campaign effectiveness and improve our marketing services.\n\nIf you do not allow these cookies, you will still see advertisements, but they may be less relevant to your interests.\n\nDo you agree to the use of Advertising Cookies?"
     },
-    "5": { "name": "Social Media Cookies" },
+    "5": {
+      "name": "Social Media Cookies",
+      "consent": "Social Media Cookies\n\nSocial media cookies enable you to connect with social platforms, share content and personalize your experience across different services.\n\nThese cookies may be used by us and selected third parties to measure engagement, personalize content and deliver advertisements based on your activity across websites and social networks.\n\nDo you agree to the use of Social Media Cookies?"
+    },
     "6": { "name": "Cross-Site Tracking" },
     "7": { "name": "Data Sharing" },
     "8": { "name": "Third-Party Providers" },
