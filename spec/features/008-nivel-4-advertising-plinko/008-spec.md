@@ -6,7 +6,7 @@ Implementa el Nivel 4 (GDD Nivel 4): un tablero **Plinko** de 30 pegs por el que
 
 ### Layout
 
-- Recuadro de consentimiento estándar con el texto de Advertising Cookies (el único elemento con marco azul, GDD §4.4: el tablero de juego no lleva marco y aprovecha todo el espacio restante de la ventana).
+- El texto de Advertising Cookies ocupa el marco azul del área de juego, como los niveles 1-3 (corregido tras revisión de Sofía: "los terminos y condiciones de las cookies no estan en su recuadro azul, como en todos los niveles"). El tablero Plinko se publica aparte, DEBAJO de ese marco y fuera de él (GDD §4.4), sin marco propio — mismo patrón que el recuadro de lluvia del nivel 3.
 - Tablero Plinko ocupando ese espacio: 30 pegs en distribución clásica de Plinko.
 - Bajo el tablero, la guía horizontal del botón grande; el pie de la ventana no lleva botones (el botón grande ES el botón del nivel).
 
@@ -58,7 +58,7 @@ Es el corazón arcade del juego: el primer nivel de habilidad continua (los ante
 - [x] 30 pegs en distribución clásica; las fichas caen, rebotan en pegs y entre ellas, con reparto Agree/Disagree ~50 %.
 - [x] El botón grande se mueve arrastrando con el ratón, con el dedo (táctil) y con las flechas (teclado), siempre limitado a la guía; mover el ratón sin pulsar no lo mueve.
 - [x] La guía pinta el tramo beige hasta la posición actual y encoge al volver, sin rastro permanente.
-- [x] El tablero se renderiza sin marco azul, aprovechando el espacio de la ventana ("frameless" en `XPWindow`/`LevelDefinition`).
+- [x] El texto de consentimiento vive en el marco azul del área de juego (como los niveles 1-3); el tablero se publica aparte vía `useLevelBoard`, sin marco propio, aprovechando el espacio sobrante de la ventana.
 
 ### Segmentos
 - [x] La máquina de segmentos cumple la regla en todos los casos: con huecos, cada captura solo rellena por su lado; con los 6 llenos, sustituye el fronterizo contrario; victoria con 6 Agree y derrota con 6 Disagree.

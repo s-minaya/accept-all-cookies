@@ -1,6 +1,8 @@
+import { useMemo, useRef, useState, type ReactNode } from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Level04 from './Level04'
+import { HostChannelContext, type HostChannelValue } from '../hostChannel'
 import type { LevelProps } from '../types'
 import { FALL_MAX_POPULATION, FALL_MAX_POPULATION_MOBILE } from './board'
 
@@ -16,6 +18,31 @@ const baseProps: LevelProps = {
   onLose: () => {},
   paused: false,
   timeLeft: 100,
+}
+
+/**
+ * El tablero del nivel 4 ya no es su `return` directo: se publica vía
+ * `useLevelBoard` (mismo patrón que el recuadro de lluvia del nivel 3, ver
+ * `Level03.test.tsx`), así que estos tests necesitan un canal nivel→host de
+ * verdad para que llegue a montarse.
+ */
+function Level04Harness(props: LevelProps) {
+  const [board, setBoard] = useState<ReactNode>(null)
+  const windowRef = useRef<HTMLDivElement>(null)
+
+  const channel: HostChannelValue = useMemo(
+    () => ({ setFooter: () => {}, setWindowTransform: () => {}, windowRef, setBoard }),
+    [],
+  )
+
+  return (
+    <div ref={windowRef}>
+      <HostChannelContext.Provider value={channel}>
+        <Level04 {...props} />
+      </HostChannelContext.Provider>
+      {board}
+    </div>
+  )
 }
 
 function paddleTransformX(container: HTMLElement): number {
@@ -44,7 +71,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
   })
 
   it('renders the full falling-piece pool on desktop, all starting as Agree (green fill + text)', () => {
-    const { container } = render(<Level04 {...baseProps} />)
+    const { container } = render(<Level04Harness {...baseProps} />)
     expect(container.querySelectorAll('[class*="level-04__falling--agree"]').length).toBe(
       FALL_MAX_POPULATION,
     )
@@ -61,7 +88,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
 
   it('renders fewer falling pieces on a coarse-pointer (mobile/touch) device', () => {
     mockPointer(true)
-    const { container } = render(<Level04 {...baseProps} />)
+    const { container } = render(<Level04Harness {...baseProps} />)
     expect(container.querySelectorAll('[class*="level-04__falling--agree"]').length).toBe(
       FALL_MAX_POPULATION_MOBILE,
     )
@@ -69,7 +96,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
 
   it('the falling pieces are not real click targets (plain divs, no onClick)', () => {
     const onLose = vi.fn()
-    const { container } = render(<Level04 {...baseProps} onLose={onLose} />)
+    const { container } = render(<Level04Harness {...baseProps} onLose={onLose} />)
     // `[class*="level-04__falling--"]` (con guion doble), no solo
     // "level-04__falling": ese prefijo más corto también encajaría con
     // `level-04__falling-label` (el span del texto, guion simple).
@@ -83,7 +110,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
   })
 
   it('renders the paddle as a single button, empty (0% fill) at the start', () => {
-    const { container } = render(<Level04 {...baseProps} />)
+    const { container } = render(<Level04Harness {...baseProps} />)
     const paddle = container.querySelector('[class*="level-04__paddle"]') as HTMLElement
     expect(paddle.style.getPropertyValue('--agree-fill')).toBe('0')
     expect(paddle.style.getPropertyValue('--disagree-fill')).toBe('0')
@@ -94,7 +121,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
   })
 
   it('the paddle carries its own Agree/Disagree text labels, one per fill side (corregido tras revisión de Sofía: "también va completando el texto según va recogiendo botones")', () => {
-    const { container } = render(<Level04 {...baseProps} />)
+    const { container } = render(<Level04Harness {...baseProps} />)
     const agreeLabel = container.querySelector('[class*="level-04__paddle-label--agree"]')
     const disagreeLabel = container.querySelector('[class*="level-04__paddle-label--disagree"]')
     expect(agreeLabel?.textContent).toBe('Agree')
@@ -102,12 +129,12 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
   })
 
   it('syncs the paddle position before the first paint (no flash at the browser default position)', () => {
-    const { container } = render(<Level04 {...baseProps} />)
+    const { container } = render(<Level04Harness {...baseProps} />)
     expect(paddleTransformX(container)).not.toBeNaN()
   })
 
   it('the mouse no longer follows on hover: moving the pointer without pressing does not move the paddle (corregido tras revisión de Sofía: "no me gusta que siga al raton, mejor que sea drag y soltar")', () => {
-    const { container } = render(<Level04 {...baseProps} />)
+    const { container } = render(<Level04Harness {...baseProps} />)
     const startX = paddleTransformX(container)
     const canvas = container.querySelector('[class*="game-area__canvas"]') as HTMLElement
 
@@ -118,7 +145,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
   })
 
   it('ArrowRight/ArrowLeft move the paddle (keyboard control)', () => {
-    const { container } = render(<Level04 {...baseProps} />)
+    const { container } = render(<Level04Harness {...baseProps} />)
     const startX = paddleTransformX(container)
 
     fireEvent.keyDown(window, { key: 'ArrowRight' })
@@ -129,19 +156,19 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
   })
 
   it('does not move the paddle via keyboard while paused', () => {
-    const { container, rerender } = render(<Level04 {...baseProps} paused={true} />)
+    const { container, rerender } = render(<Level04Harness {...baseProps} paused={true} />)
     const startX = paddleTransformX(container)
 
     fireEvent.keyDown(window, { key: 'ArrowRight' })
     vi.advanceTimersByTime(1000)
-    rerender(<Level04 {...baseProps} paused={true} />)
+    rerender(<Level04Harness {...baseProps} paused={true} />)
 
     expect(paddleTransformX(container)).toBe(startX)
   })
 
   it('removes its keyboard listeners on unmount (no leaks)', () => {
     const removeSpy = vi.spyOn(window, 'removeEventListener')
-    const { unmount } = render(<Level04 {...baseProps} />)
+    const { unmount } = render(<Level04Harness {...baseProps} />)
 
     unmount()
 
@@ -151,7 +178,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
   })
 
   it('unmounts cleanly (physics simulation destroyed) without throwing', () => {
-    const { unmount } = render(<Level04 {...baseProps} />)
+    const { unmount } = render(<Level04Harness {...baseProps} />)
     expect(() => unmount()).not.toThrow()
   })
 })

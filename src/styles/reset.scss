@@ -6,10 +6,20 @@
   box-sizing: border-box;
 }
 
+// `min-height` (no `height`): un `height: 100%` fijo en los tres corta la
+// propagación normal de scroll de la página cuando el contenido real acaba
+// siendo más alto que la ventana (bug real, nivel 4: en una ventana MUY
+// baja, `.level-host` (`min-height: 100dvh`, ya permite crecer) sí crecía
+// más de lo disponible, pero `html`/`body` con `height` fijo se quedaban
+// pegados al alto del viewport SIN activar scroll — el resto de la ventana
+// quedaba inaccesible, ni recortado ni alcanzable). `min-height` es
+// estrictamente más permisivo (nunca más pequeño que antes, solo puede
+// crecer si hace falta) — no cambia nada en ningún nivel cuyo contenido ya
+// cupiera en pantalla.
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100dvh;
 }
 
 html,
@@ -31,7 +41,6 @@ body {
 
 body {
   margin: 0;
-  min-height: 100dvh;
   background: var(--color-beige);
   color: var(--color-text-dark);
   font-family: var(--font-ui);

@@ -1,5 +1,7 @@
+import { useMemo, useRef, useState, type ReactNode } from 'react'
 import { act, fireEvent, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { HostChannelContext, type HostChannelValue } from '../hostChannel'
 import type { LevelProps } from '../types'
 import type { BoardOptions, BoardSimulation } from './board'
 
@@ -38,6 +40,31 @@ const baseProps: LevelProps = {
   timeLeft: 100,
 }
 
+/**
+ * El tablero del nivel 4 ya no es su `return` directo: se publica vía
+ * `useLevelBoard` (mismo patrón que el recuadro de lluvia del nivel 3, ver
+ * `Level03.test.tsx`), así que estos tests necesitan un canal nivel→host de
+ * verdad para que llegue a montarse.
+ */
+function Level04Harness(props: LevelProps) {
+  const [board, setBoard] = useState<ReactNode>(null)
+  const windowRef = useRef<HTMLDivElement>(null)
+
+  const channel: HostChannelValue = useMemo(
+    () => ({ setFooter: () => {}, setWindowTransform: () => {}, windowRef, setBoard }),
+    [],
+  )
+
+  return (
+    <div ref={windowRef}>
+      <HostChannelContext.Provider value={channel}>
+        <Level04 {...props} />
+      </HostChannelContext.Provider>
+      {board}
+    </div>
+  )
+}
+
 function getPaddle(container: HTMLElement): HTMLElement {
   return container.querySelector('[class*="level-04__paddle"]') as HTMLElement
 }
@@ -65,7 +92,7 @@ describe('Level04 — desenlace pendiente de confirmar con un clic en la paleta'
 
   it('does not call onWin as soon as 6 Agree are captured — the paddle just locks and becomes clickable', () => {
     const onWin = vi.fn()
-    const { container } = render(<Level04 {...baseProps} onWin={onWin} />)
+    const { container } = render(<Level04Harness {...baseProps} onWin={onWin} />)
     expect(capturedOnCapture).not.toBeNull()
 
     act(() => {
@@ -83,7 +110,7 @@ describe('Level04 — desenlace pendiente de confirmar con un clic en la paleta'
 
   it('does not call onLose as soon as 6 Disagree are captured — the paddle just locks and becomes clickable', () => {
     const onLose = vi.fn()
-    const { container } = render(<Level04 {...baseProps} onLose={onLose} />)
+    const { container } = render(<Level04Harness {...baseProps} onLose={onLose} />)
 
     act(() => {
       for (let i = 0; i < 6; i++) capturedOnCapture!('disagree')
@@ -96,7 +123,7 @@ describe('Level04 — desenlace pendiente de confirmar con un clic en la paleta'
 
   it('the paddle is not a confirm target before the outcome is decided', () => {
     const onWin = vi.fn()
-    const { container } = render(<Level04 {...baseProps} onWin={onWin} />)
+    const { container } = render(<Level04Harness {...baseProps} onWin={onWin} />)
     const paddle = getPaddle(container)
     expect(paddle.getAttribute('aria-disabled')).toBe('true')
     expect(paddle.getAttribute('tabindex')).toBe('-1')
@@ -107,7 +134,7 @@ describe('Level04 — desenlace pendiente de confirmar con un clic en la paleta'
 
   it('Enter on the focused, locked paddle also confirms the outcome (keyboard access)', () => {
     const onWin = vi.fn()
-    const { container } = render(<Level04 {...baseProps} onWin={onWin} />)
+    const { container } = render(<Level04Harness {...baseProps} onWin={onWin} />)
 
     act(() => {
       for (let i = 0; i < 6; i++) capturedOnCapture!('agree')
@@ -118,7 +145,7 @@ describe('Level04 — desenlace pendiente de confirmar con un clic en la paleta'
   })
 
   it('freezes the board simulation once the outcome is decided, on top of any host `paused`', () => {
-    render(<Level04 {...baseProps} />)
+    render(<Level04Harness {...baseProps} />)
     const simulation = vi.mocked(createBoardSimulation).mock.results[0].value as BoardSimulation
 
     act(() => {

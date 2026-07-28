@@ -56,16 +56,21 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
   },
   4: {
     titleKey: 'levels.4.name',
-    // Recuadro de consentimiento ESTÁNDAR (a diferencia de los niveles 1-3):
-    // el texto va en el recuadro blanco de siempre. `frameless: true` porque
-    // el tablero (el Plinko) no lleva marco azul (GDD §4.4, excepción
-    // confirmada por Sofía) — aprovecha todo el espacio restante de la
-    // ventana en vez de quedar contenido en él. `fillHeight: true` por el
-    // mismo motivo que el nivel 3: sin altura real en la ventana no hay
-    // espacio "sobrante" que darle al tablero.
-    consentKey: 'levels.4.consent',
-    frameless: true,
-    fillHeight: true,
+    // Sin consentKey (corregido tras revisión de Sofía: "los terminos y
+    // condiciones de las cookies no estan en su recuadro azul, como en
+    // todos los niveles") — el texto va dentro del marco azul, mismo patrón
+    // que los niveles 1-3, ya no en el recuadro de consentimiento pequeño.
+    // Sin `frameless` (a diferencia de antes): ese marco azul ahora sí se
+    // renderiza, ajustado solo al texto; el tablero (el Plinko) se sigue
+    // publicando aparte vía `useLevelBoard` y sigue sin marco propio (GDD
+    // §4.4, excepción: tiene sus propias paredes físicas) — mismo patrón
+    // exacto que el recuadro de lluvia del nivel 3. SIN `fillHeight` (a
+    // diferencia de antes): ya no hace falta — `GameArea` mide su propio
+    // tamaño con `aspect-ratio` en vez de depender de que un ancestro le dé
+    // el 100% del alto disponible (`GameArea.module.scss`), así que la
+    // ventana vuelve a ajustarse a su contenido en vez de estirarse a
+    // ocupar toda la pantalla (corregido tras revisión de Sofía: "reduce el
+    // aire de arriba y abajo").
     component: lazy(() => import('./level04/Level04')),
   },
 }

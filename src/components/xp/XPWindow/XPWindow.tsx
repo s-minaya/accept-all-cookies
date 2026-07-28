@@ -12,10 +12,9 @@ export interface XPWindowProps {
   /** Omitir para ocultar el recuadro de consentimiento (p. ej. la pantalla de selección, que no tiene texto de categoría). */
   consentText?: ReactNode
   /**
-   * Omitir (junto con `boardBelowFrame` presente) cuando el nivel no tiene
-   * ningún contenido propio del marco azul — el nivel 4 es "frameless": todo
-   * su contenido es `boardBelowFrame`, así que el marco ni se renderiza
-   * (GDD §4.4, excepción confirmada por Sofía).
+   * Omitir (junto con `boardBelowFrame` presente) cuando el nivel es
+   * "frameless" (`LevelDefinition.frameless`, GDD §4.4 excepción): todo su
+   * contenido es `boardBelowFrame`, así que el marco ni se renderiza.
    */
   children?: ReactNode
   /**

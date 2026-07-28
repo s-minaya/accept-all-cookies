@@ -1,3 +1,26 @@
+// Texto de consentimiento del nivel: vive en el marco azul del área de
+// juego, igual que los niveles 1-3 (corregido tras revisión de Sofía: "los
+// terminos y condiciones de las cookies no estan en su recuadro azul, como
+// en todos los niveles") — ya NO usa el recuadro de consentimiento blanco
+// estándar (`consentKey`, `registry.ts`). Bloque BEM separado de `.level-04`
+// (el tablero, ver más abajo): este vive en el marco azul, fuera del lienzo
+// de `GameArea`, así que no comparte ámbito con él. Mismo patrón exacto que
+// `.level-03`/`.level-03__text` (`Level03.module.scss`).
+.level-04-consent {
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+}
+
 // Coordenadas en px lógicos: este módulo vive dentro del lienzo de
 // `GameArea` (640×420 fijo, ver tokens.scss), que es quien lo escala visual
 // al tamaño real de pantalla — nada aquí necesita saber el tamaño real.

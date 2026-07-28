@@ -212,7 +212,7 @@ Debajo de la barra de título hay un recuadro blanco con borde gris que contiene
 - **Scroll vertical interno** si el contenido supera la altura disponible.
 - La altura del recuadro nunca cambia.
 
-**Excepción — niveles sin tablero propio** (p. ej. el nivel 1): si el nivel no tiene mecánica visual propia, no lleva este recuadro separado; su texto (más largo que en los niveles con tablero) ocupa directamente el interior del marco azul del área de juego (§4.4), con scroll interno si no cabe.
+**Excepción** (niveles 1-4): en vez de este recuadro pequeño, el texto ocupa directamente el interior del marco azul del área de juego (§4.4), con scroll interno si no cabe — en los niveles sin mecánica visual propia (1, 2) porque no hay nada más que mostrar ahí; en los niveles con tablero (3, 4) porque el tablero se publica aparte, DEBAJO de ese marco y fuera de él, dejando el marco libre solo para el texto.
 
 ## 4.4 Área de juego
 
@@ -228,7 +228,7 @@ La mecánica de cada nivel se desarrolla dentro de un **contenedor fijo** formad
 - El contenido siempre queda completamente contenido dentro de este rectángulo.
 - Si el nivel no tiene mecánica visual (§4.3, excepción), este interior muestra su texto de consentimiento (fondo blanco) en vez de un tablero.
 
-**Excepción — tableros "frameless"** (nivel 4): un nivel con tablero de físicas puede prescindir del marco azul y aprovechar todo el espacio restante de la ventana en vez de quedar contenido en él — el recuadro de consentimiento estándar (§4.3) sigue ahí, solo el marco alrededor del tablero desaparece. Se reserva para tableros donde el marco no aportaría nada (el Plinko del nivel 4 ya tiene sus propias paredes físicas) y necesitan todo el alto disponible.
+**Tableros publicados aparte** (niveles 3 y 4): un nivel con tablero de físicas puede publicarlo DEBAJO del marco azul, fuera de él, en vez de dentro — el marco azul sigue ahí, pero se ajusta solo al texto (§4.3, excepción) en vez de envolver también el tablero, que aprovecha el espacio restante de la ventana. Se reserva para tableros donde el marco no aportaría nada (el recuadro de lluvia del nivel 3 y el Plinko del nivel 4 ya tienen sus propias paredes) y necesitan todo el alto disponible.
 
 ## 4.5 Botones inferiores
 
@@ -543,7 +543,7 @@ Do you agree to the use of Personalization Cookies?
 
 **Objetivo:** rellenar completamente el botón Agree gigante con estilo visual Agree antes de que quede ocupado por el estilo Disagree (o de que acabe el contador).
 
-**Diseño:** recuadro de consentimiento estándar (§4.3) — a diferencia de los niveles 1-3, este sí lo usa. El tablero (el Plinko) es "frameless" (§4.4): sin marco azul, aprovecha todo el espacio restante de la ventana.
+**Diseño:** excepción del GDD §4.3 (como los niveles 1-3): el texto de consentimiento ocupa el interior del marco azul del área de juego en vez del recuadro de consentimiento pequeño. El tablero (el Plinko) se publica aparte (§4.4), DEBAJO de ese marco y fuera de él — mismo patrón que el recuadro de lluvia del nivel 3.
 
 **Texto:**
 ```

@@ -1,7 +1,24 @@
 .game-area {
+  // Tamaño EXACTO del lienzo ya escalado, no el 100% completo del alto
+  // disponible: `width`/`height` en `auto` + `aspect-ratio` (640/420, ver
+  // `GameArea.tsx`) hacen que el propio contenedor mida solo lo que el
+  // lienzo necesita a ese ancho, en vez de estirarse a ocupar todo el alto
+  // que le dé un ancestro con `fillHeight` — sin esto, un nivel con
+  // `fillHeight` (el ancho manda casi siempre, ver comentario de
+  // `LOGICAL_HEIGHT`) dejaba un hueco vacío alrededor del lienzo (corregido
+  // tras revisión de Sofía: "reduce el aire de arriba y abajo" del nivel 4).
+  // `max-width`/`max-height` acotan por los dos lados a la vez (mismo patrón
+  // que una imagen responsive con relación de aspecto fija): normalmente es
+  // el ancho el que manda, pero en una ventana excepcionalmente baja
+  // (`max-height`) el navegador reduce ambas dimensiones a la vez para
+  // seguir respetando la proporción, sin deformar el lienzo.
   &__container {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100dvh;
+    aspect-ratio: 640 / 420;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;

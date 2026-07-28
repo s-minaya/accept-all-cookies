@@ -17,7 +17,7 @@
 
 ## `Level04.tsx`
 
-- [x] Consentimiento estándar (`consentKey`) + tablero **frameless** (sin marco azul, GDD §4.4) aprovechando el espacio sobrante; sin pie (el botón grande vive dentro del tablero).
+- [x] Texto de consentimiento en el marco azul del área de juego (como los niveles 1-3, corregido tras revisión de Sofía); tablero publicado aparte vía `useLevelBoard`, sin marco propio (GDD §4.4), aprovechando el espacio sobrante; sin pie (el botón grande vive dentro del tablero).
 - [x] Fichas que caen: relleno de color oscuro (tono del anillo interior de un botón real) sin borde propio, con el texto "Agree"/"Disagree" en la tipografía habitual a menor tamaño.
 - [x] Botón grande (paleta): relleno de dos colores creciendo desde cada lado, con el anillo interior y el texto de un botón real revelándose progresivamente a medida que crece; anillo exterior y bisel compartidos por toda la silueta.
 - [x] Control por arrastre (ratón/táctil, `usePointer` con `onDragStart`/`onDragMove`) y teclado (flechas).
@@ -27,7 +27,7 @@
 
 ## Integración
 
-- [x] Hueco 4 del registro (`consentKey`, `frameless: true`, `fillHeight: true`); chunk propio (`Level04-*.js`) y matter.js factorizado en su propio chunk compartido con la 007 (`matter-*.js`, ~85 kB), no duplicado.
+- [x] Hueco 4 del registro (sin `consentKey`, sin `frameless` — texto en el marco azul, tablero vía `useLevelBoard`); chunk propio (`Level04-*.js`) y matter.js factorizado en su propio chunk compartido con la 007 (`matter-*.js`, ~85 kB), no duplicado.
 - [x] `levels.4.*` en ambos diccionarios.
 - [x] Botón dev de saltar nivel en `LevelHost` (gated `?dev`, completa sin veredicto ni modal, mismo camino de datos que una victoria real) — funciona en cualquier nivel. Anotado en AGENTS.md y en la línea de la 017 del roadmap para su retirada futura.
 
