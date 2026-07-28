@@ -1029,7 +1029,7 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | **Distinto por dispositivo**: escritorio 0.5, móvil/táctil 0.1. Detectado por tipo de puntero (`pointer: coarse`), no por ancho de pantalla. |
 | Duración del contador (todos los niveles) | 100 s |
 | Nivel 1: retardo de aparición del Agree | 7 s |
-| Nivel 3: población máxima de la lluvia de Disagree | 25 simultáneos en escritorio, 12 en dispositivos táctiles (detectado por tipo de puntero, no por ancho de pantalla — igual que el multiplicador de volumen de la música) |
+| Nivel 3: población máxima de la lluvia de Disagree | Techo de 25 en escritorio / 12 en táctil (detectado por tipo de puntero), pero recortado además al área REAL del recuadro: como mucho el 60% de esa área cubierta por las siluetas de los botones si estuvieran todas quietas a la vez, para que siempre quede hueco visible donde pueda aparecer el Agree (corregido tras revisión de Sofía: "los botones de disagree si tienen que desaparecer si no se llena la pantalla y no deja espacio para que aparezca el agree" — con el recuadro a su tamaño real, el techo de 25 llegaba a cubrirlo pared con pared) |
 | Nivel 3: tasa de spawn de la lluvia | uno cada 350 ms, hasta el máximo |
 | Nivel 3: tiempo de reposo antes de reciclar un Disagree de la lluvia | 4 s |
 | Nivel 3: ancho de la cámara oculta del Agree (a la derecha del recuadro de lluvia) | 140 px |

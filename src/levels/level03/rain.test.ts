@@ -49,6 +49,13 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
     vi.useFakeTimers()
     container = document.createElement('div')
     document.body.appendChild(container)
+    // Sin esto, `getBoundingClientRect()` da 0×0 en jsdom (no hace layout
+    // real) — con el límite de población por área del recuadro (más abajo
+    // en `rain.ts`), un recuadro de 0×0 colapsaría la población a 1 en
+    // TODOS estos tests, aunque sigan "pasando" (varios solo comprueban que
+    // ALGÚN botón se mueve) — un tamaño realista aquí mantiene la piscina
+    // de 5 botones que estos tests dan por hecha.
+    mockRect(container, { width: 300, height: 160 })
     buttons = makeButtons(5)
     agreeButton = makeAgreeButton()
     simulation = null
@@ -106,6 +113,48 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
     vi.advanceTimersByTime(500)
 
     expect(getRotationDeg.mock.calls.length).toBeGreaterThan(0)
+  })
+
+  describe('población limitada por el área real del recuadro (corregido tras revisión de Sofía: "los botones de disagree si tienen que desaparecer si no se llena la pantalla y no deja espacio para que aparezca el agree")', () => {
+    // Cada botón real que crea un cuerpo sincroniza su posición de forma
+    // síncrona nada más crearse (incluso parado, esperando su turno) — un
+    // botón que se queda FUERA del límite de población nunca llega a tener
+    // cuerpo ni transform, así que contar cuántos tienen ya `transform` sin
+    // ni siquiera avanzar el reloj basta para saber la población real.
+    function activatedCount(): number {
+      return buttons.filter((button) => button.style.transform !== '').length
+    }
+
+    it('caps the population below what the box can visibly hold when it is small relative to the buttons', () => {
+      mockRect(container, { width: 100, height: 60 })
+      buttons.forEach((button) => mockRect(button, { width: 110, height: 48 }))
+
+      simulation = createRainSimulation({
+        container,
+        buttons,
+        agreeButton,
+        maxPopulation: buttons.length,
+        getRotationDeg: () => 0,
+      })
+
+      expect(activatedCount()).toBeLessThan(buttons.length)
+      expect(activatedCount()).toBeGreaterThan(0) // nunca a 0: siempre cae alguno
+    })
+
+    it('allows the full requested population when the box is comfortably larger than the buttons', () => {
+      mockRect(container, { width: 2000, height: 2000 })
+      buttons.forEach((button) => mockRect(button, { width: 110, height: 48 }))
+
+      simulation = createRainSimulation({
+        container,
+        buttons,
+        agreeButton,
+        maxPopulation: buttons.length,
+        getRotationDeg: () => 0,
+      })
+
+      expect(activatedCount()).toBe(buttons.length)
+    })
   })
 
   describe('el Agree oculto (007-plan.md, corregido tras revisión de Sofía)', () => {

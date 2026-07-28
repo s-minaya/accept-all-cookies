@@ -144,7 +144,32 @@ export function createRainSimulation({
   ]
   Matter.Composite.add(engine.world, walls)
 
-  const population = Math.min(maxPopulation, buttons.length)
+  // El área REAL del recuadro (medida arriba, no un número fijo pensado
+  // para un recuadro más grande) limita cuántos Disagree caben a la vez
+  // sin dejar el recuadro pared con pared, sin ningún hueco para que el
+  // Agree se pueda ver una vez revelado — corregido tras revisión de
+  // Sofía: "los botones de disagree si tienen que desaparecer si no se
+  // llena la pantalla y no deja espacio para que aparezca el agree". Con
+  // el recuadro a su tamaño de siempre (`min-height: 10rem`,
+  // `Level03.module.scss`) y `RAIN_MAX_POPULATION` (25) sin este límite,
+  // el área de los propios botones llegaba a duplicar la del recuadro —
+  // confirmado con Playwright: el recuadro quedaba cubierto pared con
+  // pared, sin un solo hueco visible. `RAIN_TARGET_FILL_RATIO` es cuánto
+  // del área del recuadro pueden cubrir, COMO MUCHO, sus siluetas si
+  // estuvieran todas quietas a la vez — en la práctica se ve menos lleno
+  // todavía, porque no todas están quietas al mismo tiempo. Se adapta
+  // solo a cualquier tamaño de recuadro futuro (breakpoint nuevo, ajuste
+  // de `min-height`…), no hace falta retocar un número fijo a mano.
+  const RAIN_TARGET_FILL_RATIO = 0.6
+  const sampleButton =
+    buttons.length > 0 ? elementHalfSize(buttons[0]) : { halfWidth: 24, halfHeight: 24 }
+  const sampleButtonArea = sampleButton.halfWidth * 2 * sampleButton.halfHeight * 2
+  const areaBasedPopulationCap = Math.max(
+    1,
+    Math.floor((boxWidth * boxHeight * RAIN_TARGET_FILL_RATIO) / sampleButtonArea),
+  )
+
+  const population = Math.min(maxPopulation, buttons.length, areaBasedPopulationCap)
   const rainBodies: RainBody[] = []
 
   for (let i = 0; i < population; i++) {
