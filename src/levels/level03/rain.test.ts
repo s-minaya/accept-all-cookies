@@ -130,6 +130,30 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
 
       // El borde izquierdo del Agree sigue más allá del ancho visible: oculto.
       expect(translateX(agreeButton)).toBeGreaterThanOrEqual(BOX_WIDTH - 5)
+      expect(agreeButton.style.visibility).toBe('hidden')
+    })
+
+    it('is truly invisible (not just clipped by position) until it fully crosses into the visible box — corregido tras revisión de Sofía: "el botón agree cae y se esconde, dando al usuario una pista de dónde está"', () => {
+      let rotation = 0
+      simulation = createRainSimulation({
+        container,
+        buttons,
+        agreeButton,
+        getRotationDeg: () => rotation,
+      })
+
+      expect(agreeButton.style.visibility).toBe('hidden')
+
+      // Antihorario: lo empuja hacia la caja visible, pero antes de cruzar
+      // del todo (poco tiempo simulado) puede estar asomando por el borde
+      // recortado sin haberlo cruzado aún — debe seguir invisible.
+      rotation = -60
+      vi.advanceTimersByTime(200)
+      expect(agreeButton.style.visibility).toBe('hidden')
+
+      vi.advanceTimersByTime(8000)
+      expect(translateX(agreeButton)).toBeLessThan(BOX_WIDTH - AGREE_WIDTH / 2) // revelado
+      expect(agreeButton.style.visibility).toBe('visible')
     })
 
     it('does not move at all while unrotated: nace ya en su posición de reposo, no cae animado (Sofía, feedback tras QA)', () => {

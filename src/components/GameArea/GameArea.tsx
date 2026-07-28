@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { forwardRef, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import styles from './GameArea.module.scss'
 
 /** Tamaño de lienzo lógico sobre el que se diseña cada nivel (coincide con tokens.scss). */
@@ -9,7 +9,18 @@ export interface GameAreaProps {
   children: ReactNode
 }
 
-export function GameArea({ children }: GameAreaProps) {
+/**
+ * `ref` reenviado al lienzo lógico (`__canvas`, el nodo de 640×360 antes de
+ * aplicarle el `transform: scale()`), no al contenedor exterior — un nivel
+ * que necesite convertir coordenadas de puntero reales a coordenadas
+ * lógicas (nivel 4: `usePointer` sobre este mismo nodo) necesita medir
+ * exactamente ese elemento, cuyo `getBoundingClientRect()` ya refleja la
+ * escala aplicada.
+ */
+export const GameArea = forwardRef<HTMLDivElement, GameAreaProps>(function GameArea(
+  { children },
+  ref,
+) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
 
@@ -30,6 +41,7 @@ export function GameArea({ children }: GameAreaProps) {
   return (
     <div ref={containerRef} className={styles['game-area__container']}>
       <div
+        ref={ref}
         className={styles['game-area__canvas']}
         style={{ '--game-area-scale': scale } as CSSProperties}
       >
@@ -37,4 +49,4 @@ export function GameArea({ children }: GameAreaProps) {
       </div>
     </div>
   )
-}
+})

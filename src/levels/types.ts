@@ -52,5 +52,19 @@ export interface LevelDefinition {
    * niveles: cambiaría su tamaño ya validado por Sofía.
    */
   fillHeight?: boolean
+  /**
+   * El tablero de este nivel no lleva marco azul (GDD §4.4, excepción
+   * confirmada por Sofía para el nivel 4 — el Plinko aprovecha todo el
+   * espacio restante de la ventana en vez de quedar contenido en el marco).
+   * `LevelHost` monta el propio componente del nivel como `boardBelowFrame`
+   * de `XPWindow` en vez de como `children`: el marco azul no llega a
+   * renderizarse (a diferencia del nivel 3, que sí usa `children` — un
+   * marco de verdad, ajustado al texto — y publica el tablero aparte vía
+   * `useLevelBoard`). Requiere `consentKey` (el texto va en el recuadro
+   * blanco estándar, no dentro de un marco que ya no existe) y normalmente
+   * `fillHeight` (sin altura real en la ventana no hay espacio "sobrante"
+   * que darle al tablero).
+   */
+  frameless?: boolean
   component: LazyExoticComponent<LevelComponent>
 }

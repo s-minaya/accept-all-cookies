@@ -26,6 +26,6 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 14. **014 · Nivel 10 — Legitimate Interest** — ventanas que se duplican al arrastrarse.
 15. **015 · Nivel 11 — Consent Renewal** — personaje tipo Clippy, patrón de preguntas.
 16. **016 · Nivel 12 — Accept All + créditos** — barra teatral, switcheo del botón, pantalla de créditos.
-17. **017 · Pulido y QA transversal** — balanceo de dificultad, repaso de audio, QA responsive en los 5 anchos de referencia, accesibilidad básica, rendimiento.
+17. **017 · Pulido y QA transversal** — balanceo de dificultad, repaso de audio, QA responsive en los 5 anchos de referencia, accesibilidad básica, rendimiento. También retira el botón dev de saltar nivel (`?dev`, introducido en la 008) junto con la Playground (`?playground`).
 
 > Cada feature nueva se crea como `features/NNN-nombre-feature/` con `spec.md`, `plan.md` y `tasks.md` antes de tocar código. Los niveles 5–16 pueden reordenarse si conviene, pero 001–004 son prerrequisito de todos.

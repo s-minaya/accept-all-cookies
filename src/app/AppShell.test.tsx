@@ -246,8 +246,22 @@ describe('AppShell', () => {
 
       fireEvent.click(screen.getByText('Empezar'))
 
+      // Nivel 4 (Plinko, 008-plan.md): se gana por colisión física, no por
+      // clic — inalcanzable con `fireEvent.click(getByText('Agree'))` como el
+      // resto. Se salta con el botón dev en vez de simular la física real
+      // (esa la cubren `board.test.ts`/`segments.test.ts`); `?dev` no afecta
+      // a ningún otro nivel de este recorrido.
+      window.history.pushState({}, '', '?dev')
+
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Check'))
+
+        if (level === 4) {
+          fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
+          await vi.waitFor(() => expect(screen.getByText('Cookie Preferences')).toBeInTheDocument())
+          continue
+        }
+
         // `getAllByText` (no `getByText`): el nivel 3 tiene muchos Disagree
         // a la vez (el fijo del pie + los de la lluvia, 007-plan.md) — esto
         // solo espera a que el nivel haya montado, no importa cuántos haya.
@@ -274,6 +288,7 @@ describe('AppShell', () => {
       expect(screen.queryByText('Check')).not.toBeInTheDocument()
     } finally {
       vi.useRealTimers()
+      window.history.pushState({}, '', '/')
     }
   })
 

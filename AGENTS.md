@@ -43,7 +43,8 @@ Juego web en React + TypeScript, 100% pixel art con estética Windows XP: 12 niv
 
 ## Contexto útil
 
-- Despliegue: GitHub Pages → `base: '/<nombre-del-repo>/'` en `vite.config.ts` y enrutado por estado interno, sin URL — el único parámetro válido es el escape `?playground` (nunca rutas de servidor).
+- Despliegue: GitHub Pages → `base: '/<nombre-del-repo>/'` en `vite.config.ts` y enrutado por estado interno, sin URL — los únicos parámetros válidos son los escapes `?playground` y `?dev` (nunca rutas de servidor).
 - El Playground (`?playground`) es un escape intencional para probar el sistema de diseño fuera del flujo del juego, no algo que "limpiar"; todo componente nuevo del sistema de diseño se añade ahí en el mismo cambio en que se crea. QA de navegador (visual, responsive, interacción) se hace con Playwright — ver tech-stack.md.
+- `?dev` (nivel 4, 008-plan.md) muestra un botón de saltar nivel al instante (sin veredicto ni modal), renderizado por `LevelHost` para los 12 niveles. **No lo retires antes de la feature 017** (se retira ahí, junto con la Playground, ver su línea en el roadmap) ni lo confundas con código muerto mientras tanto.
 - El tablero del nivel 6 (`spec/assets/nivel6-tablero.json`) está verificado: solución única `→ ↓ → ↓ ↑ →`. No lo modifiques sin volver a pasar el validador.
 - Todos los assets de Sofía son definitivos y están en `src/assets/`: sonidos positivo/negativo, música de fondo (multiplicador propio de volumen, distinto en escritorio y móvil — ver `DESKTOP_MUSIC_VOLUME_FACTOR`/`MOBILE_MUSIC_VOLUME_FACTOR` en `src/audio/AudioManager.ts`), fondo de la landing (`landing-bg.png` escritorio ≥1025px / `landing-bg-mobile.png` móvil y tablet), 4 personajes, el Clippy del nivel 11, el corazón del `CuteButton`, los 4 iconos de la esquina de la landing, el icono de volver y el icono de check (`src/assets/images/ui/`: `back.png`, `check.png`). PNG pixel art: no recomprimir ni convertir a JPEG

@@ -36,3 +36,19 @@ if (typeof window.PointerEvent === 'undefined') {
   // @ts-expect-error - relleno mínimo de un global que jsdom no implementa
   window.PointerEvent = PointerEventPolyfill
 }
+
+// jsdom no implementa `ResizeObserver` (no hace layout real, así que no hay
+// nada que observar) — lo necesita `GameArea` (feature 001, resolución
+// lógica + escala) para calcular su factor de escala. No-op: los tests que
+// montan un nivel dentro de `GameArea` (nivel 4, 008-plan.md) no dependen de
+// un tamaño real de contenedor, solo de que el componente no reviente al
+// montarse.
+if (typeof window.ResizeObserver === 'undefined') {
+  class ResizeObserverPolyfill {
+    observe(): void {}
+    unobserve(): void {}
+    disconnect(): void {}
+  }
+
+  window.ResizeObserver = ResizeObserverPolyfill
+}

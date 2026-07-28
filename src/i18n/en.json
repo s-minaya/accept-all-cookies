@@ -13,7 +13,8 @@
       "close": "Close",
       "loading": "Loading...",
       "testTitle": "Test Cookies",
-      "testConsent": "This test banner isn't part of the real game: it only exists to validate the level contract (onWin / onLose / countdown) before the 12 real levels are built."
+      "testConsent": "This test banner isn't part of the real game: it only exists to validate the level contract (onWin / onLose / countdown) before the 12 real levels are built.",
+      "devSkip": "Skip level (dev)"
     },
     "credits": {
       "title": "Credits",
@@ -69,7 +70,10 @@
       "name": "Personalization Cookies",
       "consent": "Personalization Cookies\n\nPersonalization cookies allow us to remember your preferences, such as language, region and display settings.\n\nThey help us provide a more personalized experience based on your previous interactions with our website.\n\nDo you agree to the use of Personalization Cookies?"
     },
-    "4": { "name": "Advertising Cookies" },
+    "4": {
+      "name": "Advertising Cookies",
+      "consent": "Advertising Cookies\n\nAdvertising cookies help us deliver more relevant advertisements based on your browsing activity and interests.\n\nThese cookies may be used by us and our trusted advertising partners to build a profile of your preferences across different websites and services. This information may be combined with data collected from other sources to personalize advertisements, measure campaign effectiveness and improve our marketing services.\n\nIf you do not allow these cookies, you will still see advertisements, but they may be less relevant to your interests.\n\nDo you agree to the use of Advertising Cookies?"
+    },
     "5": { "name": "Social Media Cookies" },
     "6": { "name": "Cross-Site Tracking" },
     "7": { "name": "Data Sharing" },

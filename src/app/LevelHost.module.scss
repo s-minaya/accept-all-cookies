@@ -34,4 +34,27 @@
       }
     }
   }
+
+  // Botón dev de saltar nivel (008-plan.md, solo con `?dev` en la URL):
+  // deliberadamente ajeno a la estética pixel-art del juego (no es un
+  // elemento de juego) — pequeño, discreto, en una esquina fija que no
+  // depende del tamaño ni la rotación de la ventana del nivel.
+  &__dev-skip {
+    position: fixed;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 10;
+    padding: 0.3rem 0.6rem;
+    background: rgb(0 0 0 / 55%);
+    color: var(--color-white);
+    border: 1px solid rgb(255 255 255 / 40%);
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+
+    &:hover {
+      background: rgb(0 0 0 / 75%);
+    }
+  }
 }

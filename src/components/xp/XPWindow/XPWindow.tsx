@@ -11,7 +11,13 @@ export interface XPWindowProps {
   onClose?: () => void
   /** Omitir para ocultar el recuadro de consentimiento (p. ej. la pantalla de selección, que no tiene texto de categoría). */
   consentText?: ReactNode
-  children: ReactNode
+  /**
+   * Omitir (junto con `boardBelowFrame` presente) cuando el nivel no tiene
+   * ningún contenido propio del marco azul — el nivel 4 es "frameless": todo
+   * su contenido es `boardBelowFrame`, así que el marco ni se renderiza
+   * (GDD §4.4, excepción confirmada por Sofía).
+   */
+  children?: ReactNode
   /**
    * Tablero de juego que se renderiza DEBAJO del marco azul, fuera de él, en
    * el espacio sobrante del cuerpo de la ventana (p. ej. el recuadro de
@@ -76,9 +82,11 @@ export function XPWindow({
 
         {consentText && <div className={styles['xp-window__consent-box']}>{consentText}</div>}
 
-        <div className={styles['xp-window__frame']}>
-          <div className={interiorClasses}>{children}</div>
-        </div>
+        {children && (
+          <div className={styles['xp-window__frame']}>
+            <div className={interiorClasses}>{children}</div>
+          </div>
+        )}
 
         {boardBelowFrame && <div className={styles['xp-window__board']}>{boardBelowFrame}</div>}
 

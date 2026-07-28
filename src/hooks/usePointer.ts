@@ -17,6 +17,15 @@ export interface UsePointerOptions {
   onDragMove?: (point: Point) => void
   onDragEnd?: (point: Point) => void
   onStill?: (point: Point) => void
+  /**
+   * Se dispara en CADA `pointermove` sobre el elemento, sin esperar a un
+   * `pointerdown` previo ni pasar por la clasificación tap-vs-drag (nivel 4:
+   * el botón grande del Plinko sigue el ratón en hover, sin necesidad de
+   * pulsar — GDD "Ratón: sigue la X del puntero"). Para un puntero táctil
+   * esto no cambia nada en la práctica: no puede haber `pointermove` sin
+   * contacto previo, así que equivale a "arrastrando el dedo".
+   */
+  onMove?: (point: Point) => void
 }
 
 export interface UsePointerResult {
@@ -96,8 +105,10 @@ export function usePointer(
     }
 
     const handlePointerMove = (event: PointerEvent) => {
-      if (!startPointRef.current) return
       const point = toLocalPoint(event, element)
+      optionsRef.current.onMove?.(point)
+
+      if (!startPointRef.current) return
       setPosition(point)
 
       const { dragThreshold } = optionsRef.current

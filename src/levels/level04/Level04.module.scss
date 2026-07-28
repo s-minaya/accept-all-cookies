@@ -1,0 +1,253 @@
+// Coordenadas en px lógicos: este módulo vive dentro del lienzo de
+// `GameArea` (640×360 fijo, ver tokens.scss), que es quien lo escala visual
+// al tamaño real de pantalla — nada aquí necesita saber el tamaño real.
+.level-04 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--color-beige);
+
+  // Posición fija (`--peg-x`/`--peg-y`, calculadas una vez por
+  // `generatePegPositions()` — nunca cambian, así que van en línea como
+  // custom properties en vez de sincronizarse por rAF como lo que sí se
+  // mueve).
+  &__peg {
+    position: absolute;
+    left: var(--peg-x);
+    top: var(--peg-y);
+    width: 10px; // 2 × PEG_RADIUS (board.ts)
+    height: 10px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--color-frame-blue);
+  }
+
+  // Ficha con el texto y la tipografía habituales de Agree/Disagree, pero
+  // sin todo el relieve de un XPButton real — "solo un pequeño relleno del
+  // color correspondiente" (Sofía): relleno liso, sin el borde oscuro
+  // universal de los botones (quitado tras nueva revisión de Sofía: "sin el
+  // borde azul"), sin anillo interior de color ni bisel del botón grande.
+  // El propio relleno usa el tono OSCURO del anillo interior de un botón
+  // real (`--color-agree-border`/`--color-disagree-border`), no el tono
+  // claro de fondo (`-bg`) — corregido tras revisión de Sofía: "son el
+  // color del borde mas oscuro de los botones originales, no el claro".
+  // Tamaño subido de 38×16 (sin texto) tras revisión de Sofía — a ese
+  // tamaño no rebotaban contra los pegs de forma perceptible; el texto usa
+  // una fuente más pequeña que la de un botón real para caber en un cuerpo
+  // bastante más compacto que 92×40 (evita el amontonamiento de la ronda
+  // anterior). Altura bajada de 32 a 22 tras nueva revisión de Sofía ("más
+  // finos"). Posicionado por `board.ts` vía `transform` en cada paso de
+  // física (incluida la rotación real del cuerpo) — de ahí `top`/`left`
+  // fijos en 0 y todo el movimiento resuelto con `translate()` +
+  // `rotate()` (mismo patrón que el nivel 3). No son objetivo de clic: los
+  // captura la paleta, no el dedo.
+  &__falling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px; // FALLING_WIDTH (board.ts)
+    height: 22px; // FALLING_HEIGHT (board.ts)
+    border-radius: 999px;
+    pointer-events: none;
+    will-change: transform;
+
+    &--agree {
+      background: var(--color-agree-border);
+    }
+
+    &--disagree {
+      background: var(--color-disagree-border);
+    }
+  }
+
+  // Misma técnica tipográfica que `XPButton` (`&--agree`/`&--disagree
+  // &__label`), a menor tamaño — "la fuente habitual y el estilo", ver
+  // arriba.
+  &__falling-label {
+    font-family: var(--font-display);
+    font-size: 0.45rem;
+    color: var(--color-white);
+    -webkit-text-stroke: 1.5px var(--color-button-border);
+    paint-order: stroke fill;
+    text-shadow: 0 1px 1px rgb(0 0 0 / 35%);
+    white-space: nowrap;
+  }
+
+  // Guía horizontal (GDD Nivel 4): pista azul oscura fija; el tramo entre el
+  // extremo izquierdo y la posición actual de la paleta se pinta beige
+  // (`&__guide-fill`, ancho controlado por `--guide-fill` en px lógicos,
+  // escrito por `board.ts` en cada paso).
+  &__guide {
+    position: absolute;
+    left: 0;
+    top: 322px; // PADDLE_Y (330) − mitad de este alto (16/2)
+    width: 640px; // = LOGICAL_WIDTH
+    height: 16px;
+    border-radius: 8px;
+    background: var(--color-guide-blue);
+    overflow: hidden;
+  }
+
+  &__guide-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--guide-fill, 0) * 1px);
+    background: var(--color-guide-beige);
+  }
+
+  // Botón grande de 6 segmentos (GDD Nivel 4): un ÚNICO botón — no 6 botones
+  // pegados (corregido tras revisión de Sofía: "tendría el aspecto visual
+  // de agree o disagree al completo, no como 6 botones diferentes"). Vacío
+  // muestra blanco liso; cada captura hace crecer un relleno sólido desde
+  // su lado (`&__fill--agree` desde la izquierda, `&__fill--disagree` desde
+  // la derecha) con el color exacto del botón real correspondiente — nunca
+  // aparecen como celdas separadas: `overflow: hidden` + el mismo
+  // `border-radius` que la silueta exterior hacen que el relleno, según
+  // crece, tome la forma de un botón Agree/Disagree de verdad. El relieve
+  // (`&::after`) va POR ENCIMA de los rellenos a propósito, para que se
+  // sienta como el relieve de un único botón y no el de cada trozo.
+  // Tamaño EXACTO de un `XPButton` agree/disagree real (corregido tras
+  // revisión de Sofía: "es demasiado grande. Debe ser del tamaño exacto de
+  // los agree/disagree habituales", bajado de 220×44), y con el mismo
+  // anillo exterior oscuro que un botón real (ya lo tenía).
+  // `&--locked`: con un desenlace ya decidido (6 segmentos de un color),
+  // deja de deslizarse y se convierte en un botón real que hay que pulsar
+  // para confirmar (corregido tras revisión de Sofía: "se bloquea... y el
+  // jugador debe pulsarlo para ganar") — mismo `cursor: pointer` que
+  // cualquier `XPButton`.
+  &__paddle {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 110.4px; // PADDLE_WIDTH (board.ts) = 48 × 2.3, fórmula de XPButton
+    height: 48px; // PADDLE_HEIGHT (board.ts) = --xp-button-height por defecto
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--color-white);
+    box-shadow:
+      0 0 0 3px var(--color-button-border),
+      0 3px 0 var(--color-button-border);
+    will-change: transform;
+    // Cursor de arrastre (mismo patrón que el arrastre de ventana del nivel
+    // 3, `LevelHost.module.scss`): `grab` en reposo, `grabbing` mientras se
+    // pulsa — corregido tras revisión de Sofía ("ponle un cursor
+    // apropiado"). Sustituido por `pointer` en `&--locked`, donde ya no se
+    // arrastra sino que se pulsa para confirmar.
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 -4px 0 0 rgb(0 0 0 / 20%);
+      pointer-events: none;
+    }
+
+    &--locked {
+      cursor: pointer;
+
+      &:active {
+        cursor: pointer;
+      }
+    }
+  }
+
+  // Además del relleno de color, cada lado dibuja el mismo anillo interior
+  // que `XPButton` (`inset 0 0 0 6px var(--variant-border)`, aquí como
+  // `border` para poder omitirlo en el lado que da al OTRO relleno — esa
+  // frontera es interna, no un borde real del botón, así que ahí no se
+  // dibuja anillo de ningún color) — "mientras se va rellenando, va
+  // adoptando el estilo visual exacto de los botones agree/disagree
+  // habituales" (Sofía). El bisel compartido (`&::after`, arriba) sigue
+  // yendo por encima para que se sienta como el relieve de un único botón.
+  // `overflow: hidden` (nuevo): el texto "Agree"/"Disagree" de dentro
+  // (`&__paddle-label`) se dimensiona al ancho COMPLETO de la paleta, no al
+  // de este relleno — por eso queda recortado a lo que este relleno ya
+  // cubre, revelándose progresivamente a la vez que el color, letra a letra,
+  // según crece (corregido tras revisión de Sofía: "el botón... también va
+  // completando el texto según va recogiendo botones").
+  //
+  // El grosor del borde NO puede ser un `6px` fijo (bug real, corregido
+  // tras revisión de Sofía: "se queda manchado de rojo... en el lado
+  // derecho"): un borde siempre se pinta a su grosor declarado aunque la
+  // caja mida 0 de ancho (`box-sizing: border-box` reduce el CONTENIDO a 0,
+  // no el borde) — con relleno 0, ese "anillo" de 6px seguía viéndose como
+  // una mancha de color permanente en el borde vacío. Se calcula en su
+  // lugar con `clamp()`: 0 si el relleno de ese lado es exactamente 0,
+  // 6px en cuanto hay relleno (por poco que sea) — nunca a medio camino,
+  // igual que el anillo de un botón real no cambia de grosor, solo su
+  // extensión.
+  &__fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-style: solid;
+    // Suaviza el crecimiento de cada captura en vez de un salto brusco —
+    // sigue siendo inmediato a efectos de juego, solo se anima el pintado.
+    transition: width 0.15s ease-out;
+
+    &--agree {
+      left: 0;
+      width: calc(var(--agree-fill, 0) * 100%);
+      background: var(--color-agree-bg);
+      border-color: var(--color-agree-border);
+      --ring-width: calc(6px * clamp(0, var(--agree-fill, 0) * 999999, 1));
+      border-top-width: var(--ring-width);
+      border-bottom-width: var(--ring-width);
+      border-left-width: var(--ring-width);
+      border-right-width: 0;
+    }
+
+    &--disagree {
+      right: 0;
+      width: calc(var(--disagree-fill, 0) * 100%);
+      background: var(--color-disagree-bg);
+      border-color: var(--color-disagree-border);
+      --ring-width: calc(6px * clamp(0, var(--disagree-fill, 0) * 999999, 1));
+      border-top-width: var(--ring-width);
+      border-bottom-width: var(--ring-width);
+      border-right-width: var(--ring-width);
+      border-left-width: 0;
+    }
+  }
+
+  // Anclado al ancho COMPLETO de la paleta (no al del relleno que lo
+  // recorta, ver arriba), en la misma esquina desde la que crece su
+  // relleno — así el texto queda centrado en la paleta entera en cuanto se
+  // ve del todo, igual que en un botón real. Misma tipografía que
+  // `XPButton` a tamaño real (`0.65rem`): la paleta ya mide exactamente lo
+  // mismo que un botón de verdad.
+  &__paddle-label {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 110.4px; // PADDLE_WIDTH (board.ts)
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    color: var(--color-white);
+    -webkit-text-stroke: 2px var(--color-button-border);
+    paint-order: stroke fill;
+    text-shadow: 0 2px 2px rgb(0 0 0 / 35%);
+    white-space: nowrap;
+
+    &--agree {
+      left: 0;
+    }
+
+    &--disagree {
+      right: 0;
+    }
+  }
+}

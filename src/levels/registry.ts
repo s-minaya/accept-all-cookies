@@ -48,4 +48,18 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     fillHeight: true,
     component: lazy(() => import('./level03/Level03')),
   },
+  4: {
+    titleKey: 'levels.4.name',
+    // Recuadro de consentimiento ESTÁNDAR (a diferencia de los niveles 1-3):
+    // el texto va en el recuadro blanco de siempre. `frameless: true` porque
+    // el tablero (el Plinko) no lleva marco azul (GDD §4.4, excepción
+    // confirmada por Sofía) — aprovecha todo el espacio restante de la
+    // ventana en vez de quedar contenido en él. `fillHeight: true` por el
+    // mismo motivo que el nivel 3: sin altura real en la ventana no hay
+    // espacio "sobrante" que darle al tablero.
+    consentKey: 'levels.4.consent',
+    frameless: true,
+    fillHeight: true,
+    component: lazy(() => import('./level04/Level04')),
+  },
 }

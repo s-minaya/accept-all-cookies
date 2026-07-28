@@ -13,7 +13,8 @@
       "close": "Cerrar",
       "loading": "Cargando...",
       "testTitle": "Test Cookies",
-      "testConsent": "Este banner de prueba no forma parte del juego real: solo existe para validar el contrato de nivel (onWin / onLose / contador) antes de construir los 12 niveles reales."
+      "testConsent": "Este banner de prueba no forma parte del juego real: solo existe para validar el contrato de nivel (onWin / onLose / contador) antes de construir los 12 niveles reales.",
+      "devSkip": "Saltar nivel (dev)"
     },
     "credits": {
       "title": "Créditos",
@@ -69,7 +70,10 @@
       "name": "Cookies de Personalización",
       "consent": "Cookies de Personalización\n\nLas cookies de personalización nos permiten recordar tus preferencias, como el idioma, la región y los ajustes de pantalla.\n\nNos ayudan a ofrecerte una experiencia más personalizada basada en tus interacciones anteriores con nuestro sitio web.\n\n¿Aceptas el uso de las Cookies de Personalización?"
     },
-    "4": { "name": "Cookies de Publicidad" },
+    "4": {
+      "name": "Cookies de Publicidad",
+      "consent": "Cookies de Publicidad\n\nLas cookies de publicidad nos ayudan a mostrarte anuncios más relevantes según tu actividad de navegación e intereses.\n\nEstas cookies pueden ser utilizadas por nosotros y por nuestros socios publicitarios de confianza para elaborar un perfil de tus preferencias en distintos sitios web y servicios. Esta información puede combinarse con datos recogidos de otras fuentes para personalizar anuncios, medir la efectividad de las campañas y mejorar nuestros servicios de marketing.\n\nSi no permites estas cookies, seguirás viendo anuncios, pero es posible que sean menos relevantes para tus intereses.\n\n¿Aceptas el uso de las Cookies de Publicidad?"
+    },
     "5": { "name": "Cookies de Redes Sociales" },
     "6": { "name": "Seguimiento entre Sitios" },
     "7": { "name": "Compartición de Datos" },

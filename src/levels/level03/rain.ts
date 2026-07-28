@@ -175,6 +175,16 @@ export function createRainSimulation({
   Matter.Composite.add(engine.world, agreeBody)
   let agreeReleased = false
 
+  // Invisible de verdad, no solo recortado por el `overflow: hidden` del
+  // recuadro (corregido tras revisión de Sofía: "el botón agree cae y se
+  // esconde, dando al usuario una pista de dónde está") — al rebotar cerca
+  // del borde de la cámara oculta, un trocito del propio botón podía asomar
+  // por el recorte visual y volver a escapar, revelando en qué lado está
+  // antes de que el jugador lo encuentre de verdad. Se hace visible recién
+  // en el momento en que queda sellado dentro del recuadro visible (más
+  // abajo), no antes.
+  agreeButton.style.visibility = 'hidden'
+
   // Pared que sella la cámara oculta la primera vez que el Agree cruza por
   // completo al recuadro visible (Sofía, feedback tras QA: "a veces se
   // pierde [otra vez] al rebotar" — una vez descubierto, no debe poder
@@ -232,6 +242,7 @@ export function createRainSimulation({
     if (!agreeSealed && agreeBody.position.x + agreeHalf.halfWidth < boxWidth) {
       Matter.Composite.add(engine.world, sealWall)
       agreeSealed = true
+      agreeButton.style.visibility = 'visible'
     }
 
     if (activeCount < population && timestamp - lastSpawnTime >= spawnIntervalMs) {

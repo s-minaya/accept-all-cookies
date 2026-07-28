@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { audioManager } from './AudioManager'
 import { useSettingsStore } from '../state/settingsStore'
 
@@ -41,8 +41,17 @@ export function useAudio(): UseAudioResult {
     return () => window.removeEventListener('pointerdown', unlock)
   }, [])
 
-  return {
-    playPositive: () => audioManager.playPositive(),
-    playNegative: () => audioManager.playNegative(),
-  }
+  // Estables entre renders (`useCallback`, deps vacías — `audioManager` es
+  // un singleton de módulo, nunca cambia): sin esto, cualquier consumidor
+  // que las use dentro de su propio `useCallback`/`useEffect` (nivel 4,
+  // `onCapture`) recibe una referencia nueva en cada render y arrastra ese
+  // efecto a un bucle — ya pasó con los nodos publicados al canal (005),
+  // aquí era la simulación de física entera la que se destruía y recreaba
+  // en cada spawn (bug real, detectado en QA jugando: los botones parecían
+  // "saltar" porque la simulación nunca llegaba a vivir más de una
+  // fracción de segundo).
+  const playPositive = useCallback(() => audioManager.playPositive(), [])
+  const playNegative = useCallback(() => audioManager.playNegative(), [])
+
+  return { playPositive, playNegative }
 }

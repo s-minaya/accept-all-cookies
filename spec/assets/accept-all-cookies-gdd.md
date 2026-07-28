@@ -228,6 +228,8 @@ La mecánica de cada nivel se desarrolla dentro de un **contenedor fijo** formad
 - El contenido siempre queda completamente contenido dentro de este rectángulo.
 - Si el nivel no tiene mecánica visual (§4.3, excepción), este interior muestra su texto de consentimiento (fondo blanco) en vez de un tablero.
 
+**Excepción — tableros "frameless"** (nivel 4): un nivel con tablero de físicas puede prescindir del marco azul y aprovechar todo el espacio restante de la ventana en vez de quedar contenido en él — el recuadro de consentimiento estándar (§4.3) sigue ahí, solo el marco alrededor del tablero desaparece. Se reserva para tableros donde el marco no aportaría nada (el Plinko del nivel 4 ya tiene sus propias paredes físicas) y necesitan todo el alto disponible.
+
 ## 4.5 Botones inferiores
 
 Alineados siempre en la parte inferior de la ventana. Normalmente **Agree** y **Disagree**, aunque cada nivel puede modificar texto, color, posición o comportamiento sin alterar la estética general.
@@ -504,7 +506,7 @@ Do you agree to the use of Analytics Cookies?
 
 **Mecánica:** la ventana puede **rotar 360° libremente sobre su eje central** arrastrando con el ratón. Dentro del recuadro de lluvia (más estrecho que el del texto, donde **caen y rebotan decenas de botones Disagree** con física real) hay una **cámara oculta** a la derecha del recuadro visible, recortada por su propio marco: ahí reposa, quieto, el botón **Agree**, un cuerpo físico más de la simulación que no empieza a moverse hasta que el jugador gira la ventana por primera vez. La gravedad de la lluvia sigue siempre "hacia abajo de la pantalla" (nunca del recuadro): girar la ventana en sentido **antihorario (hacia la izquierda)** inclina esa gravedad lo suficiente para que el Agree ruede fuera de su cámara oculta y caiga dentro del recuadro visible, donde se puede pulsar. Girar en sentido horario (hacia la derecha) no lo revela — lo empuja más adentro de su escondite. Una vez el Agree ha entrado en el recuadro visible, no puede volver a esconderse aunque el jugador gire hacia el otro lado después.
 
-**Diseño:** excepción del GDD §4.3 (como los niveles 1 y 2): sin tablero propio, así que el texto de consentimiento ocupa el interior del marco azul del área de juego en vez del recuadro de consentimiento pequeño — pero **el marco azul se ajusta solo al texto**, no se estira. El recuadro de lluvia se renderiza **justo debajo de ese marco, fuera de él**, aprovechando el espacio sobrante del cuerpo de la ventana (corregido tras revisión de Sofía: al principio texto y recuadro de lluvia compartían un mismo marco azul estirado sobre ambos).
+**Diseño:** excepción del GDD §4.3 (como los niveles 1 y 2): sin tablero propio, así que el texto de consentimiento ocupa el interior del marco azul del área de juego en vez del recuadro de consentimiento pequeño — pero **el marco azul se ajusta solo al texto**, no se estira. El recuadro de lluvia se renderiza **justo debajo de ese marco, fuera de él**, aprovechando el espacio sobrante del cuerpo de la ventana.
 
 **Texto:**
 ```
@@ -520,7 +522,7 @@ Do you agree to the use of Personalization Cookies?
 ```
 
 **Al cargar el nivel:**
-- El botón Agree no está visible ni en movimiento: reposa quieto en su cámara oculta a la derecha del recuadro de lluvia, recortada por el propio marco del recuadro (no por el borde del viewport) — nada de caída animada al cargar.
+- El botón Agree no está visible ni en movimiento: reposa quieto en su cámara oculta a la derecha del recuadro de lluvia, recortada por el propio marco del recuadro (no por el borde del viewport) — nada de caída animada al cargar. Es genuinamente invisible (`visibility: hidden`), no solo recortado por posición: se hace visible justo cuando queda sellado en el recuadro visible, nunca antes.
 - Solo se ve un botón **Disagree** fijo en el pie; dentro del recuadro empiezan a caer decenas de botones Disagree que rebotan con física (menos en dispositivos táctiles: menos sitio en pantalla, menos Disagree simultáneos).
 - El jugador intenta buscar el Agree sin éxito… hasta que descubre que la ventana rota y que solo girar hacia la izquierda lo hace caer a la vista.
 
@@ -540,6 +542,8 @@ Do you agree to the use of Personalization Cookies?
 ## Nivel 4 — Advertising Cookies
 
 **Objetivo:** rellenar completamente el botón Agree gigante con estilo visual Agree antes de que quede ocupado por el estilo Disagree (o de que acabe el contador).
+
+**Diseño:** recuadro de consentimiento estándar (§4.3) — a diferencia de los niveles 1-3, este sí lo usa. El tablero (el Plinko) es "frameless" (§4.4): sin marco azul, aprovecha todo el espacio restante de la ventana.
 
 **Texto:**
 ```
@@ -562,24 +566,25 @@ Do you agree to the use of Advertising Cookies?
 
 **Escenario:**
 - Tablero tipo **Plinko** con **30 pegs** distribuidos como un Plinko clásico.
-- Desde arriba aparecen continuamente pequeños botones, cada uno aleatoriamente **Agree** o **Disagree**.
-- Caen con gravedad, rebotan sobre los pegs y pueden colisionar entre ellos.
-- En la parte inferior, un gran botón **Agree** controlado por el jugador.
+- Desde arriba aparecen continuamente fichas finas, cada una aleatoriamente **Agree** (relleno verde oscuro) o **Disagree** (relleno rojo oscuro — el mismo tono del anillo interior de un botón real, no el tono claro de fondo), sin borde alrededor del cuerpo, con el texto "Agree"/"Disagree" con la misma tipografía que un botón real (a menor tamaño, con su contorno oscuro propio) — no son botones en miniatura, ni tienen el relieve/anillo interior de un botón real.
+- Caen con gravedad, rebotan sobre los pegs y pueden colisionar entre ellas; una ficha que quede encajada contra un peg rebota un poco para liberarse antes de reciclarse de verdad como último recurso.
+- En la parte inferior, un gran botón **Agree**, del mismo tamaño que un botón real del juego, controlado por el jugador.
 
 **Control:**
 - El botón grande solo se desplaza horizontalmente.
-- Sigue la posición del ratón o las flechas ← →.
+- Ratón: se arrastra (pulsar y mover); el arrastre puede empezar en cualquier punto del área de juego, no hace falta pulsar sobre el propio botón. Táctil: arrastrar el dedo. Teclado: flechas ← →.
+- Con los 6 segmentos ya de un solo color (Agree o Disagree), deja de responder al arrastre/flechas — se bloquea en su sitio y pasa a ser un botón real que hay que **pulsar** para confirmar el desenlace.
 
 **Botón de 6 segmentos:**
-- El botón grande está dividido internamente en **6 segmentos**, todos vacíos al empezar: `□□□□□□`
-- Capturar un **Agree**: rellena un segmento **empezando por la izquierda** + sonido positivo. El segmento adopta la apariencia visual completa del botón Agree (color, bordes, relieve, sombreado, tipografía).
-- Capturar un **Disagree**: rellena un segmento **empezando por la derecha** + sonido negativo, con la apariencia visual completa del botón Disagree.
+- El botón grande está dividido internamente en **6 segmentos**, todos vacíos al empezar: `□□□□□□`. Visualmente es **un único botón**, del mismo tamaño exacto que un Agree/Disagree real (silueta, bordes y relieve de un solo botón XP) — los segmentos son una cuenta interna, no 6 botones pegados uno junto a otro.
+- Capturar un **Agree**: rellena un segmento **empezando por la izquierda** + sonido positivo — el relleno crece desde la izquierda con el color exacto del botón Agree, adoptando también su anillo interior de color por ese lado y revelando progresivamente el texto "Agree" a medida que crece, letra a letra, no de golpe (el anillo exterior oscuro y el bisel son los de la silueta exterior compartida). Con los 6 segmentos capturados, el botón entero se ve como un botón Agree completo, con su texto igual de completo.
+- Capturar un **Disagree**: simétrico, rellena empezando por la derecha + sonido negativo, con el color del botón Disagree.
 
-**Sustitución de segmentos:** los 6 segmentos son un único botón compartido por el que compiten ambos estilos. Cuando los dos colores se encuentran:
-- Cada nuevo Agree sustituye el siguiente segmento ocupado por Disagree.
-- Cada nuevo Disagree sustituye el siguiente segmento ocupado por Agree.
+**Sustitución de segmentos:** los 6 segmentos son un único botón compartido por el que compiten ambos estilos.
+- Mientras queden huecos vacíos, cada captura **solo rellena un segmento de su propio color**, sin tocar los del contrario (capturar un Agree con la barra vacía → 1 Agree; capturar después un Disagree → 1 Agree y 1 Disagree conviviendo, sin sustituir nada).
+- Con los **6 segmentos llenos** (sin huecos), cada nueva captura **sustituye el segmento fronterizo del color contrario** por el suyo.
 
-Ejemplo: `🟩🟩□□🟥🟥` + Agree → `🟩🟩🟩□🟥🟥` + Agree → `🟩🟩🟩🟩□🟥` … El botón siempre representa el equilibrio actual entre Agree y Disagree.
+Ejemplo: `🟩🟩□□🟥🟥` + Agree → `🟩🟩🟩□🟥🟥` + Agree → `🟩🟩🟩🟩🟥🟥` (tablero lleno) + Agree → `🟩🟩🟩🟩🟩🟥` + Agree → `🟩🟩🟩🟩🟩🟩`. El botón siempre representa el equilibrio actual entre Agree y Disagree.
 
 **Guía / slider:**
 - El botón grande se mueve dentro de una guía horizontal, inicialmente **azul oscuro** `#153859`.
@@ -589,9 +594,9 @@ Ejemplo: `🟩🟩□□🟥🟥` + Agree → `🟩🟩🟩□🟥🟥` + Agree 
 - Gravedad realista, rebotes en los 30 pegs, colisiones entre botones, cada rebote modifica ligeramente la trayectoria.
 - Distribución aparentemente aleatoria pero coherente con un Plinko: el jugador puede anticipar aproximadamente las trayectorias, nunca con total precisión.
 
-**Victoria:** los 6 segmentos con estilo Agree → `Advertising Cookies accepted.`
+**Victoria:** los 6 segmentos con estilo Agree bloquean el botón grande (deja de deslizarse) — hay que **pulsarlo** para confirmar, igual que cualquier Agree real del juego → `Advertising Cookies accepted.`
 
-**Derrota:** los 6 segmentos con estilo Disagree, contador a 0, o pulsar la X → `Advertising Cookies rejected.` / Game Over.
+**Derrota:** los 6 segmentos con estilo Disagree bloquean el botón grande igual que arriba y hay que pulsarlo para confirmar la derrota; también se pierde con el contador a 0 o pulsando la X (estos dos, sin botón que pulsar, como en el resto del juego) → `Advertising Cookies rejected.` / Game Over.
 
 ---
 
@@ -1031,6 +1036,16 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 4: segmentos del botón | 6 |
 | Nivel 4: pegs del Plinko | 30 |
 | Nivel 4: ratio de spawn Agree/Disagree | 50/50 |
+| Nivel 4: población máxima de botones cayendo | 14 simultáneos en escritorio, 8 en dispositivos táctiles (detectado por tipo de puntero, igual que el nivel 3) |
+| Nivel 4: tasa de spawn de los botones que caen | uno cada 300 ms, hasta el máximo |
+| Nivel 4: escala de gravedad del Plinko | 0,0016 |
+| Nivel 4: rebote (restitution) de los pegs y de los botones que caen | 0,35 |
+| Nivel 4: separación entre filas de pegs | 46 px lógicos — debe superar la altura de una ficha que cae (22 px) para que no pueda tocar dos filas a la vez y quedar encajada de verdad |
+| Nivel 4: tamaño de una ficha que cae | 72×22 px lógicos, sin borde alrededor del cuerpo; relleno del tono oscuro del anillo interior de un botón real (`--color-agree-border`/`--color-disagree-border`), no del tono claro de fondo |
+| Nivel 4: tamaño del botón grande (paleta) | 110,4×48 px lógicos — el tamaño exacto de un botón Agree/Disagree habitual (`--xp-button-height: 3rem` = 48px, ancho = alto × 2,3) |
+| Nivel 4: tiempo de reposo antes de reciclar un botón por estar encajado | 2 s por debajo del campo de pegs (velocidad casi nula, solo paleta y aire). Dentro del campo de pegs se mide el progreso neto en Y en vez de la velocidad instantánea: a los 0,7 s sin bajar al menos 5 px, recibe un empujón para liberarse rebotando contra el peg más cercano, hasta 3 veces antes de reciclarlo de verdad como red de seguridad final |
+| Nivel 4: velocidad del botón grande por teclado | 300 px lógicos/s |
+| Nivel 4: ancho de la zona de captura del botón grande sobre su ancho visual | 100% (parámetro para afinar en el checkpoint si hay capturas "injustas") |
 | Nivel 5: proporción Agree por rodillo | ~40% |
 | Nivel 5: velocidad de giro de rodillos | por definir en playtesting |
 | Nivel 8: duración de barajados | 2 s / 1,5 s / 1 s |

@@ -67,6 +67,13 @@ export function LevelHost({
   onExit,
 }: LevelHostProps) {
   const t = useT()
+  // Botón dev de saltar nivel (008-plan.md), mismo patrón de interruptor que
+  // `?playground` (`App.tsx`): una comprobación barata de la URL, repetida
+  // en cada render (nunca se usa para navegar). Vive aquí (no en un nivel)
+  // para funcionar en los 12 sin tocarlos. Retirar en la feature 017 junto
+  // con la Playground — hasta entonces, no "limpiar" esto pensando que es
+  // código muerto (AGENTS.md).
+  const isDevMode = new URLSearchParams(window.location.search).has('dev')
   const [flow, dispatch] = useReducer(runFlowReducer, initialOutcome, (outcome): RunFlowState =>
     outcome ? { phase: 'modal', result: outcome } : INITIAL_RUN_FLOW_STATE,
   )
@@ -142,9 +149,40 @@ export function LevelHost({
     setRestartKey((key) => key + 1)
     resetCountdown(LEVEL_DURATION_SECONDS)
   }, [resetCountdown])
+  // Completa el nivel al instante, saltándose `dispatch` por completo: nunca
+  // pasa por "verdict"/"modal", así que no hay animación de `GiantVerdict` ni
+  // diálogo — mismo camino de datos que una victoria real (`onExit`, que el
+  // shell resuelve con `completeLevel`), pero sin su ceremonia (008-plan.md,
+  // "sin veredicto ni modal": es una herramienta de testeo, no juego).
+  const handleDevSkip = useCallback(() => {
+    if (hasExitedRef.current) return
+    hasExitedRef.current = true
+    onExit({ outcome: 'win' })
+  }, [onExit])
 
   const LevelComponent = level.component
   const categoryName = t(level.titleKey)
+
+  const levelContent = (
+    <>
+      <Suspense fallback={<span>{t('shell.level.loading')}</span>}>
+        <HostChannelContext.Provider value={hostChannel}>
+          <LevelComponent
+            key={restartKey}
+            timeLeft={remaining}
+            onWin={handleWin}
+            onLose={handleLose}
+            onRestart={handleRestart}
+            paused={isLevelPaused(flow)}
+          />
+        </HostChannelContext.Provider>
+      </Suspense>
+
+      {flow.phase === 'verdict' && flow.result && (
+        <GiantVerdict result={flow.result} onDone={() => dispatch({ type: 'VERDICT_DONE' })} />
+      )}
+    </>
+  )
 
   return (
     <>
@@ -167,31 +205,21 @@ export function LevelHost({
             consentText={level.consentKey ? t(level.consentKey) : undefined}
             scrollableContent={!level.consentKey}
             fillHeight={level.fillHeight}
-            boardBelowFrame={levelBoard}
+            // Frameless (nivel 4, GDD §4.4 excepción): el propio contenido del
+            // nivel ocupa la ranura `boardBelowFrame` (sin marco azul) en vez
+            // de `children` (que sí lo lleva) — ver `LevelDefinition.frameless`.
+            children={level.frameless ? undefined : levelContent}
+            boardBelowFrame={level.frameless ? levelContent : levelBoard}
             footer={levelFooter}
-          >
-            <Suspense fallback={<span>{t('shell.level.loading')}</span>}>
-              <HostChannelContext.Provider value={hostChannel}>
-                <LevelComponent
-                  key={restartKey}
-                  timeLeft={remaining}
-                  onWin={handleWin}
-                  onLose={handleLose}
-                  onRestart={handleRestart}
-                  paused={isLevelPaused(flow)}
-                />
-              </HostChannelContext.Provider>
-            </Suspense>
-
-            {flow.phase === 'verdict' && flow.result && (
-              <GiantVerdict
-                result={flow.result}
-                onDone={() => dispatch({ type: 'VERDICT_DONE' })}
-              />
-            )}
-          </XPWindow>
+          />
         </div>
       </div>
+
+      {isDevMode && (
+        <button type="button" className={styles['level-host__dev-skip']} onClick={handleDevSkip}>
+          {t('shell.level.devSkip')}
+        </button>
+      )}
 
       {flow.phase === 'modal' && flow.result === 'win' && (
         <WinDialog
