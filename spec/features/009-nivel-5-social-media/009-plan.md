@@ -1,5 +1,7 @@
 # 009 · Nivel 5 — Social Media (tragaperras) — Plan
 
+> Plan pre-implementación: describe el enfoque tal como se planeó antes de escribir código, no se ha mantenido sincronizado con ajustes posteriores (QA con Sofía, correcciones visuales). Para el estado final as-built, ver `009-spec.md` y `009-tasks.md`.
+
 ## Enfoque
 
 Toda la mecánica es una **máquina de estados pura + una tira que se desplaza**: primero la lógica (generación de tiras, encaje, estados spinning/stopped/respin), después el render (tira cíclica con rAF) y al final el cableado. Sin física: el nivel más barato técnicamente desde la 006, a propósito — la complejidad presupuestaria de esta feature está en el ajuste fino del "tacto" de tragaperras, no en el código.

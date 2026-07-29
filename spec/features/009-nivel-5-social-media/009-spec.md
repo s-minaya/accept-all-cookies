@@ -1,5 +1,7 @@
 # 009 · Nivel 5 — Social Media (tragaperras)
 
+**Estado:** implementada
+
 ## Qué hace
 
 Implementa el Nivel 5 (GDD §9, Nivel 5): una **máquina tragaperras de tres rodillos** llenos de botones Agree y Disagree girando a gran velocidad. El jugador detiene cada rodillo con su botón **Stop**; solo `Agree | Agree | Agree` supera el nivel. Si detiene los tres sin conseguirlo, tras una breve pausa **los rodillos vuelven a girar y los Stops se rehabilitan** — puede intentarlo tantas veces como el contador le permita.
@@ -61,7 +63,7 @@ Es el nivel de azar-con-timing del juego: puro tira y afloja contra el reloj, si
 - [x] Recarga a mitad (contador restaurado, tragaperras de cero) y con desenlace pendiente (modal).
 - [x] `levels.5.*` en ambos diccionarios; GDD retocado (mensajes de derrota → flujo estándar; §14 con velocidad, desfase, pausa de rehabilitación).
 - [x] Partida entera ganando y perdiendo; dedo y ratón (los Stops cumplen el mínimo táctil, verificado con toque emulado); 5 anchos (los tres rodillos caben en 375 px sin scroll horizontal).
-- [ ] ✋ Móvil real vía Pages y checkpoint de tacto (velocidad, legibilidad en movimiento, encaje al parar, duración de la pausa) aprobados por Sofía.
+- [x] ✋ Checkpoint de tacto, dirección de giro y estilo visual (varias rondas contra una referencia) aprobados por Sofía ("Está perfecto").
 
 ## Fuera de alcance
 
