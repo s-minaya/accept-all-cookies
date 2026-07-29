@@ -2,12 +2,36 @@
 // visibles (VISIBLE_ROWS, Reel.tsx) — la del centro es el resultado.
 .reel {
   position: relative;
+  // Por encima de la barra (`.level-05__reels::before`, `Level05.module.scss`)
+  // que cruza a media altura de los rodillos: sin esto, el orden de pintado
+  // por defecto es ambiguo entre un pseudo-elemento posicionado del padre y
+  // sus propios hijos también posicionados.
+  z-index: 1;
   overflow: hidden;
+  // Alto de cada casilla como custom property (no un `48px` repetido suelto
+  // por el archivo): crece a partir de `lg`/`xl` (revisión de Sofía: "los
+  // rodillos un poco más grandes en large desktop") sin que `Reel.tsx`
+  // necesite saberlo — el offset que escribe ahí sigue siendo siempre en
+  // unidades de "casillas", nunca en px.
+  --symbol-height: 48px; // = SYMBOL_HEIGHT_PX, Reel.tsx
   width: 84px;
-  height: 144px; // VISIBLE_ROWS (3) × SYMBOL_HEIGHT_PX (48), Reel.tsx
+  height: calc(3 * var(--symbol-height)); // VISIBLE_ROWS (3), Reel.tsx
   border-radius: 8px;
-  background: var(--color-beige);
-  box-shadow: inset 0 0 0 2px var(--color-frame-blue);
+  background: var(--color-white);
+  // Borde azul oscuro alrededor de todo el rodillo, más grueso que el resto
+  // del sistema de diseño (bordes de recuadro habituales, 2px) — corregido
+  // tras revisión visual de Sofía sobre una referencia.
+  box-shadow: inset 0 0 0 4px var(--color-frame-blue);
+
+  @media (min-width: 1025px) {
+    --symbol-height: 56px;
+    width: 96px;
+  }
+
+  @media (min-width: 1441px) {
+    --symbol-height: 64px;
+    width: 108px;
+  }
 
   &__track {
     position: absolute;
@@ -16,17 +40,20 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    // `--reel-offset` (casillas, escrito por rAF en Reel.tsx, nunca por
-    // React): en reposo, la casilla de índice 0 ocupa la fila 0 (arriba del
-    // todo); para que quede en el centro (fila 1 de 0/1/2) hay que
-    // desplazar la tira una fila hacia ABAJO (+48px), no hacia arriba — con
-    // el signo equivocado aquí, el marcador mostraba una casilla distinta a
-    // la que `offsetToIndex` (`slotMachine.ts`) evaluaba de verdad como
-    // resultado (bug real, detectado con Playwright: el veredicto decía
-    // "Agree" pero el centro mostraba "Disagree"). Por cada casilla que
-    // avanza el offset, la tira sigue bajando una fila menos (resta), así
-    // que la fórmula general es `(1 − offset) × 48px`.
-    transform: translateY(calc((1 - var(--reel-offset, 0)) * 48px));
+    // `--reel-offset` (escrito por rAF en Reel.tsx, nunca por React): apunta
+    // a la copia del MEDIO de la tira triplicada (`Reel.tsx` ya suma
+    // `symbols.length` antes de escribirlo aquí), así que esta fórmula no
+    // necesita saber cuántas casillas tiene la tira. En reposo, la casilla
+    // activa ocupa la fila 0 de su copia (arriba del todo); para que quede
+    // en el centro (fila 1 de 0/1/2) hay que desplazar la tira una fila
+    // hacia ABAJO — con el signo equivocado aquí, el marcador mostraba una
+    // casilla distinta a la que `offsetToIndex` (`slotMachine.ts`) evaluaba
+    // de verdad como resultado (bug real, detectado con Playwright: el
+    // veredicto decía "Agree" pero el centro mostraba "Disagree"). El
+    // SENTIDO de giro (arriba→abajo, revisión de Sofía) se controla aparte,
+    // en `Reel.tsx`, restando en vez de sumando en cada fotograma — esta
+    // fórmula no cambia con eso, solo con qué valor recibe.
+    transform: translateY(calc((1 - var(--reel-offset, 0)) * var(--symbol-height)));
     will-change: transform;
 
     // Solo al pararse: un pequeño "encaje" con algo de suavizado en vez de
@@ -39,12 +66,50 @@
     }
   }
 
+  // Cada casilla es la ranura FIJA que usa la física del offset (siempre
+  // `--symbol-height`) — el propio botón Agree/Disagree (`&__pill`, más
+  // abajo) es más pequeño que la ranura, dejando aire alrededor en vez de
+  // tocar sus vecinos. El padding (no el alto de la ranura) es lo que crece
+  // por breakpoint, así que el offset/encaje nunca se entera. Separación
+  // aumentada tras revisión visual de Sofía ("separalos un poco más").
   &__symbol {
-    flex: 0 0 48px; // SYMBOL_HEIGHT_PX, Reel.tsx
-    height: 48px;
+    flex: 0 0 var(--symbol-height);
+    height: var(--symbol-height);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 3px 6px;
+
+    @media (min-width: 376px) {
+      padding: 4px 7px;
+    }
+
+    @media (min-width: 481px) {
+      padding: 5px 8px;
+    }
+
+    @media (min-width: 1025px) {
+      padding: 6px 10px;
+    }
+
+    @media (min-width: 1441px) {
+      padding: 7px 12px;
+    }
+  }
+
+  // El botón real dentro de la ranura: reutiliza el lenguaje visual de las
+  // fichas que caen del nivel 4 (`Level04.module.scss`, `&__falling`) —
+  // relleno liso del tono OSCURO (`--color-agree-border`/
+  // `-disagree-border`), sin anillo interior ni relieve — pero como
+  // rectángulo de esquinas ligeramente redondeadas en vez de píldora ovalada
+  // (corregido tras revisión visual de Sofía sobre una referencia).
+  &__pill {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
     font-family: var(--font-display);
     font-size: 0.6rem;
     color: var(--color-white);
@@ -53,26 +118,27 @@
     text-shadow: 0 1px 1px rgb(0 0 0 / 35%);
 
     &--agree {
-      background: var(--color-agree-bg);
-      box-shadow: inset 0 0 0 4px var(--color-agree-border);
+      background: var(--color-agree-border);
     }
 
     &--disagree {
-      background: var(--color-disagree-bg);
-      box-shadow: inset 0 0 0 4px var(--color-disagree-border);
+      background: var(--color-disagree-border);
     }
   }
 
   // Marca visual de la fila central (GDD: "un marcador visual señala la
   // fila central de cada rodillo") — franja fija superpuesta, nunca se
-  // mueve (es la tira la que se desplaza por debajo).
+  // mueve (es la tira la que se desplaza por debajo). Gris con esquinas
+  // redondeadas, algo separada del borde del rodillo (corregido tras
+  // revisión visual de Sofía sobre una referencia).
   &__marker {
     position: absolute;
-    top: 48px; // SYMBOL_HEIGHT_PX, misma fila que el track centra en reposo
-    left: 0;
-    right: 0;
-    height: 48px;
-    box-shadow: inset 0 0 0 3px var(--color-title-gradient-start);
+    top: var(--symbol-height);
+    left: 3px;
+    right: 3px;
+    height: var(--symbol-height);
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 3px var(--color-system-gray);
     pointer-events: none;
   }
 }

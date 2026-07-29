@@ -25,14 +25,23 @@ export interface ReelProps {
 }
 
 /**
- * Rodillo de la tragaperras (GDD Nivel 5, 009-plan.md): tira duplicada
- * (`symbols` dos veces seguidas) para que el bucle visual sea perfecto — al
- * llegar al final de la primera copia, el offset se envuelve exactamente a
- * `0` (`% symbols.length`) sin ningún salto visible, porque la segunda
- * copia ya muestra lo mismo que mostraría la primera en ese punto.
- * Desplazamiento por rAF con velocidad propia; escribe `--reel-offset`
- * directamente en el DOM (nunca por estado de React) para no re-renderizar
- * en cada fotograma — mismo patrón que la física de los niveles 3 y 4.
+ * Rodillo de la tragaperras (GDD Nivel 5, 009-plan.md): tira TRIPLICADA
+ * (`symbols` tres veces seguidas, la copia del medio es la que se centra
+ * para un offset en `[0, symbols.length)`) para que el bucle visual sea
+ * perfecto en cualquier dirección de giro, con margen de sobra a ambos
+ * lados — con solo dos copias, la fila justo por encima de la copia activa
+ * no siempre tiene contenido real que mostrar. Desplazamiento por rAF con
+ * velocidad propia; escribe `--reel-offset` directamente en el DOM (nunca
+ * por estado de React) para no re-renderizar en cada fotograma — mismo
+ * patrón que la física de los niveles 3 y 4.
+ *
+ * El offset que se ESCRIBE en el DOM (`applyOffset`) va desplazado
+ * `+ symbols.length` respecto al que de verdad representa la casilla
+ * girada/parada (el que lee `offsetRef`, el mismo que evalúa
+ * `offsetToIndex` en `Level05.tsx`) — apunta a la copia del medio de la
+ * tira triplicada en vez de a la primera. Mantiene la lógica de qué
+ * casilla es el resultado totalmente al margen de cuántas copias visuales
+ * se rendericen.
  */
 export function Reel({
   symbols,
@@ -52,10 +61,10 @@ export function Reel({
   latestRef.current = { speedRowsPerSecond, paused }
 
   const isSpinning = stoppedAtOffset === null
-  const doubledSymbols = useMemo(() => [...symbols, ...symbols], [symbols])
+  const tripledSymbols = useMemo(() => [...symbols, ...symbols, ...symbols], [symbols])
 
   function applyOffset(offset: number) {
-    trackRef.current?.style.setProperty('--reel-offset', String(offset))
+    trackRef.current?.style.setProperty('--reel-offset', String(offset + symbols.length))
   }
 
   useEffect(() => {
@@ -74,8 +83,15 @@ export function Reel({
       lastTsRef.current = ts
 
       if (!latestRef.current.paused) {
-        let next = offsetRef.current + latestRef.current.speedRowsPerSecond * dt
-        if (next >= symbols.length) next -= symbols.length
+        // Resta (no suma): el sentido de giro visible es de arriba hacia
+        // abajo (corregido tras revisión de Sofía: "la direccion de
+        // rotacion debe ser desde arriba hacia abajo, no de abajo a
+        // arriba") — con `offsetToIndex` sin tocar (sigue leyendo este
+        // mismo valor tal cual), la única forma de invertir el sentido
+        // visual sin desincronizar qué casilla cuenta como resultado es
+        // invertir en qué dirección avanza el propio offset con el tiempo.
+        let next = offsetRef.current - latestRef.current.speedRowsPerSecond * dt
+        if (next < 0) next += symbols.length
         offsetRef.current = next
         applyOffset(next)
       }
@@ -98,13 +114,11 @@ export function Reel({
           .filter(Boolean)
           .join(' ')}
       >
-        {doubledSymbols.map((symbol, index) => (
-          <div
-            key={index}
-            className={[styles['reel__symbol'], styles[`reel__symbol--${symbol}`]].join(' ')}
-            aria-hidden="true"
-          >
-            {t(symbol === 'agree' ? 'game.agree' : 'game.disagree')}
+        {tripledSymbols.map((symbol, index) => (
+          <div key={index} className={styles['reel__symbol']} aria-hidden="true">
+            <span className={[styles['reel__pill'], styles[`reel__pill--${symbol}`]].join(' ')}>
+              {t(symbol === 'agree' ? 'game.agree' : 'game.disagree')}
+            </span>
           </div>
         ))}
       </div>

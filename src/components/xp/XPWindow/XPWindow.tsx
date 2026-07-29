@@ -37,6 +37,8 @@ export interface XPWindowProps {
   scrollableContent?: boolean
   /** La ventana ocupa la altura que le dé su contenedor en vez de la de su contenido (p. ej. la lista de niveles, que necesita aprovechar casi toda la pantalla). */
   fillHeight?: boolean
+  /** Tope de ancho mayor a partir de `lg`/`xl` (p. ej. el nivel 5, cuyo tablero aprovecha pantallas grandes); por debajo de `lg` no cambia nada. */
+  wideOnDesktop?: boolean
 }
 
 export function XPWindow({
@@ -51,11 +53,13 @@ export function XPWindow({
   cornerAccessory,
   scrollableContent,
   fillHeight,
+  wideOnDesktop,
 }: XPWindowProps) {
   const windowClasses = [
     styles['xp-window'],
     fillHeight && styles['xp-window--fill-height'],
     boardBelowFrame && styles['xp-window--has-board'],
+    wideOnDesktop && styles['xp-window--wide'],
   ]
     .filter(Boolean)
     .join(' ')

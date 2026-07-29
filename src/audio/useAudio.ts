@@ -5,6 +5,7 @@ import { useSettingsStore } from '../state/settingsStore'
 export interface UseAudioResult {
   playPositive: () => void
   playNegative: () => void
+  playCoin: () => void
 }
 
 /**
@@ -52,6 +53,7 @@ export function useAudio(): UseAudioResult {
   // fracción de segundo).
   const playPositive = useCallback(() => audioManager.playPositive(), [])
   const playNegative = useCallback(() => audioManager.playNegative(), [])
+  const playCoin = useCallback(() => audioManager.playCoin(), [])
 
-  return { playPositive, playNegative }
+  return { playPositive, playNegative, playCoin }
 }

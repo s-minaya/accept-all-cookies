@@ -1,3 +1,4 @@
+import coinUrl from '../assets/audio/coin.mp3'
 import musicUrl from '../assets/audio/music.mp3'
 import negativeUrl from '../assets/audio/negative.mp3'
 import positiveUrl from '../assets/audio/positive.mp3'
@@ -17,8 +18,8 @@ function musicVolumeFactor(): number {
 }
 
 /**
- * Envoltorio singleton sobre HTMLAudioElement para los tres sonidos del
- * juego. Las políticas de autoplay exigen un gesto del usuario antes de que
+ * Envoltorio singleton sobre HTMLAudioElement para los sonidos del juego.
+ * Las políticas de autoplay exigen un gesto del usuario antes de que
  * `HTMLAudioElement.play()` se resuelva, así que la música no empieza de
  * verdad hasta que se ejecuta `unlock()` (primer pointerdown global,
  * conectado desde `useAudio`).
@@ -30,6 +31,11 @@ class AudioManager {
   // afecta) los silencia por completo.
   private readonly positive = new Audio(positiveUrl)
   private readonly negative = new Audio(negativeUrl)
+  // Nivel 5 (tragaperras): al parar cualquier rodillo, sea cual sea el
+  // símbolo resultante (Sofía: "cuando el usuario captura un botón, el que
+  // sea, debe sonar este audio") — no distingue Agree/Disagree como
+  // positive/negative, el veredicto final ya usa esos por separado.
+  private readonly coin = new Audio(coinUrl)
   private readonly music = new Audio(musicUrl)
   private musicVolume = 1
   private musicOn = true
@@ -78,6 +84,12 @@ class AudioManager {
     if (!this.soundEffectsOn) return
     this.negative.currentTime = 0
     this.safePlay(this.negative)
+  }
+
+  playCoin(): void {
+    if (!this.soundEffectsOn) return
+    this.coin.currentTime = 0
+    this.safePlay(this.coin)
   }
 
   startMusic(): void {

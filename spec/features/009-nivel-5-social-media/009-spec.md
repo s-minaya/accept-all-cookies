@@ -19,7 +19,7 @@ Implementa el Nivel 5 (GDD §9, Nivel 5): una **máquina tragaperras de tres rod
 ### Los botones Stop
 
 - Al pulsar un Stop: su rodillo se detiene **al instante**, con un ajuste de encaje a la casilla más cercana para que el botón resultante quede perfectamente centrado en el marcador (decisión: legibilidad del resultado; el "instante" del GDD se conserva — el encaje es subpíxel-a-casilla, no una animación larga).
-- Suena la confirmación: **positivo si el resultado es Agree, negativo si es Disagree** (respetando el interruptor de efectos).
+- Suena **coin.mp3** en cada captura, sea Agree o Disagree (Sofía: "cuando el usuario captura un botón, el que sea, debe sonar este audio"), respetando el interruptor de efectos — no distingue positivo/negativo por símbolo; el veredicto final sigue sonando positivo/negativo aparte, disparado por `AppShell` como en el resto del juego.
 - El Stop usado queda **deshabilitado y oscurecido**; los otros rodillos siguen girando.
 
 ### Rehabilitación
@@ -47,7 +47,7 @@ Es el nivel de azar-con-timing del juego: puro tira y afloja contra el reloj, si
 ### Rodillos y Stops
 - [x] Los tres rodillos giran desde el inicio; cada tira respeta ~40 % de Agree con al menos un Agree y un Disagree (test del generador con semilla).
 - [x] Cada Stop detiene su rodillo al instante con encaje a la casilla más cercana; el resultado es el de la fila central marcada (test de la función de encaje: desplazamiento → índice resultante).
-- [x] El Stop usado queda deshabilitado y oscurecido; los demás rodillos siguen girando; suena positivo/negativo según el resultado.
+- [x] El Stop usado queda deshabilitado y oscurecido; los demás rodillos siguen girando; suena `coin.mp3` en cada captura (corregido tras revisión visual/de audio de Sofía).
 - [x] Tres detenidos sin triple Agree ni triple Disagree → tras la pausa configurada, los tres giran de nuevo y los tres Stops se rehabilitan (test de la máquina de estados del nivel), tantas veces como haga falta.
 
 ### Victoria y derrota

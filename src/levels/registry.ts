@@ -78,7 +78,12 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // marco azul, tablero (los 3 rodillos + Stops) publicado aparte vía
     // `useLevelBoard`. Sin `fillHeight`: cada rodillo mide una altura fija
     // propia (`Reel.module.scss`), no necesita que un ancestro le dé el
-    // 100% del alto disponible.
+    // 100% del alto disponible. `wideWindow: true` (revisión de Sofía: "los
+    // rodillos un poco más grandes en large desktop, junto con la ventana
+    // en sí"): los rodillos ya crecen solos por CSS a partir de `lg`, la
+    // ventana necesita pedir explícitamente más ancho para que quepan sin
+    // apretarse contra el tope de siempre (40rem).
+    wideWindow: true,
     component: lazy(() => import('./level05/Level05')),
   },
 }

@@ -49,7 +49,7 @@ type StoppedOffsets = [number | null, number | null, number | null]
  */
 export default function Level05({ onWin, onLose, paused }: LevelProps) {
   const t = useT()
-  const { playPositive, playNegative } = useAudio()
+  const { playCoin } = useAudio()
 
   // Semillas independientes por rodillo (no un único RNG consumido 3
   // veces): evita cualquier correlación visible entre tiras vecinas.
@@ -89,13 +89,16 @@ export default function Level05({ onWin, onLose, paused }: LevelProps) {
         return next
       })
 
-      if (symbol === 'agree') playPositive()
-      else playNegative()
+      // Sonido de "moneda" en cada captura, sea Agree o Disagree (Sofía:
+      // "cuando el usuario captura un botón, el que sea, debe sonar este
+      // audio") — el veredicto final (ganar/perder) ya suena aparte, disparado
+      // por AppShell con positive/negative.
+      playCoin()
 
       if (outcome === 'won') onWin()
       else if (outcome === 'lost') onLose('failed')
     },
-    [paused, machineState, reelSymbols, offsetRefFor, onWin, onLose, playPositive, playNegative],
+    [paused, machineState, reelSymbols, offsetRefFor, onWin, onLose, playCoin],
   )
 
   const handleRespinComplete = useCallback(() => {
@@ -135,35 +138,45 @@ export default function Level05({ onWin, onLose, paused }: LevelProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- `respinCountdown` cambia de identidad cada render (no es memo); solo debe reaccionar a la fase y a `paused`.
   }, [machineState.phase, paused])
 
-  const board = useMemo(
-    () => (
+  const board = useMemo(() => {
+    const reelIndices = Array.from({ length: REEL_COUNT }, (_, reelIndex) => reelIndex)
+    return (
       <div className={styles['level-05']}>
-        {Array.from({ length: REEL_COUNT }, (_, reelIndex) => reelIndex).map((reelIndex) => {
-          const reelState = machineState.reels[reelIndex]
-          const isStopped = reelState?.status === 'stopped'
-          return (
-            <div key={reelIndex} className={styles['level-05__column']}>
+        <div className={styles['level-05__reels']}>
+          {reelIndices.map((reelIndex) => {
+            const reelState = machineState.reels[reelIndex]
+            const isStopped = reelState?.status === 'stopped'
+            return (
               <Reel
+                key={reelIndex}
                 symbols={reelSymbols[reelIndex]}
                 stoppedAtOffset={isStopped ? stoppedOffsets[reelIndex] : null}
                 speedRowsPerSecond={REEL_SPEEDS[reelIndex]}
                 paused={paused}
                 offsetRef={offsetRefFor(reelIndex)}
               />
+            )
+          })}
+        </div>
+        <div className={styles['level-05__stops']}>
+          {reelIndices.map((reelIndex) => {
+            const reelState = machineState.reels[reelIndex]
+            return (
               <XPButton
+                key={reelIndex}
                 variant="neutral"
+                className={styles['level-05__stop']}
                 disabled={paused || !reelState || reelState.status !== 'spinning'}
                 onClick={() => handleStop(reelIndex)}
               >
                 {t('game.stop')}
               </XPButton>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
-    ),
-    [reelSymbols, machineState, stoppedOffsets, paused, offsetRefFor, handleStop, t],
-  )
+    )
+  }, [reelSymbols, machineState, stoppedOffsets, paused, offsetRefFor, handleStop, t])
   useLevelBoard(board)
 
   return (

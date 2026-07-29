@@ -59,18 +59,20 @@ describe('AudioManager sound effects toggle', () => {
     vi.restoreAllMocks()
   })
 
-  it('plays positive/negative when the toggle is on (default)', () => {
+  it('plays positive/negative/coin when the toggle is on (default)', () => {
     const play = vi.spyOn(HTMLMediaElement.prototype, 'play')
     audioManager.playPositive()
     audioManager.playNegative()
-    expect(play).toHaveBeenCalledTimes(2)
+    audioManager.playCoin()
+    expect(play).toHaveBeenCalledTimes(3)
   })
 
-  it('mutes positive/negative when the toggle is off, independently of musicOn', () => {
+  it('mutes positive/negative/coin when the toggle is off, independently of musicOn', () => {
     audioManager.setSoundEffectsOn(false)
     const play = vi.spyOn(HTMLMediaElement.prototype, 'play')
     audioManager.playPositive()
     audioManager.playNegative()
+    audioManager.playCoin()
     expect(play).not.toHaveBeenCalled()
   })
 })

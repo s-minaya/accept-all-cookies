@@ -25,14 +25,49 @@
 // mostrar (mismo razonamiento que el nivel 4 tras quitarle `fillHeight`).
 .level-05 {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
   padding: 1.5rem 0.5rem;
 
-  &__column {
+  // Los 3 rodillos, separados del bloque de Stops (más abajo) para que la
+  // "barra" (`&::before`) solo cruce a la altura de los propios rodillos,
+  // no también a la de los botones.
+  &__reels {
+    position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+    justify-content: center;
+    gap: 1rem;
+
+    // Barra gruesa a media altura de los rodillos, dando la impresión de
+    // que los 3 giran apoyados sobre ella — sobresale un poco a cada lado
+    // del primer/último rodillo, como un eje real (corregido tras revisión
+    // visual de Sofía sobre una referencia).
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -1rem;
+      right: -1rem;
+      height: 8px;
+      transform: translateY(-50%);
+      background: var(--color-frame-blue);
+      border-radius: 4px;
+      z-index: 0;
+    }
+  }
+
+  &__stops {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  // Mismo ancho que un rodillo (`.reel`, `Reel.module.scss`) para que cada
+  // Stop quede alineado justo debajo de su rodillo (corregido tras revisión
+  // visual de Sofía sobre una referencia).
+  &__stop {
+    width: 84px;
+    min-width: 84px;
   }
 }

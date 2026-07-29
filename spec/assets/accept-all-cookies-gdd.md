@@ -627,7 +627,7 @@ Do you agree to the use of Social Media Cookies?
 
 **Botones Stop:**
 - Detienen inmediatamente su rodillo en la posición actual; el botón visible en el centro es el resultado de ese rodillo.
-- Sonido de confirmación tipo tragaperras (sonido positivo si es Agree, negativo si es Disagree).
+- Sonido de "moneda" (tipo tragaperras) en cada captura, sea Agree o Disagree — no distingue positivo/negativo por símbolo; el veredicto final (ganar/perder el nivel) ya suena aparte con el positivo/negativo habitual del resto del juego.
 - El Stop usado se deshabilita y se oscurece.
 
 **Rehabilitación (regla clave):** si el jugador detiene los tres rodillos y el resultado **no** es triple Agree ni triple Disagree (excepción, ver Derrota), tras una breve pausa los rodillos **vuelven a girar** y los tres botones Stop **se rehabilitan**. El jugador puede intentarlo tantas veces como el contador le permita.
