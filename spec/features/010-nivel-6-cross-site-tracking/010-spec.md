@@ -13,8 +13,8 @@ El tablero NO se diseña en esta feature: se usa el **layout verificado** de `sp
 - Texto de consentimiento de Cross-Site Tracking **dentro del marco azul**, ajustado a su contenido.
 - El **tablero** se publica vía `useLevelBoard` debajo del marco, sin marco propio.
 - El tablero es más ancho que la ventana: se ve a través de una **ventana de cámara** con la **cámara siguiendo a la llave** (desplazamiento horizontal suave, centrando la llave, limitado a los bordes del tablero; las 7 filas + el anillo decorativo caben en vertical sin cámara vertical).
-- **Panel de 4 botones de dirección** (↑ ↓ ← →, estilo neutro): a la **derecha del tablero** en tablet/escritorio, **debajo del tablero** en móvil (GDD §15.2). También responden las **flechas del teclado** en escritorio.
-- **Pie de ventana** vía `useLevelFooter` (este nivel sí tiene pie): **Agree** (deshabilitado hasta abrir el candado) y **Disagree**.
+- **Panel de 4 botones de dirección** (↑ ↓ ← →, estilo neutro): a la **derecha del tablero** en tablet/escritorio (GDD §15.2). También responden las **flechas del teclado** en escritorio.
+- **Pie de ventana** vía `useLevelFooter` (este nivel sí tiene pie): **Agree** (deshabilitado hasta abrir el candado) y **Disagree**. En **móvil**, el tablero es el protagonista: el panel de dirección no vive debajo de él (lo dejaría diminuto), sino que su copia compacta (2×2, mismo mínimo táctil de 44px) ocupa el hueco del Agree en el pie mientras el candado sigue cerrado —el Agree deshabilitado no sirve de nada ahí—, y desaparece en cuanto se abre, revelando el Agree (patrón del nivel 1: un botón que no existe en el DOM hasta que se cumple su condición).
 - El tablero jugable está rodeado por el **anillo de casillas grises decorativas 1×1** del GDD.
 
 ### Movimiento
@@ -69,10 +69,10 @@ Es el nivel-puzle del juego y el único con contenido diseñado a mano y verific
 
 ### Integración y calidad
 - [x] Hueco 6 sustituido con chunk propio (sin matter.js); `levels.6.*` en ambos diccionarios; pie con nodo memoizado (dependencia: candado abierto).
-- [x] Panel de direcciones a la derecha en md+, debajo en xs/sm, botones ≥ 44 px; flechas de teclado funcionan en escritorio.
+- [x] Panel de direcciones a la derecha del tablero en md+; en xs/sm, su copia compacta (2×2) vive en el pie en el hueco del Agree mientras el candado sigue cerrado, y desaparece al abrirse. Botones ≥ 44 px en ambos casos; flechas de teclado funcionan en escritorio.
 - [x] `paused` congela cadena, cámara e input; recarga a mitad (llave al inicio, contador restaurado) y con desenlace pendiente (modal).
 - [x] Cleanup del animador de cadenas al desmontar (test de no-fugas).
-- [x] Partida entera ganando y perdiendo; dedo y ratón; 5 anchos (en 375 px se ven suficientes columnas para orientarse y el panel queda debajo); sin scroll vertical en móvil (`compactConsentBox`, revisión de Sofía).
+- [x] Partida entera ganando y perdiendo; dedo y ratón; 5 anchos (en 375 px se ven suficientes columnas para orientarse); sin scroll vertical en móvil (`--cell-size` algo menor en xs/sm, `Board.module.scss`, lo justo para que quepa sin restarle protagonismo al tablero; el recuadro de texto mantiene el tamaño estándar de los demás niveles; el panel de dirección se traslada al pie, no resta altura al tablero).
 - [x] ✋ Sprites/glifos de llave, candado y flechas aprobados por Sofía.
 
 ## Fuera de alcance

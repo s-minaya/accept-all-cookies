@@ -93,14 +93,22 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // `useLevelBoard`. Sin `fillHeight`: el tablero mide una altura fija
     // propia (`Board.module.scss`). A diferencia de 3-5, este nivel SÍ tiene
     // pie (Agree/Disagree) — no necesita ningún flag especial para eso, se
-    // publica igual que en los niveles 1-2 (`useLevelFooter`). `compactConsentBox: true`
-    // (revisión de Sofía: "en la version movil la ventana del juego es
-    // demasiado larga y produce scroll vertical"): el tablero de este nivel
-    // ya tiene una altura fija propia bastante alta (`Board.module.scss`),
-    // así que en móvil el recuadro de texto pide menos alto que el estándar
-    // de 12rem para que la ventana entera quepa sin scroll — sin afectar a
-    // tablet/escritorio ni a los niveles 3-5.
-    compactConsentBox: true,
+    // publica igual que en los niveles 1-2 (`useLevelFooter`). El recuadro de
+    // texto usa el mismo tamaño estándar que 3-5 (coherencia visual, revisión
+    // de Sofía); el ajuste de scroll vertical en móvil vive en `--cell-size`
+    // (`Board.module.scss`, más pequeño en xs/sm) y en los botones de
+    // dirección (`Level06.module.scss`, al mínimo táctil de 44px ahí).
     component: lazy(() => import('./level06/Level06')),
+  },
+  7: {
+    titleKey: 'levels.7.name',
+    // Sin consentKey, mismo patrón que los niveles 1-2: sin tablero propio,
+    // el texto va dentro del marco azul (011-plan.md). El pie SÍ es especial
+    // aquí: Disagree normal a la izquierda y, a la derecha, el Agree fijo
+    // con la cubierta (otro Disagree) encima, arrastrable por toda la
+    // ventana — ver `Level07.tsx`. No necesita ningún flag de `LevelHost`
+    // para eso: la cubierta se posiciona a sí misma contra `.xp-window`
+    // (`position: relative` añadido en `XPWindow.module.scss`).
+    component: lazy(() => import('./level07/Level07')),
   },
 }

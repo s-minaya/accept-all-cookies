@@ -18,9 +18,8 @@
 }
 
 // Tablero + panel de dirección, publicados vía `useLevelBoard`, fuera del
-// marco azul. Panel debajo del tablero en móvil, a la derecha a partir de
-// `md` (GDD §15.2) — sin `fillHeight`: el tablero mide una altura fija
-// propia (`Board.module.scss`), no lo necesita.
+// marco azul. Sin `fillHeight`: el tablero mide una altura fija propia
+// (`Board.module.scss`), no lo necesita.
 .level-06 {
   display: flex;
   flex-direction: column;
@@ -28,11 +27,6 @@
   gap: 0.35rem;
   padding: 0.25rem 0.5rem;
 
-  // Menos padding/gap solo hasta 480px (móvil): el tablero de este nivel ya
-  // tiene una altura fija bastante alta, así que aquí se recorta el aire
-  // sobrante en vez de su tamaño — evita scroll vertical de toda la ventana
-  // en móviles pequeños (revisión de Sofía). A partir de 481px, el layout
-  // pasa a fila y hay espacio de sobra: mismo aire que antes.
   @media (min-width: 481px) {
     flex-direction: row;
     align-items: center;
@@ -50,8 +44,14 @@
     }
   }
 
-  // Cruz de direcciones (↑ ↓ ← →, GDD §15.2): grid 3×3 con las esquinas
-  // vacías, cada botón en su propio brazo de la cruz.
+  // Cruz de direcciones (↑ ↓ ← →, GDD §15.2) a la derecha del tablero, a
+  // partir de `md`. En xs/sm este panel desaparece del todo: el tablero
+  // fijo ya es alto de por sí, así que el panel de 3 filas se traslada al
+  // pie de la ventana en su lugar, mucho más compacto (2×2, ver
+  // `Level06.tsx` y `&-footer-directions` más abajo) — revisión de Sofía:
+  // "lo que realmente queremos que se vea es el tablero". El espacio que
+  // libera este cambio va directo a `--cell-size` (`Board.module.scss`,
+  // más grande en xs/sm que antes de este ajuste).
   &__panel {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -60,10 +60,12 @@
     justify-items: center;
     align-items: center;
     flex-shrink: 0;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
   }
 
-  // Botones ≥ 44px táctiles de sobra: la variante `neutral` de `XPButton`
-  // ya mide `--xp-button-height` (48px) de alto por `× 1,15` de ancho.
   &__direction {
     &--up {
       grid-column: 2;
@@ -84,5 +86,38 @@
       grid-column: 2;
       grid-row: 3;
     }
+  }
+}
+
+// Copia compacta del panel de dirección, solo para el pie en xs/sm
+// (`Level06.tsx`): ocupa el hueco del Agree mientras el candado sigue
+// cerrado (el Agree deshabilitado no sirve de nada ahí). 2×2 en vez de la
+// cruz de 3 filas del tablero: mismas 4 flechas, mismo mínimo táctil de
+// 44px (GDD §15.4), la mitad de alto.
+.level-06-footer-directions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0.25rem;
+
+  @media (min-width: 481px) {
+    display: none;
+  }
+
+  &__button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+}
+
+// El Agree solo se oculta mientras el candado sigue cerrado, y solo en
+// xs/sm (en desktop/tablet siempre estuvo ahí, solo deshabilitado — el
+// panel de dirección de al lado del tablero no le hace falta el sitio).
+// `display: none` (no solo deshabilitado): mismo patrón que el Agree del
+// nivel 1, que tampoco existe en el DOM hasta que se cumple su condición.
+.level-06-footer__agree--pending {
+  @media (max-width: 480px) {
+    display: none;
   }
 }

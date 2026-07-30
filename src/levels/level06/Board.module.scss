@@ -5,6 +5,18 @@
 .board {
   --cell-size: 32px;
 
+  // Casillas ligeramente más pequeñas solo en móvil, lo justo para que la
+  // ventana quepa sin scroll vertical en los más pequeños/antiguos (p. ej.
+  // iPhone SE) — el tablero es el protagonista del nivel (revisión de
+  // Sofía), así que se queda todo lo grande que el hueco disponible
+  // permita: el panel de dirección (`Level06.module.scss`) se traslada al
+  // pie en xs/sm en vez de restarle sitio. `Board.tsx` lee este valor en
+  // tiempo real (`readCellSizePx`) para que la cámara no se desincronice
+  // del tamaño realmente pintado.
+  @media (max-width: 480px) {
+    --cell-size: 27px;
+  }
+
   &__viewport {
     position: relative;
     overflow: hidden;

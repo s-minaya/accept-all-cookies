@@ -54,13 +54,5 @@ export interface LevelDefinition {
   fillHeight?: boolean
   /** El tablero del nivel aprovecha pantallas grandes: la ventana pide un tope de ancho mayor a `XPWindow` a partir de `lg`/`xl` (p. ej. el nivel 5, revisión de Sofía). */
   wideWindow?: boolean
-  /**
-   * El recuadro de texto del marco azul pide una altura menor en móvil
-   * (p. ej. el nivel 6: su tablero fijo ya es alto de por sí, y el recuadro
-   * de texto de 12rem estándar sumado a él producía scroll vertical de toda
-   * la ventana — revisión de Sofía). No afecta a tablet/escritorio ni a
-   * otros niveles con tablero (3, 4, 5), cuyo tamaño ya está validado.
-   */
-  compactConsentBox?: boolean
   component: LazyExoticComponent<LevelComponent>
 }

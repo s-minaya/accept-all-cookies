@@ -9,7 +9,7 @@ Implementa el Nivel 5 (GDD §9, Nivel 5): una **máquina tragaperras de tres rod
 ### Layout (patrón as-built de la 007/008)
 
 - Texto de consentimiento de Social Media Cookies **dentro del marco azul**, ajustado a su contenido.
-- El **tablero de la tragaperras** se publica aparte vía `useLevelBoard` y se renderiza debajo del marco, sin marco propio. Sin `fillHeight`: cada rodillo tiene su propia altura fija (no depende de que un ancestro le dé el 100% del alto disponible — mismo razonamiento que llevó a quitárselo al nivel 4 tras revisión de Sofía).
+- El **tablero de la tragaperras** se publica aparte vía `useLevelBoard` y se renderiza debajo del marco, sin marco propio. Sin `fillHeight`: cada rodillo tiene su propia altura fija, no depende de que un ancestro le dé el 100% del alto disponible (mismo razonamiento que el nivel 4).
 - Dentro del tablero: **tres rodillos verticales** centrados y, bajo cada uno, su botón **Stop** (estilo neutro). **Sin pie de ventana**: toda la interacción es con los Stops.
 
 ### Los rodillos
@@ -21,7 +21,7 @@ Implementa el Nivel 5 (GDD §9, Nivel 5): una **máquina tragaperras de tres rod
 ### Los botones Stop
 
 - Al pulsar un Stop: su rodillo se detiene **al instante**, con un ajuste de encaje a la casilla más cercana para que el botón resultante quede perfectamente centrado en el marcador (decisión: legibilidad del resultado; el "instante" del GDD se conserva — el encaje es subpíxel-a-casilla, no una animación larga).
-- Suena **coin.mp3** en cada captura, sea Agree o Disagree (Sofía: "cuando el usuario captura un botón, el que sea, debe sonar este audio"), respetando el interruptor de efectos — no distingue positivo/negativo por símbolo; el veredicto final sigue sonando positivo/negativo aparte, disparado por `AppShell` como en el resto del juego.
+- Suena **coin.mp3** en cada captura, sea Agree o Disagree, respetando el interruptor de efectos — no distingue positivo/negativo por símbolo; el veredicto final sigue sonando positivo/negativo aparte, disparado por `AppShell` como en el resto del juego.
 - El Stop usado queda **deshabilitado y oscurecido**; los otros rodillos siguen girando.
 
 ### Rehabilitación
@@ -49,15 +49,15 @@ Es el nivel de azar-con-timing del juego: puro tira y afloja contra el reloj, si
 ### Rodillos y Stops
 - [x] Los tres rodillos giran desde el inicio; cada tira respeta ~40 % de Agree con al menos un Agree y un Disagree (test del generador con semilla).
 - [x] Cada Stop detiene su rodillo al instante con encaje a la casilla más cercana; el resultado es el de la fila central marcada (test de la función de encaje: desplazamiento → índice resultante).
-- [x] El Stop usado queda deshabilitado y oscurecido; los demás rodillos siguen girando; suena `coin.mp3` en cada captura (corregido tras revisión visual/de audio de Sofía).
+- [x] El Stop usado queda deshabilitado y oscurecido; los demás rodillos siguen girando; suena `coin.mp3` en cada captura.
 - [x] Tres detenidos sin triple Agree ni triple Disagree → tras la pausa configurada, los tres giran de nuevo y los tres Stops se rehabilitan (test de la máquina de estados del nivel), tantas veces como haga falta.
 
 ### Victoria y derrota
 - [x] Triple Agree al detener el tercero → `onWin()` inmediato con el flujo estándar y la categoría correcta.
-- [x] La derrota es contador a 0, X o triple Disagree (excepción a la rehabilitación, decisión de Sofía — corregido también en el GDD); verificado también con los tres rodillos parados esperando la rehabilitación cuando el contador muere (`paused` congela la pausa de rehabilitación sin romperla).
+- [x] La derrota es contador a 0, X o triple Disagree (excepción a la rehabilitación, reflejada también en el GDD); verificado también con los tres rodillos parados esperando la rehabilitación cuando el contador muere (`paused` congela la pausa de rehabilitación sin romperla).
 
 ### Integración y calidad
-- [x] Texto en el marco azul; tablero vía `useLevelBoard` debajo, sin marco propio; sin pie; hueco 5 sustituido con chunk propio; **sin matter.js en este chunk** (verificado en build). Sin `fillHeight`: cada rodillo mide una altura fija propia, no lo necesita (mismo razonamiento que el nivel 4 tras quitárselo).
+- [x] Texto en el marco azul; tablero vía `useLevelBoard` debajo, sin marco propio; sin pie; hueco 5 sustituido con chunk propio; **sin matter.js en este chunk** (verificado en build). Sin `fillHeight`: cada rodillo mide una altura fija propia, no lo necesita (mismo razonamiento que el nivel 4).
 - [x] PRNG extraído a módulo común y reutilizado por los niveles 4 y 5 sin duplicación (tests de ambos en verde).
 - [x] Cleanup total al desmontar (rAF, timeouts de la pausa) + test de no-fugas; `paused` congela todo, incluida la pausa de rehabilitación.
 - [x] Recarga a mitad (contador restaurado, tragaperras de cero) y con desenlace pendiente (modal).

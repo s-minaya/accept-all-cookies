@@ -112,7 +112,61 @@ export default function Level06({ onWin, onLose, paused }: LevelProps) {
   const footer = useMemo(
     () => (
       <>
-        <XPButton variant="agree" disabled={!lockOpen || paused} onClick={onWin}>
+        {/* Solo en móvil (Level06.module.scss): mientras el candado sigue
+            cerrado, el Agree deshabilitado no sirve de nada ahí — ocupa su
+            sitio un panel de dirección compacto (2×2, 44px, mínimo táctil
+            del GDD) en vez del de 3 filas del tablero (que en móvil pasa a
+            `display: none`, ver más abajo). En cuanto se abre el candado,
+            este bloque deja de existir y el Agree (que en desktop/tablet
+            siempre estuvo ahí, solo deshabilitado) ocupa su lugar — mismo
+            patrón que el nivel 1, cuyo Agree tampoco existe en el DOM hasta
+            que se cumple su condición. */}
+        {!lockOpen && (
+          <div className={styles['level-06-footer-directions']}>
+            <XPButton
+              variant="neutral"
+              className={styles['level-06-footer-directions__button']}
+              aria-label={t('levels.6.up')}
+              disabled={paused || isChaining}
+              onClick={() => handleDirection('UP')}
+            >
+              ↑
+            </XPButton>
+            <XPButton
+              variant="neutral"
+              className={styles['level-06-footer-directions__button']}
+              aria-label={t('levels.6.down')}
+              disabled={paused || isChaining}
+              onClick={() => handleDirection('DOWN')}
+            >
+              ↓
+            </XPButton>
+            <XPButton
+              variant="neutral"
+              className={styles['level-06-footer-directions__button']}
+              aria-label={t('levels.6.left')}
+              disabled={paused || isChaining}
+              onClick={() => handleDirection('LEFT')}
+            >
+              ←
+            </XPButton>
+            <XPButton
+              variant="neutral"
+              className={styles['level-06-footer-directions__button']}
+              aria-label={t('levels.6.right')}
+              disabled={paused || isChaining}
+              onClick={() => handleDirection('RIGHT')}
+            >
+              →
+            </XPButton>
+          </div>
+        )}
+        <XPButton
+          variant="agree"
+          disabled={!lockOpen || paused}
+          onClick={onWin}
+          className={!lockOpen ? styles['level-06-footer__agree--pending'] : undefined}
+        >
           {t('game.agree')}
         </XPButton>
         <XPButton variant="disagree" disabled={paused} onClick={() => onLose('failed')}>
@@ -120,7 +174,7 @@ export default function Level06({ onWin, onLose, paused }: LevelProps) {
         </XPButton>
       </>
     ),
-    [lockOpen, paused, onWin, onLose, t],
+    [lockOpen, paused, isChaining, handleDirection, onWin, onLose, t],
   )
   useLevelFooter(footer)
 

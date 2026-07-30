@@ -707,14 +707,15 @@ Do you agree to Data Sharing?
 
 **Botones visibles:**
 - Izquierdo: **rojo**, texto `Disagree`. Botón normal: si se pulsa → `Data Sharing rejected.` → Game Over.
-- Derecho: **verde**, texto `Disagree`. Si se hace un clic normal → `Data Sharing rejected.` → Game Over.
+- Derecho: **rojo**, texto `Disagree` (decisión de Sofía, 011: los dos botones visibles son rojos — no el diseño asimétrico rojo/verde de una versión anterior de este documento). Si se hace un clic normal → `Data Sharing rejected.` → Game Over.
 
 **Mecánica oculta:**
-- El Disagree verde es una **cubierta** situada encima de otro botón.
-- Debajo hay un segundo botón completamente oculto: mismo tamaño, mismo color verde, texto `Agree`.
-- El Disagree verde puede **arrastrarse** con el ratón (mantener pulsado y desplazar en cualquier dirección).
-- Mientras se arrastra, el botón superior sigue exactamente al cursor y va dejando ver progresivamente el Agree, que **permanece completamente fijo** en todo momento.
-- Efecto: como retirar una tarjeta que cubre otra. Sin transformaciones, cambios de texto ni de color: simplemente se revela el botón que ya estaba debajo.
+- El Disagree derecho es una **cubierta** (mismo rojo que el Disagree normal) situada encima de otro botón, y se mueve **dentro del espacio de su propio botón** — nunca sale hacia el resto de la ventana.
+- Debajo hay un segundo botón completamente oculto: mismo tamaño, verde, texto `Agree`.
+- La cubierta puede **arrastrarse** con el ratón (mantener pulsado y desplazar en cualquier dirección); el hueco que la contiene recorta lo que se salga, así que arrastrarla del todo la hace desaparecer dentro de su propio hueco.
+- Mientras se arrastra, la cubierta sigue exactamente al cursor y va dejando ver progresivamente el Agree, que **permanece completamente fijo** en todo momento.
+- Efecto: como retirar una tarjeta roja que cubre otra verde. Sin transformaciones ni cambios de texto en ninguno de los dos botones: simplemente se revela el Agree que ya estaba debajo.
+- En cuanto se arrastra una vez, la cubierta queda **desarmada para siempre**: ya no pierde al pulsarla, esté donde esté (aunque vuelva a tapar el Agree). Solo pierde por tap mientras sigue en su estado inicial, sin haberse movido nunca.
 
 ```
 Antes:              Durante el arrastre:        Después:
@@ -724,7 +725,7 @@ Antes:              Durante el arrastre:        Después:
 
 **Victoria:** descubrir el Agree, soltar el Disagree y pulsar Agree → `Data Sharing accepted.`
 
-**Derrota:** pulsar el Disagree rojo, pulsar el Disagree verde sin arrastrarlo, contador a 0 o pulsar la X → Game Over.
+**Derrota:** pulsar el Disagree rojo izquierdo, pulsar la cubierta (Disagree derecho) **sin haberla arrastrado nunca**, contador a 0 o pulsar la X → Game Over.
 
 ---
 
@@ -1011,6 +1012,7 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 
 - "Aggree" era un typo recurrente: se ha corregido a **Agree** en todo el documento.
 - Los mensajes del nivel 7 dicen **Data Sharing** (antes decían por error "Legitimate Interest").
+- El nivel 7 tiene los **dos botones visibles en rojo** (antes el derecho era verde en este documento); la cubierta oculta un Agree verde debajo, decisión de Sofía confirmada durante la 011.
 - El mensaje de victoria del nivel 6 dice **Cross-Site Tracking accepted** (antes "Third-Party Cookies").
 - El nivel 10 tiene **7 ventanas** (en versiones antiguas eran 5; por eso el texto decía "las otras cuatro" — ahora son "las otras seis").
 - La regla general "botón incorrecto = Game Over" admite excepciones por nivel (nivel 1).
@@ -1087,8 +1089,8 @@ El juego es **totalmente responsive** y jugable con ratón y con dedo. Un nivel 
 | 1, 2, 5, 8, 11, 12 | Clics | Taps (sin cambios) |
 | 3 — Personalization | Arrastrar para rotar la ventana | Arrastre de un dedo = misma rotación |
 | 4 — Advertising | El botón sigue al cursor / flechas ← → | El botón sigue al dedo mientras se arrastra horizontalmente en cualquier punto del área de juego (no hace falta tocar el botón) |
-| 6 — Cross-Site | Botones de dirección | Ya táctiles. En `xs`/`sm` el panel de flechas se coloca bajo el tablero |
-| 7 — Data Sharing | Arrastrar la cubierta / clic | Mismo arrastre con el dedo. Umbral tap-vs-drag: < 8 px de desplazamiento = tap (derrota si es el Disagree verde), ≥ 8 px = arrastre |
+| 6 — Cross-Site | Botones de dirección | Ya táctiles. En `xs`/`sm` el panel de flechas no cabe debajo del tablero sin dejarlo diminuto: mientras el candado sigue cerrado, las 4 flechas (compactas, 2×2) ocupan el hueco del Agree en el pie —el deshabilitado no sirve de nada ahí— y desaparecen en cuanto se abre, dejando paso al Agree |
+| 7 — Data Sharing | Arrastrar la cubierta / clic | Mismo arrastre con el dedo. Umbral tap-vs-drag: < 8 px de desplazamiento = tap (derrota si es el Disagree derecho, la cubierta), ≥ 8 px = arrastre |
 | 9 — Fingerprinting | Cursor completamente inmóvil ~1 s sobre una casilla | **Mantener el dedo pulsado** sobre una casilla ~1 s congela sus botones. **Soltar el dedo sobre un Agree congelado = pulsarlo** (soltar sobre un Disagree congelado = Game Over; soltar sin botón congelado = nada) |
 | 10 — Legitimate Interest | Arrastrar ventanas por la barra de título | Mismo arrastre con el dedo. En `xs` las ventanas se reducen para que las 7 quepan solapadas (el caos resultante es parte del nivel) |
 

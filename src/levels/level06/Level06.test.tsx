@@ -52,8 +52,24 @@ function getDisagree(): HTMLElement {
   return screen.getByText('Disagree').closest('button') as HTMLElement
 }
 
+/**
+ * En jsdom no se evalúan media queries: el panel de dirección del tablero
+ * (desktop/tablet) y su copia compacta del pie (xs/sm, mientras el candado
+ * sigue cerrado) están AMBOS en el DOM a la vez, con el mismo `aria-label`
+ * — `getByLabelText` a secas fallaría con "multiple elements found". Da
+ * igual cuál de las dos copias se pulse: las dos llaman al mismo
+ * `handleDirection`.
+ */
+function getDirectionButtons(label: string): HTMLElement[] {
+  return screen.getAllByLabelText(label)
+}
+
 function pressDirection(label: string) {
-  fireEvent.click(screen.getByLabelText(label))
+  fireEvent.click(getDirectionButtons(label)[0])
+}
+
+function directionIsDisabled(label: string): boolean {
+  return getDirectionButtons(label).every((el) => (el as HTMLButtonElement).disabled)
 }
 
 describe('Level06 (GDD Nivel 6 — Cross-Site Tracking, 010-plan.md)', () => {
@@ -72,15 +88,27 @@ describe('Level06 (GDD Nivel 6 — Cross-Site Tracking, 010-plan.md)', () => {
     expect(text?.textContent?.length).toBeGreaterThan(0)
   })
 
-  it('renders the direction panel (4 labeled buttons) and the footer (Agree disabled, Disagree enabled)', () => {
+  it('renders the direction panel (4 labeled buttons, desktop copy + compact mobile-footer copy) and the footer (Agree disabled, Disagree enabled)', () => {
     render(<Level06Harness {...baseProps} />)
-    expect(screen.getByLabelText('Arriba')).toBeInTheDocument()
-    expect(screen.getByLabelText('Abajo')).toBeInTheDocument()
-    expect(screen.getByLabelText('Izquierda')).toBeInTheDocument()
-    expect(screen.getByLabelText('Derecha')).toBeInTheDocument()
+    expect(getDirectionButtons('Arriba')).toHaveLength(2)
+    expect(getDirectionButtons('Abajo')).toHaveLength(2)
+    expect(getDirectionButtons('Izquierda')).toHaveLength(2)
+    expect(getDirectionButtons('Derecha')).toHaveLength(2)
 
     expect(getAgree()).toBeDisabled()
     expect(getDisagree()).not.toBeDisabled()
+  })
+
+  it('the compact mobile-footer direction copy disappears once the lock opens, leaving only the desktop panel copy', () => {
+    render(<Level06Harness {...baseProps} />)
+    expect(getDirectionButtons('Derecha')).toHaveLength(2)
+    const solution = ['Derecha', 'Abajo', 'Derecha', 'Abajo', 'Arriba', 'Derecha']
+    for (const label of solution) {
+      pressDirection(label)
+      finishChain()
+    }
+    expect(getAgree()).not.toBeDisabled()
+    expect(getDirectionButtons('Derecha')).toHaveLength(1)
   })
 
   it('pressing a direction that immediately bounces (rebote) does not open the lock', () => {
@@ -93,10 +121,10 @@ describe('Level06 (GDD Nivel 6 — Cross-Site Tracking, 010-plan.md)', () => {
   it('direction buttons disable while a chain is in progress, and re-enable once it completes', () => {
     render(<Level06Harness {...baseProps} />)
     pressDirection('Derecha') // D0 → D1: cadena de 8 casillas, no instantánea
-    expect(screen.getByLabelText('Derecha')).toBeDisabled()
+    expect(directionIsDisabled('Derecha')).toBe(true)
 
     finishChain()
-    expect(screen.getByLabelText('Derecha')).not.toBeDisabled()
+    expect(directionIsDisabled('Derecha')).toBe(false)
   })
 
   it('ignores further direction presses while a chain is already animating', () => {
@@ -143,12 +171,12 @@ describe('Level06 (GDD Nivel 6 — Cross-Site Tracking, 010-plan.md)', () => {
   it('the ArrowRight key does the same as pressing the Right button', () => {
     render(<Level06Harness {...baseProps} />)
     fireEvent.keyDown(window, { key: 'ArrowRight' })
-    expect(screen.getByLabelText('Derecha')).toBeDisabled() // la cadena D0→D1 arrancó
+    expect(directionIsDisabled('Derecha')).toBe(true) // la cadena D0→D1 arrancó
   })
 
   it('does not move (ignores clicks and keyboard) while paused', () => {
     render(<Level06Harness {...baseProps} paused={true} />)
-    expect(screen.getByLabelText('Derecha')).toBeDisabled()
+    expect(directionIsDisabled('Derecha')).toBe(true)
     expect(getDisagree()).toBeDisabled()
 
     fireEvent.keyDown(window, { key: 'ArrowRight' })
@@ -165,11 +193,11 @@ describe('Level06 (GDD Nivel 6 — Cross-Site Tracking, 010-plan.md)', () => {
 
     rerender(<Level06Harness {...baseProps} paused={true} />)
     act(() => vi.advanceTimersByTime(5000)) // no debería completar la cadena estando en pausa
-    expect(screen.getByLabelText('Derecha')).toBeDisabled()
+    expect(directionIsDisabled('Derecha')).toBe(true)
 
     rerender(<Level06Harness {...baseProps} paused={false} />)
     finishChain()
-    expect(screen.getByLabelText('Derecha')).not.toBeDisabled()
+    expect(directionIsDisabled('Derecha')).toBe(false)
   })
 
   it('removes its keyboard listener on unmount (no leaks)', () => {

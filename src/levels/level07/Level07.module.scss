@@ -1,0 +1,81 @@
+.level-07 {
+  // Rellena el marco azul del área de juego (GDD §4.4), igual que los
+  // niveles 1-2: este nivel tampoco tiene tablero propio (registry.ts, sin
+  // consentKey).
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+}
+
+// Pie del nivel (011-plan.md, corregido tras revisión de Sofía: "debe
+// arrastrarse DENTRO del espacio del mismo botón... no debe salirse hacia
+// la ventana"): Disagree normal a la izquierda; a la derecha, una pila con
+// el Agree fijo debajo y la cubierta (otro Disagree) encima.
+.level-07-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  // El Agree fijo y la cubierta viven SIEMPRE en la misma celda de grid (el
+  // texto más largo de "Disagree" decide el tamaño de la celda; el Agree,
+  // con `width/height: 100%`, se estira a ella — mismo tamaño para las dos
+  // sin medir nada por JS). `overflow: hidden` + `position: relative`: la
+  // cubierta se desplaza con un `transform` (nunca sale del grid, nunca deja
+  // de ser una celda más), y este hueco recorta lo que sobresalga al
+  // arrastrarla — el efecto es una cortina que se corre dentro de su propio
+  // espacio, nunca un elemento libre por la ventana.
+  //
+  // `padding: 3px`: el borde oscuro de `XPButton` (`--agree`/`--disagree`)
+  // no es un `border` real, es `box-shadow: 0 0 0 3px ...` — un efecto que
+  // se dibuja 3px por FUERA de la caja del botón sin contar para su tamaño
+  // en el layout. Sin este padding, ese `overflow: hidden` (ajustado
+  // exactamente al tamaño del botón) recortaba ese borde en cuanto salía de
+  // la caja, dejando la cubierta con un aspecto "cortado" en reposo — bug
+  // real, encontrado por Sofía. El padding le da al borde el margen exacto
+  // que necesita para pintarse entero sin dejar de recortar la cubierta
+  // cuando se arrastra más allá de su propio hueco.
+  &__stack {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    padding: 3px;
+  }
+
+  &__agree-fixed {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__cover {
+    grid-area: 1 / 1;
+    cursor: grab;
+    touch-action: none;
+    transform: translate(var(--cover-x, 0), var(--cover-y, 0));
+
+    // El selector se repite con `:active` (misma especificidad EXACTA que
+    // `XPButton.module.scss`'s `&:not(:disabled):active { transform:
+    // translateY(2px) }`, el "hundido" al pulsar cualquier botón): sin esto,
+    // ese `transform` de base gana durante TODO el arrastre (el puntero
+    // sigue "pulsado" mientras se arrastra) y sustituye por completo al
+    // `translate(--cover-x,--cover-y)` en vez de combinarse con él —
+    // `transform` no admite dos declaraciones activas a la vez, la de mayor
+    // especificidad/posterior en cascada se queda con las dos coordenadas.
+    // Bug real, encontrado con Playwright.
+    &:active,
+    &:not(:disabled):active {
+      cursor: grabbing;
+      transform: translate(var(--cover-x, 0), var(--cover-y, 0));
+    }
+  }
+}

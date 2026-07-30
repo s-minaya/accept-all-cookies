@@ -16,7 +16,7 @@ Pulsar **Empezar** inicia la partida con el jugador actualmente seleccionado y l
 
 ### Ventana Personaje
 
-- Cuadrícula con las **miniaturas de los 4 personajes** (sprites reales); el seleccionado queda claramente resaltado. Grandes a propósito ("quiero que luzcan", Sofía): 2 por fila en móvil y tablet, 4 por fila en escritorio (donde la ventana es más ancha, así que el tamaño se mantiene grande igualmente).
+- Cuadrícula con las **miniaturas de los 4 personajes** (sprites reales); el seleccionado queda claramente resaltado. Grandes a propósito, para que luzcan: 2 por fila en móvil y tablet, 4 por fila en escritorio (donde la ventana es más ancha, así que el tamaño se mantiene grande igualmente).
 - Al seleccionar uno, debajo aparece su **nombre en un campo editable**, precargado con el nombre por defecto del personaje (o con el último nombre que ese jugador usó). El usuario puede dejarlo o escribir el suyo.
 - Nombres por defecto (en inglés, definidos como datos del juego; **no se traducen**):
   1. **Crumbs** — zorrito con una cookie en la mano.

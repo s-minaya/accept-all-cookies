@@ -13,8 +13,20 @@ import styles from './Board.module.scss'
 
 /** Grosor del anillo decorativo (GDD: "rodeado por casillas 1×1 grises"), en casillas, a cada lado. */
 export const RING_SIZE = 1
-/** Tamaño lógico de cada casilla — mantener en sincro con `Board.module.scss`. */
+/** Valor de escritorio de `--cell-size` (`Board.module.scss`) — solo de respaldo hasta la primera medición real; ver `readCellSizePx`. */
 export const CELL_SIZE_PX = 32
+
+/**
+ * Lee el `--cell-size` que esté aplicando el CSS EN ESE MOMENTO (más pequeño
+ * en móvil, revisión de Sofía: "reduce también el tablero" para que la
+ * ventana quepa sin scroll vertical) — la cámara (`cameraOffsetX`) necesita
+ * el valor real en px para no desincronizarse del tablero pintado.
+ */
+function readCellSizePx(el: HTMLElement): number {
+  const raw = getComputedStyle(el).getPropertyValue('--cell-size').trim()
+  const parsed = Number.parseFloat(raw)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : CELL_SIZE_PX
+}
 
 export interface BoardStepApi {
   /** Mueve la llave (y la cámara, si hace falta) a `cell` — sin transición si `instant`, con la transición CSS habitual si no. */
@@ -44,6 +56,7 @@ export function Board({ grid, startCell, lockCell, lockOpen, stepApiRef }: Board
   const trackRef = useRef<HTMLDivElement>(null)
   const keyRef = useRef<HTMLDivElement>(null)
   const viewportWidthRef = useRef(0)
+  const cellSizeRef = useRef(CELL_SIZE_PX)
   const currentCellRef = useRef<Cell>(startCell)
 
   const rows = grid.length
@@ -61,7 +74,7 @@ export function Board({ grid, startCell, lockCell, lockOpen, stepApiRef }: Board
     }
     const offset = cameraOffsetX({
       keyCol: cell.col + RING_SIZE,
-      cellSizePx: CELL_SIZE_PX,
+      cellSizePx: cellSizeRef.current,
       viewportWidthPx: viewportWidthRef.current,
       totalCols,
     })
@@ -73,6 +86,12 @@ export function Board({ grid, startCell, lockCell, lockOpen, stepApiRef }: Board
   }
 
   useLayoutEffect(() => {
+    // Lectura síncrona (el `ResizeObserver` de abajo confirma esto mismo,
+    // pero su primer aviso llega en un frame posterior; sin esto, el primer
+    // pintado en móvil podría usar todavía el `--cell-size` de escritorio).
+    if (viewportRef.current) {
+      cellSizeRef.current = readCellSizePx(viewportRef.current)
+    }
     applyPosition(startCell, true)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- solo debe re-fijar la posición cuando cambia la celda de reinicio (recarga a mitad, GDD), no en cada render.
   }, [startCell])
@@ -82,6 +101,7 @@ export function Board({ grid, startCell, lockCell, lockOpen, stepApiRef }: Board
     if (!el) return
     const observer = new ResizeObserver(([entry]) => {
       viewportWidthRef.current = entry.contentRect.width
+      cellSizeRef.current = readCellSizePx(el)
       applyPosition(currentCellRef.current, true)
     })
     observer.observe(el)

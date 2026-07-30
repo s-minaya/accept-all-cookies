@@ -8,7 +8,7 @@ Implementa el Nivel 4 (GDD Nivel 4): un tablero **Plinko** de 30 pegs por el que
 
 ### Layout
 
-- El texto de Advertising Cookies ocupa el marco azul del área de juego, como los niveles 1-3 (corregido tras revisión de Sofía: "los terminos y condiciones de las cookies no estan en su recuadro azul, como en todos los niveles"). El tablero Plinko se publica aparte, DEBAJO de ese marco y fuera de él (GDD §4.4), sin marco propio — mismo patrón que el recuadro de lluvia del nivel 3.
+- El texto de Advertising Cookies ocupa el marco azul del área de juego, como los niveles 1-3. El tablero Plinko se publica aparte, DEBAJO de ese marco y fuera de él (GDD §4.4), sin marco propio — mismo patrón que el recuadro de lluvia del nivel 3.
 - Tablero Plinko ocupando ese espacio: 30 pegs en distribución clásica de Plinko.
 - Bajo el tablero, la guía horizontal del botón grande; el pie de la ventana no lleva botones (el botón grande ES el botón del nivel).
 

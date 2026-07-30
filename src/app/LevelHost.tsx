@@ -206,7 +206,6 @@ export function LevelHost({
             scrollableContent={!level.consentKey}
             fillHeight={level.fillHeight}
             wideOnDesktop={level.wideWindow}
-            compactConsentBox={level.compactConsentBox}
             children={levelContent}
             boardBelowFrame={levelBoard}
             footer={levelFooter}

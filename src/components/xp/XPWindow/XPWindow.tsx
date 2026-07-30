@@ -39,8 +39,6 @@ export interface XPWindowProps {
   fillHeight?: boolean
   /** Tope de ancho mayor a partir de `lg`/`xl` (p. ej. el nivel 5, cuyo tablero aprovecha pantallas grandes); por debajo de `lg` no cambia nada. */
   wideOnDesktop?: boolean
-  /** Recuadro de texto más bajo en móvil (p. ej. el nivel 6, para evitar scroll vertical de toda la ventana); sin efecto en tablet/escritorio. */
-  compactConsentBox?: boolean
 }
 
 export function XPWindow({
@@ -56,14 +54,12 @@ export function XPWindow({
   scrollableContent,
   fillHeight,
   wideOnDesktop,
-  compactConsentBox,
 }: XPWindowProps) {
   const windowClasses = [
     styles['xp-window'],
     fillHeight && styles['xp-window--fill-height'],
     boardBelowFrame && styles['xp-window--has-board'],
     wideOnDesktop && styles['xp-window--wide'],
-    compactConsentBox && styles['xp-window--compact-consent'],
   ]
     .filter(Boolean)
     .join(' ')

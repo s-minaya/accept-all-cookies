@@ -8,11 +8,9 @@ Implementa el Nivel 3 (GDD §9, Nivel 3): la **ventana entera del nivel rota 360
 
 ### Layout
 
-Excepción del GDD §4.3 (como los niveles 1 y 2, **corregido tras revisión de Sofía, dos rondas**):
-1. Primera ronda: se descartó por completo el patrón estándar con recuadro de consentimiento pequeño separado — el texto de consentimiento pasó al interior del marco azul del área de juego, como los niveles 1-2.
-2. Segunda ronda ("el borde azul oscuro SOLO cubre los términos y condiciones de las cookies. El tablero de juego se renderiza justo debajo, aprovechando el tamaño sobrante que queda"): el marco azul **se ajusta solo al texto** (`children` de `XPWindow`, sin estirarse) — ya no comparte marco con el recuadro de lluvia. El **recuadro de lluvia** (más estrecho que el del texto) se publica aparte, vía la nueva ranura `board` del canal nivel→host (`useLevelBoard`), y `XPWindow` lo renderiza como `boardBelowFrame`: **debajo del marco azul, fuera de él**, en el espacio sobrante del cuerpo de la ventana. Cuando `boardBelowFrame` está presente, el marco deja de estirarse (`flex: 1`) y pasa a `flex: 0 0 auto`, ajustado a su contenido.
+Excepción del GDD §4.3 (como los niveles 1 y 2): el texto de consentimiento va dentro del marco azul del área de juego, ajustado solo a su contenido (`children` de `XPWindow`, sin estirarse), sin recuadro de consentimiento pequeño separado y sin compartir marco con el recuadro de lluvia. El **recuadro de lluvia** (más estrecho que el del texto) se publica aparte, vía la ranura `board` del canal nivel→host (`useLevelBoard`), y `XPWindow` lo renderiza como `boardBelowFrame`: **debajo del marco azul, fuera de él**, en el espacio sobrante del cuerpo de la ventana. Cuando `boardBelowFrame` está presente, el marco no se estira (`flex: 0 0 auto`, ajustado a su contenido) en vez de `flex: 1`.
 
-En el pie, **solo el botón Disagree** — el Agree no está en el pie ni anclado a la ventana: vive dentro del propio recuadro de lluvia, como un cuerpo físico más. La ventana usa `fillHeight` (a diferencia del nivel 1, que no lo necesita): no por el texto (que vuelve a acotarse a los ~12rem moderados de siempre), sino porque sin altura real en la ventana no habría espacio "sobrante" que darle al recuadro de lluvia debajo del marco — sin `fillHeight` el recuadro de lluvia queda recortado o fuera de la vista (bug real, detectado en QA con Playwright).
+En el pie, **solo el botón Disagree** — el Agree no está en el pie ni anclado a la ventana: vive dentro del propio recuadro de lluvia, como un cuerpo físico más. La ventana usa `fillHeight` (a diferencia del nivel 1, que no lo necesita): el texto se acota a los ~12rem moderados de siempre, pero sin una altura real en la ventana no habría espacio "sobrante" que darle al recuadro de lluvia debajo del marco.
 
 ### Rotación
 
@@ -24,16 +22,16 @@ En el pie, **solo el botón Disagree** — el Agree no está en el pie ni anclad
 ### El Agree oculto
 
 - Vive **dentro del recuadro de lluvia**, como un cuerpo más de la simulación de matter.js, en una **cámara oculta** que se extiende a la derecha del recuadro visible — recortada por el propio `overflow: hidden` del recuadro (no por el borde del viewport).
-- Nace ya en su posición de reposo, **completamente quieto** (sin caída animada al cargar el nivel — corregido tras QA: antes se veía "esconderse" un instante). No responde a la gravedad hasta que el jugador gira la ventana por primera vez, sea cual sea el sentido.
+- Nace ya en su posición de reposo, **completamente quieto**, sin caída animada al cargar el nivel. No responde a la gravedad hasta que el jugador gira la ventana por primera vez, sea cual sea el sentido.
 - **Solo girar en sentido antihorario (izquierda)** inclina la gravedad (siempre "hacia abajo de la pantalla", igual que la lluvia) lo suficiente para que ruede desde la cámara oculta hasta el recuadro visible. Girar en sentido horario (derecha) lo empuja más adentro de su escondite, nunca lo revela.
-- Una vez dentro del recuadro visible, cae y rebota como un Disagree más — clicables ambos por igual, pero pulsarlo a él (tap, no drag) → `onWin()` → flujo estándar con "Personalization Cookies". No se recicla como los Disagree: una vez revelado, **no puede volver a la cámara oculta** aunque el jugador gire hacia el otro lado después (corregido tras QA: antes podía "perderse" de nuevo al rebotar y girar).
+- Una vez dentro del recuadro visible, cae y rebota como un Disagree más — clicables ambos por igual, pero pulsarlo a él (tap, no drag) → `onWin()` → flujo estándar con "Personalization Cookies". No se recicla como los Disagree: una vez revelado, **no puede volver a la cámara oculta** aunque el jugador gire hacia el otro lado después.
 
 ### La lluvia de Disagrees
 
 - En el recuadro de lluvia caen continuamente botones **Disagree** pequeños con **física de matter.js**: gravedad, rebotes entre ellos y contra las paredes del recuadro.
 - **La gravedad es siempre "hacia abajo de la pantalla"**, no del recuadro: al rotar la ventana, los botones caen en cascada dentro del recuadro girado — es la señal física de que la rotación es real, el gran caramelo visual del nivel, y el mismo mecanismo que revela al Agree.
 - Los botones de la lluvia son **clicables**: tap sobre cualquiera → derrota (motivo botón incorrecto). Empezar un drag sobre uno → rotación, sin castigo.
-- Población limitada (máx. ~25 simultáneos en escritorio, reciclando los que se acumulan; parámetro ajustable) para mantener el rendimiento. **En dispositivos táctiles, la población se reduce a ~12** (detectado por tipo de puntero, igual que el multiplicador de volumen de la música — no dejan sitio en pantalla, corregido tras revisión de Sofía). El Agree no cuenta para ese máximo ni se recicla.
+- Población limitada (máx. ~25 simultáneos en escritorio, reciclando los que se acumulan; parámetro ajustable) para mantener el rendimiento. **En dispositivos táctiles, la población se reduce a ~12** (detectado por tipo de puntero, igual que el multiplicador de volumen de la música: no dejan sitio en pantalla). El Agree no cuenta para ese máximo ni se recicla.
 
 ### Victoria y derrota
 
@@ -60,7 +58,7 @@ Es el primer nivel "wow" del juego y el que más vende la premisa en un clip de 
 - [x] Un drag que empieza sobre un botón (incluido un Disagree de la lluvia) rota y no dispara su acción; un tap sí la dispara (umbral 8 px, test de la lógica + verificado con Playwright).
 - [x] La X y el contador funcionan en cualquier ángulo de rotación (verificado con Playwright).
 - [x] El cursor sobre la ventana cambia a `grab`/`grabbing` para insinuar que se puede arrastrar.
-- [x] El arrastre táctil en móvil no dispara el gesto nativo del navegador ("pull to refresh") ni recarga la página a mitad de partida (`touch-action: none` en la ventana rotable + `overscroll-behavior-y: none` general — corregido tras reporte de Sofía en producción, verificado con Playwright emulando un dispositivo táctil).
+- [x] El arrastre táctil en móvil no dispara el gesto nativo del navegador ("pull to refresh") ni recarga la página a mitad de partida (`touch-action: none` en la ventana rotable + `overscroll-behavior-y: none` general, verificado con Playwright emulando un dispositivo táctil).
 
 ### Agree oculto
 - [x] A 0°, el Agree no es visible ni en movimiento: reposa quieto en su cámara oculta a la derecha del recuadro de lluvia, recortada por el propio marco del recuadro (no por el viewport), sin caída animada al cargar (verificado con Playwright: transform idéntico durante los primeros ~500 ms).
