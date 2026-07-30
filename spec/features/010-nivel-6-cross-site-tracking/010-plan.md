@@ -1,5 +1,7 @@
 # 010 · Nivel 6 — Cross-Site Tracking — Plan
 
+> Plan pre-implementación: describe el enfoque tal como se planeó antes de escribir código, no se ha mantenido sincronizado con ajustes posteriores (QA con Sofía, corrección de scroll vertical en móvil). Para el estado final as-built, ver `010-spec.md` y `010-tasks.md`.
+
 ## Enfoque
 
 Determinista de punta a punta: primero la **simulación pura** (misma semántica que el validador, contrastada contra el grafo documentado), después el **animador de cadenas** (un recorrido precalculado que se reproduce a velocidad constante), y encima el render (grid + cámara + sprites). El tablero es un dato importado, nunca código: los dos tests de datos (identidad y validador) van antes que nada, porque blindan todo lo demás.

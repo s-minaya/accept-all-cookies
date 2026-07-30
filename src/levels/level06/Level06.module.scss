@@ -1,0 +1,88 @@
+// Texto de consentimiento del nivel: vive en el marco azul del área de
+// juego, mismo patrón exacto que `.level-03`/`.level-03__text`
+// (`Level03.module.scss`) — cuarta aparición de este patrón (candidato a
+// extraer a un componente compartido, AGENTS.md "2+ sitios").
+.level-06-consent {
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+}
+
+// Tablero + panel de dirección, publicados vía `useLevelBoard`, fuera del
+// marco azul. Panel debajo del tablero en móvil, a la derecha a partir de
+// `md` (GDD §15.2) — sin `fillHeight`: el tablero mide una altura fija
+// propia (`Board.module.scss`), no lo necesita.
+.level-06 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+
+  // Menos padding/gap solo hasta 480px (móvil): el tablero de este nivel ya
+  // tiene una altura fija bastante alta, así que aquí se recorta el aire
+  // sobrante en vez de su tamaño — evita scroll vertical de toda la ventana
+  // en móviles pequeños (revisión de Sofía). A partir de 481px, el layout
+  // pasa a fila y hay espacio de sobra: mismo aire que antes.
+  @media (min-width: 481px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 0.5rem;
+  }
+
+  &__board {
+    width: 100%;
+
+    @media (min-width: 481px) {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  // Cruz de direcciones (↑ ↓ ← →, GDD §15.2): grid 3×3 con las esquinas
+  // vacías, cada botón en su propio brazo de la cruz.
+  &__panel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.4rem;
+    justify-items: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  // Botones ≥ 44px táctiles de sobra: la variante `neutral` de `XPButton`
+  // ya mide `--xp-button-height` (48px) de alto por `× 1,15` de ancho.
+  &__direction {
+    &--up {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    &--left {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    &--right {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    &--down {
+      grid-column: 2;
+      grid-row: 3;
+    }
+  }
+}

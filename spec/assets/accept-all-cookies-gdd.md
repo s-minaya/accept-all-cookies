@@ -94,8 +94,9 @@ Dos fuentes pixel, con jerarquías distintas:
 
 Assets de sonido (lista cerrada):
 
-- **Sonido positivo** (aciertos, capturas de Agree, victoria).
+- **Sonido positivo** (aciertos, capturas de Agree, victoria; también al abrir el candado del nivel 6, adición vetable — ver Nivel 6).
 - **Sonido negativo** (fallos, capturas de Disagree, derrota).
+- **Sonido de moneda** (nivel 5: cada captura de la tragaperras, sea Agree o Disagree — adición vetable, ver Nivel 5).
 - **Música de fondo** (loop, controlable desde Ajustes). Suena baja respecto a los efectos: tiene su propio multiplicador de volumen además del control de Ajustes, distinto en escritorio y en móvil (ver §14) porque el mismo número suena más alto en un altavoz de teléfono.
 
 ---
@@ -670,7 +671,7 @@ Do you agree to the use of Cross-Site Tracking?
 - Con la llave sobre una casilla **vacía**, el jugador pulsa una dirección y la llave avanza una casilla.
 - Si entra en otra casilla vacía → se detiene y el jugador recupera el control.
 - Si entra en una **flecha** → pierde el control y sigue automáticamente la dirección de cada flecha que pisa, encadenándose sin detenerse, hasta llegar a una casilla vacía o al candado.
-- Si llega al **candado** → el candado se desbloquea y el botón **Agree** se habilita.
+- Si llega al **candado** → el candado se desbloquea, suena el **sonido positivo** una vez (adición vetable, no cambia la lista cerrada de §2.3: reutiliza el mismo sonido positivo del resto del juego) y el botón **Agree** se habilita.
 
 **Diseño del tablero:**
 - El layout de flechas es **fijo, diseñado a mano**, con **una única solución**.
@@ -1051,6 +1052,8 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 5: casillas por tira | 12, con garantía de al menos un Agree y un Disagree (reparación determinista si sale una tira de un solo símbolo) |
 | Nivel 5: velocidad de giro de rodillos | 7 filas/s de base, ±1 fila/s de desfase decorativo entre rodillos (6/7/8 filas/s) — valores iniciales, ajustables en el checkpoint |
 | Nivel 5: pausa de rehabilitación | 1 s |
+| Nivel 6: velocidad de cadena (avances, rebotes y castigos) | 10 casillas/s (el castigo épico de 67 casillas dura ~6,7 s) |
+| Nivel 6: transición de cámara y de la llave entre casillas | 0,08 s |
 | Nivel 8: duración de barajados | 2 s / 1,5 s / 1 s |
 | Nivel 9: tiempo de cursor inmóvil para congelar casilla | ~1 s |
 | Nivel 10: máximo de ventanas | 7 |

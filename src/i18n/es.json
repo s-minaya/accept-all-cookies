@@ -78,7 +78,14 @@
       "name": "Cookies de Redes Sociales",
       "consent": "Cookies de Redes Sociales\n\nLas cookies de redes sociales te permiten conectar con plataformas sociales, compartir contenido y personalizar tu experiencia en distintos servicios.\n\nEstas cookies pueden ser utilizadas por nosotros y por terceros seleccionados para medir la interacción, personalizar contenido y mostrar anuncios según tu actividad en sitios web y redes sociales.\n\n¿Aceptas el uso de las Cookies de Redes Sociales?"
     },
-    "6": { "name": "Seguimiento entre Sitios" },
+    "6": {
+      "name": "Seguimiento entre Sitios",
+      "consent": "Seguimiento entre Sitios\n\nEl seguimiento entre sitios nos permite a nosotros y a nuestros socios reconocer tu navegador en distintos sitios web y servicios.\n\nLa información recopilada mediante el seguimiento entre sitios puede incluir páginas visitadas, interacciones, comportamiento de navegación e identificadores del dispositivo. Estos datos nos ayudan a entender los recorridos de los usuarios, medir la efectividad publicitaria y ofrecer una experiencia de navegación más personalizada en varios sitios web.\n\n¿Aceptas el uso del Seguimiento entre Sitios?",
+      "up": "Arriba",
+      "down": "Abajo",
+      "left": "Izquierda",
+      "right": "Derecha"
+    },
     "7": { "name": "Compartición de Datos" },
     "8": { "name": "Proveedores de Terceros" },
     "9": { "name": "Huella Digital" },

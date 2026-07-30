@@ -1,0 +1,145 @@
+// Tablero del nivel 6 (GDD Nivel 6): 40×7 casillas jugables + 1 casilla de
+// anillo decorativo a cada lado (RING_SIZE, `Board.tsx`) = 42×9 en total.
+// Tamaño de cada casilla como custom property compartida (--cell-size, para
+// no repetir "32px" suelto por todo el archivo).
+.board {
+  --cell-size: 32px;
+
+  &__viewport {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: calc(9 * var(--cell-size)); // TOTAL_ROWS (7 + anillo×2)
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 3px var(--color-frame-blue);
+  }
+
+  &__track {
+    position: relative;
+    width: calc(var(--total-cols) * var(--cell-size));
+    height: calc(var(--total-rows) * var(--cell-size));
+    transform: translateX(calc(-1 * var(--camera-offset, 0px)));
+    // Transición suave (010-plan.md, "Cámara"): sigue a la llave paso a
+    // paso (un `translateX` por casilla, no por píxel), esto suaviza el
+    // salto entre una casilla y la siguiente en vez de un corte duro.
+    transition: transform 0.08s ease-out;
+
+    &--instant {
+      transition: none;
+    }
+  }
+
+  &__cell {
+    position: absolute;
+    top: calc(var(--cell-row) * var(--cell-size));
+    left: calc(var(--cell-col) * var(--cell-size));
+    width: var(--cell-size);
+    height: var(--cell-size);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-white);
+    box-shadow: inset 0 0 0 1px var(--color-beige);
+  }
+
+  &__cell--ring {
+    position: absolute;
+    top: calc(var(--cell-row) * var(--cell-size));
+    left: calc(var(--cell-col) * var(--cell-size));
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background: var(--color-system-gray);
+  }
+
+  &__arrow {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--color-frame-blue);
+    // Señuelos y flechas de cadenas reales se ven exactamente igual a
+    // propósito (GDD: "que el tablero parezca un laberinto denso y no se
+    // distinga a ojo qué flechas importan") — ninguna pista visual extra.
+    opacity: 0.85;
+  }
+
+  // Llave: placeholder pixel (010-plan.md, "Decisiones" — sprites reales
+  // pendientes del visto bueno de Sofía). Se mueve escribiendo
+  // `--key-row`/`--key-col` desde `Board.tsx` en cada paso del camino, con
+  // una transición suave a juego con la de la cámara.
+  &__key {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    transform: translate(
+      calc(var(--key-col, 0) * var(--cell-size)),
+      calc(var(--key-row, 0) * var(--cell-size))
+    );
+    transition: transform 0.08s ease-out;
+    pointer-events: none;
+    z-index: 2;
+
+    &--instant {
+      transition: none;
+    }
+  }
+
+  &__key-head {
+    position: absolute;
+    top: 7px;
+    left: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 4px var(--color-frame-blue);
+  }
+
+  &__key-shaft {
+    position: absolute;
+    top: 14px;
+    left: 17px;
+    width: 11px;
+    height: 4px;
+    background: var(--color-frame-blue);
+  }
+
+  // Candado: placeholder pixel, mismo criterio que la llave. Cerrado = gris
+  // azulado (bloqueado); abierto = verde (mismo lenguaje visual que un
+  // Agree real) y el grillete se desplaza a un lado.
+  &__lock {
+    z-index: 1;
+  }
+
+  &__lock-body {
+    position: absolute;
+    bottom: 5px;
+    left: 6px;
+    width: 20px;
+    height: 15px;
+    border-radius: 3px;
+    background: var(--color-frame-blue);
+    transition: background-color 0.2s ease-out;
+  }
+
+  &__lock-shackle {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50% 50% 0 0;
+    box-shadow: inset 0 0 0 3px var(--color-frame-blue);
+    transition: transform 0.2s ease-out;
+  }
+
+  &__lock--open &__lock-body {
+    background: var(--color-agree-border);
+  }
+
+  &__lock--open &__lock-shackle {
+    transform: translateX(9px) rotate(35deg);
+    box-shadow: inset 0 0 0 3px var(--color-agree-border);
+  }
+}

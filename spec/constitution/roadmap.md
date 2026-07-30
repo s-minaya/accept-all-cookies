@@ -13,14 +13,14 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 7. **007 · Nivel 3 — Personalization** — rotación 360° de la ventana + lluvia de Disagrees con física (matter.js), Agree oculto como cuerpo físico en una cámara recortada, canal nivel→host consolidado (`footer`/`windowTransform`/`windowRef`/`board`). Verificada en móvil (iPhone SE 2022, iPhone 16), tablet y escritorio reales por Sofía.
 8. **008 · Nivel 4 — Advertising (Plinko)** — tablero Plinko con física (matter.js, chunk compartido con la 007), 30 pegs, botón grande de 6 segmentos con relleno progresivo y guía-slider; con los 6 segmentos de un color se bloquea y hay que pulsarlo para confirmar el desenlace, igual que cualquier Agree/Disagree real. Texto de consentimiento en el marco azul (como los niveles 1-3); el tablero se publica aparte, sin marco propio. Verificada en móvil y escritorio reales por Sofía.
 9. **009 · Nivel 5 — Social Media (tragaperras)** — máquina de estados pura (`slotMachine.ts`) + 3 rodillos con física de scroll por rAF (`Reel.tsx`, PRNG compartido con el nivel 4, `src/utils/prng.ts`); triple Agree gana, triple Disagree pierde de inmediato, cualquier otra combinación rehabilita los tres Stops tras una breve pausa. Rodillos con borde azul oscuro, barra central y botones Agree/Disagree en forma de rectángulo redondeado (estilo reutilizado del nivel 4); crecen junto con la ventana a partir de `lg`. Sonido de moneda en cada captura. Verificada por Sofía.
+10. **010 · Nivel 6 — Cross-Site Tracking** — tablero verificado (`../assets/nivel6-tablero.json`, solución `→ ↓ → ↓ ↑ →`), simulación pura de cadenas de flechas con la misma semántica que el validador, cámara que sigue a la llave centrándola con desplazamiento suave, llave/candado/flechas en placeholders pixel aprobados por Sofía. Recuadro de texto compacto en móvil (`compactConsentBox` en `XPWindow`) para que la ventana quepa sin scroll vertical en pantallas pequeñas (revisión de Sofía). Verificada por Sofía.
 
 ## Siguiente 🔜
 
-10. **010 · Nivel 6 — Cross-Site Tracking** — tablero verificado (`../assets/nivel6-tablero.json`), cámara que sigue a la llave.
+11. **011 · Nivel 7 — Data Sharing** — cubierta arrastrable, tap-vs-drag.
 
 ## Backlog (ordenado) 💡
 
-11. **011 · Nivel 7 — Data Sharing** — cubierta arrastrable, tap-vs-drag.
 12. **012 · Nivel 8 — Third-Party Providers (trilero)** — giro, barajados, bloqueo de input.
 13. **013 · Nivel 9 — Fingerprinting** — casillas independientes, puntero inmóvil / mantener pulsado.
 14. **014 · Nivel 10 — Legitimate Interest** — ventanas que se duplican al arrastrarse.

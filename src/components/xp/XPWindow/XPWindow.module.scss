@@ -147,6 +147,16 @@
     max-height: 12rem;
   }
 
+  // Recuadro de texto más bajo solo en móvil (p. ej. nivel 6: su tablero fijo
+  // ya es alto de por sí, sumarle los 12rem estándar producía scroll
+  // vertical de toda la ventana — revisión de Sofía). Solo pisa el `12rem`
+  // de arriba por debajo de 480px; en tablet/escritorio no cambia nada.
+  &--compact-consent.xp-window--has-board &__interior--scrollable {
+    @media (max-width: 480px) {
+      max-height: 2rem;
+    }
+  }
+
   // Tablero de juego debajo del marco azul, fuera de él (`boardBelowFrame`):
   // ocupa el espacio sobrante del cuerpo de la ventana. Sin fondo ni borde
   // propios aquí — es el nivel quien decide el aspecto de su tablero.

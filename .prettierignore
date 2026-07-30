@@ -2,3 +2,6 @@ dist
 node_modules
 spec
 *.md
+# Copia byte a byte de spec/assets/nivel6-tablero.json (010-plan.md); un
+# test compara ambos archivos literalmente, así que no se reformatea.
+src/data/nivel6-tablero.json

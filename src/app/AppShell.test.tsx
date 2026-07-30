@@ -249,17 +249,18 @@ describe('AppShell', () => {
       // Niveles 4 (Plinko, 008-plan.md) y 5 (tragaperras, 009-plan.md): se
       // ganan por colisión física / azar con RNG real, no por un clic
       // determinista — inalcanzables con `fireEvent.click(getByText('Agree'))`
-      // como el resto. Se saltan con el botón dev en vez de simular física o
-      // forzar una semilla (esa cobertura vive en `board.test.ts`/
-      // `segments.test.ts` y en `slotMachine.test.ts`/`Level05.outcome.test.tsx`
-      // respectivamente); `?dev` no afecta a ningún otro nivel de este
-      // recorrido.
+      // como el resto. Nivel 6 (Cross-Site Tracking, 010-plan.md): el Agree
+      // real empieza deshabilitado hasta abrir el candado con una secuencia
+      // de direcciones concreta, tampoco un simple clic — esa cobertura ya
+      // vive en `Level06.test.tsx` (incluida la solución completa). Los tres
+      // se saltan con el botón dev en vez de duplicar esa cobertura aquí
+      // (`?dev` no afecta a ningún otro nivel de este recorrido).
       window.history.pushState({}, '', '?dev')
 
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Check'))
 
-        if (level === 4 || level === 5) {
+        if (level === 4 || level === 5 || level === 6) {
           fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
           await vi.waitFor(() => expect(screen.getByText('Cookie Preferences')).toBeInTheDocument())
           continue

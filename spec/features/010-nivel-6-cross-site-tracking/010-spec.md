@@ -1,6 +1,6 @@
 # 010 · Nivel 6 — Cross-Site Tracking
 
-**Estado:** aprobado
+**Estado:** implementada
 
 ## Qué hace
 
@@ -54,26 +54,26 @@ Es el nivel-puzle del juego y el único con contenido diseñado a mano y verific
 ## Criterios de aceptación
 
 ### Movimiento y tablero
-- [ ] El tablero renderiza el JSON verificado (40×7 + anillo decorativo) y la simulación pura reproduce **exactamente** el grafo de decisiones documentado: desde cada punto de decisión, cada dirección termina donde dice la tabla, con su número de casillas (test parametrizado contra la tabla completa).
-- [ ] La secuencia `→ ↓ → ↓ ↑ →` desde el inicio lleva la llave al candado (test + verificado jugando).
-- [ ] Durante una cadena el input se ignora; los rebotes se ven (entrar y volver); moverse hacia fuera del tablero no hace nada.
-- [ ] La cámara sigue a la llave centrándola, con desplazamiento suave y limitada a los bordes; en los castigos largos se ve a la llave recorrer el tablero de vuelta (el paseo de 67 casillas es visible y dura lo configurado).
+- [x] El tablero renderiza el JSON verificado (40×7 + anillo decorativo) y la simulación pura reproduce **exactamente** el grafo de decisiones documentado: desde cada punto de decisión, cada dirección termina donde dice la tabla, con su número de casillas (test parametrizado contra la tabla completa).
+- [x] La secuencia `→ ↓ → ↓ ↑ →` desde el inicio lleva la llave al candado (test + verificado jugando).
+- [x] Durante una cadena el input se ignora; los rebotes se ven (entrar y volver); moverse hacia fuera del tablero no hace nada.
+- [x] La cámara sigue a la llave centrándola, con desplazamiento suave y limitada a los bordes; en los castigos largos se ve a la llave recorrer el tablero de vuelta (el paseo de 67 casillas es visible y dura lo configurado).
 
 ### Candado, victoria y derrota
-- [ ] Llegar al candado lo abre, suena el positivo una vez y habilita el Agree; el Agree deshabilitado no responde antes.
-- [ ] Agree habilitado → victoria con el flujo estándar y la categoría correcta; Disagree en cualquier momento, contador a 0 y X → derrota estándar.
+- [x] Llegar al candado lo abre, suena el positivo una vez y habilita el Agree; el Agree deshabilitado no responde antes.
+- [x] Agree habilitado → victoria con el flujo estándar y la categoría correcta; Disagree en cualquier momento, contador a 0 y X → derrota estándar.
 
 ### Datos
-- [ ] Test de identidad entre `spec/assets/nivel6-tablero.json` y `src/data/nivel6-tablero.json`.
-- [ ] Test que ejecuta el validador contra la copia de `src/data/` y exige éxito.
+- [x] Test de identidad entre `spec/assets/nivel6-tablero.json` y `src/data/nivel6-tablero.json`.
+- [x] Test que ejecuta el validador contra la copia de `src/data/` y exige éxito.
 
 ### Integración y calidad
-- [ ] Hueco 6 sustituido con chunk propio (sin matter.js); `levels.6.*` en ambos diccionarios; pie con nodo memoizado (dependencia: candado abierto).
-- [ ] Panel de direcciones a la derecha en md+, debajo en xs/sm, botones ≥ 44 px; flechas de teclado funcionan en escritorio.
-- [ ] `paused` congela cadena, cámara e input; recarga a mitad (llave al inicio, contador restaurado) y con desenlace pendiente (modal).
-- [ ] Cleanup del animador de cadenas al desmontar (test de no-fugas).
-- [ ] Partida entera ganando y perdiendo; dedo y ratón; 5 anchos (en 375 px se ven suficientes columnas para orientarse y el panel queda debajo).
-- [ ] ✋ Sprites/glifos de llave, candado y flechas aprobados por Sofía.
+- [x] Hueco 6 sustituido con chunk propio (sin matter.js); `levels.6.*` en ambos diccionarios; pie con nodo memoizado (dependencia: candado abierto).
+- [x] Panel de direcciones a la derecha en md+, debajo en xs/sm, botones ≥ 44 px; flechas de teclado funcionan en escritorio.
+- [x] `paused` congela cadena, cámara e input; recarga a mitad (llave al inicio, contador restaurado) y con desenlace pendiente (modal).
+- [x] Cleanup del animador de cadenas al desmontar (test de no-fugas).
+- [x] Partida entera ganando y perdiendo; dedo y ratón; 5 anchos (en 375 px se ven suficientes columnas para orientarse y el panel queda debajo); sin scroll vertical en móvil (`compactConsentBox`, revisión de Sofía).
+- [x] ✋ Sprites/glifos de llave, candado y flechas aprobados por Sofía.
 
 ## Fuera de alcance
 

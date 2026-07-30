@@ -78,7 +78,14 @@
       "name": "Social Media Cookies",
       "consent": "Social Media Cookies\n\nSocial media cookies enable you to connect with social platforms, share content and personalize your experience across different services.\n\nThese cookies may be used by us and selected third parties to measure engagement, personalize content and deliver advertisements based on your activity across websites and social networks.\n\nDo you agree to the use of Social Media Cookies?"
     },
-    "6": { "name": "Cross-Site Tracking" },
+    "6": {
+      "name": "Cross-Site Tracking",
+      "consent": "Cross-Site Tracking\n\nCross-site tracking allows us and our partners to recognize your browser across different websites and services.\n\nInformation collected through cross-site tracking may include pages visited, interactions, browsing behavior and device identifiers. This data helps us understand user journeys, measure advertising effectiveness and provide a more personalized browsing experience across multiple websites.\n\nDo you agree to the use of Cross-Site Tracking?",
+      "up": "Up",
+      "down": "Down",
+      "left": "Left",
+      "right": "Right"
+    },
     "7": { "name": "Data Sharing" },
     "8": { "name": "Third-Party Providers" },
     "9": { "name": "Fingerprinting" },

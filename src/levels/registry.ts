@@ -86,4 +86,21 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     wideWindow: true,
     component: lazy(() => import('./level05/Level05')),
   },
+  6: {
+    titleKey: 'levels.6.name',
+    // Sin consentKey, mismo patrón que los niveles 3-5: texto dentro del
+    // marco azul, tablero (grid + panel de dirección) publicado aparte vía
+    // `useLevelBoard`. Sin `fillHeight`: el tablero mide una altura fija
+    // propia (`Board.module.scss`). A diferencia de 3-5, este nivel SÍ tiene
+    // pie (Agree/Disagree) — no necesita ningún flag especial para eso, se
+    // publica igual que en los niveles 1-2 (`useLevelFooter`). `compactConsentBox: true`
+    // (revisión de Sofía: "en la version movil la ventana del juego es
+    // demasiado larga y produce scroll vertical"): el tablero de este nivel
+    // ya tiene una altura fija propia bastante alta (`Board.module.scss`),
+    // así que en móvil el recuadro de texto pide menos alto que el estándar
+    // de 12rem para que la ventana entera quepa sin scroll — sin afectar a
+    // tablet/escritorio ni a los niveles 3-5.
+    compactConsentBox: true,
+    component: lazy(() => import('./level06/Level06')),
+  },
 }
