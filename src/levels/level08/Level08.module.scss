@@ -1,0 +1,98 @@
+// Texto de consentimiento del nivel: vive en el marco azul del área de
+// juego, mismo patrón exacto que `.level-06-consent`/`.level-05-consent`
+// (candidato a extraer a un componente compartido, AGENTS.md "2+ sitios").
+.level-08 {
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+}
+
+// Cuadrícula del trilero, publicada vía `useLevelBoard`, fuera del marco
+// azul (012-plan.md). 4×3 en md+, 3×4 en xs/sm (GDD Nivel 8, "Layout") — el
+// mismo total de 12 celdas, solo cambia cuántas caben por fila; `Level08.tsx`
+// lee `--grid-cols` en tiempo real (mismo patrón que `--cell-size` del
+// nivel 6) para saber a qué fila/columna corresponde cada celda 0-11.
+.level-08-grid {
+  --grid-cols: 4;
+  --grid-rows: 3;
+  --cell-width: 92px;
+  --cell-height: 56px;
+  --flip-angle: 0deg;
+
+  @media (max-width: 480px) {
+    --grid-cols: 3;
+    --grid-rows: 4;
+    // 96px, no 84px (revisión de Sofía: "el texto Disagree se desborda del
+    // botón" — la palabra más larga de las dos caras necesita más ancho
+    // real, no solo el mínimo táctil).
+    --cell-width: 96px;
+    // 56px, no 50px: la celda pierde 8px de margen visual (ver `&__cell`
+    // más abajo), y el botón resultante tiene que seguir siendo ≥ 44px de
+    // alto (GDD §15.4, mínimo táctil) — 50-8=42px se quedaba corto.
+    --cell-height: 56px;
+  }
+
+  position: relative;
+  width: calc(var(--grid-cols) * var(--cell-width));
+  max-width: 100%;
+  height: calc(var(--grid-rows) * var(--cell-height));
+  margin: 0.75rem auto;
+  perspective: 700px;
+
+  &__cell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    // 8px más pequeño que la celda entera (4px por lado): dos botones nunca
+    // se tocan borde con borde al cruzarse, se lee el intercambio como dos
+    // formas separadas en vez de una masa continua. El `+ 4px` del
+    // `translate` compensa ese margen para que el centro siga cayendo en el
+    // centro exacto de su celda.
+    width: calc(var(--cell-width) - 8px);
+    height: calc(var(--cell-height) - 8px);
+    box-sizing: border-box;
+    transform: translate(
+        calc(var(--cell-col, 0) * var(--cell-width) + 4px),
+        calc(var(--cell-row, 0) * var(--cell-height) + 4px)
+      )
+      rotateY(var(--flip-angle, 0deg));
+    // El reloj de fases (`phaseClock.ts`) ya escribe un valor interpolado en
+    // cada fotograma no pausado — `paused` simplemente deja de llamarlo, así
+    // que no hace falta (ni conviene) una `transition` CSS aquí: congelaría
+    // mal a mitad de una `transition` real (012-plan.md, riesgo "paused a
+    // mitad de una transición CSS" — evitado del todo al no depender de
+    // ninguna).
+
+    // El selector se repite con `:active` (misma especificidad EXACTA que
+    // `XPButton.module.scss`'s `&:not(:disabled):active { transform:
+    // translateY(2px) }`, el "hundido" al pulsar cualquier botón): sin esto,
+    // ese `transform` de base gana durante TODO el tiempo que el puntero
+    // está pulsado y sustituye por completo la posición de la celda — el
+    // botón pulsado "salta" a la esquina superior izquierda (donde caen
+    // `--cell-col`/`--cell-row` sin aplicar) y vuelve a su sitio al soltar.
+    // Mismo bug, mismo arreglo, que la cubierta del nivel 7
+    // (`Level07.module.scss`); encontrado esta vez por Sofía jugando.
+    &:active,
+    &:not(:disabled):active {
+      transform: translate(
+          calc(var(--cell-col, 0) * var(--cell-width) + 4px),
+          calc(var(--cell-row, 0) * var(--cell-height) + 4px)
+        )
+        rotateY(var(--flip-angle, 0deg));
+    }
+  }
+}
+
+// Estilo neutro (Check/Stop, GDD §3.2) para las 12 celdas tras el flip: ni
+// un píxel las distingue entre sí ni delata cuál era el Agree — el estado
+// real vive en `Level08.tsx`, el DOM solo publica posición (012-plan.md,
+// "Identidad oculta").

@@ -761,9 +761,9 @@ Providers?
 - Desde ese momento los 12 botones son visualmente idénticos.
 
 **Barajados** (encadenados sin pausa, estilo trilero — los botones nunca desaparecen, intercambian posiciones con movimientos fluidos):
-1. Velocidad lenta, ~2 s.
-2. Velocidad media, ~1,5 s.
-3. Velocidad alta, ~1 s.
+1. Velocidad lenta, ~0,8 s.
+2. Velocidad media, ~0,55 s.
+3. Velocidad alta, ~0,35 s.
 
 **Durante los barajados el jugador NO puede clicar** (los clics se ignoran / los botones están deshabilitados).
 
@@ -771,7 +771,7 @@ Providers?
 
 **Victoria:** seleccionar el botón que originalmente era Agree → `Third-Party Providers accepted.`
 
-**Derrota:** seleccionar cualquier otro botón, contador a 0 o pulsar la X → Game Over.
+**Derrota:** seleccionar cualquier otro botón, contador a 0 o pulsar la X → Game Over. Pulsar uno de los 11 Disagree visibles durante el reveal también es derrota inmediata (regla madre del juego: un Disagree es un Disagree, coherente con los niveles 2, 3 y 7) — el nivel solo empieza a barajar si el jugador pulsa el Agree.
 
 ---
 
@@ -1056,7 +1056,9 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 5: pausa de rehabilitación | 1 s |
 | Nivel 6: velocidad de cadena (avances, rebotes y castigos) | 10 casillas/s (el castigo épico de 67 casillas dura ~6,7 s) |
 | Nivel 6: transición de cámara y de la llave entre casillas | 0,08 s |
-| Nivel 8: duración de barajados | 2 s / 1,5 s / 1 s |
+| Nivel 8: duración del flip | ~400 ms |
+| Nivel 8: duración de barajados | 0,8 s / 0,55 s / 0,35 s (subidas dos veces tras revisión de Sofía: 2/1,5/1 s → 1,2/0,9/0,6 s → esto, "sigue siendo muy fácil") |
+| Nivel 8: intercambios por ronda | 4 / 6 / 8, ajustables en el checkpoint |
 | Nivel 9: tiempo de cursor inmóvil para congelar casilla | ~1 s |
 | Nivel 10: máximo de ventanas | 7 |
 | Nivel 12: pulsaciones antes del switcheo | aleatorio 15–35 |

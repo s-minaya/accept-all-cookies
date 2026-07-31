@@ -105,10 +105,19 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // Sin consentKey, mismo patrón que los niveles 1-2: sin tablero propio,
     // el texto va dentro del marco azul (011-plan.md). El pie SÍ es especial
     // aquí: Disagree normal a la izquierda y, a la derecha, el Agree fijo
-    // con la cubierta (otro Disagree) encima, arrastrable por toda la
-    // ventana — ver `Level07.tsx`. No necesita ningún flag de `LevelHost`
-    // para eso: la cubierta se posiciona a sí misma contra `.xp-window`
-    // (`position: relative` añadido en `XPWindow.module.scss`).
+    // con la cubierta (otro Disagree) encima — ver `Level07.tsx`. No necesita
+    // ningún flag de `LevelHost`: la cubierta se desplaza por `transform`
+    // dentro de su propia celda (`overflow: hidden` en `Level07.module.scss`),
+    // nunca sale hacia el resto de la ventana.
     component: lazy(() => import('./level07/Level07')),
+  },
+  8: {
+    titleKey: 'levels.8.name',
+    // Sin consentKey, mismo patrón que los niveles 3-7: texto dentro del
+    // marco azul, cuadrícula (12 botones del trilero) publicada aparte vía
+    // `useLevelBoard`. Sin pie de ventana (012-plan.md): los propios botones
+    // de la cuadrícula son toda la interacción, no hay Agree/Disagree fuera
+    // de ella.
+    component: lazy(() => import('./level08/Level08')),
   },
 }

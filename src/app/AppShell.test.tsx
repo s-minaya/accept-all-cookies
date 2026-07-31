@@ -251,16 +251,21 @@ describe('AppShell', () => {
       // determinista — inalcanzables con `fireEvent.click(getByText('Agree'))`
       // como el resto. Nivel 6 (Cross-Site Tracking, 010-plan.md): el Agree
       // real empieza deshabilitado hasta abrir el candado con una secuencia
-      // de direcciones concreta, tampoco un simple clic — esa cobertura ya
-      // vive en `Level06.test.tsx` (incluida la solución completa). Los tres
-      // se saltan con el botón dev en vez de duplicar esa cobertura aquí
-      // (`?dev` no afecta a ningún otro nivel de este recorrido).
+      // de direcciones concreta, tampoco un simple clic. Nivel 8 (trilero,
+      // 012-plan.md): pulsar "Agree" en el reveal solo ARRANCA el barajado
+      // (flip + 3 rondas, ~4,9s) — el clic que gana de verdad cae en una
+      // celda sin etiqueta "Agree" (todas dicen `???` tras el flip) y en una
+      // posición que cambia con cada partida, no reproducible con un simple
+      // `getByText('Agree')`. Esa cobertura ya vive en `Level06.test.tsx` y
+      // `Level08.test.tsx` (incluida una partida ganadora determinista). Los
+      // cuatro se saltan con el botón dev en vez de duplicar esa cobertura
+      // aquí (`?dev` no afecta a ningún otro nivel de este recorrido).
       window.history.pushState({}, '', '?dev')
 
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Check'))
 
-        if (level === 4 || level === 5 || level === 6) {
+        if (level === 4 || level === 5 || level === 6 || level === 8) {
           fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
           await vi.waitFor(() => expect(screen.getByText('Cookie Preferences')).toBeInTheDocument())
           continue

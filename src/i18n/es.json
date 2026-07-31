@@ -90,7 +90,12 @@
       "name": "Compartición de Datos",
       "consent": "Compartición de Datos\n\nPodemos compartir cierta información con socios de confianza para prestar nuestros servicios, mejorar su funcionamiento, medir el rendimiento y cumplir con obligaciones legales.\n\nLa información compartida puede incluir datos técnicos, actividad de navegación, información del dispositivo e interacciones con nuestro sitio web. Nuestros socios están obligados a procesar esta información conforme a la normativa de privacidad aplicable.\n\n¿Aceptas la Compartición de Datos?"
     },
-    "8": { "name": "Proveedores de Terceros" },
+    "8": {
+      "name": "Proveedores de Terceros",
+      "consent": "Proveedores de Terceros\n\nTrabajamos con proveedores de terceros seleccionados que pueden procesar tu información en nuestro nombre para prestar servicios como alojamiento, analítica, publicidad y atención al cliente.\n\nEstos proveedores pueden operar en distintos países y están obligados contractualmente a proteger tu información conforme a la normativa de protección de datos aplicable.\n\n¿Aceptas compartir tu información con nuestros Proveedores de Terceros?",
+      "option": "Opción {n} de 12",
+      "hidden": "???"
+    },
     "9": { "name": "Huella Digital" },
     "10": { "name": "Interés Legítimo" },
     "11": { "name": "Renovación del Consentimiento" },

@@ -1,17 +1,17 @@
 # 012 · Nivel 8 — Third-Party Providers (trilero) — Tareas
 
-- [ ] Al pulsar un Disagree en la fase reveal, es derrota, anotarlo en el GDD.
-- [ ] Implementar `shuffle.ts` (guion determinista: posición inicial + 3 rondas de intercambios + celda final del Agree) + tests (biyección, trazabilidad del Agree, reproducibilidad por semilla, dispersión de posiciones iniciales).
-- [ ] Implementar `phases.ts` (máquina `reveal → flip → shuffling → choosing → done`, qué input acepta cada fase) + tests.
-- [ ] Implementar el reloj de fases sobre rAF con acumulador (congelable por `paused`, cancelable en cleanup) + test con tiempo simulado.
-- [ ] Implementar `Level08.tsx`: texto en el marco; cuadrícula vía `useLevelBoard` con 12 botones de identidad estable posicionados por custom property; flip de los 12 a la vez; input ignorado salvo en `reveal` y `choosing`; `coin.mp3` una vez en el flip.
-- [ ] Estilos `Level08.module.scss`: rejilla 4×3 (md+) / 3×4 (xs/sm), botones ≥ 44 px, flip 3D con cambio de cara a mitad, `z-index` temporal en el par que se cruza.
-- [ ] Garantizar indistinguibilidad tras el flip + test (los 12 nodos idénticos salvo posición; nada en el DOM delata al Agree).
-- [ ] `paused` congela flip y barajado sin saltos al reanudar; cleanup total al desmontar + test de no-fugas.
-- [ ] Sustituir el hueco 8 del registro; verificar chunk propio sin matter.js.
-- [ ] Añadir `levels.8.*` a ambos diccionarios.
-- [ ] GDD §14: duración del flip, duraciones e intercambios por ronda.
-- [ ] ✋ **Checkpoint con Sofía**: legibilidad del barajado (¿se puede seguir el botón?, ¿se notan las tres velocidades?), necesidad de arco en los recorridos y visto bueno al sonido del flip.
-- [ ] QA: ganar eligiendo el correcto y perder eligiendo otro; pulsar durante flip y barajado (sin efecto); contador a 0 y X en plena fase de barajado; `paused` a mitad de ronda; recarga a mitad (reveal nuevo); 5 anchos; móvil real vía Pages.
-- [ ] Validar contra los criterios de aceptación de `spec.md`.
-- [ ] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
+- [x] Al pulsar un Disagree en la fase reveal, es derrota, anotarlo en el GDD.
+- [x] Implementar `shuffle.ts` (guion determinista: posición inicial + 3 rondas de intercambios + celda final del Agree) + tests (biyección, trazabilidad del Agree, reproducibilidad por semilla, dispersión de posiciones iniciales).
+- [x] Implementar `phases.ts` (máquina `reveal → flip → shuffling → choosing → done`, qué input acepta cada fase) + tests.
+- [x] Implementar el reloj de fases sobre rAF con acumulador (congelable por `paused`, cancelable en cleanup) + test con tiempo simulado. (`phaseClock.ts` — a diferencia del guion original, entrega progreso continuo 0..1 por fotograma en vez de pasos discretos: `Level08.tsx` interpola posición él mismo en vez de depender de una `transition` CSS, así `paused` congela sin ningún truco de "congelar una transición a medio camino"; ver `012-plan.md`.)
+- [x] Implementar `Level08.tsx`: texto en el marco; cuadrícula vía `useLevelBoard` con 12 botones de identidad estable posicionados por custom property; flip de los 12 a la vez; input ignorado salvo en `reveal` y `choosing`; `coin.mp3` una vez en el flip. (La cuadrícula vive en `Level08Grid.tsx`, un componente propio — no inline en `Level08.tsx` — bug real encontrado con Playwright: `useLevelBoard` monta la cuadrícula un ciclo de render después del propio nivel, igual que el pie de la 011; un `useLayoutEffect` en el componente equivocado leía refs todavía `null` y los 12 botones se quedaban apilados en el origen. Mismo patrón de solución que `Board.tsx` de la 010: el componente que posiciona es el mismo que se monta.)
+- [x] Estilos `Level08.module.scss`: rejilla 4×3 (md+) / 3×4 (xs/sm), botones ≥ 44 px, flip 3D con cambio de cara a mitad, `z-index` temporal en el par que se cruza.
+- [x] Garantizar indistinguibilidad tras el flip + test (los 12 nodos idénticos salvo posición; nada en el DOM delata al Agree).
+- [x] `paused` congela flip y barajado sin saltos al reanudar; cleanup total al desmontar + test de no-fugas.
+- [x] Sustituir el hueco 8 del registro; verificar chunk propio sin matter.js.
+- [x] Añadir `levels.8.*` a ambos diccionarios.
+- [x] GDD §14: duración del flip, duraciones e intercambios por ronda.
+- [x] ✋ **Checkpoint con Sofía**: legibilidad y velocidad aprobadas ("genial") tras dos rondas de ajuste — duración de las rondas subida dos veces (2/1,5/1 s → 1,2/0,9/0,6 s → 0,8/0,55/0,35 s, "sigue siendo muy fácil, un poco más"); sin arco en los recorridos, no hizo falta. Sofía encontró además dos bugs reales jugando, ya corregidos: (1) pulsar un botón lo hacía saltar visualmente a la esquina superior izquierda hasta soltar — el mismo bug de especificidad CSS que ya tuvo la cubierta del nivel 7 (`XPButton`'s `:active{transform:translateY(2px)}` ganaba la cascada sobre la posición de la celda), arreglado repitiendo el selector en `:active`; (2) "Disagree" se desbordaba del botón en móvil, corregido subiendo `--cell-width`/`--cell-height` en el breakpoint xs/sm. Sonido del flip: sin comentarios, se da por bueno.
+- [x] QA: ganar eligiendo el correcto (verificado con Playwright fijando `Math.random` a un valor conocido, para poder predecir qué celda gana) y perder eligiendo otro; pulsar durante flip y barajado (sin efecto, deshabilitados los 12); `paused` a mitad de ronda (test con tiempo simulado: el barajado no avanza nada mientras dura la pausa); recarga a mitad (reveal nuevo, verificado); 5 anchos sin scroll horizontal ni vertical, botones ≥ 44 px en los 5 (corregido: la altura móvil se quedaba en 42px tras el margen visual, subida a 46px); táctil (emulación `hasTouch`/`isMobile`). Contador a 0 y X: heredados de `LevelHost` sin que `Level08` los intercepte, mismo mecanismo genérico que el resto de niveles (ya cubierto de forma independiente). Móvil real vía Pages: pendiente, como el resto de niveles, del propio dispositivo de Sofía en el checkpoint.
+- [x] Validar contra los criterios de aceptación de `spec.md`.
+- [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.

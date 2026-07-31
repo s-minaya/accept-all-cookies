@@ -90,7 +90,12 @@
       "name": "Data Sharing",
       "consent": "Data Sharing\n\nWe may share certain information with trusted partners to provide our services, improve functionality, measure performance and comply with legal obligations.\n\nShared information may include technical data, browsing activity, device information and interactions with our website. Our partners are required to process this information in accordance with applicable privacy regulations.\n\nDo you agree to Data Sharing?"
     },
-    "8": { "name": "Third-Party Providers" },
+    "8": {
+      "name": "Third-Party Providers",
+      "consent": "Third-Party Providers\n\nWe work with selected third-party providers who may process your information on our behalf to deliver services such as hosting, analytics, advertising and customer support.\n\nThese providers may operate in different countries and are contractually required to protect your information in accordance with applicable data protection laws.\n\nDo you agree to share your information with our Third-Party Providers?",
+      "option": "Option {n} of 12",
+      "hidden": "???"
+    },
     "9": { "name": "Fingerprinting" },
     "10": { "name": "Legitimate Interest" },
     "11": { "name": "Consent Renewal" },

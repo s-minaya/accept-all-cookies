@@ -15,14 +15,14 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 9. **009 · Nivel 5 — Social Media (tragaperras)** — máquina de estados pura (`slotMachine.ts`) + 3 rodillos con física de scroll por rAF (`Reel.tsx`, PRNG compartido con el nivel 4, `src/utils/prng.ts`); triple Agree gana, triple Disagree pierde de inmediato, cualquier otra combinación rehabilita los tres Stops tras una breve pausa. Rodillos con borde azul oscuro, barra central y botones Agree/Disagree en forma de rectángulo redondeado (estilo reutilizado del nivel 4); crecen junto con la ventana a partir de `lg`. Sonido de moneda en cada captura. Verificada por Sofía.
 10. **010 · Nivel 6 — Cross-Site Tracking** — tablero verificado (`../assets/nivel6-tablero.json`, solución `→ ↓ → ↓ ↑ →`), simulación pura de cadenas de flechas con la misma semántica que el validador, cámara que sigue a la llave centrándola con desplazamiento suave, llave/candado/flechas en placeholders pixel aprobados por Sofía. El tablero es el protagonista también en móvil: `--cell-size` cerca del tamaño de escritorio, y el panel de dirección de 3 filas se traslada al pie como una copia compacta 2×2 que ocupa el hueco del Agree deshabilitado hasta que se abre el candado (mismo patrón que el nivel 1: un botón que no existe en el DOM hasta que se cumple su condición). Verificada por Sofía.
 11. **011 · Nivel 7 — Data Sharing** — dos Disagree rojos idénticos; el derecho es una cubierta que se desliza dentro del espacio de su propio botón (nunca hacia el resto de la ventana) revelando un Agree fijo debajo. Arrastrarla una vez la desarma para siempre: un tap posterior sobre ella no gana ni pierde. Verificada por Sofía.
+12. **012 · Nivel 8 — Third-Party Providers (trilero)** — cuadrícula de 12 botones (1 Agree + 11 Disagree en posición aleatoria); al pulsar el Agree, los 12 giran a la vez y quedan idénticos (estilo neutro, `???`), luego se barajan en 3 rondas encadenadas (guion determinista precalculado al montar, `shuffle.ts` — animación y "verdad" nunca pueden discrepar) a 0,8 s / 0,55 s / 0,35 s (subida dos veces tras revisión de Sofía: "muy fácil"). Botones con identidad estable posicionados por `transform` interpolado por un reloj de fases sobre rAF (no por `transition` CSS), lo que hace que `paused` congele todo con solo dejar de escribir. 4×3 en escritorio/tablet, 3×4 en móvil. Verificada por Sofía.
 
 ## Siguiente 🔜
 
-12. **012 · Nivel 8 — Third-Party Providers (trilero)** — giro, barajados, bloqueo de input.
+13. **013 · Nivel 9 — Fingerprinting** — casillas independientes, puntero inmóvil / mantener pulsado.
 
 ## Backlog (ordenado) 💡
 
-13. **013 · Nivel 9 — Fingerprinting** — casillas independientes, puntero inmóvil / mantener pulsado.
 14. **014 · Nivel 10 — Legitimate Interest** — ventanas que se duplican al arrastrarse.
 15. **015 · Nivel 11 — Consent Renewal** — personaje tipo Clippy, patrón de preguntas.
 16. **016 · Nivel 12 — Accept All + créditos** — barra teatral, switcheo del botón, pantalla de créditos.
