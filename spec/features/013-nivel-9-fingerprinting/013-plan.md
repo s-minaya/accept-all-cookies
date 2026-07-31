@@ -1,0 +1,35 @@
+# 013 · Nivel 9 — Fingerprinting — Plan
+
+## Enfoque
+
+Doce simulaciones independientes y triviales (una por casilla) más una única pieza delicada: la **detección de inmovilidad** y su equivalente táctil. La lógica de cada casilla es una pequeña máquina pura (`vacía → subiendo → congelada → saliendo`) y el render es el patrón imperativo ya rodado en 009–012: posición por custom property escrita por ref, cero re-render por frame. La cuadrícula vive en su propio componente (`Level09Grid.tsx`) porque `useLevelBoard` la monta un ciclo después que el nivel — lección de la 010/011/012.
+
+## Implementación
+
+1. **Máquina de casilla** — `src/levels/level09/cell.ts` (pura, + tests): estado `{ fase, tipo, progreso }` con transiciones por delta de tiempo; `freeze()` / `unfreeze()`; el progreso congelado se fija al valor de "parte alta de la casilla" (constante `FROZEN_PROGRESS`). Reglas: congelar una casilla vacía deja la casilla armada para retener el **siguiente** botón que entre; descongelar reanuda el progreso desde donde estaba.
+2. **Generador** — `src/levels/level09/spawner.ts` (puro, semilla de `src/utils/prng.ts`, + tests): por casilla, siguiente instante de aparición (intervalo aleatorio dentro de un rango-parámetro) y tipo 50/50; test de distribución y de independencia entre casillas.
+3. **Reloj** — un único rAF para las 12 casillas (acumulador de delta, congelable por `paused`, cancelable en cleanup), patrón de `phaseClock`/`pathAnimator`. Nada de un timer por casilla.
+4. **Inmovilidad** — `usePointer` ya expone detección de puntero inmóvil (feature 001, umbral configurable) y el umbral de 8 px: se usan tal cual. Sobre la cuadrícula: `pointermove` con desplazamiento > 8 px reinicia el contador de inmovilidad y descongela la casilla activa; permanecer quieto ~1 s congela la casilla bajo el puntero. Si el hook no cubre exactamente este caso, se **extiende el hook** (no se reimplementa en el nivel: regla de la constitución).
+5. **Táctil** — mismo camino con Pointer Events: `pointerdown` inicia el temporizador de inmovilidad; `pointermove` > 8 px lo cancela y descongela; `pointerup` sobre la casilla con botón congelado dispara la acción del botón (Agree → `onWin`, Disagree → `onLose('failed')`); `pointerup` sin congelado no hace nada. En ratón, el clic normal sobre un botón (congelado o en movimiento) hace lo mismo.
+6. **Componente** — `Level09.tsx` (texto en el marco + publica la cuadrícula) y `Level09Grid.tsx` (12 casillas con `overflow: hidden`, botones `XPButton` reales en variantes agree/disagree posicionados por `--cell-progress`).
+7. **Estilos** — `Level09.module.scss` (BEM): rejilla 4×3 / 3×4, casillas con la altura suficiente para que un botón quepa entero, área táctil ≥ 44 px.
+8. **Registro e i18n** — hueco 9 sin `consentKey`; `levels.9.*` en ambos diccionarios (texto ya redactado en el GDD).
+9. **GDD** — §14: intervalo de aparición, duración del recorrido, tiempo de inmovilidad, posición de congelación; §15.2: precisar el equivalente táctil tal como queda aquí (levantar el dedo = pulsar).
+10. **QA** — ganar congelando; perder por Disagree congelado y por Disagree en movimiento; comprobar que solo se congela la casilla apuntada; `paused` con una casilla congelada; recargas; 5 anchos; móvil real.
+
+## Decisiones
+
+- **El botón congelado se detiene en la parte alta de la casilla, no en el centro** — en táctil el dedo tapa justo donde pulsa; si el botón se congela bajo el dedo, el jugador no puede leer si es Agree o Disagree y la mecánica se convierte en una moneda al aire. Parándolo arriba queda a la vista por encima del dedo. En ratón es igual de válido. Descartado: lupa/indicador flotante (inventaría UI y delataría la mecánica).
+- **Pulsar un botón en movimiento cuenta** — el GDD dice que es "prácticamente imposible", no imposible; hacer que un acierto legítimo no cuente sería una traición al jugador. Además simplifica: la acción del botón no depende de su estado.
+- **Un Disagree congelado ocupa la casilla hasta que el jugador se mueva** — es lo que convierte el nivel en un juego y no en una espera: cada congelación es una apuesta y equivocarse cuesta tiempo. Alternativa descartada: que el Disagree congelado se vaya solo tras N segundos (quitaría toda la tensión y volvería el nivel automático).
+- **Sin indicador de casilla congelada** — la mecánica es un secreto; el propio botón detenido ya es el feedback. Descartado: brillo o borde (spoiler visual).
+- **Un solo rAF para las 12 casillas** — doce relojes serían doce fuentes de deriva y doce cleanups; con uno, `paused` es una línea.
+- **`usePointer` se extiende, no se duplica** — si la detección de inmovilidad necesita matices (por casilla, con descongelado), se amplía el hook compartido; es exactamente el caso de uso para el que se escribió en la 001.
+
+## Riesgos
+
+- **El botón congelado no se ve con el dedo encima en móvil** — mitigación principal: congelación en la parte alta de la casilla; verificación obligatoria en el checkpoint con el móvil de Sofía. Plan B si aún tapa: aumentar la altura de casilla en xs/sm reduciendo el número de filas visibles no es opción (son 12 fijas), así que sería reducir el tamaño del botón congelado o desplazarlo un poco hacia arriba fuera de la casilla — decisión con los ojos, no en papel.
+- **El jugador nunca descubre la mecánica y pierde por tiempo sin entender nada** — es el riesgo aceptado del diseño (el GDD lo quiere así); mitigación suave: la velocidad de los botones se ajusta en el checkpoint para que la frustración sea corta y cómica, no larga. Si en playtesting con terceros nadie lo saca, se decidirá con Sofía (nunca un tutorial).
+- **Falsos positivos de inmovilidad con temblor de dedo/trackpad** — mitigación: el umbral de 8 px absorbe el micro-temblor; si en móvil resulta demasiado sensible, el umbral es un parámetro.
+- **Rendimiento con 12 animaciones simultáneas** — mitigación: son 12 transforms sobre elementos pequeños, sin física ni layout; un único rAF; ya validado como patrón en las 009–012.
+- **Doble camino de entrada (clic de ratón vs `pointerup` táctil) dispara dos veces** — mitigación: una única ruta de acción por botón (el handler del botón), con el `pointerup` táctil delegando en ella; test de que Agree congelado no dispara `onWin` dos veces.
