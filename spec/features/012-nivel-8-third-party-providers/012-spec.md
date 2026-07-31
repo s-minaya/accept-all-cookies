@@ -44,7 +44,7 @@ Es el nivel de memoria del juego y el más "de feria" — el único donde el jug
 ### Fases y mecánica
 - [x] Reveal: 11 Disagree + 1 Agree, posición del Agree aleatoria en cada partida (test con semillas distintas).
 - [x] Pulsar el Agree dispara el flip de los 12 a la vez y todos quedan en estilo neutro con `???`; ninguno delata su identidad (ni visualmente ni en el DOM).
-- [x] Tres rondas de barajado encadenadas con sus duraciones (~2 / ~1,5 / ~1 s); los botones intercambian posiciones sin desaparecer.
+- [x] Tres rondas de barajado encadenadas con sus duraciones (~0,8 / ~0,55 / ~0,35 s); los botones intercambian posiciones sin desaparecer.
 - [x] Durante el flip y las tres rondas, **ningún** input tiene efecto (ratón, dedo o teclado); tras la última, la elección vuelve a estar disponible.
 - [x] La lógica de permutación es pura y determinista: dada una semilla, la posición final del Agree es reproducible y coincide con la que el componente considera ganadora (test que simula las tres rondas y comprueba la trazabilidad del Agree).
 
