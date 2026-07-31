@@ -120,4 +120,15 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // de ella.
     component: lazy(() => import('./level08/Level08')),
   },
+  9: {
+    titleKey: 'levels.9.name',
+    // Sin consentKey, mismo patrón que los niveles 3-8: texto dentro del
+    // marco azul, cuadrícula (12 casillas independientes) publicada aparte
+    // vía `useLevelBoard`. Sin pie de ventana (013-plan.md): la cuadrícula
+    // es toda la interacción. A diferencia del nivel 8, las 12 casillas
+    // nunca cambian de sitio entre sí — solo el botón de dentro sube y baja
+    // — así que no hace falta leer `--grid-cols` por JS, una rejilla CSS
+    // normal basta (`Level09.module.scss`).
+    component: lazy(() => import('./level09/Level09')),
+  },
 }

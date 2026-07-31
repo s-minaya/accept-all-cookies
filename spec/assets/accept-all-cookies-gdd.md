@@ -796,23 +796,23 @@ Do you agree to the use of Fingerprinting?
 ```
 
 **Escenario:**
-- Cuadrícula de **4 columnas × 3 filas**; las 12 casillas comienzan vacías y funcionan de forma independiente.
-- En cualquier momento puede aparecer un botón en una casilla, aleatoriamente **Agree** o **Disagree** con la **misma probabilidad**.
+- Cuadrícula de **4 columnas × 3 filas**; las 12 casillas tienen el **mismo tamaño que un botón Agree/Disagree real** — no una casilla más grande con un recorrido interno.
+- Las 12 casillas empiezan vacías. El grid entero avanza por **ciclos sincronizados**, no de forma independiente casilla a casilla.
 
 **Animación de los botones:**
-- Entran desde la parte inferior de la casilla, suben rápidamente y desaparecen por arriba.
-- El tiempo visible es tan corto que resulta prácticamente imposible clicarlos persiguiéndolos con el ratón.
-- Continuamente aparecen nuevos botones en casillas aleatorias.
+- En cada ciclo aparecen **varios botones a la vez** (varias casillas simultáneas, no una sola), **Agree o Disagree al 50 %**, con la garantía de que **al menos uno del lote sea Agree**.
+- Los botones no se desplazan ni suben: **aparecen y desaparecen** directamente en su casilla.
+- Al llegar el ciclo siguiente, el lote anterior **desaparece de golpe** y aparece uno nuevo — así es como "al aparecer uno, desaparece otro".
+- El ritmo de los ciclos es tan rápido que resulta prácticamente imposible clicar un Agree persiguiéndolo por reflejos: el jugador solo ve muchos Agree y Disagree apareciendo y desapareciendo por toda la cuadrícula.
 
 **Mecánica oculta:**
-- Si el cursor permanece **completamente inmóvil** sobre una casilla durante ~**1 segundo**:
-  - Los botones que aparezcan en **esa** casilla dejan de desplazarse y permanecen visibles mientras el cursor siga inmóvil.
-  - El resto de casillas siguen funcionando con normalidad.
-- El jugador espera pacientemente a que en su casilla aparezca un **Agree** detenido y lo pulsa.
+- Si el cursor permanece **completamente inmóvil** sobre una casilla durante ~**1 segundo**, esa casilla queda **congelada**: lo que tenga dentro (o lo próximo que le toque) se queda fijo y sobrevive a los ciclos siguientes mientras el cursor siga inmóvil.
+  - El resto de casillas siguen ciclando con normalidad.
+- El jugador debe **fijar una casilla** (quedarse quieto sobre ella) y esperar pacientemente a que, en algún ciclo, le toque un **Agree** — que entonces queda congelado y visible — y pulsarlo.
 
-**Victoria:** clicar un Agree detenido → `Fingerprinting accepted.`
+**Victoria:** pulsar un Agree, congelado o recién aparecido en su ciclo → `Fingerprinting accepted.`
 
-**Derrota:** pulsar un Disagree, contador a 0 o pulsar la X → Game Over.
+**Derrota:** pulsar un Disagree, congelado o recién aparecido en su ciclo, contador a 0 o pulsar la X → Game Over.
 
 ---
 
@@ -1060,6 +1060,8 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 8: duración de barajados | 0,8 s / 0,55 s / 0,35 s (subidas dos veces tras revisión de Sofía: 2/1,5/1 s → 1,2/0,9/0,6 s → esto, "sigue siendo muy fácil") |
 | Nivel 8: intercambios por ronda | 4 / 6 / 8, ajustables en el checkpoint |
 | Nivel 9: tiempo de cursor inmóvil para congelar casilla | ~1 s |
+| Nivel 9: duración de un ciclo (corregido tras revisión de Sofía: los botones no suben, aparecen y desaparecen por ciclos sincronizados) | ~450 ms, ajustable en el checkpoint |
+| Nivel 9: casillas simultáneas por ciclo | 4 de 12, con al menos un Agree garantizado en el lote, ajustable en el checkpoint |
 | Nivel 10: máximo de ventanas | 7 |
 | Nivel 12: pulsaciones antes del switcheo | aleatorio 15–35 |
 | Nivel 12: tiempo de espera para revertir el botón | 2 s |

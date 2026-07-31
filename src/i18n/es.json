@@ -96,7 +96,10 @@
       "option": "Opción {n} de 12",
       "hidden": "???"
     },
-    "9": { "name": "Huella Digital" },
+    "9": {
+      "name": "Huella Digital",
+      "consent": "Huella Digital\n\nLa huella digital nos permite a nosotros y a nuestros socios identificar tu navegador o dispositivo recopilando información sobre su configuración y características.\n\nA diferencia de las cookies tradicionales, la huella digital puede basarse en datos como tu navegador, sistema operativo, resolución de pantalla, fuentes instaladas, configuración de idioma y otros atributos técnicos para reconocer tu dispositivo entre sesiones distintas.\n\n¿Aceptas el uso de Huella Digital?"
+    },
     "10": { "name": "Interés Legítimo" },
     "11": { "name": "Renovación del Consentimiento" },
     "12": { "name": "Aceptar Todo" }

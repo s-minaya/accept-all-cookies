@@ -256,16 +256,21 @@ describe('AppShell', () => {
       // (flip + 3 rondas, ~4,9s) — el clic que gana de verdad cae en una
       // celda sin etiqueta "Agree" (todas dicen `???` tras el flip) y en una
       // posición que cambia con cada partida, no reproducible con un simple
-      // `getByText('Agree')`. Esa cobertura ya vive en `Level06.test.tsx` y
-      // `Level08.test.tsx` (incluida una partida ganadora determinista). Los
-      // cuatro se saltan con el botón dev en vez de duplicar esa cobertura
-      // aquí (`?dev` no afecta a ningún otro nivel de este recorrido).
+      // `getByText('Agree')`. Nivel 9 (Fingerprinting, 013-plan.md): la
+      // cuadrícula empieza vacía del todo — no hay ningún "Agree" que
+      // pulsar hasta que una casilla lo genere sola (400–1200ms aleatorios
+      // por casilla) o el jugador se quede quieto sobre una, ninguno de los
+      // dos reproducible con un simple `getByText('Agree')`. Esa cobertura
+      // ya vive en `Level06.test.tsx`, `Level08.test.tsx` y `Level09.test.tsx`
+      // (incluida una partida ganadora determinista en cada uno). Los cinco
+      // se saltan con el botón dev en vez de duplicar esa cobertura aquí
+      // (`?dev` no afecta a ningún otro nivel de este recorrido).
       window.history.pushState({}, '', '?dev')
 
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Check'))
 
-        if (level === 4 || level === 5 || level === 6 || level === 8) {
+        if (level === 4 || level === 5 || level === 6 || level === 8 || level === 9) {
           fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
           await vi.waitFor(() => expect(screen.getByText('Cookie Preferences')).toBeInTheDocument())
           continue

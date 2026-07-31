@@ -96,7 +96,10 @@
       "option": "Option {n} of 12",
       "hidden": "???"
     },
-    "9": { "name": "Fingerprinting" },
+    "9": {
+      "name": "Fingerprinting",
+      "consent": "Fingerprinting\n\nFingerprinting allows us and our partners to identify your browser or device by collecting information about its configuration and characteristics.\n\nUnlike traditional cookies, fingerprinting may rely on details such as your browser, operating system, screen resolution, installed fonts, language settings and other technical attributes to recognize your device across different sessions.\n\nDo you agree to the use of Fingerprinting?"
+    },
     "10": { "name": "Legitimate Interest" },
     "11": { "name": "Consent Renewal" },
     "12": { "name": "Accept All" }

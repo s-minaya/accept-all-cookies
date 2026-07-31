@@ -10,13 +10,25 @@ import {
 export interface UsePointerOptions {
   /** Distancia en px a partir de la cual un gesto cuenta como arrastre en vez de toque. */
   dragThreshold?: number
-  /** Cuánto debe permanecer quieto el puntero antes de que se dispare `onStill`. Omitir para desactivar esta detección. */
+  /**
+   * Cuánto debe permanecer quieto el puntero antes de que se dispare
+   * `onStill`. Omitir para desactivar esta detección. A diferencia del resto
+   * de callbacks, NO depende de que haya un `pointerdown` activo: en ratón
+   * se sigue el simple posado (hover) sin pulsar nada, en táctil hace falta
+   * mantener el dedo apoyado — así es como llega naturalmente `pointerenter`
+   * (al entrar en contacto) y `pointerleave` (al levantar o salirse) para
+   * cada tipo de puntero, sin distinguir `pointerType` a mano (nivel 9,
+   * 013-plan.md).
+   */
   stillnessMs?: number
   onTap?: (point: Point) => void
   onDragStart?: (point: Point) => void
   onDragMove?: (point: Point) => void
   onDragEnd?: (point: Point) => void
+  /** Se dispara en cada fotograma en que el puntero lleva quieto `stillnessMs` o más (no una sola vez: el llamador decide si ya había reaccionado). */
   onStill?: (point: Point) => void
+  /** Se dispara una vez, en el fotograma en que un puntero que estaba quieto se mueve más allá del umbral de jitter (`dragThreshold`) y deja de estarlo. */
+  onUnstill?: () => void
   /**
    * Se dispara en CADA `pointermove` sobre el elemento, sin esperar a un
    * `pointerdown` previo ni pasar por la clasificación tap-vs-drag (nivel 4:
@@ -54,37 +66,67 @@ export function usePointer(
 
   const startPointRef = useRef<Point | null>(null)
   const draggingRef = useRef(false)
-  const stillnessRef = useRef<StillnessState | null>(null)
-  const rafRef = useRef<number | null>(null)
   const pointerIdRef = useRef<number | null>(null)
+
+  // Detección de quietud (nivel 9, 013-plan.md): estado propio, separado del
+  // de arrastre — sigue el punto VIVO del puntero (se actualiza en cada
+  // `pointermove`/`pointerenter`/`pointerdown`), no el punto fijo de inicio
+  // de un gesto de arrastre. El bucle corre mientras el puntero esté
+  // "presente" sobre el elemento (entre `pointerenter` y
+  // `pointerleave`/`pointerup`/`pointercancel`), no solo mientras esté
+  // pulsado.
+  const livePointRef = useRef<Point | null>(null)
+  const stillnessRef = useRef<StillnessState | null>(null)
+  const wasStillRef = useRef(false)
+  const stillnessRafRef = useRef<number | null>(null)
 
   useEffect(() => {
     const element = ref.current
     if (!element) return
 
     const stopStillnessLoop = () => {
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current)
-        rafRef.current = null
+      if (stillnessRafRef.current !== null) {
+        cancelAnimationFrame(stillnessRafRef.current)
+        stillnessRafRef.current = null
       }
+      // Perder el contacto/hover SIEMPRE cierra el episodio de quietud en
+      // curso — si no, un toque táctil que se congela y luego se levanta
+      // SIN pulsar (el jugador solo aparta el dedo) deja `onUnstill` sin
+      // disparar nunca: el nivel 9 se quedaría con esa casilla "congelada"
+      // para siempre y, peor, bloqueada para congelar ninguna otra (bug
+      // real, encontrado con Playwright al simular un toque mantenido).
+      if (wasStillRef.current) optionsRef.current.onUnstill?.()
+      livePointRef.current = null
       stillnessRef.current = null
+      wasStillRef.current = false
     }
 
     const runStillnessLoop = () => {
-      const { stillnessMs, onStill } = optionsRef.current
-      if (!stillnessMs || !startPointRef.current) return
+      if (!optionsRef.current.stillnessMs || stillnessRafRef.current !== null) return
 
       const tick = () => {
-        const point = startPointRef.current
-        if (!point) return
-        const now = performance.now()
-        stillnessRef.current = updateStillness(stillnessRef.current, point, now)
-        if (isStill(stillnessRef.current, now, stillnessMs)) {
-          onStill?.(point)
+        const { stillnessMs, onStill, onUnstill, dragThreshold } = optionsRef.current
+        const point = livePointRef.current
+        if (stillnessMs && point) {
+          const now = performance.now()
+          stillnessRef.current = updateStillness(stillnessRef.current, point, now, dragThreshold)
+          const nowStill = isStill(stillnessRef.current, now, stillnessMs)
+          if (nowStill) onStill?.(point)
+          else if (wasStillRef.current) onUnstill?.()
+          wasStillRef.current = nowStill
         }
-        rafRef.current = requestAnimationFrame(tick)
+        stillnessRafRef.current = requestAnimationFrame(tick)
       }
-      rafRef.current = requestAnimationFrame(tick)
+      stillnessRafRef.current = requestAnimationFrame(tick)
+    }
+
+    const handlePointerEnter = (event: PointerEvent) => {
+      livePointRef.current = toLocalPoint(event, element)
+      runStillnessLoop()
+    }
+
+    const handlePointerLeave = () => {
+      stopStillnessLoop()
     }
 
     const handlePointerDown = (event: PointerEvent) => {
@@ -101,11 +143,13 @@ export function usePointer(
       pointerIdRef.current = event.pointerId
       setIsPressed(true)
       setPosition(startPointRef.current)
+      livePointRef.current = startPointRef.current
       runStillnessLoop()
     }
 
     const handlePointerMove = (event: PointerEvent) => {
       const point = toLocalPoint(event, element)
+      livePointRef.current = point
       optionsRef.current.onMove?.(point)
 
       if (!startPointRef.current) return
@@ -151,12 +195,16 @@ export function usePointer(
       stopStillnessLoop()
     }
 
+    element.addEventListener('pointerenter', handlePointerEnter)
+    element.addEventListener('pointerleave', handlePointerLeave)
     element.addEventListener('pointerdown', handlePointerDown)
     element.addEventListener('pointermove', handlePointerMove)
     element.addEventListener('pointerup', handlePointerUp)
     element.addEventListener('pointercancel', handlePointerUp)
 
     return () => {
+      element.removeEventListener('pointerenter', handlePointerEnter)
+      element.removeEventListener('pointerleave', handlePointerLeave)
       element.removeEventListener('pointerdown', handlePointerDown)
       element.removeEventListener('pointermove', handlePointerMove)
       element.removeEventListener('pointerup', handlePointerUp)
