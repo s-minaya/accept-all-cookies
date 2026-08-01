@@ -23,7 +23,15 @@ function Level01Harness(props: LevelProps) {
   const [footer, setFooter] = useState<ReactNode>(null)
   const windowRef = useRef<HTMLElement>(null)
   const channel: HostChannelValue = useMemo(
-    () => ({ setFooter, setWindowTransform: () => {}, setBoard: () => {}, windowRef }),
+    () => ({
+      setFooter,
+      setWindowTransform: () => {},
+      setWindowZIndex: () => {},
+      setBoard: () => {},
+      windowRef,
+      titleBarRef: { current: null },
+      setOverlay: () => {},
+    }),
     [setFooter],
   )
   return (

@@ -31,9 +31,18 @@ function Level03Harness(props: LevelProps) {
   const [board, setBoard] = useState<ReactNode>(null)
   const [transform, setTransform] = useState<string | null>(null)
   const windowRef = useRef<HTMLDivElement>(null)
+  const titleBarRef = useRef<HTMLDivElement>(null)
 
   const channel: HostChannelValue = useMemo(
-    () => ({ setFooter, setWindowTransform: setTransform, windowRef, setBoard }),
+    () => ({
+      setFooter,
+      setWindowTransform: setTransform,
+      setWindowZIndex: () => {},
+      windowRef,
+      titleBarRef,
+      setBoard,
+      setOverlay: () => {},
+    }),
     [],
   )
 
@@ -101,18 +110,18 @@ describe('Level03 (GDD Nivel 3 — la ventana rota, el Agree está oculto dentro
     expect(onWin).toHaveBeenCalledTimes(1)
   })
 
-  it('dragging on the window rotates it: publishes a changing --window-rotation-ready transform', () => {
+  it('dragging on the window rotates it: publishes a changing rotate() transform', () => {
     render(<Level03Harness {...baseProps} />)
     const windowEl = screen.getByTestId('window')
 
-    expect(windowEl.dataset.transform).toBe('0deg')
+    expect(windowEl.dataset.transform).toBe('rotate(0deg)')
 
     // Arranca a la derecha del centro (0,0 en jsdom, rect degenerada) y se
     // mueve hacia abajo: gira ~90° en sentido horario.
     drag(windowEl, { x: 100, y: 0 }, { x: 0, y: 100 })
 
-    expect(windowEl.dataset.transform).not.toBe('0deg')
-    expect(windowEl.dataset.transform).toMatch(/^-?\d+(\.\d+)?deg$/)
+    expect(windowEl.dataset.transform).not.toBe('rotate(0deg)')
+    expect(windowEl.dataset.transform).toMatch(/^rotate\(-?\d+(\.\d+)?deg\)$/)
   })
 
   it('a drag that starts on the fixed Disagree button rotates instead of losing', () => {
@@ -124,7 +133,7 @@ describe('Level03 (GDD Nivel 3 — la ventana rota, el Agree está oculto dentro
     drag(disagreeButton, { x: 100, y: 0 }, { x: 0, y: 100 })
 
     expect(onLose).not.toHaveBeenCalled()
-    expect(windowEl.dataset.transform).not.toBe('0deg')
+    expect(windowEl.dataset.transform).not.toBe('rotate(0deg)')
   })
 
   it('does not rotate while paused', () => {
@@ -133,7 +142,7 @@ describe('Level03 (GDD Nivel 3 — la ventana rota, el Agree está oculto dentro
 
     drag(windowEl, { x: 100, y: 0 }, { x: 0, y: 100 })
 
-    expect(windowEl.dataset.transform).toBe('0deg')
+    expect(windowEl.dataset.transform).toBe('rotate(0deg)')
   })
 
   it('disables the footer Disagree, the rain Disagrees and the Agree while paused', () => {

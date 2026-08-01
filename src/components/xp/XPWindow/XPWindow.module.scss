@@ -50,6 +50,19 @@
     }
   }
 
+  // Más pequeña en móvil (xs + sm, ≤480px — nivel 10, GDD §15.2, corregido
+  // tras revisión de Sofía probando en un móvil real: a 375px exactos
+  // funcionaba, pero los teléfonos normales miden 390-430px, fuera de ese
+  // umbral): por debajo de este ancho la ventana deja de ocupar casi todo
+  // el viewport (la regla `width` de más arriba) para que quepa más de una
+  // a la vez cuando se solapan — el `min` con el tope de ancho normal es
+  // solo una red de seguridad, nunca el límite real aquí.
+  &--compact-mobile {
+    @media (max-width: 480px) {
+      width: min(72vw, var(--xp-window-max-width));
+    }
+  }
+
   &__body {
     display: flex;
     flex-direction: column;

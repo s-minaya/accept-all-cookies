@@ -20,8 +20,11 @@ function Level07Harness(props: LevelProps) {
     () => ({
       setFooter,
       setWindowTransform: () => {},
+      setWindowZIndex: () => {},
       windowRef: { current: null },
+      titleBarRef: { current: null },
       setBoard: () => {},
+      setOverlay: () => {},
     }),
     [],
   )

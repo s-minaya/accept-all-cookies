@@ -81,8 +81,11 @@ export function LevelHost({
   const [restartKey, setRestartKey] = useState(0)
   const [levelFooter, setLevelFooter] = useState<ReactNode>(null)
   const [levelBoard, setLevelBoard] = useState<ReactNode>(null)
+  const [levelOverlay, setLevelOverlay] = useState<ReactNode>(null)
   const [windowTransform, setWindowTransform] = useState<string | null>(null)
+  const [windowZIndex, setWindowZIndex] = useState<number | null>(null)
   const windowRef = useRef<HTMLDivElement>(null)
+  const titleBarRef = useRef<HTMLDivElement>(null)
   const hasExitedRef = useRef(false)
   const hasNotifiedOutcomeRef = useRef(false)
 
@@ -96,8 +99,11 @@ export function LevelHost({
     () => ({
       setFooter: setLevelFooter,
       setWindowTransform,
+      setWindowZIndex,
       windowRef,
+      titleBarRef,
       setBoard: setLevelBoard,
+      setOverlay: setLevelOverlay,
     }),
     [],
   )
@@ -192,9 +198,10 @@ export function LevelHost({
           className={styles['level-host__rotator']}
           data-draggable={windowTransform !== null ? '' : undefined}
           style={
-            windowTransform
-              ? ({ '--window-rotation': windowTransform } as CSSProperties)
-              : undefined
+            {
+              ...(windowTransform ? { '--window-transform': windowTransform } : {}),
+              ...(windowZIndex !== null ? { '--window-z-index': windowZIndex } : {}),
+            } as CSSProperties
           }
         >
           <XPWindow
@@ -202,16 +209,20 @@ export function LevelHost({
             counter={remaining}
             closeLabel={t('shell.level.close')}
             onClose={flow.phase === 'playing' ? () => handleLose('closed') : undefined}
+            titleBarRef={titleBarRef}
             consentText={level.consentKey ? t(level.consentKey) : undefined}
             scrollableContent={!level.consentKey}
             fillHeight={level.fillHeight}
             wideOnDesktop={level.wideWindow}
+            compactOnMobile={level.compactWindowOnMobile}
             children={levelContent}
             boardBelowFrame={levelBoard}
             footer={levelFooter}
           />
         </div>
       </div>
+
+      {levelOverlay && <div className={styles['level-host__overlay']}>{levelOverlay}</div>}
 
       {isDevMode && (
         <button type="button" className={styles['level-host__dev-skip']} onClick={handleDevSkip}>

@@ -1,7 +1,10 @@
+import { lazy, useMemo } from 'react'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { LevelHost } from './LevelHost'
 import { testLevelDefinition } from '../levels/_test'
+import { useLevelOverlay } from '../levels/hostChannel'
+import type { LevelDefinition } from '../levels/types'
 
 /** Simula el final de la animación CSS de GiantVerdict (jsdom nunca la ejecuta de verdad). */
 function resolveGiantVerdict(container: HTMLElement) {
@@ -141,5 +144,41 @@ describe('LevelHost — onRestart (005-plan.md)', () => {
     fireEvent.click(screen.getByText('Restart'))
 
     expect(screen.getByText('100')).toBeInTheDocument()
+  })
+})
+
+describe('LevelHost — ranura overlay (014-plan.md)', () => {
+  function OverlayLevel() {
+    // Memoizado (deps vacías): una referencia nueva por render entra en
+    // bucle con `LevelHost` (AGENTS.md, ya pasó en la 005).
+    const overlay = useMemo(() => <div data-testid="overlay-content">soy una copia</div>, [])
+    useLevelOverlay(overlay)
+    return <span>contenido normal del nivel</span>
+  }
+
+  const overlayLevelDefinition: LevelDefinition = {
+    titleKey: 'shell.level.testTitle',
+    consentKey: 'shell.level.testConsent',
+    component: lazy(() => Promise.resolve({ default: OverlayLevel })),
+  }
+
+  it('renders what a level publishes via useLevelOverlay as a sibling of the window, above it in DOM order', async () => {
+    const { container } = render(
+      <LevelHost level={overlayLevelDefinition} isFinalLevel={false} onExit={() => {}} />,
+    )
+
+    const overlayNode = await screen.findByTestId('overlay-content')
+    const hostNode = container.querySelector('[class*="level-host"]:not([class*="__"])')
+    expect(hostNode).not.toBeNull()
+    // Hermano de `.level-host`, no descendiente — nunca dentro del
+    // contenedor que rota/traslada (si no, heredaría su `transform`).
+    expect(overlayNode.closest('[class*="level-host__rotator"]')).toBeNull()
+    expect(overlayNode.parentElement?.previousElementSibling).toBe(hostNode)
+  })
+
+  it('renders nothing extra when the level never publishes an overlay', () => {
+    render(<LevelHost level={testLevelDefinition} isFinalLevel={false} onExit={() => {}} />)
+
+    expect(screen.queryByTestId('overlay-content')).toBeNull()
   })
 })

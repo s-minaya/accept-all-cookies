@@ -44,7 +44,15 @@ function Level05Harness(props: LevelProps) {
   const windowRef = useRef<HTMLDivElement>(null)
 
   const channel: HostChannelValue = useMemo(
-    () => ({ setFooter: () => {}, setWindowTransform: () => {}, windowRef, setBoard }),
+    () => ({
+      setFooter: () => {},
+      setWindowTransform: () => {},
+      setWindowZIndex: () => {},
+      windowRef,
+      titleBarRef: { current: null },
+      setBoard,
+      setOverlay: () => {},
+    }),
     [],
   )
 

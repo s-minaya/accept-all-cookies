@@ -17,14 +17,14 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 11. **011 · Nivel 7 — Data Sharing** — dos Disagree rojos idénticos; el derecho es una cubierta que se desliza dentro del espacio de su propio botón (nunca hacia el resto de la ventana) revelando un Agree fijo debajo. Arrastrarla una vez la desarma para siempre: un tap posterior sobre ella no gana ni pierde. Verificada por Sofía.
 12. **012 · Nivel 8 — Third-Party Providers (trilero)** — cuadrícula de 12 botones (1 Agree + 11 Disagree en posición aleatoria); al pulsar el Agree, los 12 giran a la vez y quedan idénticos (estilo neutro, `???`), luego se barajan en 3 rondas encadenadas (guion determinista precalculado al montar, `shuffle.ts` — animación y "verdad" nunca pueden discrepar) a 0,8 s / 0,55 s / 0,35 s (subida dos veces tras revisión de Sofía: "muy fácil"). Botones con identidad estable posicionados por `transform` interpolado por un reloj de fases sobre rAF (no por `transition` CSS), lo que hace que `paused` congele todo con solo dejar de escribir. 4×3 en escritorio/tablet, 3×4 en móvil. Verificada por Sofía.
 13. **013 · Nivel 9 — Fingerprinting** — cuadrícula de 12 casillas del mismo tamaño que un botón Agree/Disagree real (no una casilla más alta con recorrido interno); el grid avanza por ciclos sincronizados (`cycle.ts`, ~450 ms): cada ciclo, varias casillas a la vez reciben un botón nuevo con al menos un Agree garantizado en el lote, y al llegar el siguiente el lote entero se limpia de golpe — los botones no suben ni bajan, aparecen y desaparecen directamente. Quedarse quieto ~1 s sobre una casilla la congela (o la arma si estaba vacía, para atrapar la siguiente que le toque); `usePointer` ganó soporte de quietud por hover (sin pulsar) y un callback `onUnstill` que cierra el episodio de quietud también al soltar el contacto — corrige un cuelgue real en táctil (congelar y soltar sin pulsar dejaba la mecánica bloqueada para siempre). Verificada por Sofía.
+14. **014 · Nivel 10 — Legitimate Interest** — arrastrar una ventana por su barra de título la duplica (modelo puro `windows.ts`, ranura nueva del canal `overlay` + `windowZIndex`); la ventana agarrada pasa siempre al frente (`bringToFront`); ambos botones son rojos/`Disagree` idénticos hasta llegar a 7 ventanas, momento en que una de las seis primeras (nunca la recién nacida) cambia su botón derecho a verde/`Agree` a la vez en color y texto. En móvil (`xs`+`sm`, ≤480px) las ventanas se reducen y pueden asomar parcialmente por los lados (mínimo 30% visible) para que el caos siga siendo jugable con dedo real. Aprobada tras cuatro rondas de correcciones jugadas por Sofía.
 
 ## Siguiente 🔜
 
-14. **014 · Nivel 10 — Legitimate Interest** — ventanas que se duplican al arrastrarse.
+15. **015 · Nivel 11 — Consent Renewal** — personaje tipo Clippy, patrón de preguntas.
 
 ## Backlog (ordenado) 💡
 
-15. **015 · Nivel 11 — Consent Renewal** — personaje tipo Clippy, patrón de preguntas.
 16. **016 · Nivel 12 — Accept All + créditos** — barra teatral, switcheo del botón, pantalla de créditos.
 17. **017 · Pulido y QA transversal** — balanceo de dificultad, repaso de audio, QA responsive en los 5 anchos de referencia, accesibilidad básica, rendimiento. También retira el botón dev de saltar nivel (`?dev`, introducido en la 008) junto con la Playground (`?playground`).
 

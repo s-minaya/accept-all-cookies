@@ -47,7 +47,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transform: rotate(var(--window-rotation, 0deg));
+    transform: var(--window-transform, none);
+    // Sin publicar (`auto`), no compite por apilado — de sobra para el
+    // resto de niveles. El nivel 10 (014-plan.md) sí lo publica: la ventana
+    // arrastrada pasa al frente y deja de quedar tapada por las copias del
+    // `overlay` (corregido tras revisión de Sofía).
+    z-index: var(--window-z-index, auto);
 
     // Pista visual de que la ventana se puede arrastrar (nivel 3): solo
     // cuando el nivel publica una rotación (`data-draggable`), nunca en los
@@ -86,6 +91,32 @@
     }
   }
 
+  // Capa a pantalla completa por encima de la ventana (014-plan.md, nivel
+  // 10: las copias 2-7 de una ventana que se duplica). Hermana de
+  // `.level-host`, NUNCA dentro del `&__rotator` de arriba — un descendiente
+  // del rotator heredaría su `transform` (la traslación de la ventana nº 1)
+  // y se movería con ella, arrastrando consigo copias que deben quedarse
+  // donde están. `pointer-events: none` aquí + `auto` en cada ventana
+  // publicada (propio nivel) deja pasar los clics al resto de la pantalla
+  // (incluida la ventana nº 1) por el hueco entre copias.
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+
+    // Misma custom property que `.level-host` (arriba): las copias, fuera
+    // de ese contenedor, no la heredan por defecto — sin repetirla aquí,
+    // `XPWindow` calcularía su ancho contra un padding inexistente y las
+    // siete ventanas dejarían de verse del mismo tamaño (delataría cuál es
+    // la original, ver 014-plan.md, riesgo "la ventana nº 1 se ve
+    // distinta").
+    --level-host-padding: 1rem;
+
+    @media (max-width: 480px) {
+      --level-host-padding: 0.5rem;
+    }
+  }
+
   // Botón dev de saltar nivel (008-plan.md, solo con `?dev` en la URL):
   // deliberadamente ajeno a la estética pixel-art del juego (no es un
   // elemento de juego) — pequeño, discreto, en una esquina fija que no
@@ -94,7 +125,11 @@
     position: fixed;
     right: 0.5rem;
     bottom: 0.5rem;
-    z-index: 10;
+    // Muy por encima de cualquier `--window-z-index` real (nivel 10: sube de
+    // 1 en 1 cada vez que se agarra una ventana, nunca llega ni de lejos a
+    // esta cifra en una partida) — sin margen de sobra aquí, muchos
+    // arrastres seguidos podrían llegar a tapar el botón dev.
+    z-index: 1000;
     padding: 0.3rem 0.6rem;
     background: rgb(0 0 0 / 55%);
     color: var(--color-white);

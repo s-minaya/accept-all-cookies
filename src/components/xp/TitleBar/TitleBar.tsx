@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import styles from './TitleBar.module.scss'
 
 export interface TitleBarProps {
@@ -7,9 +8,18 @@ export interface TitleBarProps {
   closeLabel?: string
 }
 
-export function TitleBar({ title, counter, onClose, closeLabel }: TitleBarProps) {
+/**
+ * `ref` reenviado al `<div>` de la barra de título real: lo necesita el
+ * nivel 10 (014-plan.md) para enganchar `usePointer` solo sobre la barra de
+ * título de cada ventana (arrastrar para duplicar), no sobre la ventana
+ * entera — a diferencia del nivel 3, que rota desde cualquier punto.
+ */
+export const TitleBar = forwardRef<HTMLDivElement, TitleBarProps>(function TitleBar(
+  { title, counter, onClose, closeLabel },
+  ref,
+) {
   return (
-    <div className={styles['title-bar']}>
+    <div ref={ref} className={styles['title-bar']}>
       <span className={styles['title-bar__counter']}>{counter ?? ''}</span>
       <span className={styles['title-bar__title']}>{title}</span>
       {onClose ? (
@@ -31,4 +41,4 @@ export function TitleBar({ title, counter, onClose, closeLabel }: TitleBarProps)
       )}
     </div>
   )
-}
+})

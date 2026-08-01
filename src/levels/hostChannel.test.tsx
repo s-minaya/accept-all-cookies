@@ -3,10 +3,14 @@ import { render } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import {
   HostChannelContext,
+  useHostTitleBarRef,
   useHostWindowRef,
   useLevelBoard,
   useLevelFooter,
+  useLevelOverlay,
   useWindowRotation,
+  useWindowTranslation,
+  useWindowZIndex,
   type HostChannelValue,
 } from './hostChannel'
 
@@ -14,8 +18,11 @@ function makeChannel(overrides: Partial<HostChannelValue> = {}): HostChannelValu
   return {
     setFooter: vi.fn(),
     setWindowTransform: vi.fn(),
+    setWindowZIndex: vi.fn(),
     windowRef: createRef<HTMLElement>(),
+    titleBarRef: createRef<HTMLDivElement>(),
     setBoard: vi.fn(),
+    setOverlay: vi.fn(),
     ...overrides,
   }
 }
@@ -42,7 +49,7 @@ describe('hostChannel — canal único nivel→host con ranuras con nombre (007-
     expect(channel.setFooter).toHaveBeenLastCalledWith(null)
   })
 
-  it('useWindowRotation publishes the degrees as a CSS-ready string and clears on unmount', () => {
+  it('useWindowRotation publishes a ready-to-use rotate() transform and clears on unmount', () => {
     const channel = makeChannel()
 
     function Level({ deg }: { deg: number }) {
@@ -55,17 +62,109 @@ describe('hostChannel — canal único nivel→host con ranuras con nombre (007-
         <Level deg={0} />
       </HostChannelContext.Provider>,
     )
-    expect(channel.setWindowTransform).toHaveBeenLastCalledWith('0deg')
+    expect(channel.setWindowTransform).toHaveBeenLastCalledWith('rotate(0deg)')
 
     rerender(
       <HostChannelContext.Provider value={channel}>
         <Level deg={137} />
       </HostChannelContext.Provider>,
     )
-    expect(channel.setWindowTransform).toHaveBeenLastCalledWith('137deg')
+    expect(channel.setWindowTransform).toHaveBeenLastCalledWith('rotate(137deg)')
 
     unmount()
     expect(channel.setWindowTransform).toHaveBeenLastCalledWith(null)
+  })
+
+  it('useWindowTranslation publishes a ready-to-use translate() transform and clears on unmount', () => {
+    const channel = makeChannel()
+
+    function Level({ x, y }: { x: number; y: number }) {
+      useWindowTranslation(x, y)
+      return null
+    }
+
+    const { rerender, unmount } = render(
+      <HostChannelContext.Provider value={channel}>
+        <Level x={0} y={0} />
+      </HostChannelContext.Provider>,
+    )
+    expect(channel.setWindowTransform).toHaveBeenLastCalledWith('translate(0px, 0px)')
+
+    rerender(
+      <HostChannelContext.Provider value={channel}>
+        <Level x={12} y={-34} />
+      </HostChannelContext.Provider>,
+    )
+    expect(channel.setWindowTransform).toHaveBeenLastCalledWith('translate(12px, -34px)')
+
+    unmount()
+    expect(channel.setWindowTransform).toHaveBeenLastCalledWith(null)
+  })
+
+  it('useWindowZIndex publishes the number and clears on unmount', () => {
+    const channel = makeChannel()
+
+    function Level({ zIndex }: { zIndex: number }) {
+      useWindowZIndex(zIndex)
+      return null
+    }
+
+    const { rerender, unmount } = render(
+      <HostChannelContext.Provider value={channel}>
+        <Level zIndex={1} />
+      </HostChannelContext.Provider>,
+    )
+    expect(channel.setWindowZIndex).toHaveBeenLastCalledWith(1)
+
+    rerender(
+      <HostChannelContext.Provider value={channel}>
+        <Level zIndex={7} />
+      </HostChannelContext.Provider>,
+    )
+    expect(channel.setWindowZIndex).toHaveBeenLastCalledWith(7)
+
+    unmount()
+    expect(channel.setWindowZIndex).toHaveBeenLastCalledWith(null)
+  })
+
+  it('useLevelOverlay publishes on mount and clears on unmount', () => {
+    const channel = makeChannel()
+
+    function Level() {
+      useLevelOverlay('mi overlay')
+      return null
+    }
+
+    const { unmount } = render(
+      <HostChannelContext.Provider value={channel}>
+        <Level />
+      </HostChannelContext.Provider>,
+    )
+
+    expect(channel.setOverlay).toHaveBeenCalledWith('mi overlay')
+
+    unmount()
+
+    expect(channel.setOverlay).toHaveBeenLastCalledWith(null)
+  })
+
+  it('useHostTitleBarRef returns the ref published by the host', () => {
+    const titleBarRef = createRef<HTMLDivElement>()
+    const channel = makeChannel({ titleBarRef })
+    let received: unknown
+
+    function Level() {
+      received = useHostTitleBarRef()
+      return null
+    }
+
+    render(
+      <HostChannelContext.Provider value={channel}>
+        <Level />
+      </HostChannelContext.Provider>,
+    )
+
+    expect(received).toBe(titleBarRef)
   })
 
   it('useLevelBoard publishes on mount and clears on unmount', () => {
@@ -112,9 +211,13 @@ describe('hostChannel — canal único nivel→host con ranuras con nombre (007-
     function Level() {
       useLevelFooter('x')
       useLevelBoard('y')
+      useLevelOverlay('z')
       useWindowRotation(10)
+      useWindowTranslation(1, 2)
+      useWindowZIndex(1)
       const ref = useHostWindowRef()
-      return <span>{ref === null ? 'no-ref' : 'ref'}</span>
+      const titleBarRef = useHostTitleBarRef()
+      return <span>{ref === null && titleBarRef === null ? 'no-ref' : 'ref'}</span>
     }
 
     expect(() => render(<Level />)).not.toThrow()

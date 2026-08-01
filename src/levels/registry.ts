@@ -131,4 +131,20 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // normal basta (`Level09.module.scss`).
     component: lazy(() => import('./level09/Level09')),
   },
+  10: {
+    titleKey: 'levels.10.name',
+    // Sin consentKey, mismo patrón que los niveles 1-2 y 7: sin tablero
+    // propio, el texto va dentro del marco azul (014-plan.md). Sin pie
+    // especial tampoco: el nivel publica sus propios dos Disagree
+    // (Disagree/Agree tras el sorteo) vía `useLevelFooter`, como los
+    // niveles 1-2. La mecánica entera vive fuera del registro: la ventana
+    // nº 1 se traslada por la ranura `windowTransform` (generalizada en
+    // esta feature para aceptar cualquier `transform`, no solo rotación) y
+    // las copias 2-7 se publican en la ranura nueva `overlay`.
+    // `compactWindowOnMobile` (GDD §15.2): en xs las siete se solapan a un
+    // tamaño reducido — si no, ninguna cabría entera junto a otra y el caos
+    // de encontrar el Agree dejaría de ser jugable, solo un revoltijo.
+    compactWindowOnMobile: true,
+    component: lazy(() => import('./level10/Level10')),
+  },
 }

@@ -7,6 +7,9 @@
     justify-content: center;
     padding: 1rem;
     background: var(--color-overlay);
+    // Una modal siempre gana: por encima de cualquier `--window-z-index` de
+    // ventana (nivel 10, 014-plan.md) y del propio botón dev (999 < 1000).
+    z-index: 999;
   }
 
   &__box {

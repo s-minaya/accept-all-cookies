@@ -260,17 +260,29 @@ describe('AppShell', () => {
       // cuadrícula empieza vacía del todo — no hay ningún "Agree" que
       // pulsar hasta que una casilla lo genere sola (400–1200ms aleatorios
       // por casilla) o el jugador se quede quieto sobre una, ninguno de los
-      // dos reproducible con un simple `getByText('Agree')`. Esa cobertura
-      // ya vive en `Level06.test.tsx`, `Level08.test.tsx` y `Level09.test.tsx`
-      // (incluida una partida ganadora determinista en cada uno). Los cinco
-      // se saltan con el botón dev en vez de duplicar esa cobertura aquí
-      // (`?dev` no afecta a ningún otro nivel de este recorrido).
+      // dos reproducible con un simple `getByText('Agree')`. Nivel 10
+      // (Legitimate Interest, 014-plan.md): la ventana arranca con dos
+      // Disagree — no hay ningún Agree hasta duplicarla 6 veces y que el
+      // sorteo (al llegar a 7) le toque a una en concreto, tampoco
+      // reproducible con un simple `getByText('Agree')`. Esa cobertura ya
+      // vive en `Level06.test.tsx`, `Level08.test.tsx`, `Level09.test.tsx` y
+      // `Level10.test.tsx` (incluida una partida ganadora determinista en
+      // cada uno). Los seis se saltan con el botón dev en vez de duplicar
+      // esa cobertura aquí (`?dev` no afecta a ningún otro nivel de este
+      // recorrido).
       window.history.pushState({}, '', '?dev')
 
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Check'))
 
-        if (level === 4 || level === 5 || level === 6 || level === 8 || level === 9) {
+        if (
+          level === 4 ||
+          level === 5 ||
+          level === 6 ||
+          level === 8 ||
+          level === 9 ||
+          level === 10
+        ) {
           fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
           await vi.waitFor(() => expect(screen.getByText('Cookie Preferences')).toBeInTheDocument())
           continue

@@ -1,0 +1,59 @@
+.level-10 {
+  // Rellena el marco azul del área de juego (GDD §4.4), igual que los
+  // niveles 1-2 y 7: tampoco tiene tablero propio (registry.ts, sin
+  // consentKey) — la mecánica son las ventanas, no un recuadro de juego.
+  // `background: var(--color-white)` — corregido DE VUELTA tras revisión de
+  // Sofía: un turno anterior lo había quitado por una lectura equivocada de
+  // su comentario; el blanco es correcto y consistente con el resto de
+  // niveles sin `consentKey` (1, 2, 7, 8, 9 — todos usan este mismo patrón,
+  // `.level-0N { background: var(--color-white) }`), no una excepción de
+  // este nivel.
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+// Envoltorio de una copia (`LevelWindow.tsx`, ranura `overlay`): posición
+// fija en viewport, aplicada por custom property escrita por ref durante el
+// arrastre (cero re-render por frame, patrón de 009-013) y por estilo en
+// línea normal (React) al confirmarse en el modelo. `pointer-events: auto`
+// deshace el `none` de `.level-host__overlay` (LevelHost.module.scss): esta
+// ventana concreta SÍ debe recibir clics/arrastres, aunque la capa que la
+// contiene no.
+.level-10-clone {
+  position: fixed;
+  inset: 0 auto auto 0;
+  transform: translate(var(--window-x, 0px), var(--window-y, 0px));
+  // Corregido tras revisión de Sofía: el apilado ya no es fijo por orden de
+  // creación — cada ventana (incluida la nº 1, LevelHost.module.scss) trae
+  // consigo su propio orden (`bringToFront`, windows.ts), así que la que se
+  // agarra pasa siempre al frente y deja de quedar tapada.
+  z-index: var(--window-z, 1);
+  width: fit-content;
+  pointer-events: auto;
+  cursor: grab;
+  // Sin esto, un arrastre táctil que empieza cerca del borde compite con los
+  // gestos nativos del navegador (volver atrás, pull-to-refresh) — misma
+  // lección que la ventana del host (`LevelHost.module.scss`, nivel 3).
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}

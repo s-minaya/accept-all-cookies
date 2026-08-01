@@ -835,18 +835,17 @@ without requiring separate consent in certain circumstances.
 Do you agree to Legitimate Interest?
 ```
 
-**Estado inicial:** una única ventana con dos botones inferiores:
-- Izquierdo: rojo, `Disagree`.
-- Derecho: **verde**, pero también `Disagree`.
+**Estado inicial:** una única ventana con dos botones inferiores, **ambos rojos e idénticos**: `Disagree` y `Disagree`. Nada distingue al derecho del izquierdo — el color no da ninguna pista.
 
 **Mecánica principal:**
-- Si el jugador arrastra la ventana por la barra de título, la ventana se desplaza normalmente **y aparece una nueva ventana idéntica** por encima, movible de forma independiente.
-- Cada ventana solo puede generar una copia **una única vez**.
+- Si el jugador arrastra la ventana por la barra de título, la ventana se desplaza normalmente **y aparece una nueva ventana idéntica** justo donde estaba, movible de forma independiente.
+- La ventana arrastrada pasa siempre al frente de la pila, tapando a las demás mientras se mueve (nunca al revés): al agarrarla se ve claramente que es ELLA la que se aleja, dejando la copia recién nacida (y al resto) al descubierto.
+- Cada ventana solo puede generar una copia **una única vez**; volver a agarrarla la trae igualmente al frente, aunque ya no genere copia nueva.
 - El proceso continúa hasta un máximo de **7 ventanas**. A partir de ahí, moverlas ya no genera copias, pero todas siguen siendo funcionales.
 
 **Botones:**
-- Mientras existan menos de 7 ventanas, todos los botones muestran `Disagree`.
-- Al aparecer la séptima ventana, se elige **aleatoriamente una** de las 7 y solo esa cambia su botón verde a `Agree`. **Las otras seis** siguen mostrando `Disagree`.
+- Mientras existan menos de 7 ventanas, todos los botones son rojos y dicen `Disagree`.
+- Al aparecer la séptima ventana, se elige **aleatoriamente una entre las seis anteriores** (nunca la recién nacida) y solo el botón derecho de ESA ventana cambia, a la vez, de color (rojo → verde) y de texto (`Disagree` → `Agree`). **Las otras seis** siguen tal cual, rojas y `Disagree`.
 - Cada partida elige una ventana distinta al azar.
 
 **Victoria:** localizar la ventana con el Agree y pulsarlo → `Legitimate Interest accepted.`
@@ -1063,6 +1062,10 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 9: duración de un ciclo (corregido tras revisión de Sofía: los botones no suben, aparecen y desaparecen por ciclos sincronizados) | ~450 ms, ajustable en el checkpoint |
 | Nivel 9: casillas simultáneas por ciclo | 4 de 12, con al menos un Agree garantizado en el lote, ajustable en el checkpoint |
 | Nivel 10: máximo de ventanas | 7 |
+| Nivel 10: dónde nace la copia | En la posición que ocupaba la ventana arrastrada al EMPEZAR el arrastre (no en cascada ni al azar) — la que se arrastra sigue siguiendo al puntero, la copia se queda quieta atrás |
+| Nivel 10: apilado | La ventana agarrada pasa al frente de inmediato (no un orden fijo por antigüedad) |
+| Nivel 10: candidatas al Agree | Las 6 ventanas anteriores a la que acaba de completar la séptima; la recién nacida nunca lleva el Agree |
+| Nivel 10: móvil (ventana reducida + asomo por los lados) | En `xs` y `sm` (≤480px, no solo `xs`: corregido tras probar en un móvil real de ancho normal) — 30% del ancho de la ventana siempre visible al asomar (nunca puede desaparecer del todo) |
 | Nivel 12: pulsaciones antes del switcheo | aleatorio 15–35 |
 | Nivel 12: tiempo de espera para revertir el botón | 2 s |
 | Nivel 12: decaimiento de la barra | cada 0,5 s sin pulsar |
@@ -1096,7 +1099,7 @@ El juego es **totalmente responsive** y jugable con ratón y con dedo. Un nivel 
 | 6 — Cross-Site | Botones de dirección | Ya táctiles. En `xs`/`sm` el panel de flechas no cabe debajo del tablero sin dejarlo diminuto: mientras el candado sigue cerrado, las 4 flechas (compactas, 2×2) ocupan el hueco del Agree en el pie —el deshabilitado no sirve de nada ahí— y desaparecen en cuanto se abre, dejando paso al Agree |
 | 7 — Data Sharing | Arrastrar la cubierta / clic | Mismo arrastre con el dedo. Umbral tap-vs-drag: < 8 px de desplazamiento = tap (derrota si es el Disagree derecho, la cubierta), ≥ 8 px = arrastre |
 | 9 — Fingerprinting | Cursor completamente inmóvil ~1 s sobre una casilla | **Mantener el dedo pulsado** sobre una casilla ~1 s congela sus botones. **Soltar el dedo sobre un Agree congelado = pulsarlo** (soltar sobre un Disagree congelado = Game Over; soltar sin botón congelado = nada) |
-| 10 — Legitimate Interest | Arrastrar ventanas por la barra de título | Mismo arrastre con el dedo. En `xs` las ventanas se reducen para que las 7 quepan solapadas (el caos resultante es parte del nivel) |
+| 10 — Legitimate Interest | Arrastrar ventanas por la barra de título | Mismo arrastre con el dedo. En `xs` y `sm` (≤480px, cualquier móvil normal) las ventanas se reducen para que las 7 quepan solapadas (el caos resultante es parte del nivel); además pueden asomar parcialmente por los lados de la pantalla sin llegar nunca a desaparecer del todo, para que ninguna quede inalcanzable — imprescindible en móvil real: sin esto, la ventana de arriba ocupa casi toda la pantalla estrecha y un arrastre normal con el dedo no deja al descubierto lo bastante de la ventana de abajo como para poder agarrarla |
 
 ## 15.3 Entrada unificada
 

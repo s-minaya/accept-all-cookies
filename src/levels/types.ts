@@ -54,5 +54,7 @@ export interface LevelDefinition {
   fillHeight?: boolean
   /** El tablero del nivel aprovecha pantallas grandes: la ventana pide un tope de ancho mayor a `XPWindow` a partir de `lg`/`xl` (p. ej. el nivel 5, revisión de Sofía). */
   wideWindow?: boolean
+  /** La ventana pide un tamaño más pequeño en `xs` a `XPWindow` (nivel 10, GDD §15.2: siete ventanas solapadas solo son legibles si caben más de una a la vez). */
+  compactWindowOnMobile?: boolean
   component: LazyExoticComponent<LevelComponent>
 }
