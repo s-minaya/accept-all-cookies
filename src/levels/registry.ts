@@ -147,4 +147,14 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     compactWindowOnMobile: true,
     component: lazy(() => import('./level10/Level10')),
   },
+  11: {
+    titleKey: 'levels.11.name',
+    // Sin consentKey, mismo patrón que los niveles 3-10: texto dentro del
+    // marco azul, tablero (Sans + su bocadillo) publicado aparte vía
+    // `useLevelBoard` (015-plan.md). Sin pie de ventana (corregido tras
+    // revisión de Sofía: "no me convence que haya un botón de disagree, lo
+    // vamos a eliminar") — toda la interacción, ganar y perder, vive dentro
+    // del bocadillo (No/Yes), mismo patrón que los niveles 8-9.
+    component: lazy(() => import('./level11/Level11')),
+  },
 }

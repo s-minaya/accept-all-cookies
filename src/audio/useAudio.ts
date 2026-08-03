@@ -6,6 +6,10 @@ export interface UseAudioResult {
   playPositive: () => void
   playNegative: () => void
   playCoin: () => void
+  startVoiceLoop: () => void
+  stopVoiceLoop: () => void
+  duckMusic: (factor: number) => void
+  unduckMusic: () => void
 }
 
 /**
@@ -54,6 +58,18 @@ export function useAudio(): UseAudioResult {
   const playPositive = useCallback(() => audioManager.playPositive(), [])
   const playNegative = useCallback(() => audioManager.playNegative(), [])
   const playCoin = useCallback(() => audioManager.playCoin(), [])
+  const startVoiceLoop = useCallback(() => audioManager.startVoiceLoop(), [])
+  const stopVoiceLoop = useCallback(() => audioManager.stopVoiceLoop(), [])
+  const duckMusic = useCallback((factor: number) => audioManager.duckMusic(factor), [])
+  const unduckMusic = useCallback(() => audioManager.unduckMusic(), [])
 
-  return { playPositive, playNegative, playCoin }
+  return {
+    playPositive,
+    playNegative,
+    playCoin,
+    startVoiceLoop,
+    stopVoiceLoop,
+    duckMusic,
+    unduckMusic,
+  }
 }

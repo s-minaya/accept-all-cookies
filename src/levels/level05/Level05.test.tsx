@@ -65,7 +65,7 @@ describe('Level05 (GDD Nivel 5 — tragaperras, 009-plan.md)', () => {
     render(<Level05Harness {...baseProps} />)
     const reels = document.querySelectorAll('[class*="reel__track"]')
     expect(reels.length).toBe(REEL_COUNT)
-    expect(screen.getAllByText('Stop').length).toBe(REEL_COUNT)
+    expect(screen.getAllByText('Parar').length).toBe(REEL_COUNT)
   })
 
   it('every reel starts spinning: the track custom property changes over time', () => {
@@ -83,7 +83,9 @@ describe('Level05 (GDD Nivel 5 — tragaperras, 009-plan.md)', () => {
     render(<Level05Harness {...baseProps} />)
     vi.advanceTimersByTime(200)
 
-    const stops = screen.getAllByText('Stop').map((el) => el.closest('button') as HTMLButtonElement)
+    const stops = screen
+      .getAllByText('Parar')
+      .map((el) => el.closest('button') as HTMLButtonElement)
     expect(stops.every((btn) => !btn.disabled)).toBe(true)
 
     fireEvent.click(stops[0])
@@ -95,7 +97,9 @@ describe('Level05 (GDD Nivel 5 — tragaperras, 009-plan.md)', () => {
 
   it('clicking an already-stopped reel again does nothing (still disabled, no crash)', () => {
     render(<Level05Harness {...baseProps} />)
-    const stops = screen.getAllByText('Stop').map((el) => el.closest('button') as HTMLButtonElement)
+    const stops = screen
+      .getAllByText('Parar')
+      .map((el) => el.closest('button') as HTMLButtonElement)
 
     fireEvent.click(stops[0])
     expect(() => fireEvent.click(stops[0])).not.toThrow()
@@ -104,7 +108,9 @@ describe('Level05 (GDD Nivel 5 — tragaperras, 009-plan.md)', () => {
 
   it('disables all Stops and freezes the reels while paused', () => {
     render(<Level05Harness {...baseProps} paused={true} />)
-    const stops = screen.getAllByText('Stop').map((el) => el.closest('button') as HTMLButtonElement)
+    const stops = screen
+      .getAllByText('Parar')
+      .map((el) => el.closest('button') as HTMLButtonElement)
     expect(stops.every((btn) => btn.disabled)).toBe(true)
 
     const tracks = Array.from(document.querySelectorAll('[class*="reel__track"]')) as HTMLElement[]
@@ -117,7 +123,9 @@ describe('Level05 (GDD Nivel 5 — tragaperras, 009-plan.md)', () => {
   it('does not call onLose just from clicking Stop on a spinning reel while paused', () => {
     const onLose = vi.fn()
     render(<Level05Harness {...baseProps} paused={true} onLose={onLose} />)
-    const stops = screen.getAllByText('Stop').map((el) => el.closest('button') as HTMLButtonElement)
+    const stops = screen
+      .getAllByText('Parar')
+      .map((el) => el.closest('button') as HTMLButtonElement)
 
     fireEvent.click(stops[0])
     expect(onLose).not.toHaveBeenCalled()

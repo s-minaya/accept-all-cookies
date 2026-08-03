@@ -67,7 +67,7 @@ function Level05Harness(props: LevelProps) {
 }
 
 function stopAll() {
-  const stops = screen.getAllByText('Stop').map((el) => el.closest('button') as HTMLButtonElement)
+  const stops = screen.getAllByText('Parar').map((el) => el.closest('button') as HTMLButtonElement)
   for (const stop of stops) fireEvent.click(stop)
   return stops
 }
@@ -146,7 +146,7 @@ describe('Level05 — desenlaces (GDD Nivel 5, 009-plan.md)', () => {
     act(() => vi.advanceTimersByTime(1200)) // rehabilitación
 
     const stopsAfter = screen
-      .getAllByText('Stop')
+      .getAllByText('Parar')
       .map((el) => el.closest('button') as HTMLButtonElement)
     expect(stopsAfter.every((btn) => !btn.disabled)).toBe(true)
     for (const stop of stopsAfter) fireEvent.click(stop)
@@ -175,7 +175,7 @@ describe('Level05 — desenlaces (GDD Nivel 5, 009-plan.md)', () => {
     // de verdad, esto ya habría rehabilitado.
     act(() => vi.advanceTimersByTime(5000))
 
-    let stops = screen.getAllByText('Stop').map((el) => el.closest('button') as HTMLButtonElement)
+    let stops = screen.getAllByText('Parar').map((el) => el.closest('button') as HTMLButtonElement)
     expect(stops.every((btn) => btn.disabled)).toBe(true)
 
     rerender(<Level05Harness {...baseProps} paused={false} />)
@@ -186,7 +186,7 @@ describe('Level05 — desenlaces (GDD Nivel 5, 009-plan.md)', () => {
     // menos lo ya transcurrido".
     act(() => vi.advanceTimersByTime(1000))
 
-    stops = screen.getAllByText('Stop').map((el) => el.closest('button') as HTMLButtonElement)
+    stops = screen.getAllByText('Parar').map((el) => el.closest('button') as HTMLButtonElement)
     expect(stops.every((btn) => !btn.disabled)).toBe(true)
   })
 })

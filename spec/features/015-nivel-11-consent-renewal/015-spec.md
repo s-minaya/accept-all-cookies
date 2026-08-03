@@ -1,6 +1,8 @@
 # 015 · Nivel 11 — Consent Renewal
 
-**Estado:** propuesta
+**Estado:** implementada
+
+> Corregido tras revisión de Sofía jugando la primera versión: (1) "no me convence que haya un botón de disagree, lo vamos a eliminar" — el pie de ventana desaparece por completo, sin Disagree ni ningún otro botón; toda la interacción, ganar y perder, vive dentro del bocadillo (mismo patrón que los niveles 8-9, sin pie). (2) Sans es más grande en xs/sm que en md+ — en móvil el bocadillo se apila encima de él en vez de a su lado, así que hay ancho de sobra para que sea más protagonista. (3) Los botones **No**/**Yes** de este nivel (y, por extensión, el resto de botones neutros de `game.*`: Check, Stop, OK) pasan a traducirse con normalidad — cambio de política de localización a nivel de todo el juego (GDD §11, AGENTS.md), no solo de esta feature: "en general los botones estos neutros creo que se deberían traducir". Solo Agree/Disagree y los títulos del veredicto se quedan fijos en inglés, por la mecánica de similitud visual que sí les aplica a ellos. (4) "algunas traducciones son demasiado literales... revisa todas las que suenen mal y cambialas en todo el proyecto" — auditoría completa de `es.json` más allá de este nivel: nivel 7 "Compartición de Datos" → "Uso Compartido de Datos", nivel 8 "Proveedores de Terceros" → "Proveedores Externos", nivel 6 "Seguimiento entre Sitios" → "Seguimiento entre Sitios Web", nivel 10 "la provisión de" → "el suministro de", nivel 2 "las personas visitantes" → "los usuarios". Ver `015-tasks.md` para el detalle completo.
 
 ## Qué hace
 
@@ -24,9 +26,9 @@ Implementa el Nivel 11 (GDD §9, Nivel 11): **Sans** (Undertale) aparece en la e
 ### Layout
 
 - Texto de consentimiento de Consent Renewal **dentro del marco azul**, sobre fondo blanco (patrón as-built de los niveles sin `consentKey`).
-- Sans + bocadillo se publican vía `useLevelBoard`, debajo del marco: sprite abajo a la derecha, bocadillo a su izquierda en md+ y **encima** en xs/sm (más ancho disponible para la pregunta larga).
+- Sans + bocadillo se publican vía `useLevelBoard`, debajo del marco: sprite abajo a la derecha, bocadillo a su izquierda en md+ y **encima** en xs/sm (más ancho disponible para la pregunta larga). El propio sprite de Sans es más grande en xs/sm que en md+ (corregido tras revisión de Sofía): en móvil tiene todo el ancho para él solo, así que puede ser más protagonista.
 - Los botones **No** y **Yes** viven dentro del bocadillo, en ese orden (izquierda→derecha; el orden importa: es lo que crea la memoria muscular).
-- **Pie de ventana** vía `useLevelFooter`: el **Disagree rojo** del GDD. No sirve para nada bueno — pulsarlo es derrota; está ahí como señuelo, para que el jugador que se harta del interrogatorio tenga una salida falsa y tentadora.
+- **Sin pie de ventana** (corregido tras revisión de Sofía: "no me convence que haya un botón de disagree, lo vamos a eliminar") — ni Disagree ni ningún otro botón fuera del bocadillo; toda la interacción, ganar y perder, vive dentro de él.
 
 ### La conversación
 
@@ -41,7 +43,7 @@ Secuencia de cuatro preguntas que se repite **dos veces** (8 respuestas correcta
 
 - Cada respuesta correcta avanza a la siguiente pregunta; la octava correcta gana.
 - **Cualquier respuesta incorrecta es derrota inmediata** (`failed`).
-- Las preguntas se traducen (`levels.11.*`); los botones **No** y **Yes** viven en `game.*` y **no se traducen** (GDD §11).
+- Las preguntas se traducen (`levels.11.*`); los botones **No** y **Yes** también se traducen con normalidad (`game.no`/`game.yes` → "No"/"Sí" en español, corregido tras revisión de Sofía) — a diferencia de Agree/Disagree, no tienen ninguna mecánica de similitud visual que lo impida (GDD §11).
 
 ### Bloqueo de input mientras habla
 
@@ -50,7 +52,7 @@ Secuencia de cuatro preguntas que se repite **dos veces** (8 respuestas correcta
 ### Victoria y derrota
 
 - **Victoria**: octava respuesta correcta → flujo estándar con "Consent Renewal".
-- **Derrota**: cualquier respuesta incorrecta, pulsar el **Disagree** del pie, contador a 0, o X.
+- **Derrota**: cualquier respuesta incorrecta, contador a 0, o X.
 
 ### Pausa y recarga
 
@@ -64,29 +66,29 @@ Es el único nivel del juego donde el adversario tiene cara y voz. Los diez ante
 ## Criterios de aceptación
 
 ### Conversación
-- [ ] Las ocho preguntas se suceden en el orden del GDD (dos vueltas idénticas de cuatro) y solo la secuencia `No, No, No, Yes ×2` gana (test exhaustivo de la máquina: las 8 posiciones, respuesta correcta e incorrecta en cada una).
-- [ ] Cualquier respuesta incorrecta pierde de inmediato con el flujo estándar, en cualquiera de las 8 posiciones.
-- [ ] No hay ningún indicador de progreso ni diferencia visual entre la primera y la segunda vuelta.
-- [ ] Los botones son `No` y `Yes` en ese orden, sin traducir (claves `game.*`, test de identidad ES/EN intacto); las preguntas sí se traducen (`levels.11.*`, ambos diccionarios).
+- [x] Las ocho preguntas se suceden en el orden del GDD (dos vueltas idénticas de cuatro) y solo la secuencia `No, No, No, Yes ×2` gana (test exhaustivo de la máquina: las 8 posiciones, respuesta correcta e incorrecta en cada una).
+- [x] Cualquier respuesta incorrecta pierde de inmediato con el flujo estándar, en cualquiera de las 8 posiciones.
+- [x] No hay ningún indicador de progreso ni diferencia visual entre la primera y la segunda vuelta.
+- [x] Los botones son `No` y `Yes` en ese orden; ambos se traducen con normalidad (`game.no`/`game.yes`, corregido tras revisión de Sofía — ya no son excepción de `game.*`, solo Agree/Disagree y los títulos del veredicto lo son); las preguntas también se traducen (`levels.11.*`, ambos diccionarios).
 
 ### Voz, escritura y música
-- [ ] El texto se escribe carácter a carácter en **Comic Sans**, con fallback declarado por si la fuente no está disponible.
-- [ ] La voz suena **en bucle** desde el primer carácter y **se corta exactamente al completarse la frase** (no sigue sonando en los silencios entre preguntas); respeta el interruptor de efectos.
-- [ ] Mientras habla, la música baja al factor configurado con fundido corto, y vuelve a su nivel al terminar (sin saltos audibles); el volumen de Ajustes se sigue respetando en ambos estados.
-- [ ] Tocar el bocadillo completa el texto de golpe, corta la voz y restaura la música.
-- [ ] Los botones no responden mientras escribe (+ margen): una ráfaga de clics rápidos **no** puede encadenar dos respuestas.
+- [x] El texto se escribe carácter a carácter en **Comic Sans**, con fallback declarado por si la fuente no está disponible.
+- [x] La voz suena **en bucle** desde el primer carácter y **se corta exactamente al completarse la frase** (no sigue sonando en los silencios entre preguntas); respeta el interruptor de efectos.
+- [x] Mientras habla, la música baja al factor configurado con fundido corto, y vuelve a su nivel al terminar (sin saltos audibles); el volumen de Ajustes se sigue respetando en ambos estados.
+- [x] Tocar el bocadillo completa el texto de golpe, corta la voz y restaura la música.
+- [x] Los botones no responden mientras escribe (+ margen): una ráfaga de clics rápidos **no** puede encadenar dos respuestas.
 
 ### Layout
-- [ ] Sans aparece abajo a la derecha con su bocadillo (cola apuntándole); bocadillo a la izquierda en md+ y encima en xs/sm; la pregunta más larga no desborda en 375 px.
-- [ ] Botones ≥ 44 px, con dedo y con ratón. El Disagree del pie está presente y pulsarlo pierde.
+- [x] Sans aparece abajo a la derecha con su bocadillo (cola apuntándole); bocadillo a la izquierda en md+ y encima en xs/sm; la pregunta más larga no desborda en 375 px. Sans más grande en xs/sm que en md+ (corregido tras revisión de Sofía).
+- [x] Botones ≥ 44 px, con dedo y con ratón. Sin pie de ventana (corregido tras revisión de Sofía: sin Disagree ni ningún otro botón fuera del bocadillo).
 
 ### Integración y calidad
-- [ ] Hueco 11 sustituido con chunk propio (sin matter.js); `paused` congela escritura, voz e input y restaura la música; recarga a mitad (vuelta a la pregunta 1, contador restaurado) y con desenlace pendiente (modal).
-- [ ] Cleanup total al desmontar (reloj de escritura, voz parada, música restaurada) + test de no-fugas: **salir del nivel nunca deja la música agachada**.
-- [ ] `sans-voice.mp3` documentado como asset de audio (GDD §2.3, tech-stack, AGENTS) junto a positivo, negativo, música y `coin.mp3`.
-- [ ] Crédito a Toby Fox / Undertale recogido para la pantalla de créditos (feature 016).
-- [ ] Partida entera ganando (las 8) y perdiendo (respuesta incorrecta, Disagree, contador y X); 5 anchos; móvil real vía Pages con **toques reales** (CDP `Input.dispatchTouchEvent`, no `page.mouse` — lección de la 014).
-- [ ] ✋ Checkpoint de Sofía: tamaño y posición de Sans y del bocadillo, velocidad de escritura, volumen relativo voz/música y el factor de ducking, y si la segunda vuelta engaña bien jugada del tirón.
+- [x] Hueco 11 sustituido con chunk propio (sin matter.js); `paused` congela escritura, voz e input y restaura la música; recarga a mitad (vuelta a la pregunta 1, contador restaurado) y con desenlace pendiente (modal).
+- [x] Cleanup total al desmontar (reloj de escritura, voz parada, música restaurada) + test de no-fugas: **salir del nivel nunca deja la música agachada**.
+- [x] `sans-voice.mp3` documentado como asset de audio (GDD §2.3, tech-stack, AGENTS) junto a positivo, negativo, música y `coin.mp3`.
+- [x] Crédito a Toby Fox / Undertale recogido para la pantalla de créditos (feature 016).
+- [x] Partida entera ganando (las 8) y perdiendo (respuesta incorrecta, contador y X); 5 anchos; móvil real vía Pages con **toques reales** (CDP `Input.dispatchTouchEvent`, no `page.mouse` — lección de la 014). (As-built: verificado en 1280px escritorio y 390×844 móvil vía CDP; el resto de anchos y el móvil real vía Pages quedan para el checkpoint de Sofía, igual que en el resto de niveles.)
+- [x] ✋ Checkpoint de Sofía: aprobada ("we are good, commit and push") tras cuatro rondas de correcciones — quitar el Disagree del pie, agrandar a Sans en móvil, traducir los botones neutros de `game.*` (No/Yes/Check/Stop/OK) y una auditoría completa de `es.json` contra traducciones demasiado literales ("Compartición de Datos" y similares). Tamaño/posición de Sans y el bocadillo, Comic Sans en pantalla real, velocidad de escritura, volumen relativo voz/música, factor de ducking y la segunda vuelta jugada del tirón: todo aprobado sin más cambios.
 
 ## Fuera de alcance
 

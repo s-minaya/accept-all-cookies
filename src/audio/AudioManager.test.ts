@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { audioManager } from './AudioManager'
 
 function mockPointer(coarse: boolean) {
@@ -74,5 +74,84 @@ describe('AudioManager sound effects toggle', () => {
     audioManager.playNegative()
     audioManager.playCoin()
     expect(play).not.toHaveBeenCalled()
+  })
+})
+
+describe('AudioManager voice loop (nivel 11, 015-plan.md)', () => {
+  afterEach(() => {
+    audioManager.setSoundEffectsOn(true)
+    audioManager.stopVoiceLoop()
+    vi.restoreAllMocks()
+  })
+
+  it('starts the voice loop from the beginning when the toggle is on', () => {
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play')
+    audioManager.startVoiceLoop()
+    expect(play).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not play the voice when the sound effects toggle is off', () => {
+    audioManager.setSoundEffectsOn(false)
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play')
+    audioManager.startVoiceLoop()
+    expect(play).not.toHaveBeenCalled()
+  })
+
+  it('stopVoiceLoop pauses playback', () => {
+    const pause = vi.spyOn(HTMLMediaElement.prototype, 'pause')
+    audioManager.startVoiceLoop()
+    audioManager.stopVoiceLoop()
+    expect(pause).toHaveBeenCalled()
+  })
+})
+
+describe('AudioManager music ducking (nivel 11, 015-plan.md)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    mockPointer(false)
+    audioManager.setVolume(1)
+  })
+
+  afterEach(() => {
+    // Deja el ducking a 1 (sin agachar) para no filtrar estado entre tests.
+    audioManager.unduckMusic()
+    vi.advanceTimersByTime(500)
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  it('fades the music down to the given factor over ~150ms', () => {
+    const before = musicVolume()
+    audioManager.duckMusic(0.2)
+    vi.advanceTimersByTime(200)
+    expect(musicVolume()).toBeCloseTo(before * 0.2)
+  })
+
+  it('unduckMusic restores the exact previous volume', () => {
+    const before = musicVolume()
+    audioManager.duckMusic(0.2)
+    vi.advanceTimersByTime(200)
+    audioManager.unduckMusic()
+    vi.advanceTimersByTime(200)
+    expect(musicVolume()).toBeCloseTo(before)
+  })
+
+  it('is idempotent: calling duckMusic twice with the same factor does not compound the reduction', () => {
+    const before = musicVolume()
+    audioManager.duckMusic(0.2)
+    vi.advanceTimersByTime(200)
+    const afterFirst = musicVolume()
+    audioManager.duckMusic(0.2)
+    vi.advanceTimersByTime(200)
+    expect(musicVolume()).toBeCloseTo(afterFirst)
+    expect(musicVolume()).not.toBeCloseTo(before * 0.2 * 0.2)
+  })
+
+  it('still respects the Ajustes volume slider on top of the duck factor', () => {
+    audioManager.setVolume(0.5)
+    audioManager.duckMusic(0.2)
+    vi.advanceTimersByTime(200)
+    // 0.5 (Ajustes) * 0.5 (factor de escritorio) * 0.2 (ducking)
+    expect(musicVolume()).toBeCloseTo(0.05)
   })
 })

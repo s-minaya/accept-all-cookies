@@ -43,7 +43,7 @@ describe('LevelSelectScreen (GDD §5)', () => {
     // 3: disponible (el siguiente a jugar) — lleva el botón Check en línea.
     expect(rows[2].className).toMatch(/row--available/)
     expect(rows[2].querySelector('img')).not.toBeInTheDocument()
-    expect(rows[2].querySelector('button')).toHaveTextContent('Check')
+    expect(rows[2].querySelector('button')).toHaveTextContent('Comprobar')
 
     // 4-12: bloqueados, sin check ni botón.
     for (const row of rows.slice(3)) {
@@ -65,7 +65,7 @@ describe('LevelSelectScreen (GDD §5)', () => {
       />,
     )
 
-    await user.click(screen.getByText('Check'))
+    await user.click(screen.getByText('Comprobar'))
     expect(onCheck).toHaveBeenCalledTimes(1)
   })
 
@@ -80,6 +80,6 @@ describe('LevelSelectScreen (GDD §5)', () => {
       />,
     )
 
-    expect(screen.queryByText('Check')).not.toBeInTheDocument()
+    expect(screen.queryByText('Comprobar')).not.toBeInTheDocument()
   })
 })

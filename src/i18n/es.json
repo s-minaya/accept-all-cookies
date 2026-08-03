@@ -64,7 +64,7 @@
     },
     "2": {
       "name": "Cookies de Análisis",
-      "consent": "Cookies de Análisis\n\nUtilizamos cookies de análisis para entender cómo interactúan las personas visitantes con nuestro sitio web.\n\nEstas cookies recopilan información como las páginas visitadas, el tiempo de permanencia en el sitio, los patrones de clics y la información del dispositivo. Estos datos nos ayudan a mejorar el rendimiento, identificar problemas y ofrecer una mejor experiencia de usuario.\n\nToda la información se procesa de acuerdo con nuestra Política de Privacidad.\n\n¿Aceptas el uso de las Cookies de Análisis?"
+      "consent": "Cookies de Análisis\n\nUtilizamos cookies de análisis para entender cómo interactúan los usuarios con nuestro sitio web.\n\nEstas cookies recopilan información como las páginas visitadas, el tiempo de permanencia en el sitio, los patrones de clics y la información del dispositivo. Estos datos nos ayudan a mejorar el rendimiento, identificar problemas y ofrecer una mejor experiencia de usuario.\n\nToda la información se procesa de acuerdo con nuestra Política de Privacidad.\n\n¿Aceptas el uso de las Cookies de Análisis?"
     },
     "3": {
       "name": "Cookies de Personalización",
@@ -79,20 +79,20 @@
       "consent": "Cookies de Redes Sociales\n\nLas cookies de redes sociales te permiten conectar con plataformas sociales, compartir contenido y personalizar tu experiencia en distintos servicios.\n\nEstas cookies pueden ser utilizadas por nosotros y por terceros seleccionados para medir la interacción, personalizar contenido y mostrar anuncios según tu actividad en sitios web y redes sociales.\n\n¿Aceptas el uso de las Cookies de Redes Sociales?"
     },
     "6": {
-      "name": "Seguimiento entre Sitios",
-      "consent": "Seguimiento entre Sitios\n\nEl seguimiento entre sitios nos permite a nosotros y a nuestros socios reconocer tu navegador en distintos sitios web y servicios.\n\nLa información recopilada mediante el seguimiento entre sitios puede incluir páginas visitadas, interacciones, comportamiento de navegación e identificadores del dispositivo. Estos datos nos ayudan a entender los recorridos de los usuarios, medir la efectividad publicitaria y ofrecer una experiencia de navegación más personalizada en varios sitios web.\n\n¿Aceptas el uso del Seguimiento entre Sitios?",
+      "name": "Seguimiento entre Sitios Web",
+      "consent": "Seguimiento entre Sitios Web\n\nEl seguimiento entre sitios web nos permite a nosotros y a nuestros socios reconocer tu navegador en distintos sitios web y servicios.\n\nLa información recopilada mediante el seguimiento entre sitios web puede incluir páginas visitadas, interacciones, comportamiento de navegación e identificadores del dispositivo. Estos datos nos ayudan a entender los recorridos de los usuarios, medir la efectividad publicitaria y ofrecer una experiencia de navegación más personalizada en varios sitios web.\n\n¿Aceptas el uso del Seguimiento entre Sitios Web?",
       "up": "Arriba",
       "down": "Abajo",
       "left": "Izquierda",
       "right": "Derecha"
     },
     "7": {
-      "name": "Compartición de Datos",
-      "consent": "Compartición de Datos\n\nPodemos compartir cierta información con socios de confianza para prestar nuestros servicios, mejorar su funcionamiento, medir el rendimiento y cumplir con obligaciones legales.\n\nLa información compartida puede incluir datos técnicos, actividad de navegación, información del dispositivo e interacciones con nuestro sitio web. Nuestros socios están obligados a procesar esta información conforme a la normativa de privacidad aplicable.\n\n¿Aceptas la Compartición de Datos?"
+      "name": "Uso Compartido de Datos",
+      "consent": "Uso Compartido de Datos\n\nPodemos compartir cierta información con socios de confianza para prestar nuestros servicios, mejorar su funcionamiento, medir el rendimiento y cumplir con obligaciones legales.\n\nLa información compartida puede incluir datos técnicos, actividad de navegación, información del dispositivo e interacciones con nuestro sitio web. Nuestros socios están obligados a procesar esta información conforme a la normativa de privacidad aplicable.\n\n¿Aceptas el Uso Compartido de Datos?"
     },
     "8": {
-      "name": "Proveedores de Terceros",
-      "consent": "Proveedores de Terceros\n\nTrabajamos con proveedores de terceros seleccionados que pueden procesar tu información en nuestro nombre para prestar servicios como alojamiento, analítica, publicidad y atención al cliente.\n\nEstos proveedores pueden operar en distintos países y están obligados contractualmente a proteger tu información conforme a la normativa de protección de datos aplicable.\n\n¿Aceptas compartir tu información con nuestros Proveedores de Terceros?",
+      "name": "Proveedores Externos",
+      "consent": "Proveedores Externos\n\nTrabajamos con proveedores externos seleccionados que pueden procesar tu información en nuestro nombre para prestar servicios como alojamiento, analítica, publicidad y atención al cliente.\n\nEstos proveedores pueden operar en distintos países y están obligados contractualmente a proteger tu información conforme a la normativa de protección de datos aplicable.\n\n¿Aceptas compartir tu información con nuestros Proveedores Externos?",
       "option": "Opción {n} de 12",
       "hidden": "???"
     },
@@ -102,9 +102,16 @@
     },
     "10": {
       "name": "Interés Legítimo",
-      "consent": "Interés Legítimo\n\nNosotros y nuestros socios de confianza podemos procesar ciertos datos personales basándonos en nuestros intereses legítimos cuando la ley aplicable lo permita.\n\nEste procesamiento puede incluir la mejora de nuestros servicios, la prevención de fraude, la medición del rendimiento y la provisión de contenido relevante sin necesidad de un consentimiento independiente en determinadas circunstancias.\n\n¿Aceptas el Interés Legítimo?"
+      "consent": "Interés Legítimo\n\nNosotros y nuestros socios de confianza podemos procesar ciertos datos personales basándonos en nuestros intereses legítimos cuando la ley aplicable lo permita.\n\nEste procesamiento puede incluir la mejora de nuestros servicios, la prevención de fraude, la medición del rendimiento y el suministro de contenido relevante sin necesidad de un consentimiento independiente en determinadas circunstancias.\n\n¿Aceptas el Interés Legítimo?"
     },
-    "11": { "name": "Renovación del Consentimiento" },
+    "11": {
+      "name": "Renovación del Consentimiento",
+      "consent": "Renovación del Consentimiento\n\nPara garantizar que tus preferencias de privacidad estén siempre actualizadas, es posible que te pidamos periódicamente que renueves tu consentimiento.\n\nRenovar tu consentimiento nos ayuda a confirmar tus preferencias actuales y a seguir ofreciéndote servicios personalizados de acuerdo con la normativa de privacidad aplicable.\n\n¿Aceptas renovar tu consentimiento?",
+      "q1": "¿Tienes algún problema?",
+      "q2": "No, pero tienes algún problemilla, ¿verdad?",
+      "q3": "No, no, no te esfuerces... tienes un problema, ¿verdad?",
+      "q4": "¿Tienes intención de aceptar?"
+    },
     "12": { "name": "Aceptar Todo" }
   },
   "meta": {
@@ -122,10 +129,10 @@
   "game": {
     "agree": "Agree",
     "disagree": "Disagree",
-    "check": "Check",
-    "stop": "Stop",
-    "ok": "OK",
-    "yes": "Yes",
+    "check": "Comprobar",
+    "stop": "Parar",
+    "ok": "Aceptar",
+    "yes": "Sí",
     "no": "No",
     "cookiesAccepted": "Cookies Accepted"
   }

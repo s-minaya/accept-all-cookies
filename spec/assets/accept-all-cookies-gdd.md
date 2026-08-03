@@ -98,6 +98,7 @@ Assets de sonido (lista cerrada):
 - **Sonido negativo** (fallos, capturas de Disagree, derrota).
 - **Sonido de moneda** (nivel 5: cada captura de la tragaperras, sea Agree o Disagree — adición vetable, ver Nivel 5).
 - **Música de fondo** (loop, controlable desde Ajustes). Suena baja respecto a los efectos: tiene su propio multiplicador de volumen además del control de Ajustes, distinto en escritorio y en móvil (ver §14) porque el mismo número suena más alto en un altavoz de teléfono.
+- **Voz de Sans** (nivel 11, loop, adición vetable — ver Nivel 11): suena mientras se escribe cada pregunta y se corta al completarse; mientras suena, la música de fondo se agacha a una fracción de su volumen (ver §14) para que se le oiga.
 
 ---
 
@@ -873,9 +874,9 @@ Do you agree to renew your consent?
 ```
 
 **Escenario:**
-- Botón **Disagree** rojo en la parte inferior izquierda (nunca debe usarse; pulsarlo es Game Over).
-- Un **personaje asistente tipo Clippy** (asistente del sistema, NO es el personaje seleccionado por el jugador en la landing; sprite propio, placeholder durante el desarrollo) en la esquina inferior derecha.
-- Del personaje sale un bocadillo de diálogo con dos botones: **No** y **Yes**. Toda la interacción ocurre en el bocadillo.
+- Sin botón Disagree en el pie (corregido tras revisión de Sofía sobre la 015: "no me convence que haya un botón de disagree, lo vamos a eliminar") — toda la interacción, ganar y perder, vive dentro del bocadillo.
+- Un **personaje asistente tipo Clippy** (asistente del sistema, NO es el personaje seleccionado por el jugador en la landing) en la esquina inferior derecha: **Sans** (Undertale, sprite y voz de Sofía, 015-plan.md) — guiño deliberado, único personaje del juego que viene de fuera; se acredita en los créditos ("Sans © Toby Fox (Undertale) — homenaje sin ánimo de lucro", feature 016).
+- Del personaje sale un bocadillo de diálogo con dos botones: **No** y **Yes**, en Comic Sans (única excepción tipográfica del juego, fiel al personaje). Toda la interacción ocurre en el bocadillo; mientras escribe, su voz suena en bucle y la música de fondo se agacha (§2.3, §14).
 
 **Secuencia de preguntas** (respuesta correcta en negrita; fallar cualquiera = Game Over):
 
@@ -892,7 +893,7 @@ El truco psicológico: el jugador se acostumbra a pulsar No tres veces, y la cua
 
 **Victoria:** responder correctamente las **8 preguntas consecutivas** (dos vueltas completas) → `Consent successfully renewed.`
 
-**Derrota:** responder mal cualquier pregunta, contador a 0, pulsar el Disagree rojo o pulsar la X → Game Over.
+**Derrota:** responder mal cualquier pregunta, contador a 0, o pulsar la X → Game Over.
 
 ---
 
@@ -988,8 +989,8 @@ localStorage. And those are just your ranking. Promise.
 - Idiomas: **español** e **inglés**, alternables desde Ajustes.
 - Se traduce **todo**: UI, landing, textos de consentimiento de los banners, mensajes de victoria/derrota, diálogos del nivel 11, créditos.
 - Los textos de este documento están escritos en su versión inglesa (canónica); las traducciones al español se producirán como parte del desarrollo.
-- Agree y Disagree nunca se traducen, en ningún contexto: botones, textazos gigantes, título de la ventana de Game Over, rodillos, fichas del plinko, etc. Son piezas del juego, no texto de interfaz. Razón de diseño: "Disagree" contiene visualmente la palabra "Agree", y esa confusión es parte de la dificultad de los niveles 2, 7, 10 y 12; traducirlos a "Aceptar/Rechazar" haría el juego más fácil en español.
-- El resto de botones del sistema (Check, Stop, OK, Yes, No) se mantienen también en inglés por coherencia con el falso sistema operativo. **Excepción**: "Next" (Level Complete) y "Return to Level Selection" (Game Over) sí se traducen — son instrucciones de navegación normales, no vocabulario del falso sistema operativo como Agree/Disagree/Check.
+- Agree y Disagree nunca se traducen, en ningún contexto: botones, textazos gigantes, título de la ventana de Game Over, rodillos, fichas del plinko, etc. Son piezas del juego, no texto de interfaz. Razón de diseño: "Disagree" contiene visualmente la palabra "Agree", y esa confusión es parte de la dificultad de los niveles 2, 7, 10 y 12; traducirlos a "Aceptar/Rechazar" haría el juego más fácil en español. El título "Cookies Accepted" de la modal de victoria tampoco se traduce, por la misma razón (va de la mano del veredicto gigante).
+- El resto de botones neutros del sistema (Check, Stop, OK, Yes, No) **sí se traducen con normalidad** (corregido tras revisión de Sofía sobre la 015: "en general los botones estos neutros creo que se deberían traducir" — antes se mantenían en inglés "por coherencia con el falso sistema operativo", pero esa coherencia no depende del idioma de un botón neutro, solo de la mecánica de similitud visual de Agree/Disagree, que ellos no tienen). Traducciones: Check → Comprobar, Stop → Parar, OK → Aceptar, Yes → Sí, No → No (coincide en los dos idiomas). "Next" (Level Complete) y "Return to Level Selection" (Game Over) ya se traducían con normalidad, sin ser parte de esta excepción.
 
 ---
 
@@ -1017,7 +1018,8 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 - La regla general "botón incorrecto = Game Over" admite excepciones por nivel (nivel 1).
 - El contador es siempre de 100 s; el del nivel 1 se reinicia al reaparecer la ventana.
 - La barra del nivel 12 es teatro intencionado.
-- Los 4 personajes son solo avatar de ranking; el personaje del nivel 11 es un asistente propio tipo Clippy.
+- Los 4 personajes son solo avatar de ranking; el personaje del nivel 11 es un asistente propio tipo Clippy — nombrado **Sans** (Undertale, 015-plan.md), con crédito a Toby Fox en la pantalla de créditos (feature 016).
+- El nivel 11 **no tiene botón Disagree en el pie** (en versiones antiguas de este documento sí lo tenía; retirado tras revisión de Sofía sobre la implementación de la 015: "no me convence que haya un botón de disagree, lo vamos a eliminar") — toda la interacción, ganar y perder, vive dentro del bocadillo de Sans.
 - Inspiración reconocida: **Doki Doki Action Game**.
 - Agree/Disagree no se traducen nunca: la similitud visual entre ambas palabras es mecánica de juego.
 - La landing no obliga a elegir personaje: Empezar funciona siempre.
@@ -1066,6 +1068,10 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 10: apilado | La ventana agarrada pasa al frente de inmediato (no un orden fijo por antigüedad) |
 | Nivel 10: candidatas al Agree | Las 6 ventanas anteriores a la que acaba de completar la séptima; la recién nacida nunca lleva el Agree |
 | Nivel 10: móvil (ventana reducida + asomo por los lados) | En `xs` y `sm` (≤480px, no solo `xs`: corregido tras probar en un móvil real de ancho normal) — 30% del ancho de la ventana siempre visible al asomar (nunca puede desaparecer del todo) |
+| Nivel 11: velocidad de escritura | ~25 ms/carácter |
+| Nivel 11: margen de desbloqueo tras terminar de escribir | ~200 ms |
+| Nivel 11: factor de ducking de la música mientras Sans habla | 0,2 (20% de su volumen normal) |
+| Nivel 11: fundido del ducking (al agachar y al restaurar) | ~150 ms |
 | Nivel 12: pulsaciones antes del switcheo | aleatorio 15–35 |
 | Nivel 12: tiempo de espera para revertir el botón | 2 s |
 | Nivel 12: decaimiento de la barra | cada 0,5 s sin pulsar |

@@ -1,0 +1,113 @@
+.level-11 {
+  // Rellena el marco azul del área de juego (GDD §4.4), mismo patrón que los
+  // niveles sin tablero propio (1, 2, 7, 8, 9, 10): fondo blanco en el
+  // propio wrapper del texto, nunca el beige de `.xp-window__interior`.
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+
+  // Sans + bocadillo (publicado vía `useLevelBoard`, `Level11Board.tsx`):
+  // columna con el bocadillo encima en xs/sm (GDD "más ancho disponible
+  // para la pregunta larga"), fila con el bocadillo a la izquierda a partir
+  // de md — Sans siempre pegado a la esquina inferior derecha.
+  &__board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 0.5rem;
+
+    @media (min-width: 481px) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: center;
+    }
+  }
+
+  // Más grande en xs/sm que en md+ a propósito (corregido tras revisión de
+  // Sofía): en móvil el bocadillo se apila ENCIMA de Sans en vez de a su
+  // lado, así que hay ancho de sobra para que sea el protagonista visual.
+  &__sans {
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+
+    @media (min-width: 481px) {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+
+  // Bocadillo: única excepción tipográfica del juego (Comic Sans, GDD Nivel
+  // 11) — declarada SOLO en `&__bubble-text`, nunca en el propio `&__bubble`
+  // ni en un ancestro: si se filtrara a `&__bubble-buttons` (botones No/Yes)
+  // rompería el sistema de diseño (015-plan.md, "Decisiones").
+  &__bubble {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 22rem;
+    padding: 0.75rem;
+    background: var(--color-white);
+    border: 3px solid var(--color-button-border);
+    border-radius: 12px;
+    cursor: pointer;
+
+    // Cola apuntando a Sans: abajo (xs/sm, bocadillo encima de Sans) o a la
+    // derecha (md+, bocadillo a la izquierda de Sans).
+    &::after {
+      content: '';
+      position: absolute;
+      border: 10px solid transparent;
+      bottom: -19px;
+      right: 2rem;
+      border-top-color: var(--color-button-border);
+
+      @media (min-width: 481px) {
+        bottom: 2rem;
+        right: -19px;
+        top: auto;
+        border-top-color: transparent;
+        border-left-color: var(--color-button-border);
+      }
+    }
+
+    @media (min-width: 481px) {
+      max-width: 20rem;
+    }
+  }
+
+  &__bubble-text {
+    margin: 0;
+    width: 100%;
+    min-height: 3.5rem;
+    white-space: pre-wrap;
+    font-family: 'Comic Sans MS', 'Comic Neue', cursive;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--color-text-dark);
+  }
+
+  &__bubble-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+}

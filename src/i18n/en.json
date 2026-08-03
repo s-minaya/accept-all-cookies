@@ -104,7 +104,14 @@
       "name": "Legitimate Interest",
       "consent": "Legitimate Interest\n\nWe and our trusted partners may process certain personal data based on our legitimate interests where permitted by applicable law.\n\nThis processing may include improving our services, preventing fraud, measuring performance and providing relevant content without requiring separate consent in certain circumstances.\n\nDo you agree to Legitimate Interest?"
     },
-    "11": { "name": "Consent Renewal" },
+    "11": {
+      "name": "Consent Renewal",
+      "consent": "Consent Renewal\n\nTo ensure your privacy choices remain up to date, we may periodically ask you to renew your consent.\n\nRenewing your consent helps us confirm your current preferences and continue providing personalized services in accordance with applicable privacy regulations.\n\nDo you agree to renew your consent?",
+      "q1": "Are you having any trouble?",
+      "q2": "No, but you are having some trouble, right?",
+      "q3": "No, no, don't push yourself... you're having trouble, right?",
+      "q4": "Do you intend to agree?"
+    },
     "12": { "name": "Accept All" }
   },
   "meta": {

@@ -39,7 +39,7 @@ describe('AppShell', () => {
     expect(screen.getByText('Cookie Preferences')).toBeInTheDocument()
     expect(screen.queryByText('Empezar')).not.toBeInTheDocument()
 
-    await user.click(screen.getByText('Check'))
+    await user.click(screen.getByText('Comprobar'))
     const agreeButton = await screen.findByText('Agree')
     expect(screen.queryByText('Cookie Preferences')).not.toBeInTheDocument()
 
@@ -58,7 +58,7 @@ describe('AppShell', () => {
     useRunStore.setState({ completedLevels: [1], currentLevel: 2, activeLevelTimeLeft: null })
     const { container } = render(<AppShell />)
 
-    await user.click(screen.getByText('Check'))
+    await user.click(screen.getByText('Comprobar'))
     const disagreeButton = await screen.findByText('Disagree')
     await user.click(disagreeButton)
     resolveGiantVerdict(container)
@@ -76,7 +76,7 @@ describe('AppShell', () => {
     useRunStore.setState({ completedLevels: [1], currentLevel: 2, activeLevelTimeLeft: null })
     const { container } = render(<AppShell />)
 
-    await user.click(screen.getByText('Check'))
+    await user.click(screen.getByText('Comprobar'))
     await screen.findByText('Agree')
 
     await user.click(screen.getByRole('button', { name: 'Cerrar' }))
@@ -184,7 +184,7 @@ describe('AppShell', () => {
       render(<AppShell />)
 
       await user.click(screen.getByText('Empezar'))
-      await user.click(screen.getByText('Check'))
+      await user.click(screen.getByText('Comprobar'))
       await user.click(await screen.findByText('Agree'))
 
       expect(playPositive).toHaveBeenCalled()
@@ -198,7 +198,7 @@ describe('AppShell', () => {
       render(<AppShell />)
 
       await user.click(screen.getByText('Empezar'))
-      await user.click(screen.getByText('Check'))
+      await user.click(screen.getByText('Comprobar'))
       await user.click(await screen.findByText('Disagree'))
 
       expect(playNegative).toHaveBeenCalled()
@@ -211,7 +211,7 @@ describe('AppShell', () => {
       render(<AppShell />)
 
       await user.click(screen.getByText('Empezar'))
-      await user.click(screen.getByText('Check'))
+      await user.click(screen.getByText('Comprobar'))
       // Disagree (no Agree): en el nivel 1 real, Agree tarda 7s en aparecer.
       await screen.findByText('Disagree')
 
@@ -227,7 +227,7 @@ describe('AppShell', () => {
       })
       const { container } = render(<AppShell />)
 
-      await user.click(screen.getByText('Check'))
+      await user.click(screen.getByText('Comprobar'))
       await user.click(await screen.findByText('Agree'))
       resolveGiantVerdict(container)
       await user.click(await screen.findByText('Siguiente'))
@@ -264,16 +264,19 @@ describe('AppShell', () => {
       // (Legitimate Interest, 014-plan.md): la ventana arranca con dos
       // Disagree — no hay ningún Agree hasta duplicarla 6 veces y que el
       // sorteo (al llegar a 7) le toque a una en concreto, tampoco
-      // reproducible con un simple `getByText('Agree')`. Esa cobertura ya
-      // vive en `Level06.test.tsx`, `Level08.test.tsx`, `Level09.test.tsx` y
-      // `Level10.test.tsx` (incluida una partida ganadora determinista en
-      // cada uno). Los seis se saltan con el botón dev en vez de duplicar
-      // esa cobertura aquí (`?dev` no afecta a ningún otro nivel de este
-      // recorrido).
+      // reproducible con un simple `getByText('Agree')`. Nivel 11 (Consent
+      // Renewal, 015-plan.md): no hay ningún "Agree" en el nivel entero — la
+      // victoria real es la octava respuesta "Yes" del bocadillo de Sans,
+      // tras ocho preguntas con su efecto de escritura letra a letra. Esa
+      // cobertura ya vive en `Level06.test.tsx`, `Level08.test.tsx`,
+      // `Level09.test.tsx`, `Level10.test.tsx` y `Level11.test.tsx`
+      // (incluida una partida ganadora determinista en cada uno). Los siete
+      // se saltan con el botón dev en vez de duplicar esa cobertura aquí
+      // (`?dev` no afecta a ningún otro nivel de este recorrido).
       window.history.pushState({}, '', '?dev')
 
       for (let level = 1; level <= 12; level++) {
-        fireEvent.click(screen.getByText('Check'))
+        fireEvent.click(screen.getByText('Comprobar'))
 
         if (
           level === 4 ||
@@ -281,7 +284,8 @@ describe('AppShell', () => {
           level === 6 ||
           level === 8 ||
           level === 9 ||
-          level === 10
+          level === 10 ||
+          level === 11
         ) {
           fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
           await vi.waitFor(() => expect(screen.getByText('Cookie Preferences')).toBeInTheDocument())
@@ -311,7 +315,7 @@ describe('AppShell', () => {
       ])
       // Con los 12 completados no queda ningún nivel "disponible", así que no
       // se renderiza ningún botón Check (en vez de uno deshabilitado).
-      expect(screen.queryByText('Check')).not.toBeInTheDocument()
+      expect(screen.queryByText('Comprobar')).not.toBeInTheDocument()
     } finally {
       vi.useRealTimers()
       window.history.pushState({}, '', '/')
@@ -325,7 +329,7 @@ describe('AppShell', () => {
         const { container } = render(<AppShell />)
 
         fireEvent.click(screen.getByText('Empezar'))
-        fireEvent.click(screen.getByText('Check'))
+        fireEvent.click(screen.getByText('Comprobar'))
         await vi.waitFor(() => expect(screen.getByText('Disagree')).toBeInTheDocument())
         expect(screen.queryByText('Agree')).not.toBeInTheDocument()
 
@@ -355,14 +359,14 @@ describe('AppShell', () => {
       render(<AppShell />)
 
       await user.click(screen.getByText('Empezar'))
-      await user.click(screen.getByText('Check'))
+      await user.click(screen.getByText('Comprobar'))
       await user.click(await screen.findByText('Disagree'))
 
       expect(await screen.findByText('Error')).toBeInTheDocument()
       expect(screen.getByText('Las cookies esenciales no se pueden rechazar.')).toBeInTheDocument()
       expect(playNegative).not.toHaveBeenCalled()
 
-      await user.click(screen.getByText('OK'))
+      await user.click(screen.getByText('Aceptar'))
 
       // Sigue en el nivel 1 (no hubo Game Over ni vuelta a la selección):
       // el diálogo de error se cierra y el Agree vuelve a estar oculto.
@@ -378,7 +382,7 @@ describe('AppShell', () => {
         const { container } = render(<AppShell />)
 
         fireEvent.click(screen.getByText('Empezar'))
-        fireEvent.click(screen.getByText('Check'))
+        fireEvent.click(screen.getByText('Comprobar'))
         await vi.waitFor(() => expect(screen.getByText('Disagree')).toBeInTheDocument())
 
         act(() => {
@@ -403,7 +407,7 @@ describe('AppShell', () => {
         const { container } = render(<AppShell />)
 
         fireEvent.click(screen.getByText('Empezar'))
-        fireEvent.click(screen.getByText('Check'))
+        fireEvent.click(screen.getByText('Comprobar'))
         fireEvent.click(await vi.waitFor(() => screen.getByText('Disagree')))
         await vi.waitFor(() => expect(screen.getByText('Error')).toBeInTheDocument())
 
@@ -429,7 +433,7 @@ describe('AppShell', () => {
       const { container } = render(<AppShell />)
 
       await user.click(screen.getByText('Empezar'))
-      await user.click(screen.getByText('Check'))
+      await user.click(screen.getByText('Comprobar'))
       await screen.findByText('Disagree')
 
       await user.click(screen.getByRole('button', { name: 'Cerrar' }))
