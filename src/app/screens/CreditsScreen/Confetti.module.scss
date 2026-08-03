@@ -1,0 +1,36 @@
+.confetti {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  // Encima de la ventana de créditos, pero nunca le roba clics al botón de
+  // volver ni a nada de debajo.
+  z-index: 10;
+  pointer-events: none;
+
+  &__piece {
+    position: absolute;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    background: var(--confetti-color);
+    opacity: 0;
+    image-rendering: pixelated;
+    animation: confetti-fall var(--confetti-duration) var(--confetti-delay) ease-in forwards;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--confetti-drift), 105vh) rotate(var(--confetti-rotation));
+  }
+}

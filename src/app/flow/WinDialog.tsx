@@ -6,7 +6,7 @@ import styles from './WinDialog.module.scss'
 export interface WinDialogProps {
   /** Nombre traducido de la categoría del nivel recién completado. */
   categoryName: string
-  /** El nivel 12 usa un mensaje de cierre distinto (GDD §7.2); el botón sigue siendo Next (Credits llega en la 016). */
+  /** El nivel 12 usa un mensaje de cierre distinto y el botón pasa a ser Credits, no Next (GDD §7.2, 016-plan.md). */
   isFinalLevel: boolean
   onNext: () => void
 }
@@ -20,7 +20,7 @@ export function WinDialog({ categoryName, isFinalLevel, onNext }: WinDialogProps
       title={t('game.cookiesAccepted')}
       footer={
         <XPButton variant="neutral" onClick={onNext}>
-          {t('meta.win.nextButton')}
+          {isFinalLevel ? t('meta.win.creditsButton') : t('meta.win.nextButton')}
         </XPButton>
       }
     >

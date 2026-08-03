@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { LevelHost, type LevelExitResult } from './LevelHost'
 import { LandingScreen } from './screens/LandingScreen'
 import { LevelSelectScreen } from './screens/LevelSelectScreen/LevelSelectScreen'
-import { CreditsScreen } from './screens/CreditsScreen'
+import { CreditsScreen } from './screens/CreditsScreen/CreditsScreen'
 import { useAudio } from '../audio/useAudio'
 import { useRunStore } from '../state/runStore'
 import { useRankingStore } from '../state/rankingStore'
@@ -66,6 +66,11 @@ export function AppShell() {
       completeLevel(currentLevel)
       if (currentLevel === FINAL_LEVEL) {
         markFinished({ username: resolvePlayerName(character, username), character })
+        // El botón de la modal de victoria del nivel 12 es Credits, no Next
+        // (GDD §7.2, 016-plan.md): en vez de volver a selección (donde ya no
+        // quedaría ningún nivel disponible), va directo a los créditos.
+        setScreen('credits')
+        return
       }
     } else {
       resetRun()
@@ -73,12 +78,21 @@ export function AppShell() {
     setScreen('select')
   }
 
+  const handleCreditsBack = () => {
+    // Sin esto, el jugador volvería a una selección sin ningún nivel
+    // disponible (GDD §10, 016-plan.md, "Riesgos"): los créditos son la
+    // única salida que reinicia la partida sin pasar por un Game Over. El
+    // récord del ranking (con su marca `finished`, ya cableada en la 004) no
+    // se toca — `resetRun()` nunca escribe en `rankingStore`.
+    resetRun()
+    setScreen('landing')
+  }
+
   switch (screen) {
     case 'landing':
       // Sin acceso a créditos desde aquí a propósito (GDD §1.1 / 003-spec.md):
-      // el camino real es la pantalla de Level Complete del Nivel 12
-      // (feature 016). `credits` se queda como Screen/case válido para esa
-      // conexión futura.
+      // el único camino es la pantalla de Level Complete del nivel 12
+      // (016-plan.md), vía `handleLevelExit`.
       return <LandingScreen onStart={() => setScreen('select')} />
 
     case 'select':
@@ -105,6 +119,6 @@ export function AppShell() {
       )
 
     case 'credits':
-      return <CreditsScreen onBack={() => setScreen('landing')} />
+      return <CreditsScreen onBack={handleCreditsBack} />
   }
 }

@@ -15,12 +15,35 @@
       "testTitle": "Test Cookies",
       "testConsent": "Este banner de prueba no forma parte del juego real: solo existe para validar el contrato de nivel (onWin / onLose / contador) antes de construir los 12 niveles reales.",
       "devSkip": "Saltar nivel (dev)"
-    },
-    "credits": {
-      "title": "Créditos",
-      "body": "Créditos completos próximamente.",
-      "backToLanding": "Volver al inicio"
     }
+  },
+  "credits": {
+    "title": "CRÉDITOS",
+    "intro1": "Vaya. Lo has conseguido.",
+    "intro2": "De verdad. ʕﾉ◕ヮ◕ʔﾉ*:･ﾟ✧",
+    "intro3": "Acabas de dedicar parte de tu tiempo libre a luchar por el maravilloso derecho de que te rastreen, te perfilen y te tomen la huella digital.",
+    "intro4": "Doce niveles. Voluntariamente. Nadie te ha obligado.",
+    "roleGameDesign": "Diseño del juego",
+    "rolePixelArt": "Pixel art",
+    "roleCode": "Código",
+    "codeCredit": "Sofía Minaya & Claude Code",
+    "rolePsychologicalWarfare": "Guerra psicológica",
+    "author": "Sofía Minaya",
+    "inspiredByLabel": "Inspirado en",
+    "inspiredByValue": "Doki Doki Action Game",
+    "specialAppearanceLabel": "Aparición especial",
+    "sansCredit": "Sans © Toby Fox (Undertale) — Homenaje sin ánimo de lucro.",
+    "specialThanksLabel": "Agradecimiento especial",
+    "specialThanksTo": "A ti. ╰(*≧ω≦*)╯",
+    "specialThanksValue": "Por demostrar que, con suficientes dark patterns, cualquiera acaba pulsando \"Agree\".",
+    "dataJoke1": "En este preciso instante estamos compartiendo tus datos con nuestros 847 socios de confianza.",
+    "dataJoke2": "...",
+    "dataJoke3": "Nah.",
+    "dataJoke4": "Era para ver si seguías leyendo.",
+    "dataJoke5": "Las únicas cookies que usa este juego son las de localStorage, y únicamente sirven para guardar tu puntuación en el ranking. Prometido.",
+    "dataJoke6": "Aunque, siendo sinceros...",
+    "dataJoke7": "Tampoco has leído esta parte. (¬‿¬)",
+    "backButton": "Volver al inicio"
   },
   "landing": {
     "close": "Cerrar",
@@ -112,14 +135,18 @@
       "q3": "No, no, no te esfuerces... tienes un problema, ¿verdad?",
       "q4": "¿Tienes intención de aceptar?"
     },
-    "12": { "name": "Aceptar Todo" }
+    "12": {
+      "name": "Aceptar Todo",
+      "consent": "Aceptar Todo\n\nAceptar todas las cookies nos permite a nosotros y a nuestros socios de confianza ofrecerte la experiencia completa, incluyendo análisis, personalización, publicidad, seguimiento entre sitios web y uso compartido de datos.\n\nPuedes ayudarnos a mejorar nuestros servicios aceptando de una vez todas las categorías disponibles.\n\n¿Aceptas Aceptar Todo?"
+    }
   },
   "meta": {
     "win": {
       "intro": "Has aceptado correctamente:",
       "outro": "Ya puedes continuar con la siguiente categoría.",
       "outroFinal": "Has aceptado todas las categorías de cookies.",
-      "nextButton": "Siguiente"
+      "nextButton": "Siguiente",
+      "creditsButton": "Créditos"
     },
     "lose": {
       "message": "Has rechazado las preferencias de cookies.\n\nTu progreso se ha reiniciado.\n\nPulsa abajo para volver a la pantalla de selección de niveles y empezar de nuevo desde el Nivel 1.",

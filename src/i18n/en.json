@@ -15,12 +15,35 @@
       "testTitle": "Test Cookies",
       "testConsent": "This test banner isn't part of the real game: it only exists to validate the level contract (onWin / onLose / countdown) before the 12 real levels are built.",
       "devSkip": "Skip level (dev)"
-    },
-    "credits": {
-      "title": "Credits",
-      "body": "Full credits coming soon.",
-      "backToLanding": "Back to start"
     }
+  },
+  "credits": {
+    "title": "CREDITS",
+    "intro1": "Wow. You actually did it.",
+    "intro2": "For real. ʕﾉ◕ヮ◕ʔﾉ*:･ﾟ✧",
+    "intro3": "You just spent part of your free time fighting for the wonderful right to be tracked, profiled and fingerprinted.",
+    "intro4": "Twelve levels. Voluntarily. Nobody forced you.",
+    "roleGameDesign": "Game design",
+    "rolePixelArt": "Pixel art",
+    "roleCode": "Code",
+    "codeCredit": "Sofía Minaya & Claude",
+    "rolePsychologicalWarfare": "Psychological warfare",
+    "author": "Sofía Minaya",
+    "inspiredByLabel": "Inspired by",
+    "inspiredByValue": "Doki Doki Action Game",
+    "specialAppearanceLabel": "Special appearance",
+    "sansCredit": "Sans © Toby Fox (Undertale) — A non-profit tribute.",
+    "specialThanksLabel": "Special thanks",
+    "specialThanksTo": "You. ╰(*≧ω≦*)╯",
+    "specialThanksValue": "For proving that, with enough dark patterns, anyone ends up clicking \"Agree\".",
+    "dataJoke1": "Right now, we're sharing your data with our 847 trusted partners.",
+    "dataJoke2": "...",
+    "dataJoke3": "Nah.",
+    "dataJoke4": "That was just to see if you were still reading.",
+    "dataJoke5": "The only cookies this game uses are the ones in localStorage, and they only save your ranking score. Pinky promise.",
+    "dataJoke6": "Though, honestly...",
+    "dataJoke7": "You didn't read this part either. (¬‿¬)",
+    "backButton": "Back to Start"
   },
   "landing": {
     "close": "Close",
@@ -112,14 +135,18 @@
       "q3": "No, no, don't push yourself... you're having trouble, right?",
       "q4": "Do you intend to agree?"
     },
-    "12": { "name": "Accept All" }
+    "12": {
+      "name": "Accept All",
+      "consent": "Accept All\n\nAccepting all cookies allows us and our trusted partners to provide the full experience, including analytics, personalization, advertising, cross-site tracking and data sharing.\n\nYou can help us improve our services by accepting all available categories at once.\n\nDo you agree to Accept All?"
+    }
   },
   "meta": {
     "win": {
       "intro": "You have successfully accepted:",
       "outro": "You can now continue to the next category.",
       "outroFinal": "You have accepted every cookie category.",
-      "nextButton": "Next"
+      "nextButton": "Next",
+      "creditsButton": "Credits"
     },
     "lose": {
       "message": "You rejected the cookie preferences.\n\nYour progress has been reset.\n\nClick below to return to the Level Selection screen and start again from Level 1.",

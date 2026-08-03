@@ -941,46 +941,65 @@ Do you agree to Accept All?
 
 # 10. Pantalla de créditos
 
-Aparece tras pulsar **Credits** en el Level Complete del nivel 12. Mantiene la estética XP (puede ser una ventana XPWindow grande con scroll, o texto que sube estilo créditos de cine en pixel art).
+Aparece tras pulsar **Credits** en el Level Complete del nivel 12. Mantiene la estética XP: `XPWindow` grande con scroll interno, sin contador ni X (016-plan.md, implementada).
 
-Tono: **gracioso y un poco troll**, como si Sofía hablara directamente con quien ha llegado hasta el final. Borrador (versión inglesa; se traduce al español como todo el juego):
+Tono: **gracioso y un poco troll**, como si Sofía hablara directamente con quien ha llegado hasta el final. Versión inglesa (canónica; la traducción al español vive en `es.json`, como todo el juego):
 
 ```
 CREDITS
 
 Wow. You actually did it.
 
-You just spent your free time fighting for the right
-to be tracked, profiled and fingerprinted.
+For real. ʕﾉ◕ヮ◕ʔﾉ*:･ﾟ✧
+
+You just spent part of your free time fighting for the
+wonderful right to be tracked, profiled and fingerprinted.
 
 Twelve levels. Voluntarily. Nobody forced you.
 
 ─────────────────────────────
 
 Game design ............ Sofía Minaya
-Pixel art .............. Sofía Minaya
-Code ................... Sofía Minaya
-Psychological warfare ... Sofía Minaya
+Pixel art ............... Sofía Minaya
+Code ..................... Sofía Minaya & Claude
+Psychological warfare .... Sofía Minaya
 
-Inspired by ............ Doki Doki Action Game
+Inspired by .............. Doki Doki Action Game
+Special appearance ....... Sans © Toby Fox (Undertale)
+                           — A non-profit tribute.
 
-Special thanks ......... You, for proving that with
-                         enough dark patterns, anyone
-                         will click Agree.
+Special thanks
+
+You. ╰(*≧ω≦*)╯
+
+For proving that, with enough dark patterns, anyone
+ends up clicking "Agree".
 
 ─────────────────────────────
 
-Your data is now being shared with our 847 trusted partners.
+Right now, we're sharing your data with our 847 trusted
+partners.
 
-...just kidding.
+...
 
-The only cookies this game uses are the ones in your
-localStorage. And those are just your ranking. Promise.
+Nah.
 
-[ Return to Level Selection ]
+That was just to see if you were still reading.
+
+The only cookies this game uses are the ones in
+localStorage, and they only save your ranking score.
+Pinky promise.
+
+Though, honestly...
+
+You didn't read this part either. (¬‿¬)
+
+[ Back to Start ]
 ```
 
-(El texto final es un borrador: se pulirá al escribir la spec, pero el tono y la estructura son estos. El botón final devuelve a la landing / pantalla de selección con la partida reiniciada y el récord guardado en el ranking.)
+Implementación (016-plan.md): las líneas con puntos ("Game design ... Sofía Minaya") se resuelven con una guía punteada por CSS, no con puntos literales incrustados en el texto — así funciona igual en cualquier idioma sin depender de cuántos caracteres mida cada etiqueta. El crédito a Sans/Toby Fox (requisito heredado de la 015) va en su propia fila, "Special appearance". El de Código se comparte de verdad con Claude ("Sofía Minaya & Claude") — petición explícita de Sofía en el checkpoint de la 016. El botón final **reinicia la partida** (`resetRun`) y vuelve a la landing; el récord del ranking, con su marca `finished`, no se toca.
+
+Al llegar a esta pantalla cae **confeti** (petición de Sofía en el mismo checkpoint): 60 cuadraditos pixel art de la paleta de tokens del juego, animados solo con CSS (sin dependencia nueva, mismo enfoque sin librería que `GiantVerdict`), puramente decorativo — `aria-hidden`, nunca intercepta clics ni bloquea el botón de volver.
 
 ---
 
@@ -1072,9 +1091,12 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 11: margen de desbloqueo tras terminar de escribir | ~200 ms |
 | Nivel 11: factor de ducking de la música mientras Sans habla | 0,2 (20% de su volumen normal) |
 | Nivel 11: fundido del ducking (al agachar y al restaurar) | ~150 ms |
-| Nivel 12: pulsaciones antes del switcheo | aleatorio 15–35 |
+| Nivel 12: pulsaciones antes del switcheo | aleatorio 15–35, con el PRNG compartido |
 | Nivel 12: tiempo de espera para revertir el botón | 2 s |
-| Nivel 12: decaimiento de la barra | cada 0,5 s sin pulsar |
+| Nivel 12: subida de la barra por pulsación | 3% |
+| Nivel 12: techo de la barra a base de clics (nunca se completa sola) | 90% — solo la victoria la fuerza al 100% |
+| Nivel 12: decaimiento de la barra | 1% cada 0,5 s sin pulsar (también durante la trampa y la espera de 2 s) |
+| Nivel 12: duración de la animación de llenado final | ~400 ms |
 
 # 15. Responsive y controles táctiles
 

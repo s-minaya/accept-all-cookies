@@ -1,6 +1,6 @@
 # 016 · Nivel 12 — Accept All + créditos
 
-**Estado:** aprobado
+**Estado:** implementada
 
 ## Qué hace
 
@@ -37,12 +37,16 @@ Implementa el **jefe final** (GDD §9, Nivel 12) y la **pantalla de créditos**.
 - Pantalla propia del shell (el hueco `credits` existe como placeholder desde la 002), con estética XP: `XPWindow` con scroll interno, sin contador y sin X.
 - Contenido (GDD §10), en tono gracioso y cómplice, en ES/EN:
   - Felicitación troll al jugador por haber luchado por el derecho a ser rastreado.
-  - Créditos de autoría (Sofía Minaya).
+  - Créditos de autoría (Sofía Minaya) por diseño, pixel art y guerra psicológica; **código a medias con Claude** ("Sofía Minaya & Claude" en la fila de Código — petición explícita de Sofía en el checkpoint, ver as-built).
   - **Inspiración**: *Doki Doki Action Game*.
   - **Homenaje**: "Sans © Toby Fox (Undertale) — homenaje sin ánimo de lucro" (requisito heredado de la 015).
+  - **Agradecimiento especial** al jugador ("A ti.") por demostrar que los patrones oscuros funcionan.
   - El remate sobre las cookies: las únicas del juego son las del `localStorage`, y solo guardan el ranking.
 - Un único botón: **volver al menú principal**.
 - **Al salir de créditos, la partida se reinicia** (`resetRun`) para que el jugador pueda volver a jugar desde el Nivel 1. El récord del ranking (con su marca `finished`, ya cableada en la 004) **no** se toca.
+- **Confeti** al llegar a la pantalla (petición de Sofía en el checkpoint, ver as-built): celebración puramente visual, nunca bloquea el botón de volver.
+
+**As-built (checkpoint, ronda 2):** tras una primera pasada, Sofía pidió reescribir el texto completo de los créditos (intro en dos tiempos, agradecimiento especial reestructurado en tres bloques, chiste de los datos ampliado a 7 líneas con remate final) manteniendo la guía de puntos y el resto de la estructura, y pidió sumar a Claude en el crédito de Código sin trasladar su mensaje personal literal al juego. En el mismo checkpoint pidió un efecto de confeti al llegar a los créditos; se preguntó si usar un paquete npm o hacerlo a mano y se optó por CSS puro (sin dependencia nueva, ver `spec/constitution/tech-stack.md`) siguiendo el mismo patrón sin librería que `GiantVerdict`: 60 piezas de 8×8px con la paleta de tokens existente, generadas una vez y auto-limpiadas con `animation-fill-mode: forwards` (sin `setTimeout`).
 
 ### Pausa y recarga
 
@@ -56,25 +60,26 @@ Es el remate temático del juego: después de once niveles peleándose con la in
 ## Criterios de aceptación
 
 ### Barra y trampa
-- [ ] Cada pulsación sube la barra un poco; sin pulsar, decrece cada 0,5 s; nunca llega al 100 % a base de clics (test de la lógica pura con series largas).
-- [ ] `switchAt` se sortea en [15, 35] y el cambio a `Disagree` ocurre exactamente en esa pulsación, sin animación ni transición (test con semillas distintas).
-- [ ] Pulsar el botón en estado trampa pierde; pulsar el Disagree fijo de la izquierda pierde en cualquier momento.
-- [ ] Tras 2 s sin pulsar en estado trampa, el botón vuelve a `Agree`; pulsarlo entonces completa la barra al 100 % y gana con el flujo estándar y la categoría correcta.
-- [ ] El estado del botón (agree/trampa/restaurado) es una máquina pura testeada en sus cuatro transiciones, incluida la pulsación justo en el límite de los 2 s.
+- [x] Cada pulsación sube la barra un poco; sin pulsar, decrece cada 0,5 s; nunca llega al 100 % a base de clics (test de la lógica pura con series largas).
+- [x] `switchAt` se sortea en [15, 35] y el cambio a `Disagree` ocurre exactamente en esa pulsación, sin animación ni transición (test con semillas distintas).
+- [x] Pulsar el botón en estado trampa pierde; pulsar el Disagree fijo de la izquierda pierde en cualquier momento.
+- [x] Tras 2 s sin pulsar en estado trampa, el botón vuelve a `Agree`; pulsarlo entonces completa la barra al 100 % y gana con el flujo estándar y la categoría correcta.
+- [x] El estado del botón (agree/trampa/restaurado) es una máquina pura testeada en sus cuatro transiciones, incluida la pulsación justo en el límite de los 2 s.
 
 ### Fin del juego y créditos
-- [ ] La modal de victoria del nivel 12 muestra el mensaje final y su botón `Credits` abre la pantalla de créditos (no la selección).
-- [ ] Los créditos existen en ES y EN, con la autoría, la inspiración (*Doki Doki Action Game*) y el homenaje a Sans © Toby Fox; scroll interno si no caben; sin contador ni X.
-- [ ] El botón de los créditos vuelve a la landing **reiniciando la partida** (`resetRun`), y el ranking conserva el récord con su marca `finished` (test).
-- [ ] Tras los créditos, pulsar Empezar inicia una partida nueva desde el Nivel 1 (verificado jugando: no queda el juego en un estado "sin nivel disponible").
+- [x] La modal de victoria del nivel 12 muestra el mensaje final y su botón `Credits` abre la pantalla de créditos (no la selección).
+- [x] Los créditos existen en ES y EN, con la autoría, la inspiración (*Doki Doki Action Game*) y el homenaje a Sans © Toby Fox; scroll interno si no caben; sin contador ni X.
+- [x] El botón de los créditos vuelve a la landing **reiniciando la partida** (`resetRun`), y el ranking conserva el récord con su marca `finished` (test).
+- [x] Tras los créditos, pulsar Empezar inicia una partida nueva desde el Nivel 1 (verificado jugando: no queda el juego en un estado "sin nivel disponible").
+- [x] El confeti (petición de la ronda 2 del checkpoint) es decorativo puro: `aria-hidden`, `pointer-events: none`, nunca bloquea el botón de volver ni añade roles/botones accesibles (test) — verificado también con Playwright a tres anchos (1280/390/375) sin desbordamiento horizontal.
 
 ### Integración y calidad
-- [ ] Hueco 12 sustituido con chunk propio (sin matter.js); `levels.12.*` y `credits.*` en ambos diccionarios; PRNG compartido reutilizado.
-- [ ] La barra no re-renderiza el árbol por frame (custom property escrita por ref, patrón as-built 009–015); el componente que la posiciona es el que se monta (lección 010–012).
-- [ ] `paused` congela decaimiento, temporizador de 2 s e input; recarga a mitad (todo de cero, contador restaurado) y con desenlace pendiente (modal).
-- [ ] Cleanup total al desmontar (reloj, temporizadores) + test de no-fugas.
-- [ ] Botones ≥ 44 px; clic sostenido/ráfaga con dedo y con ratón; 5 anchos; móvil real con **toques CDP** (`Input.dispatchTouchEvent`, no `page.mouse`).
-- [ ] ✋ Checkpoint de Sofía: textos de los créditos en ES y EN, ritmo de la barra (que dé sensación de "faltan mil clics" sin ser tediosa) y si la trampa cae bien jugando del tirón tras los once niveles anteriores.
+- [x] Hueco 12 sustituido con chunk propio (sin matter.js); `levels.12.*` y `credits.*` en ambos diccionarios; PRNG compartido reutilizado.
+- [x] La barra no re-renderiza el árbol por frame (custom property escrita por ref, patrón as-built 009–015); el componente que la posiciona es el que se monta (lección 010–012).
+- [x] `paused` congela decaimiento, temporizador de 2 s e input; recarga a mitad (todo de cero, contador restaurado) y con desenlace pendiente (modal).
+- [x] Cleanup total al desmontar (reloj, temporizadores) + test de no-fugas.
+- [x] Botones ≥ 44 px; clic sostenido/ráfaga con dedo y con ratón; 5 anchos; móvil real con **toques CDP** (`Input.dispatchTouchEvent`, no `page.mouse`). (As-built: verificado en 1280px escritorio y 390×844/375×667 móvil con toques CDP reales; el resto de anchos y el móvil real vía Pages quedan para el checkpoint de Sofía, igual que en el resto de niveles.)
+- [x] ✋ Checkpoint de Sofía: textos de los créditos en ES y EN, ritmo de la barra (que dé sensación de "faltan mil clics" sin ser tediosa) y si la trampa cae bien jugando del tirón tras los once niveles anteriores. (Aprobado, con retoques de texto propios — ver as-built de la ronda 2 arriba y en `016-tasks.md`.)
 
 ## Fuera de alcance
 

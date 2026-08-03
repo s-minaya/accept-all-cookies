@@ -1,0 +1,50 @@
+.level-12 {
+  // Rellena el marco azul del área de juego (GDD §4.4), mismo patrón que los
+  // niveles sin tablero propio (1, 2, 7-11): fondo blanco en el propio
+  // wrapper del texto, nunca el beige de `.xp-window__interior`.
+  min-height: 100%;
+  background: var(--color-white);
+
+  &__text {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    white-space: pre-line;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  // Barra de progreso (publicada vía `useLevelBoard`, `ProgressBar.tsx`):
+  // relleno controlado por la custom property `--progress` (0-100), escrita
+  // por ref en cada fotograma — nunca por `transition` salvo durante el
+  // llenado final de la victoria (`&--winning`), que sí quiere animarse.
+  &__bar {
+    width: 100%;
+    height: 1.75rem;
+    padding: 3px;
+    background: var(--color-beige);
+    border: 3px solid var(--color-button-border);
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+
+  &__bar-fill {
+    height: 100%;
+    width: calc(var(--progress, 0) * 1%);
+    background: var(--color-agree-bg);
+    border: 2px solid var(--color-agree-border);
+    border-radius: 6px;
+
+    &--winning {
+      transition: width 400ms ease-out;
+    }
+  }
+}

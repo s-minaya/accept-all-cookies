@@ -219,22 +219,30 @@ describe('AppShell', () => {
     })
 
     it('marks the run as finished after winning level 12', async () => {
+      // El nivel 12 (Accept All, 016-plan.md) no se gana con un simple
+      // `getByText('Agree')`: hace falta pulsar el botón protagonista
+      // `switchAt` veces (aleatorio 15-35), esperar 2s y pulsar de nuevo —
+      // se salta con el botón dev, igual que el resto de niveles no
+      // deterministas de este archivo (ver el bloque de comentarios del
+      // recorrido completo, más abajo). El botón dev llama a `onExit`
+      // directamente (sin GiantVerdict ni modal), pero `completeLevel` y
+      // `markFinished` se aplican igual — es lo que se comprueba aquí.
       const user = userEvent.setup()
+      window.history.pushState({}, '', '?dev')
       useRunStore.setState({
         completedLevels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         currentLevel: 12,
         activeLevelTimeLeft: null,
       })
-      const { container } = render(<AppShell />)
+      render(<AppShell />)
 
       await user.click(screen.getByText('Comprobar'))
-      await user.click(await screen.findByText('Agree'))
-      resolveGiantVerdict(container)
-      await user.click(await screen.findByText('Siguiente'))
+      await user.click(await screen.findByText('Saltar nivel (dev)'))
 
       expect(useRankingStore.getState().entries).toEqual([
         expect.objectContaining({ maxLevel: 12, finished: true }),
       ])
+      window.history.pushState({}, '', '/')
     })
   })
 
@@ -267,16 +275,28 @@ describe('AppShell', () => {
       // reproducible con un simple `getByText('Agree')`. Nivel 11 (Consent
       // Renewal, 015-plan.md): no hay ningún "Agree" en el nivel entero — la
       // victoria real es la octava respuesta "Yes" del bocadillo de Sans,
-      // tras ocho preguntas con su efecto de escritura letra a letra. Esa
-      // cobertura ya vive en `Level06.test.tsx`, `Level08.test.tsx`,
-      // `Level09.test.tsx`, `Level10.test.tsx` y `Level11.test.tsx`
-      // (incluida una partida ganadora determinista en cada uno). Los siete
+      // tras ocho preguntas con su efecto de escritura letra a letra. Nivel
+      // 12 (Accept All, 016-plan.md): tampoco un simple clic — hace falta
+      // pulsar el botón protagonista `switchAt` veces (aleatorio 15-35),
+      // esperar 2s y pulsar de nuevo. Esa cobertura ya vive en
+      // `Level06.test.tsx`, `Level08.test.tsx`, `Level09.test.tsx`,
+      // `Level10.test.tsx`, `Level11.test.tsx` y `Level12.test.tsx`
+      // (incluida una partida ganadora determinista en cada uno). Los ocho
       // se saltan con el botón dev en vez de duplicar esa cobertura aquí
       // (`?dev` no afecta a ningún otro nivel de este recorrido).
       window.history.pushState({}, '', '?dev')
 
       for (let level = 1; level <= 12; level++) {
         fireEvent.click(screen.getByText('Comprobar'))
+
+        if (level === 12) {
+          // Al ser el nivel final, saltarlo navega directo a los créditos
+          // (016-plan.md) en vez de volver a la pantalla de selección — no
+          // hay "siguiente nivel" que comprobar tras el 12.
+          fireEvent.click(await vi.waitFor(() => screen.getByText('Saltar nivel (dev)')))
+          await vi.waitFor(() => expect(screen.getByText('CRÉDITOS')).toBeInTheDocument())
+          break
+        }
 
         if (
           level === 4 ||
@@ -313,9 +333,14 @@ describe('AppShell', () => {
       expect(useRankingStore.getState().entries).toEqual([
         expect.objectContaining({ maxLevel: 12, finished: true }),
       ])
-      // Con los 12 completados no queda ningún nivel "disponible", así que no
-      // se renderiza ningún botón Check (en vez de uno deshabilitado).
-      expect(screen.queryByText('Comprobar')).not.toBeInTheDocument()
+      // Tras los créditos con la partida completa, el botón de volver
+      // reinicia el run (016-plan.md) — el ranking conserva el récord.
+      fireEvent.click(screen.getByText('Volver al inicio'))
+      expect(useRunStore.getState()).toMatchObject({ completedLevels: [], currentLevel: 1 })
+      expect(useRankingStore.getState().entries).toEqual([
+        expect.objectContaining({ maxLevel: 12, finished: true }),
+      ])
+      expect(screen.getByText('Empezar')).toBeInTheDocument()
     } finally {
       vi.useRealTimers()
       window.history.pushState({}, '', '/')

@@ -157,4 +157,14 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // del bocadillo (No/Yes), mismo patrón que los niveles 8-9.
     component: lazy(() => import('./level11/Level11')),
   },
+  12: {
+    titleKey: 'levels.12.name',
+    // Sin consentKey, mismo patrón que los niveles 3-11: texto dentro del
+    // marco azul, tablero (la barra de progreso) publicado aparte vía
+    // `useLevelBoard` (016-plan.md). El pie SÍ es especial: el Disagree fijo
+    // de siempre a la izquierda y, a la derecha, el botón protagonista —
+    // Agree o Disagree según `phase`, cambiando de golpe sin transición
+    // (GDD Nivel 12: "sin animación ni aviso").
+    component: lazy(() => import('./level12/Level12')),
+  },
 }
