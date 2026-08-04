@@ -74,7 +74,7 @@ Es la cara del juego y la primera pantalla real sobre el shell de la 002: valida
 
 ### Información
 - [x] La guía existe en ambos idiomas, con scroll si no cabe, y no revela ninguna mecánica oculta de niveles.
-- [x] ✋ Textos aprobados por Sofía en ES y EN.
+- [x] ✋ Textos aprobados en ES y EN.
 
 ### Configuración
 - [x] Cambiar el idioma actualiza todos los textos visibles al instante, incluido el botón Empezar.
@@ -83,8 +83,8 @@ Es la cara del juego y la primera pantalla real sobre el shell de la 002: valida
 
 ### Calidad
 - [x] Todos los textos nuevos en ambos diccionarios bajo `landing.*`; claves `game.*` intactas; los nombres por defecto NO están en los diccionarios (son datos).
-- [x] `CuteButton`, `XPTextInput`, `XPSlider` y `XPToggle` añadidos a la Playground y usables con dedo y ratón. (Ratón + emulación táctil de Playwright verificados; dedo real pendiente de Sofía.)
-- [ ] En iOS, enfocar el campo de nombre no provoca zoom automático. **Pendiente de Sofía en dispositivo real** (font-size ya fijado a 16px, que es la causa técnica del zoom, pero solo Safari/iOS real lo confirma).
+- [x] `CuteButton`, `XPTextInput`, `XPSlider` y `XPToggle` añadidos a la Playground y usables con dedo y ratón. (Ratón + emulación táctil de Playwright verificados; dedo real pendiente de un dispositivo físico.)
+- [ ] En iOS, enfocar el campo de nombre no provoca zoom automático. **Pendiente de verificar en dispositivo real** (font-size ya fijado a 16px, que es la causa técnica del zoom, pero solo Safari/iOS real lo confirma).
 
 ## Fuera de alcance
 

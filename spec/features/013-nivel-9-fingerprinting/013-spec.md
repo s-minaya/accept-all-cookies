@@ -69,7 +69,7 @@ Es el mejor chiste de diseño del juego: una interfaz que te entrena a perseguir
 - [x] Cleanup total al desmontar (rAF, listeners) + test de no-fugas.
 - [x] Cuadrícula 4×3 en md+ y 3×4 en xs/sm, casillas del mismo tamaño que un botón real (≥ 44 px de área táctil), sin scroll en 375 px.
 - [x] Partida entera ganando y perdiendo; 5 anchos (verificados con Playwright). Móvil real vía Pages: pendiente del checkpoint, como el resto de niveles.
-- [x] ✋ Checkpoint de Sofía: mecánica corregida aprobada ("esttá perfecto").
+- [x] ✋ Checkpoint: mecánica corregida aprobada.
 
 ## Fuera de alcance
 

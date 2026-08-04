@@ -52,7 +52,7 @@ Primer nivel jugable de verdad y banco de pruebas del patrón "carpeta de nivel 
 
 ### Calidad
 - [x] Textos del nivel en ambos diccionarios bajo `levels.1.*`; botones vía `game.*` intactos.
-- [x] Jugable con dedo y ratón; correcto en los 5 anchos (el texto de consentimiento hace scroll interno si no cabe). Confirmado por Sofía.
+- [x] Jugable con dedo y ratón; correcto en los 5 anchos (el texto de consentimiento hace scroll interno si no cabe). Confirmado.
 - [x] `paused` congela el nivel por completo (incluido el diálogo de error si está abierto).
 
 ## Fuera de alcance

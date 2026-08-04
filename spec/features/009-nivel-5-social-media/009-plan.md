@@ -1,6 +1,6 @@
 # 009 · Nivel 5 — Social Media (tragaperras) — Plan
 
-> Plan pre-implementación: describe el enfoque tal como se planeó antes de escribir código, no se ha mantenido sincronizado con ajustes posteriores (QA con Sofía, correcciones visuales). Para el estado final as-built, ver `009-spec.md` y `009-tasks.md`.
+> Plan pre-implementación: describe el enfoque tal como se planeó antes de escribir código, no se ha mantenido sincronizado con ajustes posteriores (QA de juego, correcciones visuales). Para el estado final as-built, ver `009-spec.md` y `009-tasks.md`.
 
 ## Enfoque
 
@@ -29,7 +29,7 @@ Toda la mecánica es una **máquina de estados pura + una tira que se desplaza**
 
 ## Riesgos
 
-- **El "tacto" de tragaperras no convence** (velocidad, encaje, legibilidad en movimiento) — mitigación: todos los diales con nombre en constantes; el checkpoint de Sofía es la vara; el desenfoque de movimiento o efectos extra, solo si ella los pide (017).
+- **El "tacto" de tragaperras no convence** (velocidad, encaje, legibilidad en movimiento) — mitigación: todos los diales con nombre en constantes; el checkpoint final es la vara; el desenfoque de movimiento o efectos extra, solo si se piden en el checkpoint (017).
 - **Timing imposible o trivial** — a la velocidad configurada, parar un Agree concreto puede ser pura suerte o pura facilidad; mitigación: velocidad y proporción son los dos diales, se calibran jugando en el checkpoint (objetivo del GDD: "complicado pero no frustrante").
 - **Tres rodillos no caben en 375 px** — mitigación: los rodillos usan tamaños relativos con mínimo táctil en los Stops; criterio de aceptación explícito en `xs`; si aprieta, los botones de la tira pueden reducirse antes que los Stops.
 - **La pausa de rehabilitación interactúa mal con `paused` o con el fin del contador** — mitigación: la fase `respinPause` vive en la máquina pura con tests propios (pausar durante la pausa, contador muriendo durante la pausa), no en un timeout suelto sin dueño.

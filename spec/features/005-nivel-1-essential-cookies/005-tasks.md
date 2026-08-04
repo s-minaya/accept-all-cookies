@@ -6,11 +6,11 @@
 - [x] Estilos `level01.scss` en BEM con tokens compartidos.
 - [x] Sustituir el hueco 1 del registro y verificar el chunk propio en el build.
 - [x] Añadir las claves `levels.1.*` a ambos diccionarios (consentimiento + diálogo de error).
-- [x] Edición manual del GDD (Sofía): en el Nivel 1, sustituir el bloque "Caso Agree" por: *"Caso Agree: se dispara el flujo estándar de Level Complete (GDD §7). El nivel no muestra ningún diálogo propio de victoria."*
-- [x] ✋ **Checkpoint con Sofía**: revisar la estructura de la carpeta `level01/` como molde de los once niveles siguientes (nombres, reparto lógica/vista, SCSS) antes de cerrar. Confirmado: el texto dentro del marco azul y los botones en el pie de la ventana (fuera del marco, vía `useLevelFooter`) es el patrón que seguirán los niveles 2-12.
+- [x] Edición manual del GDD: en el Nivel 1, sustituir el bloque "Caso Agree" por: *"Caso Agree: se dispara el flujo estándar de Level Complete (GDD §7). El nivel no muestra ningún diálogo propio de victoria."*
+- [x] ✋ **Checkpoint**: revisar la estructura de la carpeta `level01/` como molde de los once niveles siguientes (nombres, reparto lógica/vista, SCSS) antes de cerrar. Confirmado: el texto dentro del marco azul y los botones en el pie de la ventana (fuera del marco, vía `useLevelFooter`) es el patrón que seguirán los niveles 2-12.
 - [x] QA: partida completa ganando y perdiendo (por contador y por X); diálogo de error abierto hasta que el contador llega a 0; Disagree pulsado muchas veces seguidas; 5 anchos; móvil real vía Pages.
   - Verificado por tests automatizados (Vitest + Testing Library, sin navegador real): victoria por Agree tras los 7s, derrota por contador y por X, diálogo de error con Disagree repetido, contador corriendo con el diálogo abierto hasta perder por tiempo, reinicio limpio tras OK.
-  - Confirmado por Sofía: layout del recuadro de texto y botones, los 5 anchos de referencia y el recorrido completo en móvil real vía Pages.
+  - Confirmado: layout del recuadro de texto y botones, los 5 anchos de referencia y el recorrido completo en móvil real vía Pages.
 - [x] Validar contra los criterios de aceptación de `spec.md`: todos cumplidos.
 - [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
 

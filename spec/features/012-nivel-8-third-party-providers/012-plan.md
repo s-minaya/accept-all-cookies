@@ -15,7 +15,7 @@ Separar por completo **coreografía** de **render**: toda la partida (posición 
 2. **Máquina de fases** — `src/levels/level08/phases.ts` (pura, + tests): `reveal → flip → shuffling(ronda 0..2) → choosing → done`; qué input se acepta en cada fase (solo `reveal` y `choosing`); avance por duración acumulada.
 3. **Reloj de fases** — un temporizador basado en rAF con acumulador (patrón de `pathAnimator` de la 010): avanza las fases, se congela con `paused` y se cancela en cleanup. Sin `setTimeout` sueltos (evita el problema de "pausar a mitad" que ya resolvió la 009).
 4. **Componente** — `Level08.tsx`: texto en el marco; cuadrícula vía `useLevelBoard`; 12 botones **con identidad estable** (key = id de botón, no celda) posicionados por `transform: translate(var(--cell-x), var(--cell-y))`; los intercambios cambian esas custom properties y una `transition` de la duración de la ronda hace el resto — cero re-render por frame.
-5. **Estilos** — `Level08.module.scss` (BEM): rejilla responsive (4×3 / 3×4), flip 3D con `rotateY` y cambio de cara a mitad del giro, `z-index` temporal a los dos botones que se cruzan, arco ligero opcional en el recorrido (keyframe con desplazamiento vertical) si Sofía lo pide en el checkpoint.
+5. **Estilos** — `Level08.module.scss` (BEM): rejilla responsive (4×3 / 3×4), flip 3D con `rotateY` y cambio de cara a mitad del giro, `z-index` temporal a los dos botones que se cruzan, arco ligero opcional en el recorrido (keyframe con desplazamiento vertical) si se pide en el checkpoint.
 6. **Identidad oculta** — el botón que era Agree se identifica solo por su id en el estado del nivel; el DOM no lleva ninguna marca (`data-*`, clases, orden) que permita distinguirlo tras el flip. Test: tras el flip, los 12 nodos tienen atributos y clases idénticos salvo la posición.
 7. **Registro e i18n** — hueco 8 sin `consentKey`; `levels.8.*` en ambos diccionarios (texto de consentimiento ya redactado en el GDD).
 8. **GDD** — anotar la decisión sobre pulsar Disagree en la fase reveal y añadir a §14 los parámetros (duración del flip, duraciones e intercambios por ronda).
@@ -33,7 +33,7 @@ Separar por completo **coreografía** de **render**: toda la partida (posición 
 
 ## Riesgos
 
-- **El barajado resulta imposible de seguir (o trivial)** — mitigación: número de intercambios por ronda y duraciones son parámetros; el checkpoint de Sofía decide; si hace falta, más intercambios en la ronda rápida o arco en los recorridos.
+- **El barajado resulta imposible de seguir (o trivial)** — mitigación: número de intercambios por ronda y duraciones son parámetros; el checkpoint decide; si hace falta, más intercambios en la ronda rápida o arco en los recorridos.
 - **Dos botones que intercambian se solapan y "parpadean"** — mitigación: `z-index` temporal al par en movimiento y, si hace falta, arco vertical para que el cruce se lea; se ajusta con los ojos en el checkpoint.
 - **La identidad del Agree se filtra al DOM sin querer** (orden de nodos, clase residual del reveal) — mitigación: test explícito de indistinguibilidad tras el flip; es el bug que haría el nivel trivial para cualquiera que abra el inspector.
 - **`paused` a mitad de una transición CSS** — mitigación: al pausar se congela la transición (`transition: none` + fijar el valor interpolado actual) y al reanudar se relanza con el tiempo restante de la ronda; test de la máquina de fases y verificación visual.

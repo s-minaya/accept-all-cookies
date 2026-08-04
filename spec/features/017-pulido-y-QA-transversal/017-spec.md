@@ -59,7 +59,7 @@
 
 ## Por qué
 
-El juego está terminado, pero un proyecto de portfolio no acaba en "funciona": acaba en "se puede enseñar". Esta feature convierte doce niveles jugables en algo que alguien puede abrir, entender, jugar y valorar en cinco minutos — y deja el repo en un estado del que Sofía pueda hablar en una entrevista.
+El juego está terminado, pero un proyecto de portfolio no acaba en "funciona": acaba en "se puede enseñar". Esta feature convierte doce niveles jugables en algo que alguien puede abrir, entender, jugar y valorar en cinco minutos — y deja el repo en un estado presentable para hablar de él en una entrevista.
 
 ## Criterios de aceptación
 

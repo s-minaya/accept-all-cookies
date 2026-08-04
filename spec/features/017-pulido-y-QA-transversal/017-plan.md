@@ -2,7 +2,7 @@
 
 ## Enfoque
 
-Ocho bloques con dependencias mínimas entre sí. Se hacen primero los que **cambian el build** (A y B), porque todo lo demás se verifica sobre el artefacto final; después los que dependen de **jugar** (D, E), que son los que más tiempo de Sofía consumen; y al final los de **cierre** (G, H). Regla de la feature: nada se da por bueno por deducción — cada criterio se comprueba sobre `dist/` o en el navegador.
+Ocho bloques con dependencias mínimas entre sí. Se hacen primero los que **cambian el build** (A y B), porque todo lo demás se verifica sobre el artefacto final; después los que dependen de **jugar** (D, E), que son los que más tiempo de juego consumen; y al final los de **cierre** (G, H). Regla de la feature: nada se da por bueno por deducción — cada criterio se comprueba sobre `dist/` o en el navegador.
 
 ## Implementación
 
@@ -14,7 +14,7 @@ Ocho bloques con dependencias mínimas entre sí. Se hacen primero los que **cam
    - **10**: que antes del sorteo las siete ventanas sean idénticas en marcado, y que después nada salvo el botón visible identifique a la elegida.
    - **12**: que `switchAt` y el contador de clics no aparezcan en el DOM ni en atributos (viven en refs).
 5. **Mensaje de consola** — `src/app/consoleGreeting.ts`, llamado una vez al arrancar, con `console.log` y `%c` para estilarlo; texto en el tono del juego (inglés, es lo que espera quien abre DevTools). Incluye la pista de `?dev`. No se ejecuta en tests.
-6. **Balanceo (D)** — sesión de juego completa de Sofía sin `?dev`, con plantilla de notas por nivel (¿tiempo suficiente?, ¿muerte justa o arbitraria?, ¿se entiende el truco?). Los cambios resultantes se aplican como ajustes de constantes del GDD §14 + tests, nunca como cambios de mecánica.
+6. **Balanceo (D)** — sesión de juego completa sin `?dev`, con plantilla de notas por nivel (¿tiempo suficiente?, ¿muerte justa o arbitraria?, ¿se entiende el truco?). Los cambios resultantes se aplican como ajustes de constantes del GDD §14 + tests, nunca como cambios de mecánica.
 7. **Audio (E)** — repaso guiado nivel a nivel con los interruptores en las cuatro combinaciones (música on/off × efectos on/off) y salida por las cuatro vías (victoria, derrota, X, recarga), vigilando especialmente el ducking del nivel 11.
 8. **Responsive y accesibilidad (F)** — barrido con Playwright de las 5 anchuras sobre landing, selección, los 12 niveles, modales y créditos, con toques CDP en móvil; `prefers-reduced-motion` implementado con `@media` sobre las animaciones decorativas (veredicto, confeti, escritura del 11 → aparición instantánea del texto, manteniendo el bloqueo de input hasta que "terminaría"); repaso de foco visible y `aria-label`.
 9. **Error boundary (G)** — componente propio alrededor del nivel activo en `LevelHost`, con una `XPDialog` de error y un botón de volver a la selección; probado forzando el fallo de un `import()` dinámico.
@@ -38,7 +38,7 @@ Ocho bloques con dependencias mínimas entre sí. Se hacen primero los que **cam
 ## Decisiones
 
 - **La Playground se retira solo del build, no del repo** — sigue siendo la herramienta para trabajar el sistema de diseño y el arnés del nivel de prueba; borrarla sería perder utillaje por estética. `import.meta.env.DEV` da exactamente el comportamiento pedido.
-- **`?dev` se queda como secreto permanente** — deja de ser deuda técnica y pasa a ser característica documentada. Riesgo asumido y consciente: cualquiera que conozca el parámetro puede saltarse el juego; a cambio, Sofía conserva su herramienta y el proyecto gana un guiño.
+- **`?dev` se queda como secreto permanente** — deja de ser deuda técnica y pasa a ser característica documentada. Riesgo asumido y consciente: cualquiera que conozca el parámetro puede saltarse el juego; a cambio, queda disponible como herramienta útil y el proyecto gana un guiño.
 - **Sourcemaps desactivados explícitamente** — es la diferencia real entre "minificado ilegible" y "todo el código fuente legible desde DevTools"; el único punto donde el antiespoiler sí tiene un efecto grande y barato.
 - **No se persigue ofuscación** — contradiría el principio "el engaño es del juego, no del código" y sería una carrera perdida. Se documenta como decisión, no como olvido.
 - **`prefers-reduced-motion` solo en lo decorativo** — reducir movimiento no puede cambiar las reglas de un nivel (sería un modo de dificultad accidental); afecta a veredicto, confeti y escritura, nunca a física, ciclos ni barajados.

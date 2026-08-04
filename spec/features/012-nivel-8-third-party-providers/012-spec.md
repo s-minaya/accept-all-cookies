@@ -62,7 +62,7 @@ Es el nivel de memoria del juego y el más "de feria" — el único donde el jug
 - [x] `paused` congela flip, barajado e input y reanuda sin saltos; recarga a mitad (reveal nuevo, contador restaurado) y con desenlace pendiente (modal).
 - [x] Cleanup total al desmontar (timers de fase, listeners) + test de no-fugas.
 - [x] Partida entera ganando y perdiendo (verificado con Playwright, fijando `Math.random` a un valor conocido); dedo y ratón; 5 anchos.
-- [x] ✋ Checkpoint de Sofía: legibilidad y velocidad aprobadas ("genial") tras subir la velocidad del barajado dos veces (2/1,5/1 s → 1,2/0,9/0,6 s → 0,8/0,55/0,35 s).
+- [x] ✋ Checkpoint: legibilidad y velocidad aprobadas tras subir la velocidad del barajado dos veces (2/1,5/1 s → 1,2/0,9/0,6 s → 0,8/0,55/0,35 s).
 
 ## Fuera de alcance
 

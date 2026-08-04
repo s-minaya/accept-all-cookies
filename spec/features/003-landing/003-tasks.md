@@ -1,7 +1,7 @@
 # 003 · Landing — Tareas
 
 - [x] Implementar `CuteButton` (con hueco para icono + corazón pixel) y añadirlo a la Playground.
-- [x] ✋ **Checkpoint con Sofía**: aprobar el estilo del `CuteButton` viéndolo en la Playground sobre el fondo real.
+- [x] ✋ **Checkpoint**: aprobar el estilo del `CuteButton` viéndolo en la Playground sobre el fondo real.
 - [x] Implementar `XPTextInput` (font-size ≥ 16 px en móvil) y añadirlo a la Playground.
 - [x] Implementar `XPSlider` (range nativo re-estilizado, zona ≥ 44 px) y añadirlo a la Playground.
 - [x] Implementar `XPToggle` y añadirlo a la Playground.
@@ -10,7 +10,7 @@
 - [x] Modal Personaje: cuadrícula de miniaturas + campo de nombre editable; lógica pura de nombres con tests (trim, máx. 16, vacío→por defecto); persistencia en `aac.v1.lastPlayer`.
 - [x] Modal Ranking: `RankingModal` + orden puro (`rankingSort.ts`) con test + estado vacío + test con datos sembrados (récord real diferido a la 004, ver spec.md).
 - [x] Modal Información: redactar la guía ES/EN bajo `landing.info.*`, sin spoilers, con scroll interno.
-- [x] ✋ **Checkpoint con Sofía**: aprobar los textos de la guía en ambos idiomas.
+- [x] ✋ **Checkpoint**: aprobar los textos de la guía en ambos idiomas.
 - [x] Modal Configuración: idioma, volumen con sonido de referencia al soltar, interruptores de música y de efectos.
 - [x] Conectar Empezar: jugador actual (último o Crumbs), inicializar partida, navegar a la selección de niveles.
 - [x] Añadir todas las claves `landing.*` a ambos diccionarios (ES y EN); los nombres por defecto NO van en los diccionarios.

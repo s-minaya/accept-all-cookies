@@ -37,5 +37,5 @@ Dos entregables independientes en una feature: el **nivel** (una máquina de est
 - **Clic compulsivo + móvil = toques fantasma o zoom por doble toque** — mitigación: `touch-action: manipulation` en el botón, y QA táctil específico con toques CDP rápidos.
 - **La barra "casi llena" hace pensar que se puede completar** — mitigación: el incremento y el decaimiento se calibran para que se estabilice claramente por debajo del final; test de series largas que fija ese techo.
 - **El jugador se queda atascado tras los créditos** (selección sin nivel disponible) — mitigación: `resetRun()` al volver, con criterio de aceptación que lo verifica jugando.
-- **Los créditos se quedan solo en inglés o con tono desigual entre idiomas** — mitigación: checkpoint explícito de Sofía sobre ambas versiones; es su voz, no la del agente.
+- **Los créditos se quedan solo en inglés o con tono desigual entre idiomas** — mitigación: checkpoint explícito sobre ambas versiones; es su voz, no la del agente.
 - **`finished` no se llega a marcar si el jugador cierra en la modal final** — mitigación: `completeLevel(12)` y `finished` se aplican al confirmar la modal, antes de navegar a créditos; verificar en QA que el ranking lo refleja aunque el jugador no llegue a ver los créditos.

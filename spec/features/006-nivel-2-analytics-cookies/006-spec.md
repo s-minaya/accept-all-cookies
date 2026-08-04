@@ -31,7 +31,7 @@ Es el nivel-tutorial del principio rector del juego ("no te fíes de la interfaz
 - [x] Pulsar el Agree rojo gana con el flujo estándar y la categoría correcta; pulsar el Disagree verde pierde con el flujo estándar; contador a 0 y X pierden como siempre.
 - [x] Texto de consentimiento en ambos diccionarios bajo `levels.2.*`, con scroll interno si no cabe.
 - [x] `paused` congela el nivel; recargar a mitad de nivel lo retoma jugable y recargar con desenlace pendiente muestra la modal correspondiente (comportamiento del fix de la 004, verificado también aquí).
-- [x] Partida jugada entera ganando (verificado con Playwright) y perdiendo (test automatizado); jugable con dedo y ratón; correcto en los 5 anchos y en móvil real vía Pages. Confirmado por Sofía.
+- [x] Partida jugada entera ganando (verificado con Playwright) y perdiendo (test automatizado); jugable con dedo y ratón; correcto en los 5 anchos y en móvil real vía Pages. Confirmado.
 
 ## Fuera de alcance
 

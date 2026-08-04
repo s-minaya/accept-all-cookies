@@ -66,13 +66,13 @@ Es el corazón arcade del juego: el primer nivel de habilidad continua (los ante
 - [x] La máquina de segmentos cumple la regla en todos los casos: con huecos, cada captura solo rellena por su lado; con los 6 llenos, sustituye el fronterizo contrario; victoria con 6 Agree y derrota con 6 Disagree.
 - [x] Cada captura suena (respetando el interruptor de efectos) y el botón entero se rellena con el color correspondiente, dentro de una única silueta con relieve.
 - [x] Al completarse los 6 segmentos de un color, el botón se bloquea y el desenlace no se dispara hasta que el jugador lo pulsa (`role="button"`, clic o Enter/Espacio).
-- [ ] ✋ Visual y tamaño del botón-paleta y de las fichas que caen aprobados por Sofía; dificultad general jugando en escritorio y móvil.
+- [ ] ✋ Visual y tamaño del botón-paleta y de las fichas que caen aprobados; dificultad general jugando en escritorio y móvil.
 
 ### Integración y calidad
 - [x] matter.js compartido con la 007 sin duplicarse en el bundle principal ni entre chunks.
 - [x] Cleanup total al desmontar (Runner, rAF, listeners de teclado); `paused` congela todo.
 - [x] Recarga a mitad de nivel (contador restaurado, tablero y segmentos de cero) y con desenlace pendiente (modal, mecanismo compartido de la 004).
-- [x] Hueco 4 sustituido con chunk propio; `levels.4.*` en ambos diccionarios; partida entera ganando y perdiendo, con dedo y ratón. Pendiente de Sofía: los 5 anchos de referencia y móvil real vía Pages.
+- [x] Hueco 4 sustituido con chunk propio; `levels.4.*` en ambos diccionarios; partida entera ganando y perdiendo, con dedo y ratón.
 
 ### Botón dev
 - [x] Sin `?dev` en la URL no existe (ni en el DOM); con `?dev`, completa el nivel al instante desde cualquier nivel y vuelve a la selección sin veredicto ni modal.

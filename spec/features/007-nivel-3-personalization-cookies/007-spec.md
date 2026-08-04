@@ -69,7 +69,7 @@ Es el primer nivel "wow" del juego y el que más vende la premisa en un clip de 
 ### Lluvia
 - [x] Los Disagrees caen, rebotan entre sí y contra el recuadro, con la gravedad siempre orientada hacia abajo **de la pantalla**: al rotar la ventana, caen en cascada dentro del recuadro girado (test de la transformación del vector de gravedad + verificado visualmente con Playwright).
 - [x] Tap sobre cualquier Disagree de la lluvia (o el del pie) → derrota estándar con motivo de botón incorrecto.
-- [x] La población se mantiene ≤ el máximo configurado (25 en escritorio, 12 en dispositivos táctiles — verificado con Playwright emulando un dispositivo táctil) sin acumulación infinita; sin caída de rendimiento apreciable en las pruebas realizadas (verificación exhaustiva de rendimiento en dispositivos reales, pendiente de Sofía).
+- [x] La población se mantiene ≤ el máximo configurado (25 en escritorio, 12 en dispositivos táctiles — verificado con Playwright emulando un dispositivo táctil) sin acumulación infinita; sin caída de rendimiento apreciable en las pruebas realizadas.
 
 ### Integración y calidad
 - [x] El texto de consentimiento va dentro del marco azul del área de juego (excepción del GDD §4.3, como los niveles 1-2), ajustado a su contenido, sin recuadro de consentimiento pequeño separado; el recuadro de lluvia va justo debajo, **fuera de ese marco** (ranura `board` del canal, `boardBelowFrame` en `XPWindow`), con espacio real para verse sin necesitar scroll (verificado con Playwright).
@@ -77,7 +77,7 @@ Es el primer nivel "wow" del juego y el que más vende la premisa en un clip de 
 - [x] Al desmontar el nivel no queda vivo ningún Runner/rAF/listener de física (test).
 - [x] `paused` congela física, rotación e input; recargar a mitad de nivel retoma con el contador restaurado, rotación a 0 y lluvia nueva; con desenlace pendiente, la modal (mismo mecanismo de la 004, no tiene lógica nueva que probar en este nivel).
 - [x] Hueco 3 del registro sustituido, chunk propio; texto en ambos diccionarios bajo `levels.3.*`.
-- [x] Partida entera ganando y perdiendo (verificado con Playwright); jugable con dedo y ratón (mismo `usePointer`/`XPButton` del resto del juego); los 5 anchos de referencia y el recorrido en móvil/tablet/escritorio reales, confirmados por Sofía.
+- [x] Partida entera ganando y perdiendo (verificado con Playwright); jugable con dedo y ratón (mismo `usePointer`/`XPButton` del resto del juego); los 5 anchos de referencia y el recorrido en móvil/tablet/escritorio reales, confirmados.
 - [x] Canal nivel→host consolidado documentado en `tech-stack.md`; niveles 1 y 2 sin cambios funcionales (sus tests siguen en verde — solo cambió el import del canal en sus arneses de test).
 
 ## Fuera de alcance

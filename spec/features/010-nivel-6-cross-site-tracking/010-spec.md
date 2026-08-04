@@ -40,7 +40,7 @@ El tablero NO se diseña en esta feature: se usa el **layout verificado** de `sp
 
 ### Sprites
 
-- Llave, candado (cerrado/abierto) y flechas: **placeholders pixel** hasta que Sofía aporte o apruebe sprites (✋ checkpoint). Las flechas pueden quedarse como glifos estilizados si a Sofía le convencen.
+- Llave, candado (cerrado/abierto) y flechas: **placeholders pixel** hasta contar con sprites definitivos aprobados (✋ checkpoint). Las flechas pueden quedarse como glifos estilizados si convencen en el checkpoint.
 
 ### Pausa y recarga
 
@@ -73,7 +73,7 @@ Es el nivel-puzle del juego y el único con contenido diseñado a mano y verific
 - [x] `paused` congela cadena, cámara e input; recarga a mitad (llave al inicio, contador restaurado) y con desenlace pendiente (modal).
 - [x] Cleanup del animador de cadenas al desmontar (test de no-fugas).
 - [x] Partida entera ganando y perdiendo; dedo y ratón; 5 anchos (en 375 px se ven suficientes columnas para orientarse); sin scroll vertical en móvil (`--cell-size` algo menor en xs/sm, `Board.module.scss`, lo justo para que quepa sin restarle protagonismo al tablero; el recuadro de texto mantiene el tamaño estándar de los demás niveles; el panel de dirección se traslada al pie, no resta altura al tablero).
-- [x] ✋ Sprites/glifos de llave, candado y flechas aprobados por Sofía.
+- [x] ✋ Sprites/glifos de llave, candado y flechas aprobados.
 
 ## Fuera de alcance
 

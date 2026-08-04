@@ -16,9 +16,9 @@ Implementa el Nivel 10 (GDD §9, Nivel 10): al principio parece un banner normal
 
 - Arrastrar una ventana **por su barra de título** (drag confirmado a 8 px, `usePointer`) la mueve siguiendo al puntero 1:1.
 - En el instante en que el arrastre se confirma, **nace una copia** en la posición que esa ventana ocupaba al empezar el arrastre — el efecto es "la ventana se despega y deja otra debajo".
-- **La ventana agarrada pasa siempre al frente de la pila** (corregido tras revisión de Sofía: "queremos que se arrastre la pantalla de delante y deje de ocultar la de atrás"): se ve inequívocamente que es ELLA la que se mueve, nunca una ventana estática tapándola por delante. El apilado no es fijo por antigüedad — cada ventana lleva su propio orden (`zIndex`, `windows.ts`), actualizado al instante en cada arrastre, ocurra o no una duplicación.
+- **La ventana agarrada pasa siempre al frente de la pila**: se ve inequívocamente que es ELLA la que se mueve, nunca una ventana estática tapándola por delante. El apilado no es fijo por antigüedad — cada ventana lleva su propio orden (`zIndex`, `windows.ts`), actualizado al instante en cada arrastre, ocurra o no una duplicación.
 - **Cada ventana solo se duplica una vez** (la copia sí puede duplicarse a su vez, una vez); volver a agarrarla igualmente la trae al frente, aunque ya no nazca copia. El proceso se detiene al llegar a **7 ventanas** en total; a partir de ahí, todas siguen siendo arrastrables pero ya no nacen copias.
-- Las ventanas quedan **limitadas al viewport** en tablet/escritorio (contención total: ninguna se puede perder fuera de pantalla). En móvil (`xs` y `sm`, ≤480 px — corregido tras revisión de Sofía: `xs` solo, ≤375 px, dejaba fuera a la mayoría de teléfonos reales) se permite un asomo parcial por los lados —hasta un 70% del ancho puede quedar fuera— pero **nunca menos de un 30% visible**, para que ninguna quede inalcanzable (GDD §15.2). Imprescindible en pantallas estrechas: si la ventana ocupa casi todo el ancho, un arrastre normal con el dedo no la aleja lo bastante como para dejar de tapar a la de debajo — el asomo parcial le da al jugador margen real para separarlas.
+- Las ventanas quedan **limitadas al viewport** en tablet/escritorio (contención total: ninguna se puede perder fuera de pantalla). En móvil (`xs` y `sm`, ≤480 px — corregido: `xs` solo, ≤375 px, dejaba fuera a la mayoría de teléfonos reales) se permite un asomo parcial por los lados —hasta un 70% del ancho puede quedar fuera— pero **nunca menos de un 30% visible**, para que ninguna quede inalcanzable (GDD §15.2). Imprescindible en pantallas estrechas: si la ventana ocupa casi todo el ancho, un arrastre normal con el dedo no la aleja lo bastante como para dejar de tapar a la de debajo — el asomo parcial le da al jugador margen real para separarlas.
 - Todas las ventanas muestran **el mismo contador** (son copias de la misma ventana: coherente y parte del chiste) y **todas tienen su X**, que pierde igual que siempre.
 
 ### El Agree escondido
@@ -73,7 +73,7 @@ Es el clímax de los niveles de "la interfaz te miente": el juego lleva diez niv
 - [x] `paused` congela arrastres e input; recarga a mitad (una sola ventana, contador restaurado) y con desenlace pendiente (modal).
 - [x] Cleanup total al desmontar (listeners de arrastre) + test de no-fugas.
 - [x] Jugable con dedo y ratón; 5 anchos — en móvil (`xs`+`sm`, ≤480px, cualquier teléfono real) las ventanas se reducen (GDD §15.2) para que quepa más de una a la vez; aun así se solapan mucho (es el caos buscado) pero **todas siguen siendo alcanzables y arrastrables** (verificado con toques reales simulados por CDP, no solo ratón).
-- [x] ✋ Checkpoint de Sofía: aprobada tras cuatro rondas de correcciones ("perfecto, commit y push") — sensación de la duplicación, indistinguibilidad de las siete ventanas y jugabilidad del caos en móvil.
+- [x] ✋ Checkpoint: aprobado tras cuatro rondas de correcciones — sensación de la duplicación, indistinguibilidad de las siete ventanas y jugabilidad del caos en móvil.
 
 ## Fuera de alcance
 

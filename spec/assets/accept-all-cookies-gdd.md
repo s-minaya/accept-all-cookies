@@ -65,7 +65,7 @@ Estructura de datos propuesta:
 ## 1.4 Ajustes
 
 - **Idioma:** alternar entre inglés y español.
-- **Volumen:** slider que controla **solo la música de fondo** (los sonidos positivo/negativo suenan siempre a volumen máximo, decisión de Sofía).
+- **Volumen:** slider que controla **solo la música de fondo** (los sonidos positivo/negativo suenan siempre a volumen máximo).
 - **Música de fondo:** activar/desactivar.
 - **Efectos de sonido:** interruptor independiente del de música, justo debajo, que silencia/reactiva los sonidos positivo y negativo.
 
@@ -708,7 +708,7 @@ Do you agree to Data Sharing?
 
 **Botones visibles:**
 - Izquierdo: **rojo**, texto `Disagree`. Botón normal: si se pulsa → `Data Sharing rejected.` → Game Over.
-- Derecho: **rojo**, texto `Disagree` (decisión de Sofía, 011: los dos botones visibles son rojos — no el diseño asimétrico rojo/verde de una versión anterior de este documento). Si se hace un clic normal → `Data Sharing rejected.` → Game Over.
+- Derecho: **rojo**, texto `Disagree` — los dos botones visibles son rojos. Si se hace un clic normal → `Data Sharing rejected.` → Game Over.
 
 **Mecánica oculta:**
 - El Disagree derecho es una **cubierta** (mismo rojo que el Disagree normal) situada encima de otro botón, y se mueve **dentro del espacio de su propio botón** — nunca sale hacia el resto de la ventana.
@@ -874,8 +874,8 @@ Do you agree to renew your consent?
 ```
 
 **Escenario:**
-- Sin botón Disagree en el pie (corregido tras revisión de Sofía sobre la 015: "no me convence que haya un botón de disagree, lo vamos a eliminar") — toda la interacción, ganar y perder, vive dentro del bocadillo.
-- Un **personaje asistente tipo Clippy** (asistente del sistema, NO es el personaje seleccionado por el jugador en la landing) en la esquina inferior derecha: **Sans** (Undertale, sprite y voz de Sofía, 015-plan.md) — guiño deliberado, único personaje del juego que viene de fuera; se acredita en los créditos ("Sans © Toby Fox (Undertale) — homenaje sin ánimo de lucro", feature 016).
+- Sin botón Disagree en el pie — toda la interacción, ganar y perder, vive dentro del bocadillo.
+- Un **personaje asistente tipo Clippy** (asistente del sistema, NO es el personaje seleccionado por el jugador en la landing) en la esquina inferior derecha: **Sans** (Undertale, sprite y voz propios) — guiño deliberado, único personaje del juego que viene de fuera; se acredita en los créditos ("Sans © Toby Fox (Undertale) — homenaje sin ánimo de lucro").
 - Del personaje sale un bocadillo de diálogo con dos botones: **No** y **Yes**, en Comic Sans (única excepción tipográfica del juego, fiel al personaje). Toda la interacción ocurre en el bocadillo; mientras escribe, su voz suena en bucle y la música de fondo se agacha (§2.3, §14).
 
 **Secuencia de preguntas** (respuesta correcta en negrita; fallar cualquiera = Game Over):
@@ -997,9 +997,9 @@ You didn't read this part either. (¬‿¬)
 [ Back to Start ]
 ```
 
-Implementación (016-plan.md): las líneas con puntos ("Game design ... Sofía Minaya") se resuelven con una guía punteada por CSS, no con puntos literales incrustados en el texto — así funciona igual en cualquier idioma sin depender de cuántos caracteres mida cada etiqueta. El crédito a Sans/Toby Fox (requisito heredado de la 015) va en su propia fila, "Special appearance". El de Código se comparte de verdad con Claude ("Sofía Minaya & Claude") — petición explícita de Sofía en el checkpoint de la 016. El botón final **reinicia la partida** (`resetRun`) y vuelve a la landing; el récord del ranking, con su marca `finished`, no se toca.
+Implementación: las líneas con puntos ("Game design ... Sofía Minaya") se resuelven con una guía punteada por CSS, no con puntos literales incrustados en el texto — así funciona igual en cualquier idioma sin depender de cuántos caracteres mida cada etiqueta. El crédito a Sans/Toby Fox va en su propia fila, "Special appearance". El de Código se comparte de verdad con Claude ("Sofía Minaya & Claude"). El botón final **reinicia la partida** (`resetRun`) y vuelve a la landing; el récord del ranking, con su marca `finished`, no se toca.
 
-Al llegar a esta pantalla cae **confeti** (petición de Sofía en el mismo checkpoint): 60 cuadraditos pixel art de la paleta de tokens del juego, animados solo con CSS (sin dependencia nueva, mismo enfoque sin librería que `GiantVerdict`), puramente decorativo — `aria-hidden`, nunca intercepta clics ni bloquea el botón de volver.
+Al llegar a esta pantalla cae **confeti**: 60 cuadraditos pixel art de la paleta de tokens del juego, animados solo con CSS (sin dependencia nueva, mismo enfoque sin librería que `GiantVerdict`), puramente decorativo — `aria-hidden`, nunca intercepta clics ni bloquea el botón de volver.
 
 ---
 
@@ -1009,7 +1009,7 @@ Al llegar a esta pantalla cae **confeti** (petición de Sofía en el mismo check
 - Se traduce **todo**: UI, landing, textos de consentimiento de los banners, mensajes de victoria/derrota, diálogos del nivel 11, créditos.
 - Los textos de este documento están escritos en su versión inglesa (canónica); las traducciones al español se producirán como parte del desarrollo.
 - Agree y Disagree nunca se traducen, en ningún contexto: botones, textazos gigantes, título de la ventana de Game Over, rodillos, fichas del plinko, etc. Son piezas del juego, no texto de interfaz. Razón de diseño: "Disagree" contiene visualmente la palabra "Agree", y esa confusión es parte de la dificultad de los niveles 2, 7, 10 y 12; traducirlos a "Aceptar/Rechazar" haría el juego más fácil en español. El título "Cookies Accepted" de la modal de victoria tampoco se traduce, por la misma razón (va de la mano del veredicto gigante).
-- El resto de botones neutros del sistema (Check, Stop, OK, Yes, No) **sí se traducen con normalidad** (corregido tras revisión de Sofía sobre la 015: "en general los botones estos neutros creo que se deberían traducir" — antes se mantenían en inglés "por coherencia con el falso sistema operativo", pero esa coherencia no depende del idioma de un botón neutro, solo de la mecánica de similitud visual de Agree/Disagree, que ellos no tienen). Traducciones: Check → Comprobar, Stop → Parar, OK → Aceptar, Yes → Sí, No → No (coincide en los dos idiomas). "Next" (Level Complete) y "Return to Level Selection" (Game Over) ya se traducían con normalidad, sin ser parte de esta excepción.
+- El resto de botones neutros del sistema (Check, Stop, OK, Yes, No) **sí se traducen con normalidad** — la coherencia con el falso sistema operativo no depende del idioma de un botón neutro, solo de la mecánica de similitud visual de Agree/Disagree, que ellos no tienen. Traducciones: Check → Comprobar, Stop → Parar, OK → Aceptar, Yes → Sí, No → No (coincide en los dos idiomas). "Next" (Level Complete) y "Return to Level Selection" (Game Over) ya se traducían con normalidad, sin ser parte de esta excepción.
 
 ---
 
@@ -1027,19 +1027,12 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 
 ---
 
-# 13. Decisiones de diseño documentadas
+# 13. Reglas generales
 
-- "Aggree" era un typo recurrente: se ha corregido a **Agree** en todo el documento.
-- Los mensajes del nivel 7 dicen **Data Sharing** (antes decían por error "Legitimate Interest").
-- El nivel 7 tiene los **dos botones visibles en rojo** (antes el derecho era verde en este documento); la cubierta oculta un Agree verde debajo, decisión de Sofía confirmada durante la 011.
-- El mensaje de victoria del nivel 6 dice **Cross-Site Tracking accepted** (antes "Third-Party Cookies").
-- El nivel 10 tiene **7 ventanas** (en versiones antiguas eran 5; por eso el texto decía "las otras cuatro" — ahora son "las otras seis").
 - La regla general "botón incorrecto = Game Over" admite excepciones por nivel (nivel 1).
 - El contador es siempre de 100 s; el del nivel 1 se reinicia al reaparecer la ventana.
 - La barra del nivel 12 es teatro intencionado.
-- Los 4 personajes son solo avatar de ranking; el personaje del nivel 11 es un asistente propio tipo Clippy — nombrado **Sans** (Undertale, 015-plan.md), con crédito a Toby Fox en la pantalla de créditos (feature 016).
-- El nivel 11 **no tiene botón Disagree en el pie** (en versiones antiguas de este documento sí lo tenía; retirado tras revisión de Sofía sobre la implementación de la 015: "no me convence que haya un botón de disagree, lo vamos a eliminar") — toda la interacción, ganar y perder, vive dentro del bocadillo de Sans.
-- Inspiración reconocida: **Doki Doki Action Game**.
+- Los 4 personajes son solo avatar de ranking; el personaje del nivel 11 es un asistente propio tipo Clippy — nombrado **Sans** (Undertale), con crédito a Toby Fox en la pantalla de créditos.
 - Agree/Disagree no se traducen nunca: la similitud visual entre ambas palabras es mecánica de juego.
 - La landing no obliga a elegir personaje: Empezar funciona siempre.
 - Los nombres por defecto de los personajes están en inglés y no se traducen (son datos, no interfaz).
@@ -1052,7 +1045,7 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Multiplicador de volumen de la música (sobre su propio máximo, independiente del volumen general) | **Distinto por dispositivo**: escritorio 0.5, móvil/táctil 0.1. Detectado por tipo de puntero (`pointer: coarse`), no por ancho de pantalla. |
 | Duración del contador (todos los niveles) | 100 s |
 | Nivel 1: retardo de aparición del Agree | 7 s |
-| Nivel 3: población máxima de la lluvia de Disagree | Techo de 25 en escritorio / 12 en táctil (detectado por tipo de puntero), pero recortado además al área REAL del recuadro: como mucho el 60% de esa área cubierta por las siluetas de los botones si estuvieran todas quietas a la vez, para que siempre quede hueco visible donde pueda aparecer el Agree (corregido tras revisión de Sofía: "los botones de disagree si tienen que desaparecer si no se llena la pantalla y no deja espacio para que aparezca el agree" — con el recuadro a su tamaño real, el techo de 25 llegaba a cubrirlo pared con pared) |
+| Nivel 3: población máxima de la lluvia de Disagree | Techo de 25 en escritorio / 12 en táctil (detectado por tipo de puntero), pero recortado además al área REAL del recuadro: como mucho el 60% de esa área cubierta por las siluetas de los botones si estuvieran todas quietas a la vez, para que siempre quede hueco visible donde pueda aparecer el Agree |
 | Nivel 3: tasa de spawn de la lluvia | uno cada 350 ms, hasta el máximo |
 | Nivel 3: tiempo de reposo antes de reciclar un Disagree de la lluvia | 4 s |
 | Nivel 3: ancho de la cámara oculta del Agree (a la derecha del recuadro de lluvia) | 140 px |
@@ -1063,8 +1056,8 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 4: tasa de spawn de los botones que caen | uno cada 300 ms, hasta el máximo |
 | Nivel 4: escala de gravedad del Plinko | 0,0016 |
 | Nivel 4: rebote (restitution) de los pegs y de los botones que caen | 0,35 |
-| Nivel 4: separación entre filas de pegs | 63 px lógicos (subido de 46, con una parada en 52, junto con la resolución lógica del tablero, 360→420 — menos aire arriba y debajo del campo de pegs tras revisión de Sofía) — debe superar la altura de una ficha que cae (22 px) para que no pueda tocar dos filas a la vez y quedar encajada de verdad |
-| Nivel 4: margen antes de la primera fila de pegs | 30 px lógicos (bajado de 50 tras revisión de Sofía: "reduce el aire de arriba") |
+| Nivel 4: separación entre filas de pegs | 63 px lógicos (junto con la resolución lógica del tablero, 360→420) — debe superar la altura de una ficha que cae (22 px) para que no pueda tocar dos filas a la vez y quedar encajada de verdad |
+| Nivel 4: margen antes de la primera fila de pegs | 30 px lógicos |
 | Nivel 4: tamaño de una ficha que cae | 72×22 px lógicos, sin borde alrededor del cuerpo; relleno del tono oscuro del anillo interior de un botón real (`--color-agree-border`/`--color-disagree-border`), no del tono claro de fondo |
 | Nivel 4: tamaño del botón grande (paleta) | 110,4×48 px lógicos — el tamaño exacto de un botón Agree/Disagree habitual (`--xp-button-height: 3rem` = 48px, ancho = alto × 2,3) |
 | Nivel 4: tiempo de reposo antes de reciclar un botón por estar encajado | 2 s por debajo del campo de pegs (velocidad casi nula, solo paleta y aire). Dentro del campo de pegs se mide el progreso neto en Y en vez de la velocidad instantánea: a los 0,7 s sin bajar al menos 5 px, recibe un empujón para liberarse rebotando contra el peg más cercano, hasta 3 veces antes de reciclarlo de verdad como red de seguridad final |
@@ -1077,10 +1070,10 @@ Si la recarga ocurre mientras se muestra el texto gigante o la modal de fin de n
 | Nivel 6: velocidad de cadena (avances, rebotes y castigos) | 10 casillas/s (el castigo épico de 67 casillas dura ~6,7 s) |
 | Nivel 6: transición de cámara y de la llave entre casillas | 0,08 s |
 | Nivel 8: duración del flip | ~400 ms |
-| Nivel 8: duración de barajados | 0,8 s / 0,55 s / 0,35 s (subidas dos veces tras revisión de Sofía: 2/1,5/1 s → 1,2/0,9/0,6 s → esto, "sigue siendo muy fácil") |
+| Nivel 8: duración de barajados | 0,8 s / 0,55 s / 0,35 s |
 | Nivel 8: intercambios por ronda | 4 / 6 / 8, ajustables en el checkpoint |
 | Nivel 9: tiempo de cursor inmóvil para congelar casilla | ~1 s |
-| Nivel 9: duración de un ciclo (corregido tras revisión de Sofía: los botones no suben, aparecen y desaparecen por ciclos sincronizados) | ~450 ms, ajustable en el checkpoint |
+| Nivel 9: duración de un ciclo (los botones no suben, aparecen y desaparecen por ciclos sincronizados) | ~450 ms, ajustable en el checkpoint |
 | Nivel 9: casillas simultáneas por ciclo | 4 de 12, con al menos un Agree garantizado en el lote, ajustable en el checkpoint |
 | Nivel 10: máximo de ventanas | 7 |
 | Nivel 10: dónde nace la copia | En la posición que ocupaba la ventana arrastrada al EMPEZAR el arrastre (no en cascada ni al azar) — la que se arrastra sigue siguiendo al puntero, la copia se queda quieta atrás |
@@ -1138,5 +1131,5 @@ Toda la entrada se gestiona con **Pointer Events** (un solo código para ratón,
 | Parámetro | Valor inicial |
 |---|---|
 | Umbral tap vs drag | 8 px |
-| Resolución lógica de las áreas de juego | 640×420 (subido de 360 tras revisión de Sofía sobre la 008: "usar este espacio para que el tablero sea más grande" — en móvil el ancho de la ventana es casi siempre el límite real de la escala, así que dar más alto usa espacio que quedaba vacío) |
+| Resolución lógica de las áreas de juego | 640×420 — en móvil el ancho de la ventana es casi siempre el límite real de la escala, así que dar más alto usa espacio que quedaba vacío |
 | Tamaño mínimo táctil | 44×44 px |

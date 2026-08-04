@@ -4,7 +4,7 @@
 - [x] Configurar `base: '/<repo>/'` en `vite.config.ts`.
 - [x] Crear `src/styles/tokens.css` con todos los colores del GDD y los 5 breakpoints; crear `reset.css`.
 - [x] Elegir las dos fuentes pixel (validar licencia), autoalojarlas en woff2 y declarar los `@font-face`.
-- [x] ✋ **Checkpoint con Sofía**: aprobar las fuentes viéndolas en la playground con textos reales del GDD.
+- [x] ✋ **Checkpoint**: aprobar las fuentes viéndolas en la playground con textos reales del GDD.
       _Aprobadas: UI = DotGothic16, Display = Press Start 2P (ambas OFL-1.1, autoalojadas en `src/assets/fonts/`)._
 - [x] Implementar `XPButton` (agree / disagree / neutral × 4 estados, hundimiento al pulsar, `@media (hover: hover)`).
 - [x] Implementar `XPWindow` (barra de título + contador + X, recuadro de consentimiento con scroll interno, marco del área de juego).
@@ -14,9 +14,9 @@
 - [x] Implementar `GameArea` (lienzo lógico 640×360, `ResizeObserver`, `transform: scale`, `touch-action: none`).
 - [x] Montar la playground con una sección por pieza y textos reales del GDD.
 - [x] Crear `.github/workflows/deploy.yml`.
-- [x] Verificar que la URL de Pages carga sin 404 (Pages habilitado y deploy verificado por Sofía).
+- [x] Verificar que la URL de Pages carga sin 404 (Pages habilitado y deploy verificado).
 - [x] QA responsive en 375 / 480 / 768 / 1280 / 1920 px (verificado con Chromium headless); zonas interactivas ≥ 44 px en móvil.
-- [x] QA táctil en un móvil real desde la URL de Pages (tap, drag, hover no pegado). _Confirmado por Sofía en su móvil._
+- [x] QA táctil en un móvil real desde la URL de Pages (tap, drag, hover no pegado). _Confirmado en un móvil real._
 - [x] Validar contra los criterios de aceptación de `spec.md`.
 - [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
 

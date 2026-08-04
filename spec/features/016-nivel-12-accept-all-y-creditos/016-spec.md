@@ -37,16 +37,16 @@ Implementa el **jefe final** (GDD §9, Nivel 12) y la **pantalla de créditos**.
 - Pantalla propia del shell (el hueco `credits` existe como placeholder desde la 002), con estética XP: `XPWindow` con scroll interno, sin contador y sin X.
 - Contenido (GDD §10), en tono gracioso y cómplice, en ES/EN:
   - Felicitación troll al jugador por haber luchado por el derecho a ser rastreado.
-  - Créditos de autoría (Sofía Minaya) por diseño, pixel art y guerra psicológica; **código a medias con Claude** ("Sofía Minaya & Claude" en la fila de Código — petición explícita de Sofía en el checkpoint, ver as-built).
+  - Créditos de autoría (Sofía Minaya) por diseño, pixel art y guerra psicológica; **código a medias con Claude** ("Sofía Minaya & Claude" en la fila de Código, ver as-built).
   - **Inspiración**: *Doki Doki Action Game*.
   - **Homenaje**: "Sans © Toby Fox (Undertale) — homenaje sin ánimo de lucro" (requisito heredado de la 015).
   - **Agradecimiento especial** al jugador ("A ti.") por demostrar que los patrones oscuros funcionan.
   - El remate sobre las cookies: las únicas del juego son las del `localStorage`, y solo guardan el ranking.
 - Un único botón: **volver al menú principal**.
 - **Al salir de créditos, la partida se reinicia** (`resetRun`) para que el jugador pueda volver a jugar desde el Nivel 1. El récord del ranking (con su marca `finished`, ya cableada en la 004) **no** se toca.
-- **Confeti** al llegar a la pantalla (petición de Sofía en el checkpoint, ver as-built): celebración puramente visual, nunca bloquea el botón de volver.
+- **Confeti** al llegar a la pantalla (ver as-built): celebración puramente visual, nunca bloquea el botón de volver.
 
-**As-built (checkpoint, ronda 2):** tras una primera pasada, Sofía pidió reescribir el texto completo de los créditos (intro en dos tiempos, agradecimiento especial reestructurado en tres bloques, chiste de los datos ampliado a 7 líneas con remate final) manteniendo la guía de puntos y el resto de la estructura, y pidió sumar a Claude en el crédito de Código sin trasladar su mensaje personal literal al juego. En el mismo checkpoint pidió un efecto de confeti al llegar a los créditos; se preguntó si usar un paquete npm o hacerlo a mano y se optó por CSS puro (sin dependencia nueva, ver `spec/constitution/tech-stack.md`) siguiendo el mismo patrón sin librería que `GiantVerdict`: 60 piezas de 8×8px con la paleta de tokens existente, generadas una vez y auto-limpiadas con `animation-fill-mode: forwards` (sin `setTimeout`).
+**As-built (ronda 2):** el texto completo de los créditos se reescribió (intro en dos tiempos, agradecimiento especial reestructurado en tres bloques, chiste de los datos ampliado a 7 líneas con remate final) manteniendo la guía de puntos y el resto de la estructura, y se sumó a Claude en el crédito de Código sin trasladar ningún mensaje personal literal al juego. El efecto de confeti al llegar a los créditos se implementó en CSS puro (sin dependencia nueva, ver `spec/constitution/tech-stack.md`) siguiendo el mismo patrón sin librería que `GiantVerdict`: 60 piezas de 8×8px con la paleta de tokens existente, generadas una vez y auto-limpiadas con `animation-fill-mode: forwards` (sin `setTimeout`).
 
 ### Pausa y recarga
 
@@ -78,8 +78,8 @@ Es el remate temático del juego: después de once niveles peleándose con la in
 - [x] La barra no re-renderiza el árbol por frame (custom property escrita por ref, patrón as-built 009–015); el componente que la posiciona es el que se monta (lección 010–012).
 - [x] `paused` congela decaimiento, temporizador de 2 s e input; recarga a mitad (todo de cero, contador restaurado) y con desenlace pendiente (modal).
 - [x] Cleanup total al desmontar (reloj, temporizadores) + test de no-fugas.
-- [x] Botones ≥ 44 px; clic sostenido/ráfaga con dedo y con ratón; 5 anchos; móvil real con **toques CDP** (`Input.dispatchTouchEvent`, no `page.mouse`). (As-built: verificado en 1280px escritorio y 390×844/375×667 móvil con toques CDP reales; el resto de anchos y el móvil real vía Pages quedan para el checkpoint de Sofía, igual que en el resto de niveles.)
-- [x] ✋ Checkpoint de Sofía: textos de los créditos en ES y EN, ritmo de la barra (que dé sensación de "faltan mil clics" sin ser tediosa) y si la trampa cae bien jugando del tirón tras los once niveles anteriores. (Aprobado, con retoques de texto propios — ver as-built de la ronda 2 arriba y en `016-tasks.md`.)
+- [x] Botones ≥ 44 px; clic sostenido/ráfaga con dedo y con ratón; 5 anchos; móvil real con **toques CDP** (`Input.dispatchTouchEvent`, no `page.mouse`). (As-built: verificado en 1280px escritorio y 390×844/375×667 móvil con toques CDP reales; el resto de anchos y el móvil real vía Pages quedan para el checkpoint, igual que en el resto de niveles.)
+- [x] ✋ Checkpoint: textos de los créditos en ES y EN, ritmo de la barra (que dé sensación de "faltan mil clics" sin ser tediosa) y si la trampa cae bien jugando del tirón tras los once niveles anteriores. (Aprobado, con retoques de texto propios — ver as-built de la ronda 2 arriba y en `016-tasks.md`.)
 
 ## Fuera de alcance
 

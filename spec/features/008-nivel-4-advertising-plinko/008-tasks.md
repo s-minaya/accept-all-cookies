@@ -17,7 +17,7 @@
 
 ## `Level04.tsx`
 
-- [x] Texto de consentimiento en el marco azul del área de juego (como los niveles 1-3, corregido tras revisión de Sofía); tablero publicado aparte vía `useLevelBoard`, sin marco propio (GDD §4.4), aprovechando el espacio sobrante; sin pie (el botón grande vive dentro del tablero).
+- [x] Texto de consentimiento en el marco azul del área de juego (como los niveles 1-3, corregido); tablero publicado aparte vía `useLevelBoard`, sin marco propio (GDD §4.4), aprovechando el espacio sobrante; sin pie (el botón grande vive dentro del tablero).
 - [x] Fichas que caen: relleno de color oscuro (tono del anillo interior de un botón real) sin borde propio, con el texto "Agree"/"Disagree" en la tipografía habitual a menor tamaño.
 - [x] Botón grande (paleta): relleno de dos colores creciendo desde cada lado, con el anillo interior y el texto de un botón real revelándose progresivamente a medida que crece; anillo exterior y bisel compartidos por toda la silueta.
 - [x] Control por arrastre (ratón/táctil, `usePointer` con `onDragStart`/`onDragMove`) y teclado (flechas).
@@ -34,7 +34,7 @@
 ## Extensiones a mecanismos compartidos
 
 - [x] `usePointer` gana `onDragStart`/`onDragMove` como vía de control (ya existían para el nivel 3); el arrastre puede empezar en cualquier punto del área de juego, no hace falta pulsar sobre el botón.
-- [x] `GameArea` reenvía su `ref` (`forwardRef`) al lienzo lógico — primer nivel real que usa `GameArea` fuera de la Playground; añadido un polyfill de `ResizeObserver` en `src/test/setup.ts` (jsdom no lo implementa). Mide su propio tamaño con `aspect-ratio` en vez de depender de un ancestro con `fillHeight` (corregido tras revisión de Sofía: "reduce el aire de arriba y abajo").
+- [x] `GameArea` reenvía su `ref` (`forwardRef`) al lienzo lógico — primer nivel real que usa `GameArea` fuera de la Playground; añadido un polyfill de `ResizeObserver` en `src/test/setup.ts` (jsdom no lo implementa). Mide su propio tamaño con `aspect-ratio` en vez de depender de un ancestro con `fillHeight` (corregido para reducir el aire de arriba y abajo).
 - [x] `useAudio()` memoiza `playPositive`/`playNegative` con `useCallback` — hook compartido, beneficia a cualquier consumidor que use su valor de retorno dentro de sus propios `useCallback`/`useEffect` (documentado en `tech-stack.md`).
 - [x] Cuerpos físicos a tamaño lógico fijo (constantes en `board.ts`), nunca medidos con `getBoundingClientRect()`: el lienzo de `GameArea` se escala con `transform: scale()`, así que medir el tamaño en pantalla desalinearía cuerpo físico y sprite.
 
@@ -45,7 +45,7 @@
 
 ## Pendiente
 
-- [x] ✋ **Checkpoint con Sofía**: dificultad jugando en escritorio y en su móvil (tasa de spawn, velocidad, anchura del sensor de captura, sensación de las trayectorias y del rebote) + aprobación del aspecto final de la paleta y de las fichas que caen. Los 5 anchos de referencia y el recorrido completo en móvil real vía Pages.
+- [x] ✋ **Checkpoint**: dificultad jugando en escritorio y en móvil (tasa de spawn, velocidad, anchura del sensor de captura, sensación de las trayectorias y del rebote) + aprobación del aspecto final de la paleta y de las fichas que caen. Los 5 anchos de referencia y el recorrido completo en móvil real vía Pages.
 - [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
 
 ## Mantenimiento (checklist recurrente)

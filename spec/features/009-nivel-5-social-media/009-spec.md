@@ -63,7 +63,7 @@ Es el nivel de azar-con-timing del juego: puro tira y afloja contra el reloj, si
 - [x] Recarga a mitad (contador restaurado, tragaperras de cero) y con desenlace pendiente (modal).
 - [x] `levels.5.*` en ambos diccionarios; GDD retocado (mensajes de derrota → flujo estándar; §14 con velocidad, desfase, pausa de rehabilitación).
 - [x] Partida entera ganando y perdiendo; dedo y ratón (los Stops cumplen el mínimo táctil, verificado con toque emulado); 5 anchos (los tres rodillos caben en 375 px sin scroll horizontal).
-- [x] ✋ Checkpoint de tacto, dirección de giro y estilo visual (varias rondas contra una referencia) aprobados por Sofía ("Está perfecto").
+- [x] ✋ Checkpoint de tacto, dirección de giro y estilo visual (varias rondas contra una referencia) aprobados.
 
 ## Fuera de alcance
 

@@ -1,6 +1,6 @@
 # 010 · Nivel 6 — Cross-Site Tracking — Plan
 
-> Plan pre-implementación: describe el enfoque tal como se planeó antes de escribir código, no se ha mantenido sincronizado con ajustes posteriores (QA con Sofía, corrección de scroll vertical en móvil). Para el estado final as-built, ver `010-spec.md` y `010-tasks.md`.
+> Plan pre-implementación: describe el enfoque tal como se planeó antes de escribir código, no se ha mantenido sincronizado con ajustes posteriores (QA de juego, corrección de scroll vertical en móvil). Para el estado final as-built, ver `010-spec.md` y `010-tasks.md`.
 
 ## Enfoque
 
@@ -15,7 +15,7 @@ Determinista de punta a punta: primero la **simulación pura** (misma semántica
 5. **Render del tablero** — `Board.tsx`: grid de celdas desde el JSON (vacías, flechas, llave, candado) + anillo decorativo gris; sprites/glifos placeholder pixel para llave, candado (cerrado/abierto) y flechas; la ventana de cámara recorta (`overflow: hidden`).
 6. **Componente** — `Level06.tsx`: texto en el marco; tablero + panel de direcciones vía `useLevelBoard`; panel a la derecha (md+) / debajo (xs/sm) con los 4 botones neutros ≥ 44 px + listener de flechas de teclado (limpiado en cleanup); pie vía `useLevelFooter` con Agree (deshabilitado hasta el candado, nodo memoizado con esa dependencia) y Disagree (`failed`); sonido positivo único al abrir el candado.
 7. **Registro e i18n** — hueco 6 sin `consentKey`; `levels.6.*` en ambos diccionarios.
-8. **GDD** — §14: velocidad de cadena (casillas/s) y duración de la transición de cámara; nota del sonido de candado en §2.3 si Sofía lo aprueba.
+8. **GDD** — §14: velocidad de cadena (casillas/s) y duración de la transición de cámara; nota del sonido de candado en §2.3 si se aprueba.
 9. **QA** — partida entera ganando (la solución) y perdiendo (Disagree, contador, X); probar a propósito el castigo épico de D3-↑ (67 casillas, cámara siguiéndolo); recargas; `paused` en plena cadena; 5 anchos; móvil real vía Pages; ✋ checkpoint de sprites y de velocidad de cadena.
 
 ## Decisiones
@@ -24,7 +24,7 @@ Determinista de punta a punta: primero la **simulación pura** (misma semántica
 - **El validador se ejecuta como test, no solo como script manual** — la invariante "no modificar el tablero sin validarlo" pasa de disciplina a CI; y el test de identidad evita que las dos copias del JSON deriven. Descartado: importar el JSON directamente desde `spec/` (mezclaría documentación y runtime en el build).
 - **Recorrido precalculado + animador, en vez de simular tick a tick durante la animación** — la lógica decide todo el camino de golpe (puro, testeable) y la animación es solo reproducción; imposible que render y reglas discrepen. El input se bloquea mientras el animador tiene camino pendiente.
 - **Cámara solo horizontal** — 7 filas + anillo caben de sobra en vertical en todos los breakpoints; una cámara 2D sería complejidad sin uso. Clamping puro con test.
-- **Sonido positivo al abrir el candado** — el momento necesita un "¡clic!" de recompensa y el asset ya existe; adición mínima marcada como vetable por Sofía (no está en el GDD).
+- **Sonido positivo al abrir el candado** — el momento necesita un "¡clic!" de recompensa y el asset ya existe; adición mínima marcada como vetable en el checkpoint (no está en el GDD).
 - **Placeholders pixel para llave/candado/flechas con checkpoint** — mismo trato que recibieron los personajes: los sprites son de Sofía; el nivel no se cierra sin su visto bueno o sus assets.
 - **Velocidad de cadena única (~10 casillas/s) para avances, rebotes y castigos** — una sola constante que hace el castigo largo proporcionalmente doloroso (~7 s), como pide el diseño; si el playtesting lo quiere, se puede acelerar solo los castigos (segunda constante), pero no de salida.
 

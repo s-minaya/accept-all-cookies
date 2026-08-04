@@ -10,7 +10,7 @@
 - [x] Cablear el récord: `recordIfImproved` al abrir nivel, `finished` al completar el 12; ampliar `rankingStore` y `RankingList` + tests (mejora sí/no, perder no toca, entrada v1 sin `finished` carga bien).
 - [x] Orquestar el flujo en el shell: ganar/perder → congelar + parar contador → veredicto → modal → progreso/reinicio → selección.
 - [x] Deshabilitar Check con los 12 niveles completados.
-- [x] QA: partida completa ganando los 12; derrotas por botón, por contador y por X; ranking reflejado en la landing; 5 anchos; móvil real vía Pages (veredicto legible en 375 px). Verificado por tests automatizados y confirmado visualmente por Sofía.
+- [x] QA: partida completa ganando los 12; derrotas por botón, por contador y por X; ranking reflejado en la landing; 5 anchos; móvil real vía Pages (veredicto legible en 375 px). Verificado por tests automatizados y confirmado visualmente.
 - [x] Validar contra los criterios de aceptación de `spec.md`: todos cumplidos.
 - [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`.
 
