@@ -116,6 +116,28 @@ describe('Level12 (GDD Nivel 12 — Accept All, jefe final, 016-plan.md)', () =>
     expect(progressValue()).toBeLessThan(100)
   })
 
+  it('antiespoiler: switchAt and the click counter never surface as DOM attributes — they live only in modelRef (feature 017, bloque C)', () => {
+    seedSwitchAt(0.5)
+    render(<Level12Harness {...baseProps} />)
+    for (let i = 0; i < 5; i++) fireEvent.click(getButtons().protagonist)
+
+    // Ningún atributo de ningún elemento menciona el estado real (ni
+    // `data-switch-at`, ni `data-clicks`, ni nada parecido): switchAt y el
+    // contador de clics viven en `modelRef` (fuera de React), nunca se
+    // publican.
+    for (const el of document.querySelectorAll('*')) {
+      for (const attr of Array.from(el.attributes)) {
+        expect(attr.name.toLowerCase()).not.toMatch(/switch|click/)
+      }
+    }
+
+    // La única custom property que escribe el nivel es `--progress` (el
+    // relleno visible de la barra, a propósito) — nada más en su `style`.
+    const fill = document.querySelector('[class*="level-12__bar-fill"]') as HTMLElement
+    expect(fill.style.length).toBe(1)
+    expect(fill.style.getPropertyValue('--progress')).not.toBe('')
+  })
+
   it('flips to a red Disagree exactly on the switchAt-th click, with no warning', () => {
     const switchAt = seedSwitchAt(0.3)
     render(<Level12Harness {...baseProps} />)

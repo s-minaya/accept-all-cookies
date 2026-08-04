@@ -11,6 +11,7 @@ import {
 } from 'react'
 import { XPWindow } from '../components/xp/XPWindow'
 import { GiantVerdict } from '../components/xp/GiantVerdict'
+import { LevelErrorBoundary } from './LevelErrorBoundary'
 import { useCountdown } from '../hooks/useCountdown'
 import { useT } from '../i18n/useT'
 import { LEVEL_DURATION_SECONDS, type LevelDefinition, type LoseReason } from '../levels/types'
@@ -27,7 +28,11 @@ import { WinDialog } from './flow/WinDialog'
 import { LoseDialog } from './flow/LoseDialog'
 import styles from './LevelHost.module.scss'
 
-export type LevelExitResult = { outcome: 'win' } | { outcome: 'lose'; reason: LoseReason }
+export type LevelExitResult =
+  | { outcome: 'win' }
+  | { outcome: 'lose'; reason: LoseReason }
+  /** El chunk del nivel falló al cargar (017-plan.md, bloque G) — no es una derrota real. */
+  | { outcome: 'error' }
 
 export interface LevelHostProps {
   level: LevelDefinition
@@ -171,18 +176,20 @@ export function LevelHost({
 
   const levelContent = (
     <>
-      <Suspense fallback={<span>{t('shell.level.loading')}</span>}>
-        <HostChannelContext.Provider value={hostChannel}>
-          <LevelComponent
-            key={restartKey}
-            timeLeft={remaining}
-            onWin={handleWin}
-            onLose={handleLose}
-            onRestart={handleRestart}
-            paused={isLevelPaused(flow)}
-          />
-        </HostChannelContext.Provider>
-      </Suspense>
+      <LevelErrorBoundary onCrash={() => onExit({ outcome: 'error' })}>
+        <Suspense fallback={<span>{t('shell.level.loading')}</span>}>
+          <HostChannelContext.Provider value={hostChannel}>
+            <LevelComponent
+              key={restartKey}
+              timeLeft={remaining}
+              onWin={handleWin}
+              onLose={handleLose}
+              onRestart={handleRestart}
+              paused={isLevelPaused(flow)}
+            />
+          </HostChannelContext.Provider>
+        </Suspense>
+      </LevelErrorBoundary>
 
       {flow.phase === 'verdict' && flow.result && (
         <GiantVerdict result={flow.result} onDone={() => dispatch({ type: 'VERDICT_DONE' })} />

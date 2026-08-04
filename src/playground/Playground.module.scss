@@ -99,6 +99,14 @@
     border: 2px dashed var(--color-system-gray);
   }
 
+  // `LevelHost` real trae su propio `min-height: 100dvh` (así se comporta en
+  // el juego de verdad) — no se fuerza a caber en una caja pequeña, solo se
+  // recorta visualmente para separarlo del resto de la página.
+  &__level-host-frame {
+    border: 2px dashed var(--color-system-gray);
+    overflow: hidden;
+  }
+
   &__canvas-fill {
     width: 100%;
     height: 100%;

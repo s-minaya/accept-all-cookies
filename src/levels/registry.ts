@@ -1,27 +1,15 @@
 import { lazy } from 'react'
-import { testLevelDefinition } from './_test'
-import { LEVEL_IDS, type LevelDefinition, type LevelId } from './types'
+import type { LevelDefinition, LevelId } from './types'
 
 /**
- * Los 12 niveles reales del juego. Las features 006-016 sustituyen cada
- * hueco restante por su nivel real; hasta entonces cada uno apunta al
- * componente del nivel de prueba, pero con el título de su categoría real
- * (`levels.N.name`) para que el flujo completo (selección → nivel →
- * veredicto → selección) sea jugable de principio a fin desde la 004.
+ * Los 12 niveles reales del juego (features 006-016). El nivel de prueba que
+ * rellenaba los huecos pendientes (004-plan.md) ya no hace falta aquí — los
+ * 12 están completos — así que sale del bundle de producción por completo;
+ * se queda en el repo como arnés del contrato `LevelComponent`, accesible
+ * solo desde la Playground (`src/playground/LevelHostDemo.tsx`, feature
+ * 017).
  */
-const placeholderDefaults: Record<LevelId, LevelDefinition> = Object.fromEntries(
-  LEVEL_IDS.map((id) => [
-    id,
-    {
-      titleKey: `levels.${id}.name`,
-      consentKey: testLevelDefinition.consentKey,
-      component: testLevelDefinition.component,
-    } satisfies LevelDefinition,
-  ]),
-) as Record<LevelId, LevelDefinition>
-
 export const levelRegistry: Record<LevelId, LevelDefinition> = {
-  ...placeholderDefaults,
   1: {
     titleKey: 'levels.1.name',
     // Sin consentKey a propósito: el nivel 1 no tiene tablero, así que

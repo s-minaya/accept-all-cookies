@@ -273,6 +273,52 @@ describe('Level10 (GDD Nivel 10 — ventanas que se duplican al arrastrarse)', (
     expect(screen.getAllByText('Agree')).toHaveLength(1)
   })
 
+  it('antiespoiler: before the draw, every open window shows byte-identical footer markup — nothing in the DOM flags the future Agree (feature 017, bloque C)', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.5)
+    render(<Level10Harness {...baseProps} />)
+
+    dragBy(screen.getByTestId('host-title-bar'), 10, 0)
+    for (let i = 0; i < 2; i++) {
+      const bars = getCloneTitleBars()
+      dragBy(bars[bars.length - 1], 10, 0)
+    }
+    // 3 copias + la ventana nº 1 = 4 ventanas, todavía lejos del sorteo (7): `agreeWindowId` es `null`.
+    expect(getCloneTitleBars()).toHaveLength(3)
+
+    const footers = Array.from(document.querySelectorAll('[class*="level-10__buttons"]'))
+    expect(footers).toHaveLength(4)
+    const footerHTML = footers.map((f) => f.innerHTML)
+    expect(new Set(footerHTML).size).toBe(1) // las 4 son byte-idénticas
+
+    // Ningún atributo delata qué ventana ganará el sorteo (ids, "agree" fuera
+    // del texto visible de un botón, etc.) — la única fuente de verdad es
+    // `agreeWindowId`, que vive en JS, nunca en el DOM.
+    expect(document.querySelectorAll('[data-window-id], [data-agree], [data-id]')).toHaveLength(0)
+  })
+
+  it('antiespoiler: after the draw, the six non-Agree windows stay byte-identical to each other — only the winning button differs', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.5)
+    render(<Level10Harness {...baseProps} />)
+
+    dragBy(screen.getByTestId('host-title-bar'), 10, 0)
+    for (let i = 0; i < 5; i++) {
+      const bars = getCloneTitleBars()
+      dragBy(bars[bars.length - 1], 10, 0)
+    }
+    expect(getCloneTitleBars()).toHaveLength(6)
+
+    const footers = Array.from(document.querySelectorAll('[class*="level-10__buttons"]'))
+    expect(footers).toHaveLength(7)
+    const agreeFooterHTML = footers.find((f) => f.textContent?.includes('Agree'))?.innerHTML
+    const losingFooterHTML = footers
+      .filter((f) => f.innerHTML !== agreeFooterHTML)
+      .map((f) => f.innerHTML)
+    expect(losingFooterHTML).toHaveLength(6)
+    expect(new Set(losingFooterHTML).size).toBe(1) // las 6 perdedoras, idénticas entre sí
+
+    expect(document.querySelectorAll('[data-window-id], [data-agree], [data-id]')).toHaveLength(0)
+  })
+
   it('grabbing a window brings it to the front, even one that already spawned (no re-clone)', () => {
     render(<Level10Harness {...baseProps} />)
 

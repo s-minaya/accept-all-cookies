@@ -23,7 +23,7 @@ _Orden y estado de las features. El GDD (`../assets/accept-all-cookies-gdd.md`) 
 
 ## Siguiente 🔜
 
-17. **017 · Pulido y QA transversal** — balanceo de dificultad, repaso de audio, QA responsive en los 5 anchos de referencia, accesibilidad básica, rendimiento. También retira el botón dev de saltar nivel (`?dev`, introducido en la 008) junto con la Playground (`?playground`).
+17. **017 · Pulido y QA transversal** — balanceo de dificultad, repaso de audio, QA responsive en los 5 anchos de referencia, accesibilidad básica, rendimiento. Retira la Playground (`?playground`) del build de producción (sigue entera en `npm run dev`); `?dev` (introducido en la 008), en cambio, se queda como característica permanente también en producción — puerta secreta documentada, no deuda técnica.
 
 ## Backlog (ordenado) 💡
 

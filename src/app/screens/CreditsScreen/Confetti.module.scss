@@ -34,3 +34,13 @@
     transform: translate(var(--confetti-drift), 105vh) rotate(var(--confetti-rotation));
   }
 }
+
+// 017-plan.md, bloque F: puramente decorativo, sin nada de JS esperando a
+// que termine (a diferencia de GiantVerdict) — se oculta entero en vez de
+// acortar su animación, la forma más limpia de "reducir movimiento" cuando
+// no hay ningún desenlace que sincronizar.
+@media (prefers-reduced-motion: reduce) {
+  .confetti {
+    display: none;
+  }
+}

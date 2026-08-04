@@ -11,6 +11,7 @@ import { XPTextInputDemo } from './XPTextInputDemo'
 import { XPSliderDemo } from './XPSliderDemo'
 import { XPToggleDemo } from './XPToggleDemo'
 import { GiantVerdictDemo } from './GiantVerdictDemo'
+import { LevelHostDemo } from './LevelHostDemo'
 import styles from './Playground.module.scss'
 
 const ESSENTIAL_COOKIES_TEXT = `Cookie Consent
@@ -170,6 +171,15 @@ export function Playground() {
             </div>
           </GameArea>
         </div>
+      </Section>
+
+      <Section title="LevelHost (arnés del contrato LevelComponent, feature 017)">
+        <p>
+          El nivel de prueba ya no vive en el registro real (los 12 huecos están todos ocupados) —
+          se queda aquí como arnés para comprobar onWin/onLose/onRestart/el contador antes de
+          construir un nivel nuevo.
+        </p>
+        <LevelHostDemo />
       </Section>
     </main>
   )

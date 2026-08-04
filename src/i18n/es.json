@@ -151,6 +151,11 @@
     "lose": {
       "message": "Has rechazado las preferencias de cookies.\n\nTu progreso se ha reiniciado.\n\nPulsa abajo para volver a la pantalla de selección de niveles y empezar de nuevo desde el Nivel 1.",
       "returnButton": "Volver a la selección de niveles"
+    },
+    "error": {
+      "title": "Error",
+      "message": "Este nivel no se ha podido cargar. Comprueba tu conexión e inténtalo de nuevo — tu progreso está a salvo.",
+      "backButton": "Volver a la selección de niveles"
     }
   },
   "game": {

@@ -86,6 +86,22 @@ describe('runStore', () => {
       useRunStore.getState().resetRun()
       expect(useRunStore.getState().activeLevelTimeLeft).toBeNull()
     })
+
+    it('abandonLevel (chunk failed to load, 017-plan.md bloque G) clears the active level and pending outcome without touching progress', () => {
+      useRunStore.getState().completeLevel(1) // currentLevel avanza a 2
+      useRunStore.getState().enterLevel()
+      useRunStore.getState().updateActiveLevelTime(37)
+      useRunStore.getState().setPendingOutcome('win')
+
+      useRunStore.getState().abandonLevel()
+
+      expect(useRunStore.getState().activeLevelTimeLeft).toBeNull()
+      expect(useRunStore.getState().pendingOutcome).toBeNull()
+      // A diferencia de resetRun: el progreso ya guardado no se toca — un
+      // fallo de red no es culpa del jugador.
+      expect(useRunStore.getState().completedLevels).toEqual([1])
+      expect(useRunStore.getState().currentLevel).toBe(2)
+    })
   })
 
   describe('persistence (a reload must not lose progress or the countdown)', () => {

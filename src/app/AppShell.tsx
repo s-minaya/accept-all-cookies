@@ -39,6 +39,7 @@ export function AppShell() {
   const pendingOutcome = useRunStore((state) => state.pendingOutcome)
   const completeLevel = useRunStore((state) => state.completeLevel)
   const resetRun = useRunStore((state) => state.resetRun)
+  const abandonLevel = useRunStore((state) => state.abandonLevel)
   const enterLevel = useRunStore((state) => state.enterLevel)
   const updateActiveLevelTime = useRunStore((state) => state.updateActiveLevelTime)
   const setPendingOutcome = useRunStore((state) => state.setPendingOutcome)
@@ -72,6 +73,11 @@ export function AppShell() {
         setScreen('credits')
         return
       }
+    } else if (result.outcome === 'error') {
+      // Un chunk que falla al cargar (017-plan.md, bloque G) no es una
+      // derrota: no se reinicia la partida, solo se limpia el nivel en
+      // curso para poder reintentarlo desde selección.
+      abandonLevel()
     } else {
       resetRun()
     }

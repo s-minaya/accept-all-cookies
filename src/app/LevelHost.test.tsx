@@ -1,5 +1,5 @@
 import { lazy, useMemo } from 'react'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { LevelHost } from './LevelHost'
 import { testLevelDefinition } from '../levels/_test'
@@ -180,5 +180,36 @@ describe('LevelHost — ranura overlay (014-plan.md)', () => {
     render(<LevelHost level={testLevelDefinition} isFinalLevel={false} onExit={() => {}} />)
 
     expect(screen.queryByTestId('overlay-content')).toBeNull()
+  })
+})
+
+describe('LevelHost — error boundary (017-plan.md, bloque G)', () => {
+  const crashingLevelDefinition: LevelDefinition = {
+    titleKey: 'shell.level.testTitle',
+    consentKey: 'shell.level.testConsent',
+    // Fuerza el mismo fallo que un hipo de red real en Pages: el `import()`
+    // dinámico del nivel (`React.lazy`) rechaza en vez de resolver.
+    component: lazy(() => Promise.reject(new Error('chunk load failed'))),
+  }
+
+  it('shows an XP error dialog with a single back button instead of a blank screen when the level chunk fails to load', async () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const onExit = vi.fn()
+    render(<LevelHost level={crashingLevelDefinition} isFinalLevel={false} onExit={onExit} />)
+
+    const dialog = await screen.findByRole('dialog')
+    // Un único botón dentro del diálogo de error, sin opción de reintentar
+    // (017-spec.md: "un mensaje XP y un botón de volver", no más) — la X de
+    // la ventana del nivel sigue ahí detrás, heredada de `LevelHost` como
+    // siempre, pero no es parte de este diálogo.
+    expect(within(dialog).getAllByRole('button')).toHaveLength(1)
+    const backButton = within(dialog).getByRole('button', {
+      name: /return to level selection|volver a la selección/i,
+    })
+
+    fireEvent.click(backButton)
+    expect(onExit).toHaveBeenCalledWith({ outcome: 'error' })
+
+    consoleErrorSpy.mockRestore()
   })
 })

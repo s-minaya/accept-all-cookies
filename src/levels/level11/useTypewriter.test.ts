@@ -11,6 +11,18 @@ import { ANSWER_UNLOCK_MS, MS_PER_CHARACTER, useTypewriter } from './useTypewrit
 // tan grande como para invadir el margen de desbloqueo que se prueba aparte.
 const FRAME_SLACK_MS = 80
 
+function mockReducedMotion(matches: boolean) {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn().mockImplementation((query: string) => ({
+      matches,
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    })),
+  )
+}
+
 describe('useTypewriter (015-plan.md)', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -19,6 +31,7 @@ describe('useTypewriter (015-plan.md)', () => {
   afterEach(() => {
     vi.useRealTimers()
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
   it('starts with nothing visible and not done', () => {
@@ -171,5 +184,27 @@ describe('useTypewriter (015-plan.md)', () => {
     expect(result.current.visibleText).toBe('')
     expect(result.current.done).toBe(false)
     expect(startVoiceLoop).toHaveBeenCalled()
+  })
+
+  it('prefers-reduced-motion (017-plan.md, bloque F): shows the full text immediately, but done/unlocked keep the exact same timing — the input lock never changes', () => {
+    mockReducedMotion(true)
+    const text = 'A somewhat longer sentence'
+    const { result } = renderHook(() => useTypewriter(text, false))
+
+    // De golpe, desde el primer render — no hace falta ni un tick del reloj.
+    expect(result.current.visibleText).toBe(text)
+    expect(result.current.done).toBe(false)
+    expect(result.current.unlocked).toBe(false)
+
+    act(() => {
+      vi.advanceTimersByTime(text.length * MS_PER_CHARACTER + FRAME_SLACK_MS)
+    })
+    expect(result.current.done).toBe(true)
+    expect(result.current.unlocked).toBe(false) // todavía falta el margen de desbloqueo
+
+    act(() => {
+      vi.advanceTimersByTime(ANSWER_UNLOCK_MS + FRAME_SLACK_MS)
+    })
+    expect(result.current.unlocked).toBe(true)
   })
 })

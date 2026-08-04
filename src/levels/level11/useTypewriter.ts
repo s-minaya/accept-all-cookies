@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAudio } from '../../audio/useAudio'
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import {
   createTypewriterState,
   isTypewriterDone,
@@ -42,6 +43,7 @@ export interface UseTypewriterResult {
  */
 export function useTypewriter(text: string, paused: boolean): UseTypewriterResult {
   const { startVoiceLoop, stopVoiceLoop, duckMusic, unduckMusic } = useAudio()
+  const reducedMotion = usePrefersReducedMotion()
   const totalMs = text.length * MS_PER_CHARACTER
   const [state, setState] = useState(createTypewriterState)
 
@@ -84,9 +86,15 @@ export function useTypewriter(text: string, paused: boolean): UseTypewriterResul
     setState((prev) => (isTypewriterDone(prev) ? prev : skipTypewriter(totalMs)))
   }
 
-  const visibleText = done
-    ? text
-    : text.slice(0, visibleCharCount(state, MS_PER_CHARACTER, text.length))
+  // `prefers-reduced-motion` (017-plan.md, bloque F): el texto aparece de
+  // golpe, pero `state`/`done`/`unlocked` siguen avanzando exactamente
+  // igual — el bloqueo de input (No/Yes deshabilitados hasta `unlocked`) no
+  // cambia ni un milisegundo. Ninguna regla de juego cambia, solo lo que se
+  // pinta mientras tanto.
+  const visibleText =
+    done || reducedMotion
+      ? text
+      : text.slice(0, visibleCharCount(state, MS_PER_CHARACTER, text.length))
 
   return { visibleText, done, unlocked, skip }
 }

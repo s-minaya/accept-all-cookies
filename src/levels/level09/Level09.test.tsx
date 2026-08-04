@@ -280,6 +280,34 @@ describe('Level09 (GDD Nivel 9 — Fingerprinting, 013-plan.md, corregido tras r
     expect(getCellButton(6)?.textContent).toContain('Agree') // respondió al ciclo nuevo, ya no está pegada al Disagree
   })
 
+  it('antiespoiler: a frozen cell is structurally identical to a plain one showing the same button — nothing marks it as frozen (feature 017, bloque C)', () => {
+    // Referencia "sin congelar": un Disagree corriente tras el primer ciclo.
+    seedRandom(0.5) // celda 5 = disagree tras el primer ciclo (calculado aparte)
+    const { unmount } = render(<Level09Harness {...baseProps} />)
+    advanceOneCycle()
+    const plainDisagreeClassName = getCellButton(5)?.className
+    const plainWrapperClassName = getCells()[0].className
+    unmount()
+    vi.restoreAllMocks()
+
+    // Ahora, la misma casilla (6) pero CONGELADA atrapando un Disagree.
+    seedRandom(0.3)
+    render(<Level09Harness {...baseProps} />)
+    const container = document.querySelector('[class*="level-09-grid"]') as HTMLElement
+    stubCellRects(container, getCells())
+    fireEvent.pointerEnter(container, { clientX: 320, clientY: 20 }) // celda 6, todavía vacía
+    fireEvent.pointerMove(container, { clientX: 320, clientY: 20 })
+    act(() => vi.advanceTimersByTime(1400)) // arma la 6 y atrapa el Disagree del ciclo 3
+    expect(getCellButton(6)?.textContent).toContain('Disagree')
+
+    expect(getCellButton(6)?.className).toBe(plainDisagreeClassName)
+    // Los 12 wrappers, congelado incluido, comparten SIEMPRE la misma clase:
+    // el estado "frozen" vive solo en `cell.ts`, nunca se refleja en el DOM.
+    const wrapperClassNames = getCells().map((c) => c.className)
+    expect(new Set(wrapperClassNames)).toEqual(new Set([plainWrapperClassName]))
+    expect(document.querySelectorAll('[data-frozen], [data-armed]')).toHaveLength(0)
+  })
+
   it('does not accept clicks while paused (buttons disabled)', () => {
     seedRandom(0.3)
     render(<Level09Harness {...baseProps} paused={true} />)

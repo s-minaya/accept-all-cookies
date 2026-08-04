@@ -24,6 +24,15 @@ export interface RunState {
   updateActiveLevelTime: (timeLeft: number) => void
   /** Se llama en cuanto el nivel activo gana o pierde (antes del veredicto/modal). */
   setPendingOutcome: (outcome: PendingOutcome) => void
+  /**
+   * Se llama si el nivel activo falla al cargar su chunk (017-plan.md,
+   * bloque G, error boundary): limpia el contador/desenlace pendiente del
+   * nivel en curso, igual que una derrota, pero sin tocar `completedLevels`
+   * ni `currentLevel` — un hipo de red no es culpa del jugador, así que no
+   * le cuesta el progreso ya guardado. El jugador vuelve a selección y puede
+   * reintentar el mismo nivel.
+   */
+  abandonLevel: () => void
 }
 
 export const RUN_STORAGE_KEY = 'aac.v1.run'
@@ -102,6 +111,11 @@ export const useRunStore = create<RunState>()((set, get) => ({
 
   setPendingOutcome: (outcome) => {
     set({ pendingOutcome: outcome })
+    persist(get)
+  },
+
+  abandonLevel: () => {
+    set({ activeLevelTimeLeft: null, pendingOutcome: null })
     persist(get)
   },
 }))

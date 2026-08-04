@@ -100,3 +100,18 @@
     transform: scale(1);
   }
 }
+
+// 017-plan.md, bloque F: solo lo decorativo se reduce — `onDone` (LevelHost)
+// sigue disparado por el propio evento `animationend` del texto (nunca por
+// un timer en JS), así que acortar la duración a casi cero basta: el texto
+// "aparece de golpe" y el bloqueo de input sigue existiendo, solo que dura
+// una fracción de segundo en vez de ~800ms. Ninguna regla de juego cambia.
+@media (prefers-reduced-motion: reduce) {
+  .giant-verdict {
+    &__glow,
+    &__text {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}

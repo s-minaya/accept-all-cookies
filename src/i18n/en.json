@@ -151,6 +151,11 @@
     "lose": {
       "message": "You rejected the cookie preferences.\n\nYour progress has been reset.\n\nClick below to return to the Level Selection screen and start again from Level 1.",
       "returnButton": "Return to Level Selection"
+    },
+    "error": {
+      "title": "Error",
+      "message": "This level couldn't load. Check your connection and try again — your progress is safe.",
+      "backButton": "Return to Level Selection"
     }
   },
   "game": {
