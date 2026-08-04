@@ -31,9 +31,9 @@
   @media (max-width: 480px) {
     --grid-cols: 3;
     --grid-rows: 4;
-    // 96px, no 84px (revisión de Sofía: "el texto Disagree se desborda del
-    // botón" — la palabra más larga de las dos caras necesita más ancho
-    // real, no solo el mínimo táctil).
+    // 96px, no 84px: el texto Disagree se desbordaba del botón — la palabra
+    // más larga de las dos caras necesita más ancho real, no solo el
+    // mínimo táctil.
     --cell-width: 96px;
     // 56px, no 50px: la celda pierde 8px de margen visual (ver `&__cell`
     // más abajo), y el botón resultante tiene que seguir siendo ≥ 44px de
@@ -87,7 +87,7 @@
     // botón pulsado "salta" a la esquina superior izquierda (donde caen
     // `--cell-col`/`--cell-row` sin aplicar) y vuelve a su sitio al soltar.
     // Mismo bug, mismo arreglo, que la cubierta del nivel 7
-    // (`Level07.module.scss`); encontrado esta vez por Sofía jugando.
+    // (`Level07.module.scss`); encontrado esta vez jugando.
     &:active,
     &:not(:disabled):active {
       transform: translate(

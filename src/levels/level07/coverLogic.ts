@@ -14,10 +14,10 @@ export interface ClampOffsetInput {
 
 /**
  * Limita el desplazamiento propuesto de la cubierta a ± el máximo permitido
- * en cada eje (revisión de Sofía: "debe arrastrarse DENTRO del espacio del
- * mismo botón... no debe salirse hacia la ventana" — el hueco que la
- * contiene recorta, `overflow: hidden`, lo que se salga de ese rango; este
- * clamp solo evita que el número crezca sin sentido). Pura: sin referencias
+ * en cada eje (debe arrastrarse DENTRO del espacio del mismo botón, nunca
+ * hacia la ventana — el hueco que la contiene recorta, `overflow: hidden`,
+ * lo que se salga de ese rango; este clamp solo evita que el número crezca
+ * sin sentido). Pura: sin referencias
  * al DOM, solo aritmética.
  */
 export function clampCoverOffset({ x, y, maxOffsetX, maxOffsetY }: ClampOffsetInput): Point {

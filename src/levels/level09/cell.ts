@@ -29,8 +29,7 @@ export function spawn(state: CellState, type: ButtonType): CellState {
 /**
  * El ciclo global (`cycle.ts`) limpia todas las casillas `visible` de golpe
  * al arrancar el siguiente lote — así es como "cuando aparece uno,
- * desaparece otro" (revisión de Sofía). `frozen` y `empty` no tienen nada
- * que limpiar: no-op.
+ * desaparece otro". `frozen` y `empty` no tienen nada que limpiar: no-op.
  */
 export function clear(state: CellState): CellState {
   if (state.phase === 'visible') return createEmptyCell()

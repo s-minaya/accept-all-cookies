@@ -25,7 +25,7 @@ export function CreditsScreen({ onBack }: CreditsScreenProps) {
   const roles = [
     { label: t('credits.roleGameDesign'), value: author },
     { label: t('credits.rolePixelArt'), value: author },
-    // Código: a medias con Claude (Sofía quiso compartir el crédito de verdad, no de coña).
+    // Código: a medias con Claude (crédito compartido de verdad, no de coña).
     { label: t('credits.roleCode'), value: t('credits.codeCredit') },
     { label: t('credits.rolePsychologicalWarfare'), value: author },
     { label: t('credits.inspiredByLabel'), value: t('credits.inspiredByValue') },

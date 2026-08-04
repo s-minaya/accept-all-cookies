@@ -15,9 +15,9 @@ export type SegmentsOutcome = 'win' | 'lose' | null
  * estado son solo los DOS contadores, nunca un array de 6 celdas — los
  * segmentos Agree siempre se pintan empaquetados a la izquierda y los
  * Disagree a la derecha (huecos, si los hay, en medio), así que la cuenta
- * basta para saber exactamente qué mostrar. Regla confirmada por Sofía
- * (coincide con la prosa original del GDD; el ejemplo del GDD sí estaba mal
- * y se corrigió como tarea de esta feature):
+ * basta para saber exactamente qué mostrar. Regla confirmada (coincide con
+ * la prosa original del GDD; el ejemplo del GDD sí estaba mal y se corrigió
+ * como tarea de esta feature):
  *
  * - Mientras haya huecos (`agree + disagree < SEGMENT_COUNT`), cada captura
  *   SOLO rellena un segmento de su propio color, sin tocar los del

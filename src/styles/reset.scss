@@ -26,16 +26,16 @@ html,
 body {
   // Sin esto, arrastrar hacia abajo en móvil (p. ej. para rotar la ventana
   // del nivel 3) puede disparar el gesto nativo "pull to refresh" del
-  // navegador y recargar la página a mitad de partida (bug real reportado
-  // por Sofía). El juego nunca necesita ese gesto, así que se desactiva
-  // para toda la app, no solo para el nivel que rota.
+  // navegador y recargar la página a mitad de partida (bug real). El juego
+  // nunca necesita ese gesto, así que se desactiva para toda la app, no
+  // solo para el nivel que rota.
   overscroll-behavior-y: none;
 
   // Red de seguridad: la ventana ya se acota a `min(95vw, 40rem)`
   // (XPWindow.module.scss), pero un elemento rotado (nivel 3) puede tener un
   // cuadro delimitador más ancho que su propio ancho sin rotar — sin esto,
   // eso aparecería como scroll horizontal de toda la página en vez de
-  // quedar recortado (bug real reportado por Sofía en un iPhone 16).
+  // quedar recortado (bug real reportado en un iPhone 16).
   overflow-x: hidden;
 }
 

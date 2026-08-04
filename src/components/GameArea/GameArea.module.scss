@@ -5,8 +5,8 @@
   // lienzo necesita a ese ancho, en vez de estirarse a ocupar todo el alto
   // que le dé un ancestro con `fillHeight` — sin esto, un nivel con
   // `fillHeight` (el ancho manda casi siempre, ver comentario de
-  // `LOGICAL_HEIGHT`) dejaba un hueco vacío alrededor del lienzo (corregido
-  // tras revisión de Sofía: "reduce el aire de arriba y abajo" del nivel 4).
+  // `LOGICAL_HEIGHT`) dejaba un hueco vacío alrededor del lienzo (corregido:
+  // sobraba aire arriba y abajo en el nivel 4).
   // `max-width`/`max-height` acotan por los dos lados a la vez (mismo patrón
   // que una imagen responsive con relación de aspecto fija): normalmente es
   // el ancho el que manda, pero en una ventana excepcionalmente baja

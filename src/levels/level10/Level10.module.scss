@@ -2,10 +2,10 @@
   // Rellena el marco azul del área de juego (GDD §4.4), igual que los
   // niveles 1-2 y 7: tampoco tiene tablero propio (registry.ts, sin
   // consentKey) — la mecánica son las ventanas, no un recuadro de juego.
-  // `background: var(--color-white)` — corregido DE VUELTA tras revisión de
-  // Sofía: un turno anterior lo había quitado por una lectura equivocada de
-  // su comentario; el blanco es correcto y consistente con el resto de
-  // niveles sin `consentKey` (1, 2, 7, 8, 9 — todos usan este mismo patrón,
+  // `background: var(--color-white)` — corregido DE VUELTA: un cambio
+  // anterior lo había quitado por una lectura equivocada; el blanco es
+  // correcto y consistente con el resto de niveles sin `consentKey`
+  // (1, 2, 7, 8, 9 — todos usan este mismo patrón,
   // `.level-0N { background: var(--color-white) }`), no una excepción de
   // este nivel.
   min-height: 100%;
@@ -40,8 +40,8 @@
   position: fixed;
   inset: 0 auto auto 0;
   transform: translate(var(--window-x, 0px), var(--window-y, 0px));
-  // Corregido tras revisión de Sofía: el apilado ya no es fijo por orden de
-  // creación — cada ventana (incluida la nº 1, LevelHost.module.scss) trae
+  // El apilado ya no es fijo por orden de creación — cada ventana (incluida
+  // la nº 1, LevelHost.module.scss) trae
   // consigo su propio orden (`bringToFront`, windows.ts), así que la que se
   // agarra pasa siempre al frente y deja de quedar tapada.
   z-index: var(--window-z, 1);

@@ -3,13 +3,13 @@ import es from './es.json'
 import en from './en.json'
 
 /**
- * Corregido tras revisión de Sofía (post-015): solo Agree/Disagree y los
- * títulos del veredicto que los reutilizan (`cookiesAccepted`, el propio
- * `disagree` como título de Game Over) se quedan fijos en inglés — es la
- * mecánica de similitud visual (GDD §11: "Disagree" contiene visualmente
- * "Agree") la que lo exige, no el resto de `game.*`. Los botones neutros
- * (Check, Stop, OK, Yes) no tienen esa mecánica y se traducen con
- * normalidad, como cualquier otro texto de interfaz.
+ * Solo Agree/Disagree y los títulos del veredicto que los reutilizan
+ * (`cookiesAccepted`, el propio `disagree` como título de Game Over) se
+ * quedan fijos en inglés — es la mecánica de similitud visual (GDD §11:
+ * "Disagree" contiene visualmente "Agree") la que lo exige, no el resto de
+ * `game.*`. Los botones neutros (Check, Stop, OK, Yes) no tienen esa
+ * mecánica y se traducen con normalidad, como cualquier otro texto de
+ * interfaz.
  */
 describe('game.* keys (GDD §11)', () => {
   it('agree/disagree/cookiesAccepted have the exact same value in Spanish and English — the visual-similarity trick would break otherwise', () => {

@@ -42,7 +42,7 @@
     // Barra gruesa a media altura de los rodillos, dando la impresión de
     // que los 3 giran apoyados sobre ella — sobresale un poco a cada lado
     // del primer/último rodillo, como un eje real (corregido tras revisión
-    // visual de Sofía sobre una referencia).
+    // visual sobre una referencia).
     &::before {
       content: '';
       position: absolute;
@@ -65,7 +65,7 @@
 
   // Mismo ancho que un rodillo (`.reel`, `Reel.module.scss`) para que cada
   // Stop quede alineado justo debajo de su rodillo (corregido tras revisión
-  // visual de Sofía sobre una referencia).
+  // visual sobre una referencia).
   &__stop {
     width: 84px;
     min-width: 84px;

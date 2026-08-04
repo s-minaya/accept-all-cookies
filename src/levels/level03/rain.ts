@@ -108,8 +108,7 @@ export function createRainSimulation({
   // gravedad como cualquier Disagree) podía salir volando por arriba y
   // perderse fuera del recuadro si el jugador seguía girando la ventana
   // después de encontrarlo, sin nada que lo frenara en esa dirección (bug
-  // real, corregido tras revisión de Sofía: "una vez aparezca el agree no
-  // puede salirse de la pantalla").
+  // real: una vez aparece el Agree, no puede salirse de la pantalla).
   const walls = [
     Matter.Bodies.rectangle(
       totalWidth / 2,
@@ -147,9 +146,9 @@ export function createRainSimulation({
   // El área REAL del recuadro (medida arriba, no un número fijo pensado
   // para un recuadro más grande) limita cuántos Disagree caben a la vez
   // sin dejar el recuadro pared con pared, sin ningún hueco para que el
-  // Agree se pueda ver una vez revelado — corregido tras revisión de
-  // Sofía: "los botones de disagree si tienen que desaparecer si no se
-  // llena la pantalla y no deja espacio para que aparezca el agree". Con
+  // Agree se pueda ver una vez revelado — los Disagree deben desaparecer
+  // si llenan la pantalla y no dejan espacio para que aparezca el Agree.
+  // Con
   // el recuadro a su tamaño de siempre (`min-height: 10rem`,
   // `Level03.module.scss`) y `RAIN_MAX_POPULATION` (25) sin este límite,
   // el área de los propios botones llegaba a duplicar la del recuadro —
@@ -177,9 +176,9 @@ export function createRainSimulation({
   // cuerpo físico nunca — sin esto, esos botones sobrantes se quedan
   // clavados en su posición CSS por defecto (`top: 0; left: 0`, la esquina
   // superior izquierda del recuadro, `Level03.module.scss`), visibles y
-  // clicables, porque `syncButtonPosition` nunca llega a tocarlos (bug real,
-  // reportado por Sofía tras el límite de población: "se queda un disagree
-  // pegado en la parte superior izquierda de la pantalla").
+  // clicables, porque `syncButtonPosition` nunca llega a tocarlos (bug real
+  // tras el límite de población: un disagree se quedaba pegado en la parte
+  // superior izquierda de la pantalla).
   for (const unusedButton of buttons.slice(population)) {
     unusedButton.style.display = 'none'
   }
@@ -213,7 +212,7 @@ export function createRainSimulation({
 
   // El Agree: nace YA en su posición de reposo dentro de la cámara oculta,
   // quieto (`isStatic`) — nada de caída animada al cargar el nivel (antes se
-  // veía "esconderse" un instante, feedback de Sofía tras QA). Se libera
+  // veía "esconderse" un instante, feedback tras QA). Se libera
   // (empieza a responder a la gravedad, como cualquier Disagree) en cuanto
   // el jugador gira la ventana por primera vez, sea cual sea el sentido.
   const agreeHalf = elementHalfSize(agreeButton)
@@ -230,8 +229,8 @@ export function createRainSimulation({
   let agreeReleased = false
 
   // Invisible de verdad, no solo recortado por el `overflow: hidden` del
-  // recuadro (corregido tras revisión de Sofía: "el botón agree cae y se
-  // esconde, dando al usuario una pista de dónde está") — al rebotar cerca
+  // recuadro (si no, el botón Agree cae y se esconde, dando al usuario una
+  // pista de dónde está) — al rebotar cerca
   // del borde de la cámara oculta, un trocito del propio botón podía asomar
   // por el recorte visual y volver a escapar, revelando en qué lado está
   // antes de que el jugador lo encuentre de verdad. Se hace visible recién
@@ -240,9 +239,9 @@ export function createRainSimulation({
   agreeButton.style.visibility = 'hidden'
 
   // Pared que sella la cámara oculta la primera vez que el Agree cruza por
-  // completo al recuadro visible (Sofía, feedback tras QA: "a veces se
-  // pierde [otra vez] al rebotar" — una vez descubierto, no debe poder
-  // volver a esconderse). No se añade al mundo hasta ese momento: si
+  // completo al recuadro visible (feedback tras QA: a veces se perdía otra
+  // vez al rebotar — una vez descubierto, no debe poder volver a
+  // esconderse). No se añade al mundo hasta ese momento: si
   // existiera desde el principio, el Agree quedaría atrapado en su propia
   // cámara y nunca podría cruzar.
   const sealWall = Matter.Bodies.rectangle(

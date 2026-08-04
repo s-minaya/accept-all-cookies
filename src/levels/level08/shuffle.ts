@@ -3,15 +3,15 @@ export const CELL_COUNT = 12
 
 /**
  * Duraciones de las 3 rondas de barajado (GDD §14: "0,8 s / 0,55 s / 0,35 s"
- * — subidas dos veces tras revisión de Sofía: primero desde 2/1,5/1 s, y
- * "sigue siendo muy fácil, un poco más" desde 1,2/0,9/0,6 s).
+ * — subidas dos veces tras revisión: primero desde 2/1,5/1 s, y de nuevo
+ * (seguía siendo muy fácil) desde 1,2/0,9/0,6 s).
  */
 export const ROUND_DURATIONS_MS: readonly number[] = [800, 550, 350]
 
 /**
  * Intercambios por ronda (012-plan.md, "parámetros por ronda: 4 / 6 / 8
- * intercambios, ajustables" — el checkpoint de Sofía decide el valor final;
- * más intercambios = más difícil de seguir).
+ * intercambios, ajustables" — el checkpoint de diseño decide el valor
+ * final; más intercambios = más difícil de seguir).
  */
 export const ROUND_SWAP_COUNTS: readonly number[] = [4, 6, 8]
 

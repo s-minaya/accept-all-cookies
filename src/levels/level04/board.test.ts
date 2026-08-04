@@ -146,10 +146,9 @@ describe('createBoardSimulation (008-plan.md, física del Plinko)', () => {
     // a media caída (positivo) sin que eso signifique que nunca se recicló.
     // 400×200ms (80s simulados, no 20s): un botón encajado contra un peg
     // ahora recibe hasta `MAX_STUCK_KICKS` empujones (5s de reposo cada uno
-    // antes del siguiente) en vez de reciclarse al instante (corregido tras
-    // revisión de Sofía: "debe rebotar en los puntitos un poco") — con mala
-    // suerte, un único slot puede encadenar varios episodios así antes de
-    // llegar al fondo.
+    // antes del siguiente) en vez de reciclarse al instante (debe rebotar
+    // un poco en los pegs) — con mala suerte, un único slot puede encadenar
+    // varios episodios así antes de llegar al fondo.
     fallingSlots = makeSlots(1)
     create({ fallingSlots })
 
@@ -169,9 +168,9 @@ describe('createBoardSimulation (008-plan.md, física del Plinko)', () => {
     // El botón grande barre todo el ancho del lienzo repetidamente: con
     // población máxima y tiempo de sobra, intercepta antes o después a
     // alguno de los botones que caen (semilla fija para que sea repetible).
-    // 90 s de tiempo SIMULADO (no 30): la gravedad se bajó tras revisión de
-    // Sofía ("deberían bajar más lentamente"), así que cada botón tarda más
-    // en completar su recorrido. Esto es tiempo de `vi.advanceTimersByTime`,
+    // 90 s de tiempo SIMULADO (no 30): la gravedad se bajó para que los
+    // botones bajaran más lentamente, así que cada botón tarda más en
+    // completar su recorrido. Esto es tiempo de `vi.advanceTimersByTime`,
     // no de reloj real — pero avanzarlo ejecuta de verdad ~5600 pasos de
     // física (uno por frame simulado de ~16ms) de forma síncrona, lo que sí
     // consume varios segundos de CPU real: se sube también el timeout real

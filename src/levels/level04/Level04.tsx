@@ -30,8 +30,8 @@ import styles from './Level04.module.scss'
 /**
  * Nivel 4 — Advertising (Plinko) (GDD Nivel 4, 008-plan.md): el texto de
  * consentimiento vive en el marco azul del área de juego, como los niveles
- * 1-3 (corregido tras revisión de Sofía: "los terminos y condiciones de las
- * cookies no estan en su recuadro azul, como en todos los niveles") — es el
+ * 1-3 (corregido: los términos y condiciones de las cookies no estaban en
+ * su recuadro azul, como en todos los niveles) — es el
  * propio `return` de este componente (`children` de `XPWindow`). El tablero
  * del Plinko, en cambio, sigue sin marco azul (GDD §4.4, excepción: "un
  * nivel con tablero de físicas puede prescindir del marco... el Plinko ya
@@ -85,19 +85,18 @@ export default function Level04({ onWin, onLose, paused }: LevelProps) {
   const [slotTypes, setSlotTypes] = useState<FallingType[]>(() => Array(population).fill('agree'))
   const [segments, setSegments] = useState<SegmentsState>(INITIAL_SEGMENTS)
   // Desenlace ya decidido por los segmentos, pero pendiente de que el
-  // jugador pulse la paleta para confirmarlo (corregido tras revisión de
-  // Sofía: "una vez el botón... se vuelve agree del todo, se bloquea... y
-  // el jugador debe pulsarlo para ganar") — igual que los botones Agree/
-  // Disagree del resto del juego, que nunca deciden por sí solos sin un
-  // clic.
+  // jugador pulse la paleta para confirmarlo: una vez el botón se vuelve
+  // agree o disagree del todo, se bloquea y el jugador debe pulsarlo para
+  // confirmar el desenlace — igual que los botones Agree/Disagree del
+  // resto del juego, que nunca deciden por sí solos sin un clic.
   const [pendingOutcome, setPendingOutcome] = useState<'win' | 'lose' | null>(null)
   const hasEndedRef = useRef(false)
 
   const pegs = useMemo(() => generatePegPositions(LOGICAL_WIDTH), [])
 
-  // Ratón: arrastrar (pulsar y mover), no seguir el puntero en hover —
-  // corregido tras revisión de Sofía: "no me gusta que siga al raton, mejor
-  // que sea drag y soltar". `onDragStart`+`onDragMove` (no `onMove`): el
+  // Ratón: arrastrar (pulsar y mover), no seguir el puntero en hover — debía
+  // ser drag y soltar, no seguir al ratón. `onDragStart`+`onDragMove` (no
+  // `onMove`): el
   // arrastre puede empezar en cualquier punto del área de juego, no hace
   // falta pulsar sobre la paleta (GDD §15.2), y el umbral de arrastre por
   // defecto de `usePointer` deja pasar un simple tap sobre la paleta ya

@@ -78,12 +78,11 @@ function getPaddle(container: HTMLElement): HTMLElement {
 }
 
 /**
- * Corregido tras revisión de Sofía: "una vez el botón que recoge los que
- * caen se vuelve agree del todo, se bloquea (no se puede deslizar) y el
- * jugador debe pulsarlo para ganar" — igual que cualquier Agree/Disagree
- * real del juego, el desenlace ya no se dispara solo al llenarse los 6
- * segmentos: la paleta se bloquea y espera un clic (o Enter/Espacio con
- * foco) para confirmarlo.
+ * Una vez el botón que recoge los que caen se vuelve agree o disagree del
+ * todo, se bloquea (no se puede deslizar) y el jugador debe pulsarlo para
+ * confirmar — igual que cualquier Agree/Disagree real del juego, el
+ * desenlace ya no se dispara solo al llenarse los 6 segmentos: la paleta se
+ * bloquea y espera un clic (o Enter/Espacio con foco) para confirmarlo.
  */
 describe('Level04 — desenlace pendiente de confirmar con un clic en la paleta', () => {
   beforeEach(() => {

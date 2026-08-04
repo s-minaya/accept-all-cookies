@@ -35,12 +35,12 @@ export interface HostChannelValue {
   setWindowTransform: SetWindowTransform
   /**
    * Orden de apilado de la ventana entera frente a lo que un nivel pinte en
-   * `overlay` (014-plan.md, nivel 10, corregido tras revisión de Sofía:
-   * "queremos que se arrastre la pantalla de delante y deje de ocultar la
-   * de atrás"). `LevelHost` la aplica como la custom property
-   * `--window-z-index` en el mismo contenedor que `windowTransform`. Sin
-   * publicar (o `null`), el contenedor no fija ningún `z-index` propio
-   * (`auto`) — comportamiento de siempre para el resto de niveles.
+   * `overlay` (014-plan.md, nivel 10: la ventana arrastrada pasa delante y
+   * deja de ocultar la de atrás). `LevelHost` la aplica como la custom
+   * property `--window-z-index` en el mismo contenedor que
+   * `windowTransform`. Sin publicar (o `null`), el contenedor no fija
+   * ningún `z-index` propio (`auto`) — comportamiento de siempre para el
+   * resto de niveles.
    */
   setWindowZIndex: SetWindowZIndex
   /**
@@ -62,8 +62,8 @@ export interface HostChannelValue {
    * Tablero de juego que `XPWindow` renderiza DEBAJO del marco azul, fuera de
    * él (ranura `boardBelowFrame`), en vez de dentro de `children` — para
    * niveles donde el marco azul solo debe envolver el texto de
-   * consentimiento (nivel 3, corregido tras revisión de Sofía: "el borde
-   * azul oscuro SOLO cubre los términos y condiciones").
+   * consentimiento (nivel 3: el borde azul oscuro solo cubre los términos y
+   * condiciones).
    */
   setBoard: SetBoard
   /**

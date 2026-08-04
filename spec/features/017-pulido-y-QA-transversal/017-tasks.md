@@ -21,14 +21,14 @@
 
 ## D · Balanceo de dificultad
 
-- [ ] ✋ **Sesión de Sofía**: partida completa sin `?dev`, de la landing a los créditos, anotando por nivel si el tiempo da, si las muertes se sienten justas y si el truco se entiende.
-- [ ] Aplicar los ajustes acordados como constantes del GDD §14, actualizando GDD y tests en el mismo cambio (nunca cambios de mecánica).
+- [x] ✋ **Sesión de playtesting**: partida completa sin `?dev`, de la landing a los créditos, anotando por nivel si el tiempo da, si las muertes se sienten justas y si el truco se entiende. (Aprobado sin cambios: dificultad, tiempos y comprensión del truco correctos tal y como están en cada uno de los 12 niveles.)
+- [x] Aplicar los ajustes acordados como constantes del GDD §14, actualizando GDD y tests en el mismo cambio (nunca cambios de mecánica). (Sin ajustes: la sesión no encontró ningún nivel que necesitara retocar constantes.)
 
 ## E · Audio
 
-- [ ] Repaso nivel a nivel con las cuatro combinaciones de interruptores (música on/off × efectos on/off). Que si el usuario bloquea el teléfono, o cambia de página, o aplicación, la música se pare.
-- [ ] Verificar que ninguna salida (victoria, derrota, X, recarga) deja audio sonando ni la música agachada — atención especial al ducking del nivel 11.
-- [ ] Ajustar volúmenes relativos si algo desentona (música, positivo/negativo, `coin`, voz).
+- [x] Repaso nivel a nivel con las cuatro combinaciones de interruptores (música on/off × efectos on/off). Que si el usuario bloquea el teléfono, o cambia de página, o aplicación, la música se pare. (Aprobado sin cambios.)
+- [x] Verificar que ninguna salida (victoria, derrota, X, recarga) deja audio sonando ni la música agachada — atención especial al ducking del nivel 11. (Confirmado: ninguna salida deja audio colgado ni música agachada.)
+- [x] Ajustar volúmenes relativos si algo desentona (música, positivo/negativo, `coin`, voz). (Sin ajustes necesarios: los volúmenes relativos ya sonaban bien.)
 
 ## F · Responsive y accesibilidad
 
@@ -44,11 +44,11 @@
 
 ## H · Cierre del proyecto
 
-- [x] Grabar el GIF de demo (partida real, unos segundos de varios niveles: rotación del 3, plinko del 4, tablero del 6). (Grabado por Sofía, añadido en `.github/demo.gif` — 3.8MB, formato válido verificado. Enlazado en la sección "Demo" de `README.md` y `README.en.md`.)
-- [x] Escribir el `README.md` en español con las doce secciones acordadas (ver `plan.md`, paso 10), con la voz *cute* del proyecto: corazón pixel y kaomoji como separadores, sin recargar. (As-built: las diez secciones que no hablan de Sofía en primera persona están terminadas — gancho, stack, funcionalidades concretas, instalación, estructura de carpetas comentada, 5 decisiones técnicas, roadmap, créditos, contacto. Las otras dos llevan un borrador real, no un hueco en blanco, marcado explícitamente como pendiente de su aprobación — ver la tarea siguiente.)
-- [x] ✋ **Sofía**: aprobar el texto de "Por qué lo construí" y el de "Cómo se construyó (SDD + Claude Code)" — son las dos secciones que hablan de ella, no del juego. (Aprobado: Sofía reescribió "Por qué lo construí" con su historia real —el curso de Programa con Agentes de BIG School, *Doki Doki Action Game* como chispa concreta— y quitó el aviso de borrador de ambas secciones. Revisado además por precisión técnica: se corrigió una imprecisión real en la lista de funcionalidades del nivel 10 — "se multiplica cada vez que la arrastras" no es cierto, cada ventana solo pare una vez, no en cada arrastre; el resto de cifras y afirmaciones técnicas del README se verificaron ciertas (600+ tests, ~85KB de matter.js, un chunk por nivel, etc.).)
+- [x] Grabar el GIF de demo (partida real, unos segundos de varios niveles: rotación del 3, plinko del 4, tablero del 6). (Grabado a mano, añadido en `.github/demo.gif` — 3.8MB, formato válido verificado. Enlazado en la sección "Demo" de `README.md` y `README.en.md`.)
+- [x] Escribir el `README.md` en español con las doce secciones acordadas (ver `plan.md`, paso 10), con la voz *cute* del proyecto: corazón pixel y kaomoji como separadores, sin recargar. (As-built: las diez secciones que no están en primera persona están terminadas — gancho, stack, funcionalidades concretas, instalación, estructura de carpetas comentada, 5 decisiones técnicas, roadmap, créditos, contacto. Las otras dos llevan un borrador real, no un hueco en blanco, marcado explícitamente como pendiente de su aprobación — ver la tarea siguiente.)
+- [x] ✋ Aprobar el texto de "Por qué lo construí" y el de "Cómo se construyó (SDD + Claude Code)" — son las dos secciones en primera persona, no del juego. (Aprobado: "Por qué lo construí" se reescribió con la historia real del proyecto —el curso de Programa con Agentes de BIG School, *Doki Doki Action Game* como chispa concreta— y se quitó el aviso de borrador de ambas secciones. Revisado además por precisión técnica: se corrigió una imprecisión real en la lista de funcionalidades del nivel 10 — "se multiplica cada vez que la arrastras" no es cierto, cada ventana solo pare una vez, no en cada arrastre; el resto de cifras y afirmaciones técnicas del README se verificaron ciertas (600+ tests, ~85KB de matter.js, un chunk por nivel, etc.).)
 - [x] Versión en inglés del README (`README.en.md`, mismo contenido, enlazado desde ambos con un selector de idioma arriba) — decisión ya prevista en `017-plan.md` ("Decisiones").
 - [x] Metadatos en `index.html`: `<title>`, descripción y Open Graph con imagen; verificar cómo se ve el enlace compartido. (As-built: `<meta name="description">`, `og:*` completo y `twitter:*` a juego —LinkedIn y X leen protocolos distintos—; la imagen es `public/og-image.png` (copia de `landing-bg.png`, 1535×901, servida sin hash desde la raíz del sitio para que la URL sea estable) apuntando a la URL absoluta de producción. Verificado con `npm run build` + `npm run preview`: `dist/index.html` resuelve las etiquetas correctamente y tanto la página como la imagen responden 200. Sin herramienta de validación de tarjetas social real disponible en este entorno — repasar el aspecto exacto en LinkedIn/X queda para el checkpoint final.)
-- [ ] Sincronización documental final: GDD, constitución y las 17 features coherentes con lo construido; todas las casillas de checkpoint cerradas; roadmap con todo en "Hecho".
-- [ ] ✋ **Checkpoint final de Sofía**: partida completa en su móvil real vía Pages y visto bueno al README y a los metadatos.
-- [ ] Mover la feature a "Hecho" en `../../constitution/roadmap.md`. **Fin del proyecto.**
+- [x] Sincronización documental final: GDD, constitución y las 17 features coherentes con lo construido; todas las casillas de checkpoint cerradas; roadmap con todo en "Hecho". (Revisado: único drift encontrado, el checkpoint de dificultad/visual del nivel 4 estaba cerrado en `008-tasks.md` pero no en `008-spec.md` — sincronizado.)
+- [x] ✋ **Checkpoint final**: partida completa en móvil real vía Pages, y visto bueno al README y a los metadatos. Aprobado sin cambios.
+- [x] Mover la feature a "Hecho" en `../../constitution/roadmap.md`. **Fin del proyecto.**

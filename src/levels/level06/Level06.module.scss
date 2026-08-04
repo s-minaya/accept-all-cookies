@@ -48,10 +48,10 @@
   // partir de `md`. En xs/sm este panel desaparece del todo: el tablero
   // fijo ya es alto de por sí, así que el panel de 3 filas se traslada al
   // pie de la ventana en su lugar, mucho más compacto (2×2, ver
-  // `Level06.tsx` y `&-footer-directions` más abajo) — revisión de Sofía:
-  // "lo que realmente queremos que se vea es el tablero". El espacio que
-  // libera este cambio va directo a `--cell-size` (`Board.module.scss`,
-  // más grande en xs/sm que antes de este ajuste).
+  // `Level06.tsx` y `&-footer-directions` más abajo) — lo que realmente se
+  // quiere que se vea es el tablero. El espacio que libera este cambio va
+  // directo a `--cell-size` (`Board.module.scss`, más grande en xs/sm que
+  // antes de este ajuste).
   &__panel {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

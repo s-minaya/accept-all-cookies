@@ -8,16 +8,14 @@
   // de un nivel con `fillHeight` (nivel 3, nivel 4) no tenía ninguna altura
   // definida contra la que resolverse y no hacía nada — la ventana se
   // quedaba del tamaño de su contenido por mucho viewport libre que
-  // hubiera debajo (bug real, corregido tras revisión de Sofía: "sigo
-  // viendo... mucho espacio en el game area"). `align-items: stretch`
+  // hubiera debajo (bug real, ya corregido). `align-items: stretch`
   // (el valor por defecto, aquí explícito) le da a la celda toda la altura
   // disponible, para que ese `height: 100%` sí llegue a significar algo.
   justify-items: center;
   align-items: stretch;
   // Custom property (no solo la propiedad final): `XPWindow` la lee para
-  // calcular su propio ancho sin salirse de este padding — corregido tras
-  // revisión de Sofía ("area de juego más grande" + "no me dejaba girar del
-  // todo"): en xs/sm, `width: min(95vw, 40rem)` (XPWindow.module.scss) no
+  // calcular su propio ancho sin salirse de este padding — corregido porque
+  // en xs/sm, `width: min(95vw, 40rem)` (XPWindow.module.scss) no
   // descontaba este padding, así que la ventana podía desbordarlo un poco y
   // quedar casi pegada al borde físico de la pantalla — terreno de los
   // gestos nativos de borde del sistema operativo (volver atrás, etc.), que
@@ -51,7 +49,7 @@
     // Sin publicar (`auto`), no compite por apilado — de sobra para el
     // resto de niveles. El nivel 10 (014-plan.md) sí lo publica: la ventana
     // arrastrada pasa al frente y deja de quedar tapada por las copias del
-    // `overlay` (corregido tras revisión de Sofía).
+    // `overlay` (ya corregido).
     z-index: var(--window-z-index, auto);
 
     // Pista visual de que la ventana se puede arrastrar (nivel 3): solo
@@ -65,9 +63,9 @@
       // gestos nativos del navegador (deslizar hacia abajo = "pull to
       // refresh" en Chrome/Safari móvil, o scroll de la página) — el
       // arrastre de rotación se interrumpe a mitad de gesto y la página se
-      // recarga sola (bug real reportado por Sofía en móvil). `touch-action:
-      // none` le dice al navegador que ceda el gesto entero a `usePointer`
-      // en vez de intentar interpretarlo él también.
+      // recarga sola (bug real reportado en móvil). `touch-action: none` le
+      // dice al navegador que ceda el gesto entero a `usePointer` en vez de
+      // intentar interpretarlo él también.
       touch-action: none;
 
       // Margen extra respecto al borde FÍSICO de la pantalla, solo mientras
@@ -77,10 +75,9 @@
       // ancho — deje más aire del habitual en xs/sm. Los gestos nativos de
       // "volver atrás" del sistema operativo viven en una franja estrecha
       // pegada a ese borde; si la ventana la toca, pueden interrumpir un
-      // arrastre de rotación a mitad de camino (corregido tras revisión de
-      // Sofía: "no me dejaba girar del todo... nunca apareciera el agree").
-      // Los niveles sin rotación (p. ej. el 4) no heredan esto y sí
-      // aprovechan hasta el último px de ancho.
+      // arrastre de rotación a mitad de camino (ya corregido). Los niveles
+      // sin rotación (p. ej. el 4) no heredan esto y sí aprovechan hasta el
+      // último px de ancho.
       @media (max-width: 480px) {
         --level-host-padding: 1.5rem;
       }

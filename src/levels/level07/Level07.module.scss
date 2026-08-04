@@ -16,9 +16,9 @@
   }
 }
 
-// Pie del nivel (011-plan.md, corregido tras revisión de Sofía: "debe
-// arrastrarse DENTRO del espacio del mismo botón... no debe salirse hacia
-// la ventana"): Disagree normal a la izquierda; a la derecha, una pila con
+// Pie del nivel (011-plan.md: la cubierta debe arrastrarse DENTRO del
+// espacio del mismo botón, no debe salirse hacia la ventana): Disagree
+// normal a la izquierda; a la derecha, una pila con
 // el Agree fijo debajo y la cubierta (otro Disagree) encima.
 .level-07-footer {
   display: flex;
@@ -41,7 +41,7 @@
   // en el layout. Sin este padding, ese `overflow: hidden` (ajustado
   // exactamente al tamaño del botón) recortaba ese borde en cuanto salía de
   // la caja, dejando la cubierta con un aspecto "cortado" en reposo — bug
-  // real, encontrado por Sofía. El padding le da al borde el margen exacto
+  // real. El padding le da al borde el margen exacto
   // que necesita para pintarse entero sin dejar de recortar la cubierta
   // cuando se arrastra más allá de su propio hueco.
   &__stack {

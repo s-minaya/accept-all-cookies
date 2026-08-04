@@ -45,7 +45,7 @@ describe('AudioManager music volume factor', () => {
     expect(musicVolume()).toBeCloseTo(0.2)
   })
 
-  it('never touches the effects volume — only music (Sofía, 2026-07-20)', () => {
+  it('never touches the effects volume — only music', () => {
     mockPointer(false)
     const before = effectsVolume()
     audioManager.setVolume(0.1)

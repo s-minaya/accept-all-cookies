@@ -36,7 +36,7 @@ describe('windows (nivel 10 — modelo puro de duplicación, 014-plan.md)', () =
     const host = final.find((w) => w.id === HOST_WINDOW_ID)!
     const clone = final.find((w) => w.id === spawnedId)!
     // La copia se queda por debajo de la ventana origen (que sigue "encima",
-    // alejándose con el arrastre) — corregido tras revisión de Sofía.
+    // alejándose con el arrastre).
     expect(clone.zIndex).toBeLessThan(host.zIndex)
   })
 
@@ -189,7 +189,7 @@ describe('windows (nivel 10 — modelo puro de duplicación, 014-plan.md)', () =
     })
   })
 
-  describe('minVisibleXFor (umbral móvil, corregido tras revisión de Sofía)', () => {
+  describe('minVisibleXFor (umbral móvil)', () => {
     afterEach(() => {
       vi.unstubAllGlobals()
     })

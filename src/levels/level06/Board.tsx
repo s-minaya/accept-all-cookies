@@ -18,9 +18,9 @@ export const CELL_SIZE_PX = 32
 
 /**
  * Lee el `--cell-size` que esté aplicando el CSS EN ESE MOMENTO (más pequeño
- * en móvil, revisión de Sofía: "reduce también el tablero" para que la
- * ventana quepa sin scroll vertical) — la cámara (`cameraOffsetX`) necesita
- * el valor real en px para no desincronizarse del tablero pintado.
+ * en móvil, para que la ventana quepa sin scroll vertical) — la cámara
+ * (`cameraOffsetX`) necesita el valor real en px para no desincronizarse
+ * del tablero pintado.
  */
 function readCellSizePx(el: HTMLElement): number {
   const raw = getComputedStyle(el).getPropertyValue('--cell-size').trim()

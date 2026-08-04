@@ -25,10 +25,10 @@ export interface WindowState {
   /** Ya generó su única copia — arrastrarla de nuevo la mueve pero no duplica. */
   hasSpawned: boolean
   /**
-   * Orden de apilado (mayor = más arriba). Corregido tras revisión de
-   * Sofía: el apilado ya NO es fijo por orden de creación — la ventana que
-   * se agarra pasa al frente al instante (`bringToFront`), para que sea
-   * inequívocamente ella la que se ve moverse, nunca la de detrás.
+   * Orden de apilado (mayor = más arriba). El apilado NO es fijo por orden
+   * de creación — la ventana que se agarra pasa al frente al instante
+   * (`bringToFront`), para que sea inequívocamente ella la que se ve
+   * moverse, nunca la de detrás.
    */
   zIndex: number
 }
@@ -38,8 +38,8 @@ export const MAX_WINDOWS = 7
 
 /**
  * Umbral "móvil" de esta feature: `xs` + `sm` (GDD §15.1, ≤480px), no solo
- * `xs` (≤375px). Corregido tras revisión de Sofía probando en un móvil real:
- * con el umbral en 375px, los teléfonos normales (390-430px de ancho, la
+ * `xs` (≤375px). Corregido tras probar en un móvil real: con el umbral en
+ * 375px, los teléfonos normales (390-430px de ancho, la
  * inmensa mayoría) no recibían ni la ventana compacta (`compactOnMobile`)
  * ni el asomo parcial — se quedaban con ventanas a tamaño casi completo y
  * contención total, que en una pantalla estrecha es prácticamente el mismo
@@ -71,10 +71,9 @@ export function createInitialWindows(): WindowState[] {
 }
 
 /**
- * Trae una ventana al frente de la pila (corregido tras revisión de Sofía:
- * "queremos que se arrastre la pantalla de delante y deje de ocultar la de
- * atrás"). Se llama al EMPEZAR cada arrastre, duplique o no — agarrar una
- * ventana ya parida también debe traerla al frente.
+ * Trae una ventana al frente de la pila: la que se arrastra debe dejar de
+ * ocultar a las de atrás. Se llama al EMPEZAR cada arrastre, duplique o
+ * no — agarrar una ventana ya parida también debe traerla al frente.
  */
 export function bringToFront(windows: WindowState[], id: number): WindowState[] {
   const maxZ = windows.reduce((max, win) => Math.max(max, win.zIndex), 0)
@@ -130,8 +129,8 @@ export function moveWindow(windows: WindowState[], id: number, pos: Point): Wind
  *
  * `minVisibleX` (opcional, por defecto `size.width` = contención total,
  * comportamiento original): cuánto ancho como mínimo debe quedar SIEMPRE
- * dentro del viewport en el eje X. Corregido tras revisión de Sofía: en
- * móvil las ventanas pueden asomar parcialmente por los lados (parte del
+ * dentro del viewport en el eje X. En móvil las ventanas pueden asomar
+ * parcialmente por los lados (parte del
  * caos), pero nunca deben poder desaparecer del todo — con un valor menor
  * que `size.width` se permite ese asomo sin perder nunca la garantía de
  * alcanzabilidad. El eje Y se mantiene siempre con contención total (el
@@ -156,9 +155,9 @@ export function clampToViewport(
  * Al llegar a la séptima ventana, sortea cuál de las `ids` lleva el Agree
  * (014-plan.md, "sorteo reproducible por semilla"). PRNG compartido
  * (`src/utils/prng.ts`), sembrado una vez por partida. El llamador decide
- * qué `ids` son candidatas — el nivel excluye la última ventana creada
- * (corregido tras revisión de Sofía: la recién nacida nunca lleva el
- * Agree, para que no se resuelva "sola" nada más aparecer).
+ * qué `ids` son candidatas — el nivel excluye la última ventana creada:
+ * la recién nacida nunca lleva el Agree, para que no se resuelva "sola"
+ * nada más aparecer.
  */
 export function pickAgreeWindow(seed: number, ids: number[]): number {
   const rng = createRng(seed)

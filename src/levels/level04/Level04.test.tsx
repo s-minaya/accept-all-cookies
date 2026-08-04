@@ -123,12 +123,12 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
     expect(paddle.style.getPropertyValue('--agree-fill')).toBe('0')
     expect(paddle.style.getPropertyValue('--disagree-fill')).toBe('0')
     // Un único nodo de paleta con exactamente dos rellenos (agree/disagree),
-    // no 6 celdas separadas (corregido tras revisión de Sofía).
+    // no 6 celdas separadas (ya corregido).
     const fills = container.querySelectorAll('[class*="level-04__fill"]')
     expect(fills.length).toBe(2)
   })
 
-  it('the paddle carries its own Agree/Disagree text labels, one per fill side (corregido tras revisión de Sofía: "también va completando el texto según va recogiendo botones")', () => {
+  it('the paddle carries its own Agree/Disagree text labels, one per fill side, completing progressively as it captures', () => {
     const { container } = render(<Level04Harness {...baseProps} />)
     const agreeLabel = container.querySelector('[class*="level-04__paddle-label--agree"]')
     const disagreeLabel = container.querySelector('[class*="level-04__paddle-label--disagree"]')
@@ -141,7 +141,7 @@ describe('Level04 (GDD Nivel 4 — Plinko, 008-plan.md)', () => {
     expect(paddleTransformX(container)).not.toBeNaN()
   })
 
-  it('the mouse no longer follows on hover: moving the pointer without pressing does not move the paddle (corregido tras revisión de Sofía: "no me gusta que siga al raton, mejor que sea drag y soltar")', () => {
+  it('the mouse no longer follows on hover: moving the pointer without pressing does not move the paddle', () => {
     const { container } = render(<Level04Harness {...baseProps} />)
     const startX = paddleTransformX(container)
     const canvas = container.querySelector('[class*="game-area__canvas"]') as HTMLElement

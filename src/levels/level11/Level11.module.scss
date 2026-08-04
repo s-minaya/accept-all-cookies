@@ -35,9 +35,9 @@
     }
   }
 
-  // Más grande en xs/sm que en md+ a propósito (corregido tras revisión de
-  // Sofía): en móvil el bocadillo se apila ENCIMA de Sans en vez de a su
-  // lado, así que hay ancho de sobra para que sea el protagonista visual.
+  // Más grande en xs/sm que en md+ a propósito: en móvil el bocadillo se
+  // apila ENCIMA de Sans en vez de a su lado, así que hay ancho de sobra
+  // para que sea el protagonista visual.
   &__sans {
     width: 10rem;
     height: 10rem;

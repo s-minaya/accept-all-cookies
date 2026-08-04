@@ -9,9 +9,9 @@ import { clampCoverOffset } from './coverLogic'
 import styles from './Level07.module.scss'
 
 /**
- * Nivel 7 — Data Sharing (GDD Nivel 7, 011-plan.md, corregido tras revisión
- * de Sofía: "debe arrastrarse DENTRO del espacio del mismo botón... no debe
- * salirse hacia la ventana"): a la vista, dos Disagree rojos. El de la
+ * Nivel 7 — Data Sharing (GDD Nivel 7, 011-plan.md: la cubierta debe
+ * arrastrarse DENTRO del espacio del mismo botón, no debe salirse hacia la
+ * ventana): a la vista, dos Disagree rojos. El de la
  * derecha es una cubierta que tapa un Agree fijo, idéntico en tamaño (grid
  * con ambos en la misma celda: el texto más largo de "Disagree" decide el
  * tamaño, el Agree se estira a esa celda — nada de medir por JS). La
@@ -45,8 +45,8 @@ export default function Level07({ onWin, onLose, paused }: LevelProps) {
   const pointerTargetRef = useMemo(() => ({ current: coverEl }), [coverEl])
   const grabOffsetRef = useRef<Point>({ x: 0, y: 0 })
   // Una vez arrastrada (aunque sea una vez), la cubierta queda "desarmada"
-  // para siempre — revisión de Sofía: arrastrarla debe desactivar la
-  // derrota por tap, no solo mientras está fuera de su sitio.
+  // para siempre: arrastrarla desactiva la derrota por tap, no solo
+  // mientras está fuera de su sitio.
   const hasBeenDraggedRef = useRef(false)
 
   function applyOffset(point: Point) {
@@ -96,8 +96,8 @@ export default function Level07({ onWin, onLose, paused }: LevelProps) {
   }
 
   const handleCoverTap = () => {
-    // Revisión de Sofía: arrastrar la cubierta la "desarma" de forma
-    // permanente — un tap sobre ella solo pierde si TODAVÍA no se ha
+    // Arrastrar la cubierta la "desarma" de forma permanente — un tap sobre
+    // ella solo pierde si TODAVÍA no se ha
     // arrastrado nunca (su estado inicial). Una vez movida, ya no es un
     // Disagree real: puede volver a taparlo todo sin que vuelva a ser
     // pulsable como derrota.

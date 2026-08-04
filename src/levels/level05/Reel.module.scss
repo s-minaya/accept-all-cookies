@@ -9,8 +9,8 @@
   z-index: 1;
   overflow: hidden;
   // Alto de cada casilla como custom property (no un `48px` repetido suelto
-  // por el archivo): crece a partir de `lg`/`xl` (revisión de Sofía: "los
-  // rodillos un poco más grandes en large desktop") sin que `Reel.tsx`
+  // por el archivo): crece a partir de `lg`/`xl` (rodillos un poco más
+  // grandes en large desktop) sin que `Reel.tsx`
   // necesite saberlo — el offset que escribe ahí sigue siendo siempre en
   // unidades de "casillas", nunca en px.
   --symbol-height: 48px; // = SYMBOL_HEIGHT_PX, Reel.tsx
@@ -20,7 +20,7 @@
   background: var(--color-white);
   // Borde azul oscuro alrededor de todo el rodillo, más grueso que el resto
   // del sistema de diseño (bordes de recuadro habituales, 2px) — corregido
-  // tras revisión visual de Sofía sobre una referencia.
+  // tras revisión visual contra una referencia.
   box-shadow: inset 0 0 0 4px var(--color-frame-blue);
 
   @media (min-width: 1025px) {
@@ -50,7 +50,7 @@
     // casilla distinta a la que `offsetToIndex` (`slotMachine.ts`) evaluaba
     // de verdad como resultado (bug real, detectado con Playwright: el
     // veredicto decía "Agree" pero el centro mostraba "Disagree"). El
-    // SENTIDO de giro (arriba→abajo, revisión de Sofía) se controla aparte,
+    // SENTIDO de giro (arriba→abajo) se controla aparte,
     // en `Reel.tsx`, restando en vez de sumando en cada fotograma — esta
     // fórmula no cambia con eso, solo con qué valor recibe.
     transform: translateY(calc((1 - var(--reel-offset, 0)) * var(--symbol-height)));
@@ -71,7 +71,7 @@
   // abajo) es más pequeño que la ranura, dejando aire alrededor en vez de
   // tocar sus vecinos. El padding (no el alto de la ranura) es lo que crece
   // por breakpoint, así que el offset/encaje nunca se entera. Separación
-  // aumentada tras revisión visual de Sofía ("separalos un poco más").
+  // aumentada tras revisión visual (separación insuficiente).
   &__symbol {
     flex: 0 0 var(--symbol-height);
     height: var(--symbol-height);
@@ -102,7 +102,7 @@
   // relleno liso del tono OSCURO (`--color-agree-border`/
   // `-disagree-border`), sin anillo interior ni relieve — pero como
   // rectángulo de esquinas ligeramente redondeadas en vez de píldora ovalada
-  // (corregido tras revisión visual de Sofía sobre una referencia).
+  // (corregido tras revisión visual contra una referencia).
   &__pill {
     width: 100%;
     height: 100%;
@@ -130,7 +130,7 @@
   // fila central de cada rodillo") — franja fija superpuesta, nunca se
   // mueve (es la tira la que se desplaza por debajo). Gris con esquinas
   // redondeadas, algo separada del borde del rodillo (corregido tras
-  // revisión visual de Sofía sobre una referencia).
+  // revisión visual contra una referencia).
   &__marker {
     position: absolute;
     top: var(--symbol-height);

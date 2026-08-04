@@ -23,9 +23,9 @@ export interface XPWindowProps {
    * Tablero de juego que se renderiza DEBAJO del marco azul, fuera de él, en
    * el espacio sobrante del cuerpo de la ventana (p. ej. el recuadro de
    * lluvia del nivel 3): a diferencia de `children`, el marco azul no lo
-   * envuelve — se ajusta solo a `children` en vez de estirarse (corregido
-   * tras revisión de Sofía: "el borde azul oscuro SOLO cubre los términos y
-   * condiciones de las cookies").
+   * envuelve — se ajusta solo a `children` en vez de estirarse (corregido:
+   * el borde azul oscuro SOLO debe cubrir los términos y condiciones de las
+   * cookies).
    */
   boardBelowFrame?: ReactNode
   footer?: ReactNode

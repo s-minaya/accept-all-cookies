@@ -36,9 +36,8 @@ class AudioManager {
   private readonly positive = new Audio(positiveUrl)
   private readonly negative = new Audio(negativeUrl)
   // Nivel 5 (tragaperras): al parar cualquier rodillo, sea cual sea el
-  // símbolo resultante (Sofía: "cuando el usuario captura un botón, el que
-  // sea, debe sonar este audio") — no distingue Agree/Disagree como
-  // positive/negative, el veredicto final ya usa esos por separado.
+  // símbolo resultante, debe sonar este audio — no distingue Agree/Disagree
+  // como positive/negative, el veredicto final ya usa esos por separado.
   private readonly coin = new Audio(coinUrl)
   private readonly music = new Audio(musicUrl)
   // Nivel 11 (Sans): un elemento propio en loop, independiente de

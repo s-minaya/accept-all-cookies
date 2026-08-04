@@ -23,8 +23,8 @@ const DRAG_THRESHOLD_PX = 8
  * área de juego, como los niveles 1-2 (`children`, ajustado a su contenido).
  * El recuadro de lluvia se publica aparte, vía `useLevelBoard`, para que
  * `XPWindow` lo renderice DEBAJO de ese marco, fuera de él, en el espacio
- * sobrante (corregido tras revisión de Sofía: "el borde azul oscuro SOLO
- * cubre los términos y condiciones"). La ventana entera rota 360° libre
+ * sobrante (corregido: el borde azul oscuro SOLO debe cubrir los términos
+ * y condiciones). La ventana entera rota 360° libre
  * arrastrando; dentro del recuadro caen y rebotan Disagrees con física real
  * (matter.js), y el Agree es un cuerpo físico más, oculto en una cámara
  * recortada por el propio recuadro — solo un giro antihorario (izquierda)
@@ -103,7 +103,7 @@ export default function Level03({ onWin, onLose, paused }: LevelProps) {
   // inicial de cada botón de forma síncrona antes de que el navegador
   // pinte, para que no se vea ni un fotograma del Agree (o de un Disagree)
   // en su posición por defecto antes de que la física lo mueva a la suya
-  // (Sofía, feedback tras QA — "se ve el botón agree esconderse" al
+  // (feedback de QA: se veía el botón agree "saltar" a esconderse al
   // cargar). Depende de `rainContainer` (no solo se ejecuta al montar):
   // reacciona a que el recuadro exista de verdad, publicado por
   // `useLevelBoard` y montado por `XPWindow` fuera de este componente. Se

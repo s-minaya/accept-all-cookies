@@ -49,10 +49,10 @@ export interface LevelDefinition {
    * espacio "sobrante" real debajo del marco azul, no solo el que ocupe el
    * texto) — la ventana ocupa la altura de su contenedor en vez de la de su
    * contenido, igual que la pantalla de selección. Omitir en el resto de
-   * niveles: cambiaría su tamaño ya validado por Sofía.
+   * niveles: cambiaría su tamaño ya validado.
    */
   fillHeight?: boolean
-  /** El tablero del nivel aprovecha pantallas grandes: la ventana pide un tope de ancho mayor a `XPWindow` a partir de `lg`/`xl` (p. ej. el nivel 5, revisión de Sofía). */
+  /** El tablero del nivel aprovecha pantallas grandes: la ventana pide un tope de ancho mayor a `XPWindow` a partir de `lg`/`xl` (p. ej. el nivel 5, tras revisión). */
   wideWindow?: boolean
   /** La ventana pide un tamaño más pequeño en `xs` a `XPWindow` (nivel 10, GDD §15.2: siete ventanas solapadas solo son legibles si caben más de una a la vez). */
   compactWindowOnMobile?: boolean

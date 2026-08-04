@@ -101,10 +101,9 @@ export default function Level05({ onWin, onLose, paused }: LevelProps) {
         return next
       })
 
-      // Sonido de "moneda" en cada captura, sea Agree o Disagree (Sofía:
-      // "cuando el usuario captura un botón, el que sea, debe sonar este
-      // audio") — el veredicto final (ganar/perder) ya suena aparte, disparado
-      // por AppShell con positive/negative.
+      // Sonido de "moneda" en cada captura, sea Agree o Disagree — el
+      // veredicto final (ganar/perder) ya suena aparte, disparado por
+      // AppShell con positive/negative.
       playCoin()
 
       if (outcome === 'won') onWin()

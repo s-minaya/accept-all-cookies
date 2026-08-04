@@ -105,7 +105,7 @@ function advanceOneCycle() {
   act(() => vi.advanceTimersByTime(AFTER_FIRST_CYCLE_MS))
 }
 
-describe('Level09 (GDD Nivel 9 — Fingerprinting, 013-plan.md, corregido tras revisión de Sofía: ciclos sincronizados, no subida independiente por casilla)', () => {
+describe('Level09 (GDD Nivel 9 — Fingerprinting, 013-plan.md: ciclos sincronizados, no subida independiente por casilla)', () => {
   beforeEach(() => {
     vi.useFakeTimers()
   })

@@ -84,12 +84,10 @@ export function Reel({
 
       if (!latestRef.current.paused) {
         // Resta (no suma): el sentido de giro visible es de arriba hacia
-        // abajo (corregido tras revisión de Sofía: "la direccion de
-        // rotacion debe ser desde arriba hacia abajo, no de abajo a
-        // arriba") — con `offsetToIndex` sin tocar (sigue leyendo este
-        // mismo valor tal cual), la única forma de invertir el sentido
-        // visual sin desincronizar qué casilla cuenta como resultado es
-        // invertir en qué dirección avanza el propio offset con el tiempo.
+        // abajo — con `offsetToIndex` sin tocar (sigue leyendo este mismo
+        // valor tal cual), la única forma de invertir el sentido visual sin
+        // desincronizar qué casilla cuenta como resultado es invertir en
+        // qué dirección avanza el propio offset con el tiempo.
         let next = offsetRef.current - latestRef.current.speedRowsPerSecond * dt
         if (next < 0) next += symbols.length
         offsetRef.current = next

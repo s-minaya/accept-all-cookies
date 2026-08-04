@@ -60,9 +60,9 @@ export default function Level10({ onWin, onLose, paused, timeLeft }: LevelProps)
   // Se sortea al llegar a la séptima ventana y se queda fija: los ids son
   // siempre 1..7 (nunca se reordenan ni se retiran), así que este cálculo es
   // estable en cuanto `windows.length` deja de crecer. La última ventana
-  // creada (id más alto) queda SIEMPRE excluida del sorteo — corregido tras
-  // revisión de Sofía: la recién nacida nunca lleva el Agree, para que no
-  // se resuelva "sola" nada más aparecer.
+  // creada (id más alto) queda SIEMPRE excluida del sorteo: la recién
+  // nacida nunca lleva el Agree, para que no se resuelva "sola" nada más
+  // aparecer.
   const agreeWindowId = useMemo(() => {
     if (windows.length < MAX_WINDOWS) return null
     const ids = windows.map((win) => win.id)
@@ -103,8 +103,8 @@ export default function Level10({ onWin, onLose, paused, timeLeft }: LevelProps)
   useWindowTranslation(translate.x, translate.y)
 
   const hostWindow = windows.find((win) => win.id === HOST_WINDOW_ID)
-  // Corregido tras revisión de Sofía: la ventana agarrada pasa al frente y
-  // deja de quedar tapada por las copias del overlay.
+  // La ventana agarrada pasa al frente y deja de quedar tapada por las
+  // copias del overlay.
   useWindowZIndex(hostWindow?.zIndex ?? 1)
 
   // Reconstruye el punto en coordenadas de cliente a partir del punto local
@@ -160,8 +160,8 @@ export default function Level10({ onWin, onLose, paused, timeLeft }: LevelProps)
         y: winRect.top,
       })
       // SIEMPRE al frente al agarrarla, aunque no llegue a parir copia
-      // (tope alcanzado o ya había parido) — corregido tras revisión de
-      // Sofía: la ventana que se arrastra deja de quedar tapada.
+      // (tope alcanzado o ya había parido): la ventana que se arrastra deja
+      // de quedar tapada.
       return bringToFront(afterSpawn, HOST_WINDOW_ID)
     })
   }
@@ -206,9 +206,9 @@ export default function Level10({ onWin, onLose, paused, timeLeft }: LevelProps)
 
   // Un único nodo, reutilizado literalmente tanto por la nº 1 (el `return`
   // de este componente) como por cada copia: no hay una segunda ruta de
-  // JSX que pueda desincronizarse en estilo — corregido tras revisión de
-  // Sofía, que encontró las copias con el texto sin el estilo (ni fondo
-  // blanco, ni tipografía) de la ventana nº 1.
+  // JSX que pueda desincronizarse en estilo — bug real encontrado antes:
+  // las copias se quedaban con el texto sin el estilo (ni fondo blanco, ni
+  // tipografía) de la ventana nº 1.
   const consentContent = useMemo(
     () => (
       <div className={styles['level-10']}>

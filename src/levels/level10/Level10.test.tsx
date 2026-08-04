@@ -160,9 +160,9 @@ describe('Level10 (GDD Nivel 10 — ventanas que se duplican al arrastrarse)', (
     const cloneText = document.querySelector('[class*="level-10-clone"] [class*="level-10__text"]')
     expect(cloneText).not.toBeNull()
     // Mismo bloque blanco (`.level-10`) envolviendo el párrafo estilado
-    // (`.level-10__text`), no un `<p>` suelto sin clase — corregido tras
-    // revisión de Sofía: las copias se quedaban sin el estilo de texto (ni
-    // el fondo blanco) que sí tenía la ventana nº 1.
+    // (`.level-10__text`), no un `<p>` suelto sin clase — regresión: las
+    // copias se quedaban sin el estilo de texto (ni el fondo blanco) que sí
+    // tenía la ventana nº 1.
     expect(cloneText?.parentElement?.className).toContain('level-10')
     expect(cloneText?.textContent).toBe(
       document.querySelector('[class*="level-10__text"]')?.textContent,

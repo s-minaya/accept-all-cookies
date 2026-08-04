@@ -17,8 +17,8 @@
 }
 
 // Cuadrícula del nivel 9, publicada vía `useLevelBoard`, fuera del marco
-// azul (013-plan.md, corregido tras revisión de Sofía — ver la nota al
-// principio del plan). Las 12 casillas son del mismo tamaño que un botón
+// azul (013-plan.md, corregido — ver la nota al principio del plan). Las 12
+// casillas son del mismo tamaño que un botón
 // Agree/Disagree real (nada de una casilla más alta con recorrido interno:
 // eso era el diseño anterior, ya descartado) — los botones simplemente
 // aparecen y desaparecen por ciclos sincronizados (`cycle.ts`), nunca se

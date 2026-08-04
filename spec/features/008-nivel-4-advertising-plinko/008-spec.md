@@ -66,7 +66,7 @@ Es el corazón arcade del juego: el primer nivel de habilidad continua (los ante
 - [x] La máquina de segmentos cumple la regla en todos los casos: con huecos, cada captura solo rellena por su lado; con los 6 llenos, sustituye el fronterizo contrario; victoria con 6 Agree y derrota con 6 Disagree.
 - [x] Cada captura suena (respetando el interruptor de efectos) y el botón entero se rellena con el color correspondiente, dentro de una única silueta con relieve.
 - [x] Al completarse los 6 segmentos de un color, el botón se bloquea y el desenlace no se dispara hasta que el jugador lo pulsa (`role="button"`, clic o Enter/Espacio).
-- [ ] ✋ Visual y tamaño del botón-paleta y de las fichas que caen aprobados; dificultad general jugando en escritorio y móvil.
+- [x] ✋ Visual y tamaño del botón-paleta y de las fichas que caen aprobados; dificultad general jugando en escritorio y móvil.
 
 ### Integración y calidad
 - [x] matter.js compartido con la 007 sin duplicarse en el bundle principal ni entre chunks.

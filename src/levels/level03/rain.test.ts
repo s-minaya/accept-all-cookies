@@ -115,7 +115,7 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
     expect(getRotationDeg.mock.calls.length).toBeGreaterThan(0)
   })
 
-  describe('población limitada por el área real del recuadro (corregido tras revisión de Sofía: "los botones de disagree si tienen que desaparecer si no se llena la pantalla y no deja espacio para que aparezca el agree")', () => {
+  describe('población limitada por el área real del recuadro (los Disagree deben desaparecer si no se llena la pantalla, para dejar espacio a que aparezca el Agree)', () => {
     // Cada botón real que crea un cuerpo sincroniza su posición de forma
     // síncrona nada más crearse (incluso parado, esperando su turno) — un
     // botón que se queda FUERA del límite de población nunca llega a tener
@@ -164,7 +164,7 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
     })
   })
 
-  describe('el Agree oculto (007-plan.md, corregido tras revisión de Sofía)', () => {
+  describe('el Agree oculto (007-plan.md, corregido)', () => {
     const BOX_WIDTH = 300
     const BOX_HEIGHT = 160
     const AGREE_WIDTH = 100
@@ -189,7 +189,7 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
       expect(agreeButton.style.visibility).toBe('hidden')
     })
 
-    it('is truly invisible (not just clipped by position) until it fully crosses into the visible box — corregido tras revisión de Sofía: "el botón agree cae y se esconde, dando al usuario una pista de dónde está"', () => {
+    it('is truly invisible (not just clipped by position) until it fully crosses into the visible box — fixes a real tell where the button visibly dropped and hid, giving away its side', () => {
       let rotation = 0
       simulation = createRainSimulation({
         container,
@@ -212,7 +212,7 @@ describe('createRainSimulation (007-plan.md, física de la lluvia)', () => {
       expect(agreeButton.style.visibility).toBe('visible')
     })
 
-    it('does not move at all while unrotated: nace ya en su posición de reposo, no cae animado (Sofía, feedback tras QA)', () => {
+    it('does not move at all while unrotated: nace ya en su posición de reposo, no cae animado', () => {
       simulation = createRainSimulation({
         container,
         buttons,

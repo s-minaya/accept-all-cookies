@@ -23,8 +23,8 @@ const FINISH_WRITING_MS = 3000
 /**
  * El tablero (`Level11Board`, Sans + bocadillo) se publica vía el canal, no
  * es el `return` directo de `Level11` — mismo patrón que los niveles 3-10
- * (ver `Level09.test.tsx`). Sin pie de ventana (corregido tras revisión de
- * Sofía): `setFooter` se deja como no-op, igual que en `Level09.test.tsx`.
+ * (ver `Level09.test.tsx`). Sin pie de ventana: `setFooter` se deja como
+ * no-op, igual que en `Level09.test.tsx`.
  */
 function Level11Harness(props: LevelProps) {
   const [board, setBoard] = useState<ReactNode>(null)
@@ -99,7 +99,7 @@ describe('Level11 (GDD Nivel 11 — Consent Renewal, 015-plan.md)', () => {
     expect(text?.textContent?.length).toBeGreaterThan(0)
   })
 
-  it('has no footer at all — no Disagree decoy, no Agree, all interaction lives in the bubble (corregido tras revisión de Sofía)', () => {
+  it('has no footer at all — no Disagree decoy, no Agree, all interaction lives in the bubble', () => {
     render(<Level11Harness {...baseProps} />)
     expect(screen.queryByText('Disagree')).toBeNull()
     expect(screen.queryByText('Agree')).toBeNull()

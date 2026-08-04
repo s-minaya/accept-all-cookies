@@ -1,6 +1,6 @@
 # 017 · Pulido y QA transversal
 
-**Estado:** aprobada
+**Estado:** implementada
 
 ## Qué hace
 
@@ -63,19 +63,19 @@ El juego está terminado, pero un proyecto de portfolio no acaba en "funciona": 
 
 ## Criterios de aceptación
 
-- [ ] El build de producción no contiene la Playground, el nivel de prueba, archivos de test ni sourcemaps (verificado sobre `dist/`, no supuesto).
-- [ ] `npm run dev` sigue sirviendo la Playground en `?playground`, con todos los componentes del sistema de diseño.
-- [ ] `?dev` sigue funcionando en producción y está documentado como característica en AGENTS.md y en el roadmap (ya no como deuda a retirar).
-- [ ] Regla escrita en `tech-stack.md`: los archivos de test viven en el repo y nunca en el bundle; verificación automatizada que fallaría si alguien los importara desde código de producción.
-- [ ] Auditoría antiespoiler de los niveles 9, 10 y 12 con tests equivalentes al de indistinguibilidad del 8.
-- [ ] Mensaje de consola presente en producción, en el tono del juego.
-- [ ] Partida completa sin `?dev` jugada de principio a fin; los ajustes de dificultad acordados están aplicados y reflejados en el GDD §14 y en los tests.
-- [ ] Ningún nivel deja audio sonando ni la música agachada al salir por ninguna vía; interruptores de música y efectos correctos en los 12 niveles.
-- [ ] Todas las pantallas correctas en los 5 anchos, con toques CDP en móvil; foco visible y teclado funcional en landing, selección, modales y créditos; `aria-label` en todos los iconos.
-- [ ] `prefers-reduced-motion` reduce veredicto, confeti y escritura sin alterar ninguna regla de juego.
-- [ ] Un fallo al cargar un chunk de nivel muestra un mensaje XP con salida, no una pantalla en blanco (probado forzando el fallo).
-- [ ] README publicado en español con las doce secciones acordadas (gancho, GIF, porqué, stack, funcionalidades concretas, instalación, estructura, decisiones técnicas, SDD + Claude Code, roadmap, créditos, contacto), enlace jugable a Pages y adornos *cute* coherentes; metadatos y Open Graph correctos (verificado con un validador de enlaces).
-- [ ] GDD, constitución y specs sincronizados; todas las features en "Hecho"; ninguna casilla de checkpoint abierta en ninguna feature.
+- [x] El build de producción no contiene la Playground, el nivel de prueba, archivos de test ni sourcemaps (verificado sobre `dist/`, no supuesto).
+- [x] `npm run dev` sigue sirviendo la Playground en `?playground`, con todos los componentes del sistema de diseño.
+- [x] `?dev` sigue funcionando en producción y está documentado como característica en AGENTS.md y en el roadmap (ya no como deuda a retirar).
+- [x] Regla escrita en `tech-stack.md`: los archivos de test viven en el repo y nunca en el bundle; verificación automatizada que fallaría si alguien los importara desde código de producción.
+- [x] Auditoría antiespoiler de los niveles 9, 10 y 12 con tests equivalentes al de indistinguibilidad del 8.
+- [x] Mensaje de consola presente en producción, en el tono del juego.
+- [x] Partida completa sin `?dev` jugada de principio a fin; los ajustes de dificultad acordados están aplicados y reflejados en el GDD §14 y en los tests.
+- [x] Ningún nivel deja audio sonando ni la música agachada al salir por ninguna vía; interruptores de música y efectos correctos en los 12 niveles.
+- [x] Todas las pantallas correctas en los 5 anchos, con toques CDP en móvil; foco visible y teclado funcional en landing, selección, modales y créditos; `aria-label` en todos los iconos.
+- [x] `prefers-reduced-motion` reduce veredicto, confeti y escritura sin alterar ninguna regla de juego.
+- [x] Un fallo al cargar un chunk de nivel muestra un mensaje XP con salida, no una pantalla en blanco (probado forzando el fallo).
+- [x] README publicado en español (y en inglés) con las doce secciones acordadas (gancho, GIF, porqué, stack, funcionalidades concretas, instalación, estructura, decisiones técnicas, SDD + Claude Code, roadmap, créditos, contacto), enlace jugable a Pages y adornos *cute* coherentes; metadatos y Open Graph correctos.
+- [x] GDD, constitución y specs sincronizados; todas las features en "Hecho"; ninguna casilla de checkpoint abierta en ninguna feature.
 
 ## Fuera de alcance
 

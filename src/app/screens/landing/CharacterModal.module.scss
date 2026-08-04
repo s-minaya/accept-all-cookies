@@ -29,10 +29,9 @@
     touch-action: manipulation;
     overflow: hidden;
 
-    // Corregido tras revisión de Sofía: "pon hover a todos los botones que
-    // sean clickables" — `:not(&--selected)` para que el hover nunca gane a
-    // la miniatura ya seleccionada (`:hover` sería más específico que el
-    // modificador él solo).
+    // Hover en todos los botones clickables — `:not(&--selected)` para que
+    // el hover nunca gane a la miniatura ya seleccionada (`:hover` sería
+    // más específico que el modificador él solo).
     @media (hover: hover) {
       &:not(&--selected):hover {
         border-color: var(--color-neutral-border-inner);

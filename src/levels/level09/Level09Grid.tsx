@@ -31,8 +31,8 @@ export interface Level09GridProps {
  * después que el propio nivel; el componente que mide/posiciona tiene que
  * ser el que se monta, lección de la 010/011/012).
  *
- * Corregido tras revisión de Sofía sobre la primera versión (013-plan.md,
- * nota al principio): las 12 casillas NO suben/bajan de forma continua e
+ * Corregido sobre la primera versión (013-plan.md, nota al principio): las
+ * 12 casillas NO suben/bajan de forma continua e
  * independiente — el grid entero avanza por CICLOS sincronizados
  * (`cycle.ts`, `runCycle`): cada `CYCLE_MS` se limpia de golpe todo lo
  * visible y aparece un lote nuevo de varias casillas a la vez, con al menos

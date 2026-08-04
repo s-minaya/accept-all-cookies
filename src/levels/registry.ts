@@ -25,15 +25,15 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
   },
   3: {
     titleKey: 'levels.3.name',
-    // Sin consentKey (corregido tras revisión de Sofía sobre la 007: el
-    // texto va dentro del marco azul del área de juego, igual que los
-    // niveles 1-2, ajustado a su contenido — no en el recuadro de
-    // consentimiento pequeño). El recuadro de lluvia se publica aparte
-    // (`useLevelBoard`) y se renderiza debajo de ese marco, fuera de él.
-    // SIN `fillHeight` a propósito (corregido tras revisión de Sofía: "el
-    // game area del nivel de cookies de personalización es demasiado
-    // grande, antes lo teniamos a su tamaño correcto"): su tamaño "correcto"
-    // ya salía de aquí, del propio `min-height` del recuadro de lluvia
+    // Sin consentKey (corregido sobre la 007: el texto va dentro del marco
+    // azul del área de juego, igual que los niveles 1-2, ajustado a su
+    // contenido — no en el recuadro de consentimiento pequeño). El recuadro
+    // de lluvia se publica aparte (`useLevelBoard`) y se renderiza debajo de
+    // ese marco, fuera de él.
+    // SIN `fillHeight` a propósito (corregido: el game area del nivel de
+    // cookies de personalización era demasiado grande, antes se tenía a su
+    // tamaño correcto): su tamaño "correcto" ya salía de aquí, del propio
+    // `min-height` del recuadro de lluvia
     // (`Level03.module.scss`), no de `fillHeight` — que hasta ahora estaba
     // roto (`.level-host` no daba una altura real que estirar, ver
     // `LevelHost.module.scss`) y por eso nunca se notó. Al arreglar ESE bug
@@ -44,10 +44,10 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
   },
   4: {
     titleKey: 'levels.4.name',
-    // Sin consentKey (corregido tras revisión de Sofía: "los terminos y
-    // condiciones de las cookies no estan en su recuadro azul, como en
-    // todos los niveles") — el texto va dentro del marco azul, mismo patrón
-    // que los niveles 1-3, ya no en el recuadro de consentimiento pequeño; el
+    // Sin consentKey (corregido: los términos y condiciones de las cookies
+    // no estaban en su recuadro azul, como en todos los niveles) — el texto
+    // va dentro del marco azul, mismo patrón que los niveles 1-3, ya no en
+    // el recuadro de consentimiento pequeño; el
     // marco se renderiza ajustado solo al texto. El tablero (el Plinko) se
     // publica aparte vía `useLevelBoard` y sigue sin marco propio (GDD
     // §4.4, excepción: tiene sus propias paredes físicas) — mismo patrón
@@ -56,8 +56,7 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // tamaño con `aspect-ratio` en vez de depender de que un ancestro le dé
     // el 100% del alto disponible (`GameArea.module.scss`), así que la
     // ventana vuelve a ajustarse a su contenido en vez de estirarse a
-    // ocupar toda la pantalla (corregido tras revisión de Sofía: "reduce el
-    // aire de arriba y abajo").
+    // ocupar toda la pantalla (corregido: menos aire de arriba y abajo).
     component: lazy(() => import('./level04/Level04')),
   },
   5: {
@@ -66,11 +65,10 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // marco azul, tablero (los 3 rodillos + Stops) publicado aparte vía
     // `useLevelBoard`. Sin `fillHeight`: cada rodillo mide una altura fija
     // propia (`Reel.module.scss`), no necesita que un ancestro le dé el
-    // 100% del alto disponible. `wideWindow: true` (revisión de Sofía: "los
-    // rodillos un poco más grandes en large desktop, junto con la ventana
-    // en sí"): los rodillos ya crecen solos por CSS a partir de `lg`, la
-    // ventana necesita pedir explícitamente más ancho para que quepan sin
-    // apretarse contra el tope de siempre (40rem).
+    // 100% del alto disponible. `wideWindow: true`: los rodillos ya crecen
+    // un poco más grandes en large desktop junto con la propia ventana, por
+    // CSS a partir de `lg`; la ventana necesita pedir explícitamente más
+    // ancho para que quepan sin apretarse contra el tope de siempre (40rem).
     wideWindow: true,
     component: lazy(() => import('./level05/Level05')),
   },
@@ -82,8 +80,8 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     // propia (`Board.module.scss`). A diferencia de 3-5, este nivel SÍ tiene
     // pie (Agree/Disagree) — no necesita ningún flag especial para eso, se
     // publica igual que en los niveles 1-2 (`useLevelFooter`). El recuadro de
-    // texto usa el mismo tamaño estándar que 3-5 (coherencia visual, revisión
-    // de Sofía); el ajuste de scroll vertical en móvil vive en `--cell-size`
+    // texto usa el mismo tamaño estándar que 3-5 (coherencia visual); el
+    // ajuste de scroll vertical en móvil vive en `--cell-size`
     // (`Board.module.scss`, más pequeño en xs/sm) y en los botones de
     // dirección (`Level06.module.scss`, al mínimo táctil de 44px ahí).
     component: lazy(() => import('./level06/Level06')),
@@ -139,9 +137,8 @@ export const levelRegistry: Record<LevelId, LevelDefinition> = {
     titleKey: 'levels.11.name',
     // Sin consentKey, mismo patrón que los niveles 3-10: texto dentro del
     // marco azul, tablero (Sans + su bocadillo) publicado aparte vía
-    // `useLevelBoard` (015-plan.md). Sin pie de ventana (corregido tras
-    // revisión de Sofía: "no me convence que haya un botón de disagree, lo
-    // vamos a eliminar") — toda la interacción, ganar y perder, vive dentro
+    // `useLevelBoard` (015-plan.md). Sin pie de ventana (se eliminó el botón
+    // de disagree) — toda la interacción, ganar y perder, vive dentro
     // del bocadillo (No/Yes), mismo patrón que los niveles 8-9.
     component: lazy(() => import('./level11/Level11')),
   },

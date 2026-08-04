@@ -8,9 +8,7 @@ export const PEG_ROWS = 6
 export const PEGS_PER_ROW = 5
 export const PEG_COUNT = PEG_ROWS * PEGS_PER_ROW
 export const PEG_RADIUS = 5
-// Bajado de 50 a 30 tras revisión de Sofía ("hay mucho aire en el game
-// area... reduce el aire de arriba y abajo"): menos margen vacío antes de
-// la primera fila de pegs.
+// Bajado de 50 a 30: menos margen vacío antes de la primera fila de pegs.
 const PEG_TOP_MARGIN = 30
 // > FALLING_HEIGHT (más abajo): si las filas quedan más juntas que la
 // altura de un botón, uno puede quedar tocando DOS filas de pegs a la vez y
@@ -20,8 +18,8 @@ const PEG_TOP_MARGIN = 30
 // 63 (con una parada intermedia en 52) junto con `LOGICAL_HEIGHT`
 // (360→420, `GameArea.tsx`): mismos 30 pegs (GDD §14, sin tocar),
 // repartidos en más alto real en vez de dejar aire de sobra arriba del
-// campo de pegs y entre el campo de pegs y la paleta (corregido tras
-// revisión de Sofía, ver arriba).
+// campo de pegs y entre el campo de pegs y la paleta (ya corregido, ver
+// arriba).
 const PEG_ROW_SPACING = 63
 const PEG_SIDE_MARGIN = 60
 
@@ -47,9 +45,9 @@ const PEG_FIELD_BOTTOM_Y = PEG_TOP_MARGIN + (PEG_ROWS - 1) * PEG_ROW_SPACING + 2
  * un cuerpo encajado entre dos pegs puede seguir "temblando" con velocidad
  * por encima de `REST_SPEED_THRESHOLD` sin avanzar de verdad hacia abajo —
  * con ese criterio, el empujón de liberación (ver más abajo) casi nunca
- * llegaba a dispararse (corregido tras revisión de Sofía: "no están
- * rebotando en los puntos cuando se quedan pillados"). En su lugar se mide
- * el PROGRESO neto en Y: cuánto tiempo lleva sin bajar al menos
+ * llegaba a dispararse (los botones no rebotaban en los pegs cuando se
+ * quedaban pillados). En su lugar se mide el PROGRESO neto en Y: cuánto
+ * tiempo lleva sin bajar al menos
  * `STUCK_PROGRESS_EPSILON_PX`, se mueva como se mueva mientras tanto.
  */
 const STUCK_KICK_THRESHOLD_MS = 700
@@ -59,8 +57,8 @@ const STUCK_PROGRESS_EPSILON_PX = 5
  * Dentro del campo de pegs, un botón sin progreso recibe un empujón para
  * liberarse (en vez de desaparecer y reaparecer arriba en silencio) hasta
  * este número de veces antes de reciclarlo de verdad como red de seguridad
- * final (corregido tras revisión de Sofía: "cuando un agree o disagree que
- * se quede enganchado debe rebotar en los puntitos un poco").
+ * final — un botón enganchado debe rebotar un poco en los pegs en vez de
+ * reciclarse al instante.
  */
 const MAX_STUCK_KICKS = 3
 /** Velocidad del empujón al liberar un botón encajado contra un peg. */
@@ -69,10 +67,10 @@ const STUCK_KICK_SPEED = 1.4
 /**
  * Tamaño lógico del botón grande (paleta): EXACTO al de un botón Agree/
  * Disagree habitual del juego (`XPButton`, `--xp-button-height: 3rem` por
- * defecto = 48px, ancho = alto × 2.3 = 110.4px) — bajado de 220×44 tras
- * revisión de Sofía: "es demasiado grande. Debe ser del tamaño exacto de
- * los agree/disagree habituales". El sistema de escalado del juego (GDD:
- * "resolución lógica fija + escala") hace que 1px lógico de `GameArea`
+ * defecto = 48px, ancho = alto × 2.3 = 110.4px) — bajado de 220×44: debía
+ * ser del tamaño exacto de los agree/disagree habituales, no más grande.
+ * El sistema de escalado del juego (GDD: "resolución lógica fija + escala")
+ * hace que 1px lógico de `GameArea`
  * equivalga a 1px real de la ventana sin escalar, igual que cualquier
  * botón normal fuera de un nivel con tablero — de ahí que reutilizar el
  * mismo número de píxeles sea, literalmente, el mismo tamaño.
@@ -85,30 +83,29 @@ export const PADDLE_Y = LOGICAL_HEIGHT - 30
  * 0 3px ...`) se dibuja 3px por FUERA de su propia caja — con la paleta en
  * uno u otro extremo de la guía, esos 3px quedaban más allá del borde del
  * lienzo lógico y el propio `overflow: hidden` de `GameArea` los recortaba,
- * dejando el anillo invisible en ese extremo (corregido tras revisión de
- * Sofía: "no se ve el borde del final"). El clamping dentro de la guía
- * (`clampPaddleX`, más abajo) reserva este margen para que el anillo entero
- * quepa siempre dentro del lienzo.
+ * dejando el anillo invisible en ese extremo (no se veía el borde en el
+ * final del recorrido). El clamping dentro de la guía (`clampPaddleX`, más
+ * abajo) reserva este margen para que el anillo entero quepa siempre
+ * dentro del lienzo.
  */
 const PADDLE_OUTER_RING_PX = 3
 /**
- * Tamaño lógico de cada botón que cae. Subido de 38×16 tras revisión de
- * Sofía: "deben tener el texto de agree y disagree, con la fuente habitual
- * y el estilo" + "hazlos un poco más grandes y largos, ahora caen demasiado
- * y no rebotan" — a 38×16, sin texto, apenas rozaban los pegs. No vuelve a
- * los 92×40 originales (ese ancho tan plano fue lo que causó el
+ * Tamaño lógico de cada botón que cae. Subido de 38×16: debían llevar el
+ * texto de agree y disagree, con la fuente y el estilo habituales, y ser un
+ * poco más grandes y largos — a 38×16, sin texto, apenas rozaban los pegs.
+ * No vuelve a los 92×40 originales (ese ancho tan plano fue lo que causó el
  * amontonamiento de la ronda anterior): en su lugar el texto usa una fuente
  * más pequeña que la de un botón real (`Level04.module.scss`,
  * `&__falling-label`) para que quepa en un cuerpo bastante más compacto.
- * Altura bajada de 32 a 22 tras nueva revisión de Sofía ("más finos"),
- * ancho sin cambios.
+ * Altura bajada de 32 a 22 tras una nueva revisión (más finos), ancho sin
+ * cambios.
  */
 export const FALLING_WIDTH = 72
 export const FALLING_HEIGHT = 22
 /**
  * La zona de captura (cuerpo físico) puede ser más estrecha que el ancho
  * visual del botón (008-plan.md, riesgo "capturas injustas") — parámetro
- * pensado para afinarse en el checkpoint visual/de dificultad con Sofía.
+ * pensado para afinarse en el checkpoint visual/de dificultad.
  */
 export const PADDLE_SENSOR_WIDTH_RATIO = 1
 
@@ -266,10 +263,10 @@ export function createBoardSimulation({
   const canvasHeight = LOGICAL_HEIGHT
   const rng = createRng(seed)
 
-  // Más lenta que la 0.002 original (corregido tras revisión de Sofía: "los
-  // botones deberían bajar más lentamente" — la caída rápida no dejaba
-  // tiempo a seguir el recorrido con la vista). No tan baja como un primer
-  // ajuste (0.0011): con tan poca energía, los botones se quedaban
+  // Más lenta que la 0.002 original: los botones debían bajar más
+  // lentamente, la caída rápida no dejaba tiempo a seguir el recorrido con
+  // la vista. No tan baja como un primer ajuste (0.0011): con tan poca
+  // energía, los botones se quedaban
   // reposando encima de los pegs en vez de rebotar y seguir cayendo —
   // apenas se veían botones nuevos porque los que había tardaban demasiado
   // en liberar su hueco de población (bug real, detectado en QA jugando).
@@ -279,10 +276,10 @@ export function createBoardSimulation({
   // Rebote suave (no 0.6): con más, la trayectoria se vuelve tan errática
   // que ni un jugador atento consigue anticiparla — el GDD pide "el jugador
   // puede anticipar aproximadamente las trayectorias, nunca con total
-  // precisión", no un pinball caótico (corregido tras revisión de Sofía:
-  // "es imposible seguir el recorrido"). Tampoco tan bajo como un primer
-  // ajuste (0.25): combinado con la gravedad reducida, dejaba a los
-  // botones sin energía suficiente para separarse de un peg tras tocarlo.
+  // precisión", no un pinball caótico (con 0.6 era imposible seguir el
+  // recorrido). Tampoco tan bajo como un primer ajuste (0.25): combinado
+  // con la gravedad reducida, dejaba a los botones sin energía suficiente
+  // para separarse de un peg tras tocarlo.
   const pegs = generatePegPositions(canvasWidth).map(({ x, y }) =>
     Matter.Bodies.circle(x, y, PEG_RADIUS, { isStatic: true, restitution: 0.35 }),
   )
@@ -325,10 +322,9 @@ export function createBoardSimulation({
       halfWidth * 2,
       halfHeight * 2,
       // Rebote suave y fricción de aire para que no se pongan a girar sin
-      // parar tras un golpe de refilón (corregido tras revisión de Sofía:
-      // trayectorias predecibles, no un pinball) — pero con energía
-      // suficiente para no quedarse reposando encima de un peg nada más
-      // tocarlo.
+      // parar tras un golpe de refilón — trayectorias predecibles, no un
+      // pinball — pero con energía suficiente para no quedarse reposando
+      // encima de un peg nada más tocarlo.
       { restitution: 0.35, friction: 0.05, frictionAir: 0.01 },
     )
     Matter.Body.setStatic(body, true) // ver rain.ts: nunca `isStatic` en el constructor de un cuerpo que se reactivará
@@ -446,9 +442,8 @@ export function createBoardSimulation({
         // velocidad instantánea — un cuerpo encajado entre dos pegs puede
         // seguir "temblando" con velocidad por encima de
         // `REST_SPEED_THRESHOLD` sin bajar de verdad, y con el criterio de
-        // velocidad el empujón casi nunca llegaba a dispararse (corregido
-        // tras revisión de Sofía: "no están rebotando en los puntos cuando
-        // se quedan pillados").
+        // velocidad el empujón casi nunca llegaba a dispararse (los botones
+        // no rebotaban en los pegs cuando se quedaban pillados).
         slot.restSince = null
         if (slot.progressSince === null || slot.lastProgressY === null) {
           slot.progressSince = timestamp
@@ -459,8 +454,7 @@ export function createBoardSimulation({
         } else if (timestamp - slot.progressSince >= STUCK_KICK_THRESHOLD_MS) {
           if (slot.stuckKicks < MAX_STUCK_KICKS) {
             // Sin progreso: un empujón para liberarse en vez de desaparecer
-            // en silencio (corregido tras revisión de Sofía: "debe rebotar
-            // en los puntitos un poco").
+            // en silencio — debe rebotar un poco en los pegs.
             kickAwayFromNearestPeg(slot.body, pegs)
             slot.stuckKicks++
           } else {

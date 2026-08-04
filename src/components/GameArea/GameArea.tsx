@@ -4,9 +4,9 @@ import styles from './GameArea.module.scss'
 /**
  * Tamaño de lienzo lógico sobre el que se diseña cada nivel (coincide con
  * tokens.scss y con `aspect-ratio` en `GameArea.module.scss`, mantenerlos en
- * sincro si cambia). Alto subido de 360 a 420 tras revisión de Sofía ("mucho
- * espacio en el game area... usar este espacio para que el tablero sea más
- * grande"): en móvil, la ventana es más estrecha que alta, así que el ancho
+ * sincro si cambia). Alto subido de 360 a 420: sobraba espacio en el game
+ * area que podía usarse para que el tablero fuera más grande — en móvil,
+ * la ventana es más estrecha que alta, así que el ancho
  * (640) es casi siempre el límite real de la escala — de 360 a 420 sigue
  * siéndolo en todos los tamaños medidos (móvil y escritorio, incluida una
  * ventana de escritorio poco alta, ~650px), así que el cambio da más alto

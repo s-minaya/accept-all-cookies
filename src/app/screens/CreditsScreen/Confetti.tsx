@@ -36,8 +36,8 @@ function createPieces(): ConfettiPiece[] {
 }
 
 /**
- * Confeti pixel art hecho a mano (petición de Sofía al llegar a los
- * créditos): cuadraditos de la propia paleta de tokens cayendo con CSS puro
+ * Confeti pixel art hecho a mano al llegar a los créditos: cuadraditos de
+ * la propia paleta de tokens cayendo con CSS puro
  * — sin dependencia nueva (AGENTS.md: "no añadir dependencias"), mismo
  * enfoque que `GiantVerdict` (fade + animación, todo CSS, sin librería).
  * Las piezas se generan una sola vez al montar y cada una se desvanece sola
