@@ -18,12 +18,13 @@ Implementa el Nivel 8 (GDD §9, Nivel 8): una cuadrícula de **12 botones** con 
 2. **Flip** — al pulsar el Agree: los 12 giran 180° **a la vez** (~400 ms, parámetro) y quedan todos en **estilo neutro** con el texto `???`. Suena `coin.mp3` una vez (adición pequeña, vetable).
 3. **Barajado** — tres rondas encadenadas sin pausa: **lenta ~0,8 s**, **media ~0,55 s**, **rápida ~0,35 s** (GDD). Los botones nunca desaparecen: intercambian posiciones con movimientos fluidos, estilo trilero. **Durante todo el barajado el input se ignora** (los botones no responden ni por ratón, ni por dedo, ni por teclado).
 4. **Elección** — todos siguen mostrando `???`; el jugador pulsa uno.
+5. **Revelación de la elección** (`revealChoice`, corrección de playtesting) — el botón pulsado, y SOLO ese, se da la vuelta hacia su cara real (mismo giro de 180° y misma duración que el flip inicial, ~400 ms) mientras los otros 11 siguen en `???`; ningún input tiene efecto durante este giro (misma familia que `flip`/`shuffling`). Al completarse, se dispara el veredicto.
 
 ### Victoria y derrota
 
-- **Victoria**: el botón elegido es el que originalmente era Agree → `onWin()` inmediato (la elección es el acto deliberado; precedente del nivel 5) → flujo estándar con "Third-Party Providers".
-- **Derrota**: elegir cualquier otro (`failed`), contador a 0, o X.
-- Pulsar uno de los 11 Disagree visibles durante el reveal también es derrota inmediata — regla madre del juego, coherente con los niveles 2, 3 y 7; anotado en el GDD.
+- **Victoria**: el botón elegido es el que originalmente era Agree → tras su giro revelador, `onWin()` (la elección es el acto deliberado; precedente del nivel 5) → flujo estándar con "Third-Party Providers".
+- **Derrota**: elegir cualquier otro → tras su giro revelador, `onLose('failed')`; contador a 0 o X pierden sin esperar a ningún giro (heredado de `LevelHost`).
+- Pulsar uno de los 11 Disagree visibles durante el reveal también es derrota inmediata, sin giro (ya está mostrando su cara real) — regla madre del juego, coherente con los niveles 2, 3 y 7; anotado en el GDD.
 
 ### Tras el flip, todos son idénticos
 
@@ -52,6 +53,7 @@ Es el nivel de memoria del juego y el más "de feria" — el único donde el jug
 - [x] Elegir el botón que era Agree → victoria con el flujo estándar y la categoría correcta; elegir otro → derrota estándar.
 - [x] Pulsar un Disagree en la fase reveal es derrota.
 - [x] Contador a 0 y X pierden en cualquier fase, incluido a mitad de barajado (heredado de `LevelHost`, sin que el nivel los intercepte).
+- [x] **As-built (corrección de playtesting):** al elegir en `choosing`, únicamente el botón pulsado se da la vuelta (mismo giro y duración que el flip inicial) revelando Agree o Disagree antes de que se dispare `onWin`/`onLose` — no salta directo al veredicto gigante. El resto de las 11 celdas se queda en `???`; ningún input tiene efecto durante el giro (`revealChoice`, nueva fase de `phases.ts`, misma familia que `flip`/`shuffling`); test que verifica que solo la celda elegida revela su cara y que el resto sigue oculto en el instante justo posterior al canto del giro (progreso ≥ 0.5).
 
 ### Integración y calidad
 - [x] Hueco 8 sustituido con chunk propio (sin matter.js); `levels.8.*` en ambos diccionarios; PRNG compartido reutilizado (`src/utils/prng.ts`).

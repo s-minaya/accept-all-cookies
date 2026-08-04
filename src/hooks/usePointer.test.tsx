@@ -169,6 +169,16 @@ describe('usePointer — quietud (nivel 9, 013-plan.md)', () => {
     expect(onUnstill).toHaveBeenCalledTimes(1)
   })
 
+  it('fires onDown synchronously on pointerdown, with the local point, before any click/tap can arrive (nivel 9, corrección de playtesting)', () => {
+    const onDown = vi.fn()
+    const { getByTestId } = render(<Harness onDown={onDown} />)
+    const el = getByTestId('target')
+
+    fire(el, 'pointerdown', { clientX: 7, clientY: 9, pointerId: 1 })
+    expect(onDown).toHaveBeenCalledTimes(1)
+    expect(onDown).toHaveBeenCalledWith({ x: 7, y: 9 })
+  })
+
   it('existing tap/drag classification keeps working unchanged alongside stillness tracking', () => {
     const onTap = vi.fn()
     const onDragStart = vi.fn()

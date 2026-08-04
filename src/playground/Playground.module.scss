@@ -84,6 +84,12 @@
     color: var(--color-frame-blue);
   }
 
+  &__comic-font-text {
+    font-family: var(--font-comic);
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
   &__game-area-host {
     width: 100%;
     height: 20rem;

@@ -8,7 +8,14 @@ import { buildSegments, canAcceptClick, type LevelPhase, type Segment } from './
 import { createPhaseClock, type PhaseClock } from './phaseClock'
 import styles from './Level08.module.scss'
 
-/** Duración del giro de 180° (GDD §14, "~400 ms"). */
+/**
+ * Duración del giro de 180° (GDD §14, "~400 ms"): la misma constante rige
+ * tanto el flip inicial en masa (los 12 botones ocultando su identidad) como
+ * el giro individual del botón elegido al confirmar en `choosing`
+ * (corrección de playtesting: "que se dé la vuelta antes de salir el
+ * veredicto") — es el mismo gesto visual, solo que aplicado a un botón en
+ * vez de a doce.
+ */
 const FLIP_DURATION_MS = 400
 /** Columnas de respaldo (escritorio/tablet) hasta la primera lectura real de `--grid-cols`; ver `readGridCols`. */
 const DEFAULT_GRID_COLS = 4
@@ -74,6 +81,10 @@ export function Level08Grid({ script, onWin, onLose, paused }: Level08GridProps)
   const [phase, setPhase] = useState<LevelPhase>('reveal')
   const [faceFlipped, setFaceFlipped] = useState(false)
   const [optionSlot, setOptionSlot] = useState<number[]>(() => identityCellOfButton())
+  // Botón que el jugador confirmó en `choosing`, mientras se da la vuelta
+  // hacia su cara real antes del veredicto — `null` el resto del tiempo, así
+  // que ningún otro botón se ve afectado por este giro individual.
+  const [revealedButtonId, setRevealedButtonId] = useState<number | null>(null)
 
   const containerRef = useRef<HTMLDivElement | null>(null)
   const gridColsRef = useRef(DEFAULT_GRID_COLS)
@@ -82,12 +93,20 @@ export function Level08Grid({ script, onWin, onLose, paused }: Level08GridProps)
   const roundStartRef = useRef<number[]>(identityCellOfButton())
   const roundEndRef = useRef<number[]>(identityCellOfButton())
   const faceFlippedRef = useRef(false)
+  // Misma idea que `faceFlippedRef`, pero para el giro individual del botón
+  // elegido: evita llamar a `setRevealedButtonId` en cada fotograma tras
+  // cruzar el canto, solo una vez.
+  const revealedButtonIdRef = useRef<number | null>(null)
   const phaseClockRef = useRef<PhaseClock | null>(null)
 
   function writeCellPosition(buttonId: number, row: number, col: number) {
     const el = buttonRefs.current[buttonId]
     el?.style.setProperty('--cell-row', String(row))
     el?.style.setProperty('--cell-col', String(col))
+  }
+
+  function writeCellFlipAngle(buttonId: number, angleDeg: number) {
+    buttonRefs.current[buttonId]?.style.setProperty('--cell-flip-angle', `${angleDeg}deg`)
   }
 
   function positionAllAtRest() {
@@ -225,14 +244,49 @@ export function Level08Grid({ script, onWin, onLose, paused }: Level08GridProps)
     [paused, script, playCoin, startShuffle, onLose],
   )
 
+  /**
+   * Corrección de playtesting (012-spec.md, ronda de retoques): al elegir en
+   * `choosing`, el botón pulsado se da la vuelta hacia su cara real (Agree o
+   * Disagree, según corresponda) y SOLO ENTONCES se dispara `onWin`/`onLose`
+   * — antes saltaba directo al veredicto gigante sin mostrar el resultado en
+   * el propio botón. Mismo giro triangular que el flip inicial (0°→90°→0°,
+   * cara sustituida en el canto) pero en un único botón: un segundo
+   * `phaseClock` de un solo segmento, reemplazando al de la barajada (ya
+   * completado y sin más fotogramas pendientes en cuanto se llega aquí).
+   */
+  const revealChoice = useCallback(
+    (buttonId: number) => {
+      const isAgree = buttonId === script.agreeIndex
+      revealedButtonIdRef.current = null
+
+      phaseClockRef.current?.destroy()
+      phaseClockRef.current = createPhaseClock({
+        segments: [{ durationMs: FLIP_DURATION_MS }],
+        onSegmentStart: () => setPhase('revealChoice'),
+        onFrame: (_segment, _index, progress) => {
+          const angleDeg = (progress < 0.5 ? progress : 1 - progress) * 180
+          writeCellFlipAngle(buttonId, angleDeg)
+          if (progress >= 0.5 && revealedButtonIdRef.current !== buttonId) {
+            revealedButtonIdRef.current = buttonId
+            setRevealedButtonId(buttonId)
+          }
+        },
+        onComplete: () => {
+          setPhase('done')
+          if (isAgree) onWin()
+          else onLose('failed')
+        },
+      })
+    },
+    [script, onWin, onLose],
+  )
+
   const handleChoosingClick = useCallback(
     (buttonId: number) => {
       if (paused) return
-      setPhase('done')
-      if (buttonId === script.agreeIndex) onWin()
-      else onLose('failed')
+      revealChoice(buttonId)
     },
-    [paused, script, onWin, onLose],
+    [paused, revealChoice],
   )
 
   const handleCellClick = useCallback(
@@ -254,8 +308,13 @@ export function Level08Grid({ script, onWin, onLose, paused }: Level08GridProps)
         // en cuanto se pulsa el Agree (fase pasa a 'flip' de inmediato),
         // pero la cara real debe seguir mostrándose hasta el canto del giro
         // (progreso 0.5) — si se atara a la fase, el texto cambiaría de
-        // golpe al arrancar el flip en vez de a mitad de él.
-        const showRealFace = !faceFlipped
+        // golpe al arrancar el flip en vez de a mitad de él. El botón
+        // elegido en `choosing` es la excepción: aunque `faceFlipped` siga
+        // en `true` (los 12 llevan mostrando "???" desde el flip inicial),
+        // ESE botón vuelve a mostrar su cara real en cuanto su propio giro
+        // individual cruza el canto (`revealedButtonId`) — el resto se
+        // queda en "???" hasta que el nivel se desmonta.
+        const showRealFace = !faceFlipped || revealedButtonId === buttonId
         return (
           <XPButton
             key={buttonId}

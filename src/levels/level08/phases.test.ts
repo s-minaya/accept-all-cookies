@@ -9,6 +9,7 @@ describe('canAcceptClick (012-plan.md — qué fase acepta input)', () => {
     expect(canAcceptClick('choosing')).toBe(true)
     expect(canAcceptClick('flip')).toBe(false)
     expect(canAcceptClick('shuffling')).toBe(false)
+    expect(canAcceptClick('revealChoice')).toBe(false)
     expect(canAcceptClick('done')).toBe(false)
   })
 })

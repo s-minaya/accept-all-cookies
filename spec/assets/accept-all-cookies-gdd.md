@@ -632,7 +632,7 @@ Do you agree to the use of Social Media Cookies?
 - Sonido de "moneda" (tipo tragaperras) en cada captura, sea Agree o Disagree — no distingue positivo/negativo por símbolo; el veredicto final (ganar/perder el nivel) ya suena aparte con el positivo/negativo habitual del resto del juego.
 - El Stop usado se deshabilita y se oscurece.
 
-**Rehabilitación (regla clave):** si el jugador detiene los tres rodillos y el resultado **no** es triple Agree ni triple Disagree (excepción, ver Derrota), tras una breve pausa los rodillos **vuelven a girar** y los tres botones Stop **se rehabilitan**. El jugador puede intentarlo tantas veces como el contador le permita.
+**Rehabilitación (regla clave):** si el jugador detiene los tres rodillos y el resultado **no** es triple Agree ni triple Disagree (excepción, ver Derrota), tras una breve pausa los rodillos **vuelven a girar** y los tres botones Stop **se rehabilitan**. El jugador puede intentarlo tantas veces como el contador le permita. **Las tres tiras se regeneran con un nuevo orden de Agree/Disagree en cada rehabilitación** (corrección tras playtesting con varias personas: con tiras fijas para toda la partida, un rodillo podía tocar con muy pocos Agrees —a veces solo uno en sus 12 casillas— y quedar prácticamente imposible de cazar en el rodillo rápido durante todos los intentos de esa visita al nivel; regenerar hace que cada ronda sea un sorteo nuevo e independiente).
 
 **Victoria:** tres rodillos parados mostrando `Agree | Agree | Agree` → `Social Media Cookies accepted.`
 
@@ -768,11 +768,11 @@ Providers?
 
 **Durante los barajados el jugador NO puede clicar** (los clics se ignoran / los botones están deshabilitados).
 
-**Selección final:** al terminar el tercer barajado, todos siguen mostrando `???` y el jugador debe elegir uno.
+**Selección final:** al terminar el tercer barajado, todos siguen mostrando `???` y el jugador debe elegir uno. **Al elegir, ÚNICAMENTE el botón pulsado se da la vuelta** (mismo giro de 180° que la animación inicial, ~400 ms) revelando su cara real — Agree o Disagree, según corresponda — mientras los otros 11 se quedan en `???`; solo entonces se dispara el veredicto gigante estándar (corrección de playtesting: antes se saltaba directo al resultado sin mostrarlo en el propio botón).
 
-**Victoria:** seleccionar el botón que originalmente era Agree → `Third-Party Providers accepted.`
+**Victoria:** seleccionar el botón que originalmente era Agree → tras su giro revelador, `Third-Party Providers accepted.`
 
-**Derrota:** seleccionar cualquier otro botón, contador a 0 o pulsar la X → Game Over. Pulsar uno de los 11 Disagree visibles durante el reveal también es derrota inmediata (regla madre del juego: un Disagree es un Disagree, coherente con los niveles 2, 3 y 7) — el nivel solo empieza a barajar si el jugador pulsa el Agree.
+**Derrota:** seleccionar cualquier otro botón (tras su giro revelador), contador a 0 o pulsar la X → Game Over. Pulsar uno de los 11 Disagree visibles durante el reveal también es derrota inmediata (regla madre del juego: un Disagree es un Disagree, coherente con los niveles 2, 3 y 7) — el nivel solo empieza a barajar si el jugador pulsa el Agree.
 
 ---
 

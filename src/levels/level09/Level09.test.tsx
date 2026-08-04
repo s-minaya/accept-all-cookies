@@ -165,6 +165,69 @@ describe('Level09 (GDD Nivel 9 — Fingerprinting, 013-plan.md, corregido tras r
     expect(onLose).toHaveBeenCalledWith('failed')
   })
 
+  it('touching down on a currently-visible Agree wins immediately, even if a cycle that would have cleared it fires right after (corrección de playtesting: toque real en móvil que no ganaba)', () => {
+    seedRandom(0.3) // celda 0 = agree tras el primer ciclo (calculado aparte)
+    const onWin = vi.fn()
+    render(<Level09Harness {...baseProps} onWin={onWin} />)
+    advanceOneCycle()
+
+    const container = document.querySelector('[class*="level-09-grid"]') as HTMLElement
+    stubCellRects(container, getCells())
+    // Solo `pointerdown` — nunca llega a hacer falta un `click`/`pointerup`
+    // para ganar: se resuelve en el mismo turno síncrono del toque, antes de
+    // que el siguiente ciclo (~450ms) tenga ninguna oportunidad de borrar el
+    // botón por debajo del dedo (lo que antes causaba el bug: un `click`
+    // sintetizado tardío leía la casilla ya vacía y no hacía nada).
+    fireEvent.pointerDown(container, { clientX: 20, clientY: 20, pointerId: 1 })
+    expect(onWin).toHaveBeenCalledTimes(1)
+
+    // El ciclo siguiente, que en el bug original se llevaba el botón por
+    // delante de un `click` todavía pendiente, no cambia nada: ya se ganó.
+    advanceOneCycle()
+    expect(onWin).toHaveBeenCalledTimes(1)
+  })
+
+  it('touching down on a currently-visible Disagree loses immediately, the same way', () => {
+    seedRandom(0.5) // celda 5 = disagree tras el primer ciclo (calculado aparte)
+    const onLose = vi.fn()
+    render(<Level09Harness {...baseProps} onLose={onLose} />)
+    advanceOneCycle()
+
+    const container = document.querySelector('[class*="level-09-grid"]') as HTMLElement
+    stubCellRects(container, getCells())
+    fireEvent.pointerDown(container, { clientX: 270, clientY: 20, pointerId: 1 }) // casilla 5: left = 5*50 = 250
+    expect(onLose).toHaveBeenCalledWith('failed')
+  })
+
+  it('touching down on an empty cell does nothing (no false win/lose from a bare press)', () => {
+    seedRandom(0.3) // celda 1 se queda vacía tras el primer ciclo (fuera de {5,0,7,11})
+    const onWin = vi.fn()
+    const onLose = vi.fn()
+    render(<Level09Harness {...baseProps} onWin={onWin} onLose={onLose} />)
+    advanceOneCycle()
+
+    const container = document.querySelector('[class*="level-09-grid"]') as HTMLElement
+    stubCellRects(container, getCells())
+    fireEvent.pointerDown(container, { clientX: 70, clientY: 20, pointerId: 1 }) // casilla 1: left = 1*50 = 50
+    expect(onWin).not.toHaveBeenCalled()
+    expect(onLose).not.toHaveBeenCalled()
+  })
+
+  it('resolving via pointerdown does not also fire a second time from the click that follows on the same button', () => {
+    seedRandom(0.3) // celda 0 = agree
+    const onWin = vi.fn()
+    render(<Level09Harness {...baseProps} onWin={onWin} />)
+    advanceOneCycle()
+
+    const container = document.querySelector('[class*="level-09-grid"]') as HTMLElement
+    stubCellRects(container, getCells())
+    fireEvent.pointerDown(container, { clientX: 20, clientY: 20, pointerId: 1 })
+    expect(onWin).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(getCellButton(0) as HTMLButtonElement)
+    expect(onWin).toHaveBeenCalledTimes(1) // sigue en 1: el guard evita un segundo desenlace
+  })
+
   it('clicking an empty cell (no button inside) does nothing', () => {
     seedRandom(0.3) // celda 1 se queda vacía tras el primer ciclo (fuera de {5,0,7,11})
     const onWin = vi.fn()

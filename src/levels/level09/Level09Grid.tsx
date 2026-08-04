@@ -5,7 +5,7 @@ import type { Point } from '../../hooks/pointerLogic'
 import { XPButton } from '../../components/xp/XPButton'
 import type { LoseReason } from '../types'
 import { createRng } from '../../utils/prng'
-import { createEmptyCell, freeze, unfreeze, type CellState } from './cell'
+import { createEmptyCell, freeze, unfreeze, type ButtonType, type CellState } from './cell'
 import { CELL_COUNT, runCycle } from './cycle'
 import { createGridClock, type GridClock } from './clock'
 import styles from './Level09.module.scss'
@@ -51,6 +51,11 @@ export function Level09Grid({ onWin, onLose, paused }: Level09GridProps) {
   const frozenIndexRef = useRef<number | null>(null)
   const gridClockRef = useRef<GridClock | null>(null)
   const elapsedSinceCycleRef = useRef(0)
+  // El nivel solo puede resolverse una vez (corrección de playtesting, ver
+  // `resolveOutcome`): sin esto, tocar un botón ya resuelto (p. ej. el click
+  // sintetizado que llega DESPUÉS de que `onDown` ya haya ganado/perdido)
+  // podría llamar a `onWin`/`onLose` una segunda vez.
+  const resolvedRef = useRef(false)
 
   useEffect(() => {
     gridClockRef.current = createGridClock({
@@ -113,17 +118,56 @@ export function Level09Grid({ onWin, onLose, paused }: Level09GridProps) {
     setCells((prev) => prev.map((cell, i) => (i === index ? unfreeze(cell) : cell)))
   }, [paused])
 
+  /**
+   * Único punto de resolución del nivel (corrección de playtesting: "el
+   * jugador toca el Agree, se ve pulsado, pero no gana" en móvil). `type` es
+   * el que había en la casilla EN EL INSTANTE que se decide a resolver
+   * — nunca se vuelve a leer `cells` más tarde, así que no hay ninguna
+   * ventana en la que un ciclo pueda borrar el botón por debajo antes de que
+   * el desenlace se dispare.
+   */
+  const resolveOutcome = useCallback(
+    (type: ButtonType) => {
+      if (resolvedRef.current) return
+      resolvedRef.current = true
+      if (type === 'agree') onWin()
+      else onLose('failed')
+    },
+    [onWin, onLose],
+  )
+
+  /**
+   * Se dispara en el propio `pointerdown` (no en el `click` sintetizado que
+   * llega después): en táctil, entre el toque físico y ese `click` puede
+   * pasar tiempo de sobra para que un ciclo (`CYCLE_MS`, ~450ms) limpie la
+   * casilla que el jugador acaba de tocar — el `click`, cuando por fin
+   * llega, lee un `cells[index].type` ya `null` y no hace nada, aunque el
+   * dedo haya aterrizado limpiamente sobre un Agree real (bug de playtesting
+   * en móvil). Resolviendo aquí, en el mismo turno síncrono del toque, la
+   * casilla no ha tenido ninguna oportunidad de cambiar todavía.
+   */
+  const handleDown = useCallback(
+    (point: Point) => {
+      if (paused || resolvedRef.current) return
+      const index = hitTestCell(point)
+      if (index === null) return
+      const { type } = cells[index]
+      if (type) resolveOutcome(type)
+    },
+    [paused, cells, resolveOutcome],
+  )
+
   usePointer(containerRef, {
     stillnessMs: STILLNESS_MS,
     onStill: handleStill,
     onUnstill: handleUnstill,
+    onDown: handleDown,
   })
 
   function handleCellClick(index: number) {
     if (paused) return
     const { type } = cells[index]
-    if (type === 'agree') onWin()
-    else if (type === 'disagree') onLose('failed')
+    if (type) resolveOutcome(type)
   }
 
   return (

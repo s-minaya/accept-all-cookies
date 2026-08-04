@@ -60,11 +60,18 @@
     width: calc(var(--cell-width) - 8px);
     height: calc(var(--cell-height) - 8px);
     box-sizing: border-box;
+    // `--cell-flip-angle` (por botón) gana sobre `--flip-angle` (del
+    // contenedor, compartido por los 12 durante el flip inicial en masa):
+    // si no se ha escrito nunca para este botón, cae al valor del
+    // contenedor, así que el flip inicial no cambia de comportamiento. El
+    // giro individual del botón elegido al confirmar (corrección de
+    // playtesting: "que se dé la vuelta antes de salir el veredicto") solo
+    // escribe esta variable en SU botón, dejando el resto de celdas intactas.
     transform: translate(
         calc(var(--cell-col, 0) * var(--cell-width) + 4px),
         calc(var(--cell-row, 0) * var(--cell-height) + 4px)
       )
-      rotateY(var(--flip-angle, 0deg));
+      rotateY(var(--cell-flip-angle, var(--flip-angle, 0deg)));
     // El reloj de fases (`phaseClock.ts`) ya escribe un valor interpolado en
     // cada fotograma no pausado — `paused` simplemente deja de llamarlo, así
     // que no hace falta (ni conviene) una `transition` CSS aquí: congelaría
@@ -87,7 +94,7 @@
           calc(var(--cell-col, 0) * var(--cell-width) + 4px),
           calc(var(--cell-row, 0) * var(--cell-height) + 4px)
         )
-        rotateY(var(--flip-angle, 0deg));
+        rotateY(var(--cell-flip-angle, var(--flip-angle, 0deg)));
     }
   }
 }

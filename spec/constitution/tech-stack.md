@@ -80,7 +80,7 @@
 ## Estilo visual
 
 - Tokens de color (de `tokens.css`, valores del GDD): título `#2451E0→#026DE9`, beige `#EFE7DC`, azul marco `#153859`, agree `#CDF5CE`/`#7CBF89`, disagree `#FDD2D3`/`#C7858A`, neutro `blanco→#DFE0D8` con bordes `#3E587F`/`#96A6D9`, cerrar `#E84443`, borde botón `#345779`, guía beige `#B49E85`.
-- Fuentes: **DotGothic16** (UI) y **Press Start 2P** (display), ambas OFL-1.1.
+- Fuentes: **DotGothic16** (UI), **Press Start 2P** (display) y **Comic Neue** (respaldo del bocadillo del nivel 11, `--font-comic`: prioriza `Comic Sans MS` si el sistema la tiene — Windows, normalmente no móvil — y si no, esta, en vez de caer en el genérico `cursive` del navegador, que en iOS resuelve a una caligráfica elegante en vez de a un chiste de Comic Sans; corrección de playtesting), las tres OFL-1.1.
 - `image-rendering: pixelated` en todos los sprites; escalado en múltiplos enteros siempre que sea posible.
 
 ### Responsive

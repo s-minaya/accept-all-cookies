@@ -58,6 +58,14 @@ export function Playground() {
           </span>
           <p className={styles['playground__display-font-text']}>AGREE · DISAGREE</p>
         </div>
+        <div className={styles['playground__font-sample']}>
+          <span className={styles['playground__font-sample-label']}>
+            Comic — Comic Sans MS / Comic Neue (nivel 11, bocadillo de Sans)
+          </span>
+          <p className={styles['playground__comic-font-text']}>
+            ¿Tienes intención de aceptar? — áéíóúñ ¿todo bien?
+          </p>
+        </div>
       </Section>
 
       <Section title="XPButton">

@@ -1,12 +1,15 @@
 import type { ShuffleScript } from './shuffle'
 
-export type LevelPhase = 'reveal' | 'flip' | 'shuffling' | 'choosing' | 'done'
+export type LevelPhase = 'reveal' | 'flip' | 'shuffling' | 'choosing' | 'revealChoice' | 'done'
 
 /**
  * Solo `reveal` (elegir el Agree visible o un Disagree) y `choosing` (elegir
  * a ciegas tras el barajado) aceptan pulsaciones (GDD Nivel 8, "Durante los
  * barajados el jugador NO puede clicar"; 012-spec.md, criterios de
- * aceptación).
+ * aceptación). `revealChoice` (el botón elegido dándose la vuelta antes del
+ * veredicto, corrección de playtesting) tampoco acepta clics, igual que
+ * `flip`/`shuffling`: es la misma familia de "animación en curso, el jugador
+ * ya no puede cambiar nada".
  */
 export function canAcceptClick(phase: LevelPhase): boolean {
   return phase === 'reveal' || phase === 'choosing'

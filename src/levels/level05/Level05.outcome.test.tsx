@@ -76,6 +76,11 @@ describe('Level05 — desenlaces (GDD Nivel 5, 009-plan.md)', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     generateReelMock.mockReset()
+    // Red de seguridad: la rehabilitación ahora regenera las tres tiras
+    // (más llamadas a `generateReel` de las que algunos tests configuran
+    // explícitamente con `mockReturnValueOnce`); sin este valor por defecto,
+    // esas llamadas de más devolverían `undefined` y romperían `Reel`.
+    generateReelMock.mockReturnValue(uniformReel('disagree'))
   })
 
   afterEach(() => {
@@ -133,16 +138,22 @@ describe('Level05 — desenlaces (GDD Nivel 5, 009-plan.md)', () => {
     expect(onLose).not.toHaveBeenCalled()
   })
 
-  it('after rehabilitating, the (same, never-regenerated) reels can be stopped again — the machine cycles cleanly through more than one round', () => {
+  it('after rehabilitating, the reels are regenerated with a new order — a second round can reach a different outcome than the first', () => {
     generateReelMock
+      // Primera ronda: mixta, dispara la rehabilitación.
       .mockReturnValueOnce(uniformReel('agree'))
       .mockReturnValueOnce(uniformReel('disagree'))
+      .mockReturnValueOnce(uniformReel('agree'))
+      // Segunda ronda (tiras nuevas tras la rehabilitación): triple Agree.
+      .mockReturnValueOnce(uniformReel('agree'))
+      .mockReturnValueOnce(uniformReel('agree'))
       .mockReturnValueOnce(uniformReel('agree'))
     const onWin = vi.fn()
     const onLose = vi.fn()
     render(<Level05Harness {...baseProps} onWin={onWin} onLose={onLose} />)
 
     stopAll()
+    expect(onWin).not.toHaveBeenCalled()
     act(() => vi.advanceTimersByTime(1200)) // rehabilitación
 
     const stopsAfter = screen
@@ -151,13 +162,13 @@ describe('Level05 — desenlaces (GDD Nivel 5, 009-plan.md)', () => {
     expect(stopsAfter.every((btn) => !btn.disabled)).toBe(true)
     for (const stop of stopsAfter) fireEvent.click(stop)
 
-    // Mismas tiras (no se regeneran en la rehabilitación, GDD: "los rodillos
-    // vuelven a girar"), así que el segundo intento da el mismo resultado
-    // mixto — ni victoria ni derrota, y vuelve a quedar pendiente de una
-    // segunda rehabilitación en vez de romperse.
-    expect(onWin).not.toHaveBeenCalled()
+    // Corrección de playtesting (GDD Nivel 5): cada rehabilitación regenera
+    // las tres tiras con un nuevo orden, así que un segundo intento puede dar
+    // un resultado distinto al primero — aquí, la victoria que la ronda
+    // anterior (con las tiras viejas) no podía dar.
+    expect(generateReelMock).toHaveBeenCalledTimes(6)
+    expect(onWin).toHaveBeenCalledTimes(1)
     expect(onLose).not.toHaveBeenCalled()
-    expect(stopsAfter.every((btn) => btn.disabled)).toBe(true)
   })
 
   it('the respin pause freezes while paused (does not rehabilitate no matter how long) and resumes correctly once unpaused', () => {

@@ -1,8 +1,9 @@
 /**
- * Fuentes pixel alojadas en el propio proyecto (sin CDN). Ambas OFL-1.1,
+ * Fuentes pixel alojadas en el propio proyecto (sin CDN). Las tres OFL-1.1,
  * subset latin (cubre tildes/ñ del español, parte de Latin-1 Supplement).
  * Licencias: src/assets/fonts/LICENSE-DotGothic16.txt,
- *            src/assets/fonts/LICENSE-PressStart2P.txt
+ *            src/assets/fonts/LICENSE-PressStart2P.txt,
+ *            src/assets/fonts/LICENSE-ComicNeue.txt
  */
 
 @font-face {
@@ -21,7 +22,27 @@
   src: url('../assets/fonts/press-start-2p-latin-400-normal.woff2') format('woff2');
 }
 
+/**
+ * Comic Neue (corrección de playtesting, nivel 11): antes el bocadillo de
+ * Sans dependía de que el sistema tuviera "Comic Sans MS" instalada — cosa
+ * habitual en Windows, pero casi ningún móvil (iOS/Android) la trae, así que
+ * el `font-family` caía al genérico `cursive`, que en iOS resuelve a una
+ * tipografía caligráfica elegante (Snell Roundhand) — justo lo opuesto al
+ * chiste que se busca (Comic Sans + Sans). Con esta fuente alojada como
+ * respaldo, "Comic Sans MS" se sigue prefiriendo donde exista (más fiel al
+ * chiste original) y en cualquier otro sitio cae en un equivalente real, no
+ * en lo que el navegador decida que es "cursive".
+ */
+@font-face {
+  font-family: 'Comic Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/comic-neue-latin-400-normal.woff2') format('woff2');
+}
+
 :root {
   --font-ui: 'DotGothic16', 'MS Sans Serif', sans-serif;
   --font-display: 'Press Start 2P', 'DotGothic16', monospace;
+  --font-comic: 'Comic Sans MS', 'Comic Neue', cursive;
 }

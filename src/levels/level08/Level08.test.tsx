@@ -141,7 +141,7 @@ describe('Level08 (GDD Nivel 8 — Third-Party Providers, el trilero, 012-plan.m
     expect(onLose).not.toHaveBeenCalled()
   })
 
-  it('choosing: picking the cell that was originally Agree wins; picking any other loses', () => {
+  it('choosing: picking the cell that was originally Agree wins, but only after it flips to reveal Agree — not immediately on click', () => {
     const script = seedRandom(0.37)
     const onWin = vi.fn()
     render(<Level08Harness {...baseProps} onWin={onWin} />)
@@ -154,10 +154,17 @@ describe('Level08 (GDD Nivel 8 — Third-Party Providers, el trilero, 012-plan.m
     // los 12 nodos nunca cambia, solo su `transform`).
     const cells = getCells()
     fireEvent.click(cells[script.agreeIndex])
+
+    // Corrección de playtesting: el botón elegido se da la vuelta antes del
+    // veredicto — `onWin` NO se dispara en el mismo tick del clic.
+    expect(onWin).not.toHaveBeenCalled()
+    expect(cells.every((cell) => cell.disabled)).toBe(true)
+
+    act(() => vi.advanceTimersByTime(500)) // de sobra para el giro (~400ms)
     expect(onWin).toHaveBeenCalledTimes(1)
   })
 
-  it('choosing: picking a cell that was never Agree calls onLose(failed)', () => {
+  it('choosing: picking a cell that was never Agree calls onLose(failed), after it flips to reveal Disagree', () => {
     const script = seedRandom(0.81)
     const onLose = vi.fn()
     render(<Level08Harness {...baseProps} onLose={onLose} />)
@@ -166,7 +173,48 @@ describe('Level08 (GDD Nivel 8 — Third-Party Providers, el trilero, 012-plan.m
 
     const otherButtonId = script.agreeIndex === 0 ? 1 : 0
     fireEvent.click(getCells()[otherButtonId])
+    expect(onLose).not.toHaveBeenCalled()
+
+    act(() => vi.advanceTimersByTime(500))
     expect(onLose).toHaveBeenCalledWith('failed')
+  })
+
+  it('choosing: the chosen cell flips to show its real result (only that one, the rest stay "???") before the outcome fires', () => {
+    const script = seedRandom(0.52)
+    render(<Level08Harness {...baseProps} />)
+    fireEvent.click(screen.getByText('Agree'))
+    finishShuffle()
+
+    const cells = getCells()
+    const otherButtonId = script.agreeIndex === 0 ? 1 : 0
+    fireEvent.click(cells[otherButtonId])
+
+    // A mitad del giro (~200ms de 400): todavía no ha cruzado el canto.
+    act(() => vi.advanceTimersByTime(150))
+    expect(screen.queryByText('Disagree')).toBeNull()
+
+    // Pasado el canto (progreso ≥ 0.5): solo el botón elegido revela su cara,
+    // el resto de los 11 sigue en "???".
+    act(() => vi.advanceTimersByTime(150))
+    expect(screen.getAllByText('Disagree')).toHaveLength(1)
+    expect(screen.getAllByText('???')).toHaveLength(CELL_COUNT - 1)
+  })
+
+  it('choosing: no input has any effect while the chosen cell is revealing (revealChoice phase)', () => {
+    const script = seedRandom(0.37)
+    const onWin = vi.fn()
+    const onLose = vi.fn()
+    render(<Level08Harness {...baseProps} onWin={onWin} onLose={onLose} />)
+    fireEvent.click(screen.getByText('Agree'))
+    finishShuffle()
+
+    const cells = getCells()
+    fireEvent.click(cells[script.agreeIndex])
+    act(() => vi.advanceTimersByTime(150)) // a mitad del giro, todavía revelando
+
+    cells.forEach((cell) => fireEvent.click(cell))
+    expect(onWin).not.toHaveBeenCalled()
+    expect(onLose).not.toHaveBeenCalled()
   })
 
   it('does not accept any input while paused, from the very first render', () => {

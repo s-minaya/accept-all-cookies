@@ -30,6 +30,24 @@ const REEL_SPEEDS: readonly number[] = [
 const RESPIN_PAUSE_SECONDS = 1
 
 type StoppedOffsets = [number | null, number | null, number | null]
+type ReelSymbolSet = [ReelSymbol[], ReelSymbol[], ReelSymbol[]]
+
+/**
+ * Semillas independientes por rodillo (no un único RNG consumido 3 veces):
+ * evita cualquier correlación visible entre tiras vecinas. Se llama tanto al
+ * montar el nivel como en cada rehabilitación (ver `handleRespinComplete`)
+ * para que ninguna tira quede "maldita" con muy pocos Agrees durante toda la
+ * partida — feedback de playtesting real: el rodillo rápido podía tocar con
+ * un único Agree en sus 12 casillas y quedarse prácticamente imposible de
+ * cazar en todos los intentos de esa visita al nivel.
+ */
+function generateReelSymbols(): ReelSymbolSet {
+  return [
+    generateReel(createRng(Math.floor(Math.random() * 0xffffffff))),
+    generateReel(createRng(Math.floor(Math.random() * 0xffffffff))),
+    generateReel(createRng(Math.floor(Math.random() * 0xffffffff))),
+  ]
+}
 
 /**
  * Nivel 5 — Social Media (tragaperras) (GDD Nivel 5, 009-plan.md): el texto
@@ -51,13 +69,7 @@ export default function Level05({ onWin, onLose, paused }: LevelProps) {
   const t = useT()
   const { playCoin } = useAudio()
 
-  // Semillas independientes por rodillo (no un único RNG consumido 3
-  // veces): evita cualquier correlación visible entre tiras vecinas.
-  const [reelSymbols] = useState<[ReelSymbol[], ReelSymbol[], ReelSymbol[]]>(() => [
-    generateReel(createRng(Math.floor(Math.random() * 0xffffffff))),
-    generateReel(createRng(Math.floor(Math.random() * 0xffffffff))),
-    generateReel(createRng(Math.floor(Math.random() * 0xffffffff))),
-  ])
+  const [reelSymbols, setReelSymbols] = useState<ReelSymbolSet>(generateReelSymbols)
 
   const [machineState, setMachineState] = useState<SlotMachineState>(() => createInitialState())
   const [stoppedOffsets, setStoppedOffsets] = useState<StoppedOffsets>([null, null, null])
@@ -104,6 +116,10 @@ export default function Level05({ onWin, onLose, paused }: LevelProps) {
   const handleRespinComplete = useCallback(() => {
     setMachineState((prev) => completeRespin(prev))
     setStoppedOffsets([null, null, null])
+    // Tiras nuevas en cada rehabilitación (GDD Nivel 5, corrección de
+    // playtesting): cada ronda es un sorteo independiente, así que ninguna
+    // tira desfavorable persiste durante toda la visita al nivel.
+    setReelSymbols(generateReelSymbols())
   }, [])
 
   const respinCountdown = useCountdown(RESPIN_PAUSE_SECONDS, {

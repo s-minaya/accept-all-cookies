@@ -22,6 +22,18 @@ export interface UsePointerOptions {
    */
   stillnessMs?: number
   onTap?: (point: Point) => void
+  /**
+   * Se dispara de forma síncrona en el propio `pointerdown`, antes de
+   * cualquier clasificación tap/arrastre y antes de que pueda correr ningún
+   * temporizador o `rAF` pendiente (nivel 9, corrección de playtesting:
+   * "el jugador toca el Agree, se ve pulsado, pero no gana" en móvil). Sirve
+   * para resolver contra el estado que había EXACTAMENTE en el instante del
+   * toque, en vez de esperar al `click` sintetizado — que en táctil llega
+   * más tarde y puede perder la carrera contra un temporizador que borra el
+   * contenido que había bajo el dedo (p. ej. un ciclo del nivel 9) antes de
+   * que el `click` llegue a dispararse.
+   */
+  onDown?: (point: Point) => void
   onDragStart?: (point: Point) => void
   onDragMove?: (point: Point) => void
   onDragEnd?: (point: Point) => void
@@ -145,6 +157,7 @@ export function usePointer(
       setPosition(startPointRef.current)
       livePointRef.current = startPointRef.current
       runStillnessLoop()
+      optionsRef.current.onDown?.(startPointRef.current)
     }
 
     const handlePointerMove = (event: PointerEvent) => {
