@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Reportes locales de unlighthouse (auditoría de rendimiento)
+.unlighthouse/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
